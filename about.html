@@ -197,6 +197,26 @@
       margin-top: 12px;
     }
 
+    .contact-links {
+      margin-top: 24px;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .contact-links a {
+      font-size: 14px;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 2px;
+      transition: color .2s ease, border-color .2s ease;
+    }
+
+    .contact-links a:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -375,6 +395,11 @@
           <p class="summary">Mechanical Engineer • UC Merced • Dual M.Sc. Degrees in Engineering</p>
           <p class="summary">U.S. Patent Holder • First-author research publications</p>
           <p class="summary">Background in physical systems, sensing, and prototyping</p>
+
+          <div class="contact-links">
+            <a href="mailto:hekmat@hekone.com">Email</a>
+            <a href="https://www.linkedin.com/in/shahriyarhekmat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
         </div>
       </section>
 
