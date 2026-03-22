@@ -136,18 +136,21 @@
       display: grid;
       grid-template-columns: 0.95fr 1.05fr;
       gap: 28px;
-      align-items: center;
+      align-items: stretch;
       margin-bottom: 34px;
     }
 
     .photo-wrap {
       display: flex;
       justify-content: center;
+      height: 100%;
     }
 
     .photo-wrap img {
       width: 100%;
       max-width: 410px;
+      height: 100%;
+      min-height: 520px;
       border-radius: 24px;
       display: block;
       object-fit: cover;
@@ -157,13 +160,17 @@
     }
 
     .profile-card {
-      padding: 30px;
+      padding: 34px;
       border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
         linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08));
       border: 1px solid var(--line-strong);
       box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 520px;
     }
 
     .profile-card h2 {
@@ -174,7 +181,7 @@
     }
 
     .role {
-      margin: 0 0 18px;
+      margin: 0 0 20px;
       color: var(--text);
       font-size: 20px;
       font-weight: 600;
@@ -182,12 +189,12 @@
 
     .summary {
       color: var(--muted);
-      font-size: 17px;
+      font-size: 18px;
       margin: 0;
     }
 
     .summary + .summary {
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .grid-3 {
@@ -221,13 +228,6 @@
 
     .card li + li {
       margin-top: 8px;
-    }
-
-    .section-note {
-      margin-top: 36px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 15px;
     }
 
     .team-note {
@@ -307,6 +307,12 @@
       .footer-cta {
         grid-template-columns: 1fr;
       }
+
+      .photo-wrap img,
+      .profile-card {
+        min-height: auto;
+        height: auto;
+      }
     }
 
     @media (max-width: 760px) {
@@ -366,7 +372,7 @@
           <h2>Shahriyar Hekmat</h2>
           <p class="role">Founder & Engineer</p>
 
-          <p class="summary">Mechanical Engineer • UC Merced</p>
+          <p class="summary">Mechanical Engineer • UC Merced • Dual M.Sc. Degrees in Engineering</p>
           <p class="summary">U.S. Patent Holder • First-author research publications</p>
           <p class="summary">Background in physical systems, sensing, and prototyping</p>
         </div>
