@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About | HEKONE</title>
 
   <style>
     :root {
       --bg: #040816;
-      --bg-soft: #081122;
       --card: rgba(255,255,255,0.06);
       --line: rgba(255,255,255,0.12);
       --line-strong: rgba(125, 211, 252, 0.28);
@@ -22,10 +21,7 @@
     }
 
     * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -34,12 +30,14 @@
       background:
         radial-gradient(circle at 15% 8%, rgba(125,211,252,0.18), transparent 24%),
         radial-gradient(circle at 85% 12%, rgba(167,139,250,0.16), transparent 22%),
-        radial-gradient(circle at 50% 40%, rgba(34,197,94,0.05), transparent 18%),
         linear-gradient(180deg, #030611 0%, #060b18 35%, #040816 100%);
       line-height: 1.6;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     .wrap {
       width: min(var(--max), calc(100% - 32px));
@@ -103,126 +101,100 @@
       color: var(--text);
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.12);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      transition: transform .18s ease, border-color .18s ease;
     }
 
     .btn:hover {
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.22);
     }
 
     main {
-      padding: 78px 0 88px;
+      padding: 72px 0 88px;
     }
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 34px;
-      align-items: center;
-      margin-bottom: 56px;
+    .page-head {
+      text-align: center;
+      margin-bottom: 42px;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      font-size: 14px;
-      margin-bottom: 18px;
-    }
-
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #86efac;
-      box-shadow: 0 0 10px rgba(134,239,172,0.6);
-    }
-
-    h1 {
-      margin: 0 0 16px;
-      font-size: clamp(40px, 6vw, 74px);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-      max-width: 760px;
-    }
-
-    .hero-copy p {
+    .page-head h1 {
       margin: 0;
-      max-width: 720px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .page-head p {
+      margin: 14px auto 0;
+      max-width: 760px;
       color: var(--muted);
-      font-size: clamp(18px, 2.1vw, 21px);
+      font-size: 18px;
     }
 
-    .hero-highlight {
-      margin-top: 20px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: inline-block;
-      color: var(--text);
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.5;
+    .profile {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 34px;
     }
 
-    .profile-photo-wrap {
+    .photo-wrap {
       display: flex;
       justify-content: center;
     }
 
-    .profile-photo {
+    .photo-wrap img {
       width: 100%;
-      max-width: 430px;
+      max-width: 410px;
       border-radius: 24px;
-      object-fit: cover;
       display: block;
+      object-fit: cover;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 24px 70px rgba(0,0,0,0.35);
       background: rgba(255,255,255,0.03);
     }
 
-    section {
-      padding: 10px 0 34px;
+    .profile-card {
+      padding: 30px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
+        linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08));
+      border: 1px solid var(--line-strong);
+      box-shadow: var(--shadow);
     }
 
-    .section-head {
-      text-align: center;
-      margin-bottom: 26px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 46px);
-      line-height: 1.04;
+    .profile-card h2 {
+      margin: 0 0 6px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
       letter-spacing: -0.03em;
     }
 
-    .section-head p {
-      color: var(--muted);
-      max-width: 760px;
-      margin: 14px auto 0;
-      font-size: 17px;
+    .role {
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 600;
     }
 
-    .grid-3,
-    .grid-2 {
-      display: grid;
-      gap: 18px;
+    .summary {
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0;
+    }
+
+    .summary + .summary {
+      margin-top: 10px;
     }
 
     .grid-3 {
+      display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 26px;
     }
 
     .card {
@@ -234,76 +206,43 @@
     }
 
     .card h3 {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       font-size: 24px;
       line-height: 1.1;
       letter-spacing: -0.02em;
     }
 
-    .card p {
+    .card ul {
       margin: 0;
+      padding-left: 18px;
       color: var(--muted);
       font-size: 16px;
     }
 
-    .icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-      display: inline-grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.14));
-      border: 1px solid rgba(125,211,252,0.18);
-      font-size: 20px;
+    .card li + li {
+      margin-top: 8px;
     }
 
-    .story {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 24px;
-      align-items: stretch;
-      margin-top: 14px;
-    }
-
-    .quote-box {
-      padding: 28px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .quote-box h3 {
-      margin: 0 0 12px;
-      font-size: 28px;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-    }
-
-    .quote-box p,
-    .story-copy p {
-      margin: 0;
+    .section-note {
+      margin-top: 36px;
+      text-align: center;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15px;
     }
 
-    .story-copy {
-      padding: 28px;
-      border-radius: 28px;
+    .team-note {
+      margin-top: 30px;
+      padding: 18px 20px;
+      text-align: center;
+      border-radius: 18px;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow);
-    }
-
-    .story-copy p + p {
-      margin-top: 14px;
+      color: var(--muted);
+      font-size: 15px;
     }
 
     .footer-cta {
-      margin-top: 34px;
+      margin-top: 42px;
       padding: 30px;
       border-radius: 30px;
       background:
@@ -320,15 +259,15 @@
     .footer-cta h2 {
       margin: 0 0 10px;
       font-size: clamp(28px, 4vw, 42px);
-      letter-spacing: -0.03em;
       line-height: 1.02;
+      letter-spacing: -0.03em;
     }
 
     .footer-cta p {
       margin: 0;
       color: var(--muted);
-      max-width: 760px;
       font-size: 17px;
+      max-width: 760px;
     }
 
     .footer-cta-actions {
@@ -363,10 +302,8 @@
     }
 
     @media (max-width: 1040px) {
-      .hero,
+      .profile,
       .grid-3,
-      .grid-2,
-      .story,
       .footer-cta {
         grid-template-columns: 1fr;
       }
@@ -381,18 +318,13 @@
         width: min(var(--max), calc(100% - 22px));
       }
 
+      .profile-card,
       .card,
-      .quote-box,
-      .story-copy,
       .footer-cta {
         padding: 20px;
       }
 
-      .hero-highlight {
-        display: block;
-      }
-
-      .profile-photo {
+      .photo-wrap img {
         max-width: 100%;
       }
     }
@@ -418,95 +350,60 @@
 
   <main>
     <div class="wrap">
-      <section class="hero">
-        <div class="hero-copy">
-          <div class="eyebrow">
-            <span class="eyebrow-dot"></span>
-            About HEKONE
-          </div>
+      <div class="page-head">
+        <h1>People behind HEKONE</h1>
+        <p>
+          Meet the founder behind HEKONE. Team members and advisors can be added here as the company grows.
+        </p>
+      </div>
 
-          <h1>Built by an engineer focused on real-world systems.</h1>
-
-          <p>
-            HEKONE is being developed to bring measurable visibility into physical operations—
-            combining sensing, hardware systems, and AI-enabled intelligence into a unified control layer.
-          </p>
-
-          <div class="hero-highlight">
-            The goal is not more reporting. The goal is better operational truth.
-          </div>
+      <section class="profile">
+        <div class="photo-wrap">
+          <img src="founder.png" alt="Shahriyar Hekmat - Founder of HEKONE" />
         </div>
 
-        <div class="profile-photo-wrap">
-          <img
-            class="profile-photo"
-            src="founder.png"
-            alt="Shahriyar Hekmat - Founder of HEKONE"
-          />
+        <div class="profile-card">
+          <h2>Shahriyar Hekmat</h2>
+          <p class="role">Founder & Engineer</p>
+
+          <p class="summary">Mechanical Engineer • UC Merced</p>
+          <p class="summary">U.S. Patent Holder • First-author research publications</p>
+          <p class="summary">Background in physical systems, sensing, and prototyping</p>
         </div>
       </section>
 
-      <section>
-        <div class="section-head">
-          <h2>Why this can be built</h2>
-          <p>
-            HEKONE is grounded in hands-on engineering across physical systems, prototyping, instrumentation, and applied technical development.
-          </p>
+      <section class="grid-3">
+        <div class="card">
+          <h3>Technical Credibility</h3>
+          <ul>
+            <li>U.S. patent in engineering systems</li>
+            <li>First-author research publications</li>
+            <li>Advanced engineering research at UC Merced</li>
+          </ul>
         </div>
 
-        <div class="grid-3">
-          <div class="card">
-            <div class="icon">◉</div>
-            <h3>Technical Credibility</h3>
-            <p>
-              Built on advanced engineering work across physical systems, supported by a U.S. patent and research publications.
-            </p>
-          </div>
+        <div class="card">
+          <h3>Platform Builder</h3>
+          <ul>
+            <li>Designed and built electromechanical sensing platforms</li>
+            <li>Hardware, sensing, and embedded data capture</li>
+            <li>End-to-end prototyping and validation</li>
+          </ul>
+        </div>
 
-          <div class="card">
-            <div class="icon">⌘</div>
-            <h3>System Builder</h3>
-            <p>
-              Experience developing end-to-end electromechanical concepts, from hardware and sensing to structured data workflows.
-            </p>
-          </div>
-
-          <div class="card">
-            <div class="icon">▣</div>
-            <h3>Interdisciplinary Background</h3>
-            <p>
-              Background across mechanical engineering, manufacturing, thermal systems, and applied product development.
-            </p>
-          </div>
+        <div class="card">
+          <h3>Interdisciplinary Engineering</h3>
+          <ul>
+            <li>Dual M.Sc. degrees in engineering</li>
+            <li>Mechanical and automotive engineering background</li>
+            <li>Experience across thermal, energy, and manufacturing systems</li>
+          </ul>
         </div>
       </section>
 
-      <section>
-        <div class="section-head">
-          <h2>Founder</h2>
-          <p>
-            A practical engineering approach focused on turning invisible operational gaps into measurable signals and decision-ready intelligence.
-          </p>
-        </div>
-
-        <div class="story">
-          <div class="quote-box">
-            <h3>Shahriyar Hekmat</h3>
-            <p>
-              Founder & Engineer
-            </p>
-          </div>
-
-          <div class="story-copy">
-            <p>
-              HEKONE is being developed from the perspective of an engineer-builder: start with a real measurement gap, instrument only where it matters, and transform physical events into usable operational intelligence.
-            </p>
-            <p>
-              The broader vision is to create a control-grade layer for real-world operations—one that helps teams move from fragmented visibility and delayed reporting toward measurable, structured control.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div class="team-note">
+        Additional team members, advisors, and collaborators can be introduced here over time.
+      </div>
 
       <div class="footer-cta">
         <div>
