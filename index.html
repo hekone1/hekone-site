@@ -368,39 +368,49 @@
       overflow: hidden;
     }
 
-    .problem-image-full {
+    .problem-image-full,
+    .solution-image-full,
+    .pilot-image-full {
       width: 100%;
       display: flex;
       justify-content: center;
+    }
+
+    .problem-image-full {
       margin: 10px 0 38px;
     }
 
-    .problem-image-full img {
-      width: min(1400px, calc(100% - 48px));
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 30px 100px rgba(0,0,0,0.40);
-      display: block;
-    }
-
-    .solution-visual {
-      padding-top: 8px;
-      padding-bottom: 70px;
-    }
-
-    .solution-image-full {
-      width: 100%;
-      display: flex;
-      justify-content: center;
+    .solution-image-full,
+    .pilot-image-full {
       margin-top: 26px;
     }
 
-    .solution-image-full img {
+    .problem-image-full img,
+    .solution-image-full img,
+    .pilot-image-full img {
       width: min(1400px, calc(100% - 40px));
       border-radius: 28px;
       border: 1px solid rgba(255,255,255,0.10);
       box-shadow: 0 30px 100px rgba(0,0,0,0.45);
       display: block;
+    }
+
+    .solution-visual {
+      padding-top: 8px;
+      padding-bottom: 50px;
+    }
+
+    .pilot-visual {
+      padding-top: 8px;
+      padding-bottom: 70px;
+    }
+
+    .pilot-note {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      opacity: 0.82;
     }
 
     .steps {
@@ -534,7 +544,8 @@
       .mini-grid { grid-template-columns: 1fr; }
 
       .problem-image-full img,
-      .solution-image-full img {
+      .solution-image-full img,
+      .pilot-image-full img {
         width: calc(100% - 22px);
         border-radius: 22px;
       }
@@ -690,6 +701,26 @@
 
         <div class="solution-image-full">
           <img src="hekone-solution.png" alt="HEKONE system and before-after transformation" />
+        </div>
+      </div>
+    </section>
+
+    <section class="pilot-visual">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="pill" style="display:inline-flex; margin-bottom:16px;">Pilot Deployment Example</div>
+          <h2>From initial instrument to actionable visibility</h2>
+          <p>
+            An illustrative early deployment shows how actionable signals can be detected across factory, distribution, store, and shelf environments.
+          </p>
+        </div>
+
+        <div class="pilot-image-full">
+          <img src="hekone-pilot-visibility.png" alt="Illustrative HEKONE pilot deployment output showing actionable visibility across the supply chain" />
+        </div>
+
+        <div class="pilot-note">
+          Illustrative early pilot output — simulated for demonstration purposes only.
         </div>
       </div>
     </section>
