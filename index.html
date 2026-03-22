@@ -368,6 +368,41 @@
       overflow: hidden;
     }
 
+    .problem-image-full {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 38px;
+    }
+
+    .problem-image-full img {
+      width: min(1400px, calc(100% - 48px));
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.40);
+      display: block;
+    }
+
+    .solution-visual {
+      padding-top: 8px;
+      padding-bottom: 70px;
+    }
+
+    .solution-image-full {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 26px;
+    }
+
+    .solution-image-full img {
+      width: min(1400px, calc(100% - 40px));
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.45);
+      display: block;
+    }
+
     .steps {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -454,21 +489,6 @@
       font-size: 17px;
     }
 
-    .problem-image-full {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin: 10px 0 38px;
-    }
-
-    .problem-image-full img {
-      width: min(1400px, calc(100% - 48px));
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 30px 100px rgba(0,0,0,0.40);
-      display: block;
-    }
-
     footer {
       border-top: 1px solid rgba(255,255,255,0.08);
       padding: 28px 0 46px;
@@ -513,7 +533,8 @@
       .card, .step, .dashboard, .cta-box, .quote { padding: 20px; }
       .mini-grid { grid-template-columns: 1fr; }
 
-      .problem-image-full img {
+      .problem-image-full img,
+      .solution-image-full img {
         width: calc(100% - 22px);
         border-radius: 22px;
       }
@@ -622,9 +643,7 @@
     <section id="problem">
       <div class="wrap">
         <div class="section-head">
-          <div>
-            <h2>A $112B problem hiding in plain sight.</h2>
-          </div>
+          <h2>A $112B problem hiding in plain sight.</h2>
           <p>
             Fragmented systems miss what actually happens on the ground—creating avoidable loss and weak control.
           </p>
@@ -659,12 +678,26 @@
       </div>
     </section>
 
+    <section class="solution-visual">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="pill" style="display:inline-flex; margin-bottom:16px;">System Overview</div>
+          <h2>From blind operations to measurable control</h2>
+          <p>
+            HEKONE transforms fragmented, reactive systems into structured, real-time operational intelligence.
+          </p>
+        </div>
+
+        <div class="solution-image-full">
+          <img src="hekone-solution.png" alt="HEKONE system and before-after transformation" />
+        </div>
+      </div>
+    </section>
+
     <section id="solution">
       <div class="wrap">
         <div class="section-head">
-          <div>
-            <h2>HEKONE adds a physical intelligence layer to real-world operations.</h2>
-          </div>
+          <h2>HEKONE adds a physical intelligence layer to real-world operations.</h2>
           <p>
             We combine targeted instrumentation with a lightweight software layer to convert physical events into structured, AI-enabled, decision-ready data that teams can actually act on.
           </p>
@@ -711,9 +744,7 @@
     <section id="use-cases">
       <div class="wrap">
         <div class="section-head">
-          <div>
-            <h2>Designed for high-value operational use cases.</h2>
-          </div>
+          <h2>Designed for high-value operational use cases.</h2>
           <p>
             HEKONE is built for environments where small visibility failures create large business consequences.
           </p>
