@@ -25,6 +25,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
@@ -108,20 +109,17 @@
     }
 
     .btn:hover { transform: translateY(-1px); }
+
     .btn-primary {
       color: #06111c;
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
       box-shadow: 0 14px 34px rgba(125,211,252,0.18);
     }
+
     .btn-secondary {
       color: var(--text);
       background: rgba(255,255,255,0.03);
       border-color: var(--line);
-    }
-    .btn-ghost {
-      color: var(--muted);
-      background: transparent;
-      border-color: rgba(255,255,255,0.08);
     }
 
     .hero {
@@ -208,17 +206,6 @@
         linear-gradient(135deg, rgba(125,211,252,0.12), rgba(167,139,250,0.06));
       border: 1px solid var(--line-strong);
       box-shadow: var(--shadow);
-    }
-
-    .dashboard::before {
-      content: "";
-      position: absolute;
-      inset: -20% auto auto -10%;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(125,211,252,0.22), transparent 65%);
-      pointer-events: none;
     }
 
     .visual-top {
@@ -361,17 +348,6 @@
       overflow: hidden;
     }
 
-    .problem-card::after {
-      content: "";
-      position: absolute;
-      inset: auto -10% -25% auto;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(167,139,250,0.16), transparent 68%);
-      pointer-events: none;
-    }
-
     .steps {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -458,6 +434,21 @@
       font-size: 17px;
     }
 
+    .problem-image-full {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 38px;
+    }
+
+    .problem-image-full img {
+      width: min(1400px, calc(100% - 48px));
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.40);
+      display: block;
+    }
+
     footer {
       border-top: 1px solid rgba(255,255,255,0.08);
       padding: 28px 0 46px;
@@ -505,6 +496,11 @@
       .wrap { width: min(var(--max), calc(100% - 22px)); }
       .card, .step, .dashboard, .cta-box, .quote { padding: 20px; }
       .mini-grid { grid-template-columns: 1fr; }
+
+      .problem-image-full img {
+        width: calc(100% - 22px);
+        border-radius: 22px;
+      }
     }
   </style>
 </head>
@@ -598,34 +594,19 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-<div style="
-  display: flex;
-  justify-content: center;
-  margin: 20px 0 40px;
-">
-  <img
-    src="shrink-problem.png"
-    alt="Retail shrink problem visualization"
-    style="
-      width: 100%;
-      max-width: 1100px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 20px 80px rgba(0,0,0,0.35);
-      display: block;
-    "
-  >
-</div>
-
-
-            
             <h2>A $112B problem hiding in plain sight.</h2>
           </div>
           <p>
             Across physical operations, teams often rely on fragmented systems that do not capture what is actually happening on the ground. The result is avoidable loss, low confidence, and weak control.
           </p>
         </div>
+      </div>
 
+      <div class="problem-image-full">
+        <img src="shrink-problem.png" alt="Retail shrink problem visualization" />
+      </div>
+
+      <div class="wrap">
         <div class="grid-3">
           <div class="card problem-card">
             <div class="icon">◔</div>
@@ -634,7 +615,7 @@
           </div>
           <div class="card problem-card">
             <div class="icon">⇄</div>
-            <h3>Mismatch & Leakage</h3>
+            <h3>Mismatch &amp; Leakage</h3>
             <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
           </div>
           <div class="card problem-card">
