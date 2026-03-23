@@ -196,10 +196,6 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     }
 
-    .image-card.patent-card img {
-      max-height: 440px;
-    }
-
     .image-caption {
       margin-top: 14px;
       font-size: 12px;
@@ -250,6 +246,14 @@
       margin-top: 28px;
     }
 
+    .engineering-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      margin-top: 28px;
+      align-items: stretch;
+    }
+
     .card {
       background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
       border: 1px solid var(--line);
@@ -274,6 +278,29 @@
     .card ul {
       margin: 0;
       padding-left: 18px;
+    }
+
+    .engineering-grid .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 600px;
+      height: 100%;
+    }
+
+    .image-card.patent-card {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .image-card.patent-card img {
+      width: 100%;
+      max-height: 600px;
+      object-fit: contain;
     }
 
     .signal-flow {
@@ -426,7 +453,8 @@
       .hero,
       .grid-2,
       .grid-3,
-      .signal-row {
+      .signal-row,
+      .engineering-grid {
         grid-template-columns: 1fr;
       }
 
@@ -447,6 +475,18 @@
 
       .cta {
         padding: 30px 24px;
+      }
+
+      .engineering-grid .card {
+        min-height: auto;
+      }
+
+      .image-card.patent-card {
+        max-width: 100%;
+      }
+
+      .image-card.patent-card img {
+        max-height: 520px;
       }
     }
   </style>
@@ -598,8 +638,8 @@
       <section class="section">
         <div class="section-kicker">Engineering reference</div>
 
-        <div class="grid-2" style="align-items: center;">
-          <div class="image-card patent-card" style="max-width: 520px; margin: 0 auto;">
+        <div class="engineering-grid">
+          <div class="image-card patent-card">
             <img src="./patent-fig1.png" alt="HEKONE Smart Gravity Bin patent diagram" />
             <div class="image-caption">
               Patent-filed system design — Smart Gravity Bin architecture.
