@@ -103,12 +103,13 @@
       color: var(--text);
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.12);
-      transition: transform .18s ease, border-color .18s ease;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
     }
 
     .btn:hover {
       transform: translateY(-1px);
       border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.05);
     }
 
     main {
@@ -129,7 +130,7 @@
 
     .page-head p {
       margin: 14px auto 0;
-      max-width: 760px;
+      max-width: 780px;
       color: var(--muted);
       font-size: 18px;
     }
@@ -139,7 +140,7 @@
       grid-template-columns: 0.9fr 1.1fr;
       gap: 28px;
       align-items: stretch;
-      margin-bottom: 34px;
+      margin-bottom: 26px;
     }
 
     .photo-wrap {
@@ -162,7 +163,7 @@
     }
 
     .profile-card {
-      padding: 28px 30px;
+      padding: 30px 32px;
       border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
@@ -183,17 +184,25 @@
     }
 
     .role {
-      margin: 0 0 18px;
+      margin: 0 0 14px;
       color: var(--text);
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 700;
+    }
+
+    .founder-statement {
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.65;
+      max-width: 760px;
     }
 
     .summary-points {
       margin: 0;
       padding-left: 22px;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .summary-points li + li {
@@ -201,7 +210,7 @@
     }
 
     .summary-note {
-      margin-top: 14px;
+      margin-top: 18px;
       color: var(--muted);
       font-size: 17px;
     }
@@ -224,6 +233,35 @@
     .contact-links a:hover {
       color: var(--text);
       border-color: var(--accent);
+    }
+
+    .feature-card {
+      margin-top: 10px;
+      padding: 26px 28px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
+        linear-gradient(135deg, rgba(125,211,252,0.06), rgba(167,139,250,0.05));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 940px;
+    }
+
+    .feature-card p + p {
+      margin-top: 12px;
     }
 
     .grid-3 {
@@ -364,6 +402,7 @@
 
       .profile-card,
       .card,
+      .feature-card,
       .footer-cta {
         padding: 20px;
       }
@@ -373,7 +412,9 @@
       }
 
       .summary-points,
-      .summary-note {
+      .summary-note,
+      .founder-statement,
+      .feature-card p {
         font-size: 16px;
       }
     }
@@ -402,7 +443,8 @@
       <div class="page-head">
         <h1>People behind HEKONE</h1>
         <p>
-          Meet the founder behind HEKONE. Team members and advisors can be added here as the company grows.
+          Meet the founder behind HEKONE and the thinking behind the platform.
+          Additional team members, advisors, and collaborators can be introduced here over time.
         </p>
       </div>
 
@@ -415,15 +457,19 @@
           <h2>Shahriyar Hekmat</h2>
           <p class="role">Founder & Engineer</p>
 
+          <p class="founder-statement">
+            Founder of HEKONE — building a physical intelligence layer to uncover hidden loss across real-world operations.
+          </p>
+
           <ul class="summary-points">
-            <li>MSc in Mechanical Engineering at University of California, Merced</li>
-            <li>MSc in Automotive Engineering at IUST</li>
-            <li>U.S. Patent Holder</li>
-            <li>First-author of multiple high-quality research publications</li>
+            <li>M.Sc. in Mechanical Engineering — University of California, Merced</li>
+            <li>M.Sc. in Automotive Engineering — IUST</li>
+            <li>Inventor of a U.S. patent in battery thermal management systems</li>
+            <li>First-author of peer-reviewed engineering publications</li>
           </ul>
 
           <p class="summary-note">
-            Background in designing, physical systems, sensing, manufacturing, and prototyping.
+            Focused on designing sensing-driven physical systems that connect hardware, data, and real operational environments.
           </p>
 
           <div class="contact-links">
@@ -433,31 +479,43 @@
         </div>
       </section>
 
+      <section class="feature-card">
+        <h3>What I'm building</h3>
+        <p>
+          HEKONE is focused on uncovering hidden loss across physical operations by combining sensing,
+          data, and system-level visibility.
+        </p>
+        <p>
+          The goal is to bring control and transparency to environments where current systems often fail
+          to capture what is actually happening on the ground.
+        </p>
+      </section>
+
       <section class="grid-3">
         <div class="card">
           <h3>Technical Credibility</h3>
           <ul>
-            <li>U.S. patent in engineering systems</li>
-            <li>First-author research publications</li>
-            <li>Advanced engineering research at UC Merced</li>
+            <li>U.S. patent in thermal and energy systems</li>
+            <li>Published engineering research with real-world relevance</li>
+            <li>Hands-on experimental validation and system testing</li>
           </ul>
         </div>
 
         <div class="card">
           <h3>Platform Builder</h3>
           <ul>
-            <li>Designed and built electromechanical sensing platforms</li>
-            <li>Hardware, sensing, and embedded data capture</li>
-            <li>End-to-end prototyping and validation</li>
+            <li>Built sensing-driven electromechanical systems</li>
+            <li>Hardware and embedded data capture integration</li>
+            <li>From prototype to real-world deployment thinking</li>
           </ul>
         </div>
 
         <div class="card">
           <h3>Interdisciplinary Engineering</h3>
           <ul>
-            <li>Dual M.Sc. degrees in engineering</li>
-            <li>Mechanical and automotive engineering background</li>
-            <li>Experience across thermal, energy, and manufacturing systems</li>
+            <li>Mechanical, energy, and manufacturing systems background</li>
+            <li>Thermal, sensing, and system-level design experience</li>
+            <li>Cross-domain engineering execution</li>
           </ul>
         </div>
       </section>
@@ -468,9 +526,10 @@
 
       <div class="footer-cta">
         <div>
-          <h2>Interested in HEKONE?</h2>
+          <h2>Interested in working with HEKONE?</h2>
           <p>
-            HEKONE is currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors.
+            We are currently exploring pilot deployments and strategic partnerships
+            with operators, technical teams, and investors.
           </p>
         </div>
 
