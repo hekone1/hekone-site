@@ -303,6 +303,17 @@
       object-fit: contain;
     }
 
+    .image-card.cad-card {
+      max-width: 760px;
+      margin: 40px auto 0;
+    }
+
+    .image-card.cad-card img {
+      width: 100%;
+      max-height: 560px;
+      object-fit: contain;
+    }
+
     .signal-flow {
       margin-top: 28px;
       padding: 26px;
@@ -481,12 +492,17 @@
         min-height: auto;
       }
 
-      .image-card.patent-card {
+      .image-card.patent-card,
+      .image-card.cad-card {
         max-width: 100%;
       }
 
       .image-card.patent-card img {
         max-height: 520px;
+      }
+
+      .image-card.cad-card img {
+        max-height: 460px;
       }
     }
   </style>
@@ -662,6 +678,13 @@
             <p style="margin-top: 14px;">
               The system design has been filed as part of an intellectual property framework supporting HEKONE’s broader platform vision.
             </p>
+          </div>
+        </div>
+
+        <div class="image-card cad-card">
+          <img src="./cad-design.png" alt="HEKONE CAD engineering model" />
+          <div class="image-caption">
+            Internal CAD development view — illustrating detailed mechanical and system-level design.
           </div>
         </div>
       </section>
