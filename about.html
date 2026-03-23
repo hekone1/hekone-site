@@ -17,7 +17,7 @@
       --accent-2: #a78bfa;
       --shadow: 0 18px 60px rgba(0,0,0,0.28);
       --radius: 26px;
-      --max: 1160px;
+      --max: 1240px;
       --profile-height: 440px;
       --photo-max-width: 340px;
     }
@@ -137,8 +137,8 @@
 
     .profile {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 28px;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 16px;
       align-items: stretch;
       margin-bottom: 26px;
     }
@@ -163,7 +163,7 @@
     }
 
     .profile-card {
-      padding: 30px 32px;
+      padding: 26px 28px;
       border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
@@ -174,49 +174,45 @@
       flex-direction: column;
       justify-content: center;
       height: var(--profile-height);
+      min-width: 0;
     }
 
     .profile-card h2 {
       margin: 0 0 6px;
-      font-size: clamp(28px, 4vw, 42px);
+      font-size: clamp(28px, 4vw, 40px);
       line-height: 1.05;
       letter-spacing: -0.03em;
+      word-break: break-word;
     }
 
     .role {
-      margin: 0 0 14px;
-      color: var(--text);
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .founder-statement {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       color: var(--text);
       font-size: 18px;
-      line-height: 1.65;
-      max-width: 760px;
+      font-weight: 700;
     }
 
     .summary-points {
       margin: 0;
       padding-left: 22px;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 15px;
+      line-height: 1.65;
     }
 
     .summary-points li + li {
-      margin-top: 10px;
+      margin-top: 9px;
     }
 
     .summary-note {
-      margin-top: 18px;
+      margin-top: 16px;
       color: var(--muted);
-      font-size: 17px;
+      font-size: 15px;
+      line-height: 1.7;
     }
 
     .contact-links {
-      margin-top: 24px;
+      margin-top: 22px;
       display: flex;
       gap: 18px;
       flex-wrap: wrap;
@@ -413,9 +409,12 @@
 
       .summary-points,
       .summary-note,
-      .founder-statement,
       .feature-card p {
-        font-size: 16px;
+        font-size: 15px;
+      }
+
+      .role {
+        font-size: 17px;
       }
     }
   </style>
@@ -457,15 +456,11 @@
           <h2>Shahriyar Hekmat</h2>
           <p class="role">Founder & Engineer</p>
 
-          <p class="founder-statement">
-            Founder of HEKONE — building a physical intelligence layer to uncover hidden loss across real-world operations.
-          </p>
-
           <ul class="summary-points">
             <li>M.Sc. in Mechanical Engineering — University of California, Merced</li>
             <li>M.Sc. in Automotive Engineering — IUST</li>
             <li>Inventor of a U.S. patent in battery thermal management systems</li>
-            <li>First-author of peer-reviewed engineering publications</li>
+            <li>First-author of multiple peer-reviewed engineering publications</li>
           </ul>
 
           <p class="summary-note">
