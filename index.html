@@ -369,6 +369,7 @@
     }
 
     .problem-image-full,
+    .flow-image-full,
     .solution-image-full,
     .pilot-image-full {
       width: 100%;
@@ -380,12 +381,14 @@
       margin: 10px 0 38px;
     }
 
+    .flow-image-full,
     .solution-image-full,
     .pilot-image-full {
       margin-top: 26px;
     }
 
     .problem-image-full img,
+    .flow-image-full img,
     .solution-image-full img,
     .pilot-image-full img {
       width: min(1400px, calc(100% - 40px));
@@ -393,6 +396,11 @@
       border: 1px solid rgba(255,255,255,0.10);
       box-shadow: 0 30px 100px rgba(0,0,0,0.45);
       display: block;
+    }
+
+    .flow-visual {
+      padding-top: 8px;
+      padding-bottom: 50px;
     }
 
     .solution-visual {
@@ -544,6 +552,7 @@
       .mini-grid { grid-template-columns: 1fr; }
 
       .problem-image-full img,
+      .flow-image-full img,
       .solution-image-full img,
       .pilot-image-full img {
         width: calc(100% - 22px);
@@ -686,6 +695,22 @@
             <h3>Delayed Decisions</h3>
             <p>By the time loss is visible in reports, the opportunity to intervene early and correct the process has often already passed.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-visual">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="pill" style="display:inline-flex; margin-bottom:16px;">Use Case Visualization</div>
+          <h2>Where HEKONE sees what others don’t</h2>
+          <p>
+            HEKONE detects critical issues across physical handoff points, from factory to distribution, store, and shelf.
+          </p>
+        </div>
+
+        <div class="flow-image-full">
+          <img src="hekone-visibility-flow.png" alt="HEKONE visibility flow across factory, distribution center, retail store, and shelf" />
         </div>
       </div>
     </section>
@@ -880,6 +905,7 @@
         <a href="#problem">Problem</a>
         <a href="#solution">Solution</a>
         <a href="#use-cases">Use Cases</a>
+        <a href="about.html">About</a>
         <a href="mailto:info@hekone.com">info@hekone.com</a>
       </div>
     </div>
