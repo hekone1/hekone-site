@@ -1,214 +1,654 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HEKONE – Smart Gravity Bin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE — Instrumentation Example</title>
   <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1a2b;
+      --panel: rgba(255,255,255,0.05);
+      --panel-strong: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.12);
+      --text: #ecf3ff;
+      --muted: #a7b7d6;
+      --blue: #7cc7ff;
+      --violet: #9a7cff;
+      --glow: rgba(124,199,255,0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1220;
-      color: #e6ecff;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(75, 120, 255, 0.18), transparent 32%),
+        radial-gradient(circle at top right, rgba(154, 124, 255, 0.16), transparent 28%),
+        linear-gradient(180deg, #06101d 0%, #07111f 100%);
       line-height: 1.6;
     }
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 40px 20px;
+
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    h1, h2, h3 {
-      margin-bottom: 10px;
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(6, 12, 24, 0.82);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    h1 {
-      font-size: 42px;
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
     }
-    h2 {
-      margin-top: 60px;
-      font-size: 28px;
-      color: #9fb4ff;
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
-    p {
-      color: #b8c3e0;
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 13px;
+      text-transform: uppercase;
     }
-    .tag {
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8ad8ff, #8d7dff);
+      box-shadow: 0 0 14px rgba(138,216,255,0.65);
       display: inline-block;
-      background: rgba(100,120,255,0.15);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 20px;
+      flex: 0 0 auto;
     }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 15px;
+      color: #dbe6ff;
+    }
+
+    .nav-links a {
+      opacity: 0.9;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: #ffffff;
+    }
+
+    .btn-outline {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .page {
+      padding: 56px 0 88px;
+    }
+
     .hero {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: center;
+      padding-top: 16px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--blue);
+      padding: 8px 14px;
+      border: 1px solid rgba(124,199,255,0.18);
+      border-radius: 999px;
+      background: rgba(124,199,255,0.08);
+      box-shadow: 0 0 0 1px rgba(124,199,255,0.05) inset;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 66px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      max-width: 760px;
+    }
+
+    .hero-copy {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 22px 0 0;
+    }
+
+    .hero-note {
+      margin-top: 22px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #dce7ff;
+      max-width: 650px;
+      font-weight: 600;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip {
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #cfe0ff;
+      border: 1px solid rgba(255,255,255,0.09);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .image-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35), 0 0 40px var(--glow);
+    }
+
+    .image-card img {
+      display: block;
+      width: 100%;
+      max-height: 760px;
+      object-fit: contain;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+
+    .image-caption {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #9fb1cf;
+      text-align: center;
+    }
+
+    .section {
+      margin-top: 88px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      font-size: 12px;
+      color: #b9c9e7;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-top: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      min-height: 100%;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .signal-flow {
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background:
+        radial-gradient(circle at center, rgba(124,199,255,0.08), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      overflow: hidden;
+    }
+
+    .signal-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
       align-items: center;
     }
-    .hero img {
-      width: 100%;
-      border-radius: 12px;
-    }
-    .section {
-      margin-top: 60px;
-    }
-    .box {
-      background: rgba(255,255,255,0.03);
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    .diagram {
+
+    .signal-step {
+      position: relative;
       text-align: center;
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      font-size: 14px;
-      color: #9fb4ff;
+      padding: 18px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
     }
+
+    .signal-step strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .signal-step span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .signal-arrow {
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #98d3ff;
+      font-size: 22px;
+      z-index: 2;
+    }
+
+    .quote-box {
+      margin-top: 24px;
+      padding: 22px 24px;
+      border-left: 3px solid var(--blue);
+      border-radius: 18px;
+      background: rgba(124,199,255,0.08);
+      color: #e8f3ff;
+      font-size: 17px;
+      max-width: 860px;
+    }
+
     .cta {
-      margin-top: 80px;
-      padding: 40px;
-      background: linear-gradient(90deg,#1a2a6c,#3f5efb);
-      border-radius: 16px;
-      text-align: center;
+      margin-top: 92px;
+      padding: 36px;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at left, rgba(124,199,255,0.22), transparent 28%),
+        radial-gradient(circle at right, rgba(154,124,255,0.22), transparent 28%),
+        linear-gradient(90deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
     }
-    .cta button {
-      margin: 10px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
+
+    .cta h3 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
-    .btn-primary {
-      background: white;
-      color: #1a2a6c;
+
+    .cta p {
+      margin: 10px 0 0;
+      color: #c5d3ee;
+      max-width: 700px;
     }
+
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary,
     .btn-secondary {
-      background: transparent;
-      color: white;
-      border: 1px solid white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
-    @media(max-width: 900px) {
-      .hero {
+
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-outline:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: #081221;
+      background: linear-gradient(90deg, #8ad8ff, #9e86ff);
+      box-shadow: 0 12px 30px rgba(124,199,255,0.22);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: #edf3ff;
+    }
+
+    footer {
+      padding: 28px 0 44px;
+      color: #92a5c5;
+      font-size: 14px;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 22px;
+      margin-top: 26px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid-2,
+      .grid-3,
+      .signal-row {
         grid-template-columns: 1fr;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px 0;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .signal-arrow {
+        display: none;
+      }
+
+      .cta {
+        padding: 30px 24px;
       }
     }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="./index.html#top">
+        <span class="brand-dot"></span>
+        <span>HEKONE</span>
+      </a>
 
-<div class="container">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div>
-      <div class="tag">Illustrative Instrumentation Example</div>
-      <h1>From physical flow to measurable signal</h1>
-      <p>
-        The Smart Gravity Bin is one example of how HEKONE captures real-world activity at the shelf level—
-        turning product movement into structured, actionable signals.
-      </p>
-      <p style="font-size:13px; opacity:0.7;">
-        Early-stage prototype — part of a broader HEKONE instrumentation approach
-      </p>
+      <nav class="nav-links">
+        <a href="./instrumentation-example.html">Technology</a>
+        <a href="./index.html#problem">Problem</a>
+        <a href="./index.html#solution">Solution</a>
+        <a href="./index.html#use-cases">Use Cases</a>
+        <a href="./about.html">About</a>
+        <a href="./index.html#contact" class="btn-outline">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <div>
-      <img src="smart-gravity-bin.png" alt="Smart Gravity Bin Prototype">
+  <main class="page">
+    <div class="wrap">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Illustrative instrumentation example</div>
+          <h1>From physical flow to measurable signal.</h1>
+          <p class="hero-copy">
+            Smart Gravity Bin is one example of how HEKONE instruments real-world activity at the shelf level — turning product movement into structured, decision-ready signals.
+          </p>
+          <div class="hero-note">
+            This is not the HEKONE platform itself. It is a targeted instrumentation example for one specific blind spot.
+          </div>
+          <div class="hero-chips">
+            <span class="chip">Shelf-Level Visibility</span>
+            <span class="chip">Signal Capture</span>
+            <span class="chip">Targeted Instrumentation</span>
+            <span class="chip">AI-Enabled Operations Layer</span>
+          </div>
+        </div>
+
+        <div class="image-card">
+          <img src="./smart-gravity-bin.png" alt="HEKONE Smart Gravity Bin prototype" />
+          <div class="image-caption">
+            Early-stage prototype — part of a broader HEKONE instrumentation approach.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">Blind spot</div>
+        <h2>The shelf is often where visibility breaks down.</h2>
+        <p class="section-intro">
+          In many physical environments, product leaves the shelf or dispensing point without reliable real-time measurement. Systems may report inventory later, but they often miss what actually happened in the moment.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>What goes wrong</h3>
+            <ul>
+              <li>Consumption happens without direct measurement.</li>
+              <li>Inventory updates can lag behind real events.</li>
+              <li>Reported counts may not match physical reality.</li>
+              <li>Leakage, waste, or shrink can stay invisible.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Why it matters</h3>
+            <ul>
+              <li>Operators lose confidence in what the system reports.</li>
+              <li>Replenishment decisions become reactive.</li>
+              <li>Exception handling happens too late.</li>
+              <li>Accountability is weakened at the exact handoff point that matters.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">Instrumentation logic</div>
+        <h2>Capturing physical activity as a usable signal.</h2>
+        <p class="section-intro">
+          The role of this prototype is simple: detect product movement at the point of interaction and convert that change into structured signal data that can feed the larger HEKONE layer.
+        </p>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Measure</h3>
+            <p>
+              Weight-based detection monitors change directly at the dispensing point instead of relying on delayed manual input.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Structure</h3>
+            <p>
+              Each physical event can be translated into usable operational data that supports exception tracking, visibility, and reporting.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Connect</h3>
+            <p>
+              The captured signal can feed a broader HEKONE workflow, where physical events become part of a measurable operational system.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">System role</div>
+        <h2>Part of the HEKONE system — not the whole system.</h2>
+        <p class="section-intro">
+          Smart Gravity Bin is best understood as a signal-generating node. It does not define the platform. It contributes one stream of visibility for one type of operational blind spot.
+        </p>
+
+        <div class="signal-flow">
+          <div class="signal-row">
+            <div class="signal-step">
+              <strong>Smart Gravity Bin</strong>
+              <span>Physical dispensing activity</span>
+              <div class="signal-arrow">→</div>
+            </div>
+            <div class="signal-step">
+              <strong>Signal Capture</strong>
+              <span>Weight change becomes event data</span>
+              <div class="signal-arrow">→</div>
+            </div>
+            <div class="signal-step">
+              <strong>HEKONE Layer</strong>
+              <span>Structured operational intelligence</span>
+              <div class="signal-arrow">→</div>
+            </div>
+            <div class="signal-step">
+              <strong>Dashboard / Alerts</strong>
+              <span>Visibility, exceptions, accountability</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-box">
+          Different environments require different forms of instrumentation. Smart Gravity Bin is one example of how HEKONE can make a specific blind spot measurable.
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">Platform view</div>
+        <h2>Beyond a single device.</h2>
+        <p class="section-intro">
+          HEKONE is not built around one device, one sensor, or one workflow. Different use cases may require different forms of instrumentation — from weight-based detection to movement tracking, entry monitoring, or other signal capture methods.
+        </p>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Targeted by design</h3>
+            <p>
+              Instrument only where visibility matters most, instead of forcing heavy infrastructure everywhere.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Built for extension</h3>
+            <p>
+              The same system logic can expand from one monitored point into multiple handoff points across the operation.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Platform-first</h3>
+            <p>
+              The long-term value is not the device alone. The value is the operational intelligence layer built on top of physical signals.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">Scalability</div>
+        <h2>From one measurable point to broader operational control.</h2>
+        <p class="section-intro">
+          The same principle can extend across factory, distribution, store, and shelf environments — creating a unified layer of measurable, AI-enabled operational intelligence across fragmented physical workflows.
+        </p>
+      </section>
+
+      <section class="cta">
+        <div>
+          <h3>Explore HEKONE beyond this example.</h3>
+          <p>
+            Smart Gravity Bin illustrates one instrumentation approach. The broader opportunity is a physical intelligence layer that helps teams detect, interpret, and control what conventional systems miss.
+          </p>
+        </div>
+
+        <div class="cta-actions">
+          <a class="btn-primary" href="./index.html">Explore Full System</a>
+          <a class="btn-secondary" href="./index.html#contact">Request Intro</a>
+        </div>
+      </section>
+
+      <footer>
+        <div class="footer-row">
+          <div>© 2026 HEKONE. All rights reserved.</div>
+          <div>Illustrative instrumentation example — Smart Gravity Bin</div>
+        </div>
+      </footer>
     </div>
-  </div>
-
-
-  <!-- PROBLEM -->
-  <div class="section">
-    <h2>The blind spot at the shelf</h2>
-    <div class="box">
-      <ul>
-        <li>Product leaves the shelf without real-time tracking</li>
-        <li>Inventory updates are delayed or inaccurate</li>
-        <li>Mismatch between reported and actual consumption</li>
-        <li>Shrink and leakage go undetected</li>
-      </ul>
-    </div>
-  </div>
-
-
-  <!-- SOLUTION -->
-  <div class="section">
-    <h2>Capturing real-world consumption as a signal</h2>
-    <div class="box">
-      <ul>
-        <li>Weight-based detection of product movement</li>
-        <li>Real-time signal generation</li>
-        <li>Edge-level data capture</li>
-        <li>No reliance on manual input</li>
-      </ul>
-    </div>
-  </div>
-
-
-  <!-- SYSTEM CONNECTION -->
-  <div class="section">
-    <h2>Part of the HEKONE system</h2>
-    <p>
-      The Smart Gravity Bin does not operate as a standalone product. It functions as a signal-generating node
-      within the broader HEKONE system.
-    </p>
-
-    <div class="diagram">
-      Smart Gravity Bin → Signal → HEKONE Layer → Dashboard / Alerts
-    </div>
-  </div>
-
-
-  <!-- VALUE -->
-  <div class="section">
-    <h2>Why this matters</h2>
-    <div class="box">
-      <ul>
-        <li>Detect real consumption vs reported inventory</li>
-        <li>Identify shrink at the source</li>
-        <li>Enable real-time replenishment decisions</li>
-        <li>Increase shelf-level accountability</li>
-      </ul>
-    </div>
-  </div>
-
-
-  <!-- PLATFORM MESSAGE -->
-  <div class="section">
-    <h2>Beyond a single device</h2>
-    <p>
-      HEKONE is not built around a single device or sensing method. Different environments require different
-      forms of instrumentation—from weight-based systems to movement tracking and entry detection.
-    </p>
-  </div>
-
-
-  <!-- SCALABILITY -->
-  <div class="section">
-    <h2>From single point to system-wide visibility</h2>
-    <p>
-      The same principle can extend across factory, distribution, store, and shelf—creating a unified layer
-      of measurable operational intelligence.
-    </p>
-  </div>
-
-
-  <!-- CTA -->
-  <div class="cta">
-    <h2>Explore HEKONE beyond this example</h2>
-    <button class="btn-primary">Explore Full System</button>
-    <button class="btn-secondary">Request Pilot</button>
-  </div>
-
-</div>
-
+  </main>
 </body>
 </html>
