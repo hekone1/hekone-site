@@ -18,6 +18,10 @@
       --shadow: 0 18px 60px rgba(0,0,0,0.28);
       --radius: 26px;
       --max: 1160px;
+
+      /* 🔥 کنترل اندازه */
+      --profile-height: 440px;
+      --photo-max-width: 340px;
     }
 
     * { box-sizing: border-box; }
@@ -121,7 +125,6 @@
     .page-head h1 {
       margin: 0;
       font-size: clamp(34px, 5vw, 60px);
-      line-height: 1.02;
       letter-spacing: -0.04em;
     }
 
@@ -134,7 +137,7 @@
 
     .profile {
       display: grid;
-      grid-template-columns: 0.95fr 1.05fr;
+      grid-template-columns: 0.9fr 1.1fr;
       gap: 28px;
       align-items: stretch;
       margin-bottom: 34px;
@@ -143,24 +146,21 @@
     .photo-wrap {
       display: flex;
       justify-content: center;
-      height: 100%;
+      height: var(--profile-height);
     }
 
     .photo-wrap img {
       width: 100%;
-      max-width: 410px;
+      max-width: var(--photo-max-width);
       height: 100%;
-      min-height: 520px;
       border-radius: 24px;
-      display: block;
       object-fit: cover;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 24px 70px rgba(0,0,0,0.35);
-      background: rgba(255,255,255,0.03);
     }
 
     .profile-card {
-      padding: 34px;
+      padding: 28px 30px;
       border-radius: 28px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
@@ -170,56 +170,45 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      min-height: 520px;
+      height: var(--profile-height);
     }
 
     .profile-card h2 {
       margin: 0 0 6px;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.05;
-      letter-spacing: -0.03em;
+      font-size: clamp(28px, 4vw, 40px);
     }
 
     .role {
-      margin: 0 0 20px;
-      color: var(--text);
-      font-size: 20px;
+      margin-bottom: 18px;
+      font-size: 18px;
       font-weight: 600;
     }
 
-    .summary {
+    .summary-points {
+      padding-left: 20px;
       color: var(--muted);
-      font-size: 18px;
-      margin: 0;
+      font-size: 17px;
     }
 
-    .summary + .summary {
-      margin-top: 12px;
+    .summary-points li + li {
+      margin-top: 10px;
     }
 
     .contact-links {
-      margin-top: 24px;
+      margin-top: 22px;
       display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .contact-links a {
       font-size: 14px;
       color: var(--muted);
       border-bottom: 1px solid rgba(255,255,255,0.15);
-      padding-bottom: 2px;
-      transition: color .2s ease, border-color .2s ease;
-    }
-
-    .contact-links a:hover {
-      color: var(--text);
-      border-color: var(--accent);
     }
 
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
       margin-top: 26px;
     }
@@ -229,239 +218,107 @@
       border-radius: var(--radius);
       background: var(--card);
       border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .card h3 {
-      margin: 0 0 12px;
-      font-size: 24px;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .card ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .card li + li {
-      margin-top: 8px;
     }
 
     .team-note {
       margin-top: 30px;
-      padding: 18px 20px;
+      padding: 18px;
       text-align: center;
       border-radius: 18px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
       color: var(--muted);
-      font-size: 15px;
     }
 
     .footer-cta {
       margin-top: 42px;
       padding: 30px;
       border-radius: 30px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04)),
-        linear-gradient(90deg, rgba(125,211,252,0.08), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: 1.2fr auto;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .footer-cta h2 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.02;
-      letter-spacing: -0.03em;
-    }
-
-    .footer-cta p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      max-width: 760px;
-    }
-
-    .footer-cta-actions {
+      background: rgba(255,255,255,0.05);
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
     }
 
     footer {
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 28px 0 46px;
-      color: var(--muted);
-      margin-top: 56px;
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
+      padding: 28px 0;
       color: var(--muted);
     }
 
-    @media (max-width: 1040px) {
-      .profile,
-      .grid-3,
-      .footer-cta {
+    @media (max-width: 900px) {
+      .profile {
         grid-template-columns: 1fr;
       }
 
-      .photo-wrap img,
+      .photo-wrap,
       .profile-card {
-        min-height: auto;
         height: auto;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .nav-links a:not(.btn) {
-        display: none;
-      }
-
-      .wrap {
-        width: min(var(--max), calc(100% - 22px));
-      }
-
-      .profile-card,
-      .card,
-      .footer-cta {
-        padding: 20px;
       }
 
       .photo-wrap img {
-        max-width: 100%;
+        height: auto;
+        aspect-ratio: 4/5;
       }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
-        <span>HEKONE</span>
-      </a>
 
-      <nav class="nav-links">
-        <a href="index.html#problem">Problem</a>
-        <a href="index.html#solution">Solution</a>
-        <a href="index.html#use-cases">Use Cases</a>
-        <a href="about.html">About</a>
-        <a href="index.html#contact" class="btn">Contact</a>
-      </nav>
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      HEKONE
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <div class="wrap">
-      <div class="page-head">
-        <h1>People behind HEKONE</h1>
-        <p>
-          Meet the founder behind HEKONE. Team members and advisors can be added here as the company grows.
-        </p>
-      </div>
+<main>
+  <div class="wrap">
 
-      <section class="profile">
-        <div class="photo-wrap">
-          <img src="founder.png" alt="Shahriyar Hekmat - Founder of HEKONE" />
-        </div>
-
-        <div class="profile-card">
-          <h2>Shahriyar Hekmat</h2>
-          <p class="role">Founder & Engineer</p>
-
-          <p class="summary">Mechanical Engineer • UC Merced • Dual M.Sc. Degrees in Engineering</p>
-          <p class="summary">U.S. Patent Holder • First-author research publications</p>
-          <p class="summary">Background in physical systems, sensing, and prototyping</p>
-
-          <div class="contact-links">
-            <a href="mailto:hekmat@hekone.com">Email</a>
-            <a href="https://www.linkedin.com/in/shahriyarhekmat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="grid-3">
-        <div class="card">
-          <h3>Technical Credibility</h3>
-          <ul>
-            <li>U.S. patent in engineering systems</li>
-            <li>First-author research publications</li>
-            <li>Advanced engineering research at UC Merced</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Platform Builder</h3>
-          <ul>
-            <li>Designed and built electromechanical sensing platforms</li>
-            <li>Hardware, sensing, and embedded data capture</li>
-            <li>End-to-end prototyping and validation</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Interdisciplinary Engineering</h3>
-          <ul>
-            <li>Dual M.Sc. degrees in engineering</li>
-            <li>Mechanical and automotive engineering background</li>
-            <li>Experience across thermal, energy, and manufacturing systems</li>
-          </ul>
-        </div>
-      </section>
-
-      <div class="team-note">
-        Additional team members, advisors, and collaborators can be introduced here over time.
-      </div>
-
-      <div class="footer-cta">
-        <div>
-          <h2>Interested in HEKONE?</h2>
-          <p>
-            HEKONE is currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors.
-          </p>
-        </div>
-
-        <div class="footer-cta-actions">
-          <a class="btn" href="index.html">Back to Home</a>
-          <a class="btn" href="index.html#contact">Contact</a>
-        </div>
-      </div>
+    <div class="page-head">
+      <h1>People behind HEKONE</h1>
+      <p>Meet the founder behind HEKONE.</p>
     </div>
-  </main>
 
-  <footer>
-    <div class="wrap footer-row">
-      <div>© 2026 HEKONE. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="index.html#problem">Problem</a>
-        <a href="index.html#solution">Solution</a>
-        <a href="index.html#use-cases">Use Cases</a>
-        <a href="about.html">About</a>
+    <section class="profile">
+
+      <div class="photo-wrap">
+        <img src="founder.png" />
       </div>
+
+      <div class="profile-card">
+        <h2>Shahriyar Hekmat</h2>
+        <p class="role">Founder & Engineer</p>
+
+        <ul class="summary-points">
+          <li>MSc in Mechanical Engineering at University of California, Merced</li>
+          <li>MSc in Automotive Engineering at IUST</li>
+          <li>U.S. Patent Holder</li>
+          <li>First-author research of multiple high-quality publications</li>
+        </ul>
+
+        <div class="contact-links">
+          <a href="#">Email</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="team-note">
+      Additional team members can be added as HEKONE grows.
     </div>
-  </footer>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    © 2026 HEKONE
+  </div>
+</footer>
+
 </body>
 </html>
