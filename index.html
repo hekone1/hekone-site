@@ -394,7 +394,7 @@
     }
 
     .card h3, .step h3, .quote h3 {
-      margin: 0 0 10px;
+      margin: 0;
       font-size: 24px;
       line-height: 1.1;
       letter-spacing: -0.02em;
@@ -407,21 +407,22 @@
     }
 
     .icon {
-      width: 46px;
-      height: 46px;
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
       border-radius: 14px;
-      margin-bottom: 18px;
       display: inline-grid;
       place-items: center;
       background: linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.14));
       border: 1px solid rgba(125,211,252,0.18);
-      font-size: 20px;
+      font-size: 18px;
+      flex-shrink: 0;
     }
 
-    .problem-card {
+    .problem-card,
+    .usecase,
+    .step {
       min-height: 220px;
-      position: relative;
-      overflow: hidden;
     }
 
     .problem-image-full,
@@ -495,19 +496,16 @@
 
     .step-num {
       display: inline-flex;
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
       border-radius: 999px;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       color: #06111c;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      margin-bottom: 18px;
-    }
-
-    .usecase {
-      min-height: 230px;
+      flex-shrink: 0;
     }
 
     .metric {
@@ -588,6 +586,25 @@
       color: var(--muted);
     }
 
+    /* New shared horizontal header layout */
+    .card-head,
+    .step-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .card-head h3,
+    .step-head h3 {
+      margin-top: 2px;
+    }
+
+    .card-body,
+    .step-body {
+      padding-left: 56px;
+    }
+
     @media (max-width: 1040px) {
       .hero-grid,
       .grid-4,
@@ -622,6 +639,16 @@
       .nav-contact {
         min-height: 46px;
         padding: 0 20px;
+      }
+
+      .card-body,
+      .step-body {
+        padding-left: 0;
+      }
+
+      .card-head,
+      .step-head {
+        gap: 12px;
       }
     }
   </style>
@@ -745,19 +772,33 @@
       <div class="wrap">
         <div class="grid-3">
           <div class="card problem-card">
-            <div class="icon">◔</div>
-            <h3>Blind Spots</h3>
-            <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
+            <div class="card-head">
+              <div class="icon">◔</div>
+              <h3>Blind Spots</h3>
+            </div>
+            <div class="card-body">
+              <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
+            </div>
           </div>
+
           <div class="card problem-card">
-            <div class="icon">⇄</div>
-            <h3>Mismatch &amp; Leakage</h3>
-            <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
+            <div class="card-head">
+              <div class="icon">⇄</div>
+              <h3>Mismatch &amp; Leakage</h3>
+            </div>
+            <div class="card-body">
+              <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
+            </div>
           </div>
+
           <div class="card problem-card">
-            <div class="icon">!</div>
-            <h3>Delayed Decisions</h3>
-            <p>By the time loss is visible in reports, the opportunity to intervene early and correct the process has often already passed.</p>
+            <div class="card-head">
+              <div class="icon">!</div>
+              <h3>Delayed Decisions</h3>
+            </div>
+            <div class="card-body">
+              <p>By the time loss is visible in reports, the opportunity to intervene early and correct the process has often already passed.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -826,37 +867,65 @@
 
         <div class="grid-3">
           <div class="card">
-            <div class="icon">◎</div>
-            <h3>Measure</h3>
-            <p>Capture key physical events at the point where visibility matters most, using selective instrumentation instead of heavy infrastructure.</p>
+            <div class="card-head">
+              <div class="icon">◎</div>
+              <h3>Measure</h3>
+            </div>
+            <div class="card-body">
+              <p>Capture key physical events at the point where visibility matters most, using selective instrumentation instead of heavy infrastructure.</p>
+            </div>
           </div>
+
           <div class="card">
-            <div class="icon">⌁</div>
-            <h3>Interpret</h3>
-            <p>Transform raw physical signals into AI-driven operational intelligence, highlighting exceptions and enabling accountability at scale.</p>
+            <div class="card-head">
+              <div class="icon">⌁</div>
+              <h3>Interpret</h3>
+            </div>
+            <div class="card-body">
+              <p>Transform raw physical signals into AI-driven operational intelligence, highlighting exceptions and enabling accountability at scale.</p>
+            </div>
           </div>
+
           <div class="card">
-            <div class="icon">→</div>
-            <h3>Control</h3>
-            <p>Enable teams to reduce uncertainty, improve traceability, and respond faster across every monitored handoff point.</p>
+            <div class="card-head">
+              <div class="icon">→</div>
+              <h3>Control</h3>
+            </div>
+            <div class="card-body">
+              <p>Enable teams to reduce uncertainty, improve traceability, and respond faster across every monitored handoff point.</p>
+            </div>
           </div>
         </div>
 
         <div class="steps">
           <div class="step">
-            <div class="step-num">1</div>
-            <h3>Instrument critical points</h3>
-            <p>Deploy only where real-world measurement creates the highest operational value and fastest clarity.</p>
+            <div class="step-head">
+              <div class="step-num">1</div>
+              <h3>Instrument critical points</h3>
+            </div>
+            <div class="step-body">
+              <p>Deploy only where real-world measurement creates the highest operational value and fastest clarity.</p>
+            </div>
           </div>
+
           <div class="step">
-            <div class="step-num">2</div>
-            <h3>Generate structured intelligence</h3>
-            <p>Convert physical activity into an AI-powered data layer that integrates directly into operational decision-making.</p>
+            <div class="step-head">
+              <div class="step-num">2</div>
+              <h3>Generate structured intelligence</h3>
+            </div>
+            <div class="step-body">
+              <p>Convert physical activity into an AI-powered data layer that integrates directly into operational decision-making.</p>
+            </div>
           </div>
+
           <div class="step">
-            <div class="step-num">3</div>
-            <h3>Scale from pilot to platform</h3>
-            <p>Start with focused deployments, validate outcomes, and expand into broader control across the operation.</p>
+            <div class="step-head">
+              <div class="step-num">3</div>
+              <h3>Scale from pilot to platform</h3>
+            </div>
+            <div class="step-body">
+              <p>Start with focused deployments, validate outcomes, and expand into broader control across the operation.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -873,24 +942,43 @@
 
         <div class="grid-4">
           <div class="card usecase">
-            <div class="icon">▣</div>
-            <h3>Retail Shrink Visibility</h3>
-            <p>Reveal loss patterns and hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
+            <div class="card-head">
+              <div class="icon">▣</div>
+              <h3>Retail Shrink Visibility</h3>
+            </div>
+            <div class="card-body">
+              <p>Reveal loss patterns and hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
+            </div>
           </div>
+
           <div class="card usecase">
-            <div class="icon">▤</div>
-            <h3>Warehouse Accountability</h3>
-            <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
+            <div class="card-head">
+              <div class="icon">▤</div>
+              <h3>Warehouse Accountability</h3>
+            </div>
+            <div class="card-body">
+              <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
+            </div>
           </div>
+
           <div class="card usecase">
-            <div class="icon">◫</div>
-            <h3>Manufacturing Control</h3>
-            <p>Monitor physical process behavior and detect hidden operational drift before it becomes cost, waste, or rework.</p>
+            <div class="card-head">
+              <div class="icon">◫</div>
+              <h3>Manufacturing Control</h3>
+            </div>
+            <div class="card-body">
+              <p>Monitor physical process behavior and detect hidden operational drift before it becomes cost, waste, or rework.</p>
+            </div>
           </div>
+
           <div class="card usecase">
-            <div class="icon">◧</div>
-            <h3>Supply Chain Traceability</h3>
-            <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
+            <div class="card-head">
+              <div class="icon">◧</div>
+              <h3>Supply Chain Traceability</h3>
+            </div>
+            <div class="card-body">
+              <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
+            </div>
           </div>
         </div>
       </div>
