@@ -8,11 +8,10 @@
     name="description"
     content="HEKONE brings physical intelligence into supply chains and operations by turning invisible losses, blind spots, and handoff failures into measurable control."
   />
-  <!-- Favicon (Updated) -->
-<link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
-<link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
-<link rel="apple-touch-icon" href="favicon1.png?v=2" />
-<meta name="theme-color" content="#040816" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
+  <link rel="apple-touch-icon" href="favicon1.png?v=2" />
+  <meta name="theme-color" content="#040816" />
 
   <style>
     :root {
@@ -28,6 +27,7 @@
       --accent-2: #a78bfa;
       --success: #86efac;
       --shadow: 0 18px 60px rgba(0,0,0,0.28);
+      --shadow-strong: 0 20px 50px rgba(125,211,252,0.18);
       --radius: 26px;
       --max: 1160px;
     }
@@ -106,13 +106,13 @@
       transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
     }
 
-    .nav-links a:not(.nav-contact):hover {
+    .nav-links a:not(.nav-contact):not(.nav-pilot):hover {
       color: var(--text);
       background: rgba(255,255,255,0.06);
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
     }
 
-    .nav-links a:not(.nav-contact)::after {
+    .nav-links a:not(.nav-contact):not(.nav-pilot)::after {
       content: "";
       position: absolute;
       left: 12px;
@@ -127,7 +127,7 @@
       transition: opacity .22s ease, transform .22s ease;
     }
 
-    .nav-links a:not(.nav-contact):hover::after {
+    .nav-links a:not(.nav-contact):not(.nav-pilot):hover::after {
       opacity: 1;
       transform: scaleX(1);
     }
@@ -143,7 +143,7 @@
       text-decoration: none;
       font-weight: 700;
       border: 1px solid transparent;
-      transition: transform .18s ease, border-color .18s ease, opacity .18s ease, background .18s ease;
+      transition: transform .18s ease, border-color .18s ease, opacity .18s ease, background .18s ease, box-shadow .18s ease;
       cursor: pointer;
     }
 
@@ -155,18 +155,44 @@
       box-shadow: 0 14px 34px rgba(125,211,252,0.18);
     }
 
+    .btn-primary:hover {
+      box-shadow: 0 18px 40px rgba(125,211,252,0.24);
+    }
+
     .btn-secondary {
       color: var(--text);
       background: rgba(255,255,255,0.03);
       border-color: var(--line);
     }
 
-    .nav-contact {
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .btn-pilot {
+      color: #06111c;
+      background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%);
+      box-shadow:
+        0 18px 40px rgba(125, 211, 252, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.26);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-weight: 800;
+    }
+
+    .btn-pilot:hover {
+      box-shadow:
+        0 22px 46px rgba(125, 211, 252, 0.24),
+        inset 0 1px 0 rgba(255,255,255,0.30);
+      filter: brightness(1.02);
+    }
+
+    .nav-pilot {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-height: auto;
-      padding: 10px 18px;
+      padding: 10px 18px !important;
       border-radius: 999px;
       font-weight: 800;
       color: #07111a !important;
@@ -177,12 +203,31 @@
       border: 1px solid rgba(255,255,255,0.10);
     }
 
-    .nav-contact:hover {
+    .nav-pilot:hover {
       transform: translateY(-1px);
       filter: brightness(1.03);
       box-shadow:
         0 18px 36px rgba(125, 211, 252, 0.22),
         inset 0 1px 0 rgba(255,255,255,0.32);
+    }
+
+    .nav-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: auto;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      color: var(--text) !important;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+    }
+
+    .nav-contact:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.05);
     }
 
     .hero {
@@ -250,6 +295,11 @@
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 28px;
+    }
+
+    .hero-actions .btn-pilot {
+      padding: 0 22px;
+      min-height: 52px;
     }
 
     .trust-row {
@@ -537,6 +587,35 @@
       box-shadow: var(--shadow);
     }
 
+    .mid-cta {
+      margin-top: 34px;
+      padding: 28px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
+        linear-gradient(135deg, rgba(125,211,252,0.09), rgba(167,139,250,0.08));
+      border: 1px solid var(--line-strong);
+      box-shadow: var(--shadow-strong);
+      display: grid;
+      grid-template-columns: 1.15fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .mid-cta h3 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .mid-cta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 760px;
+    }
+
     .cta-box {
       display: grid;
       grid-template-columns: 1.2fr auto;
@@ -617,17 +696,18 @@
       .grid-3,
       .steps,
       .cta-box,
-      .grid-2 {
+      .grid-2,
+      .mid-cta {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 760px) {
-      .nav-links a:not(.nav-contact) { display: none; }
+      .nav-links a:not(.nav-contact):not(.nav-pilot) { display: none; }
       .hero { padding-top: 44px; }
       h1 { font-size: clamp(38px, 12vw, 58px); }
       .wrap { width: min(var(--max), calc(100% - 22px)); }
-      .card, .step, .dashboard, .cta-box, .quote { padding: 20px; }
+      .card, .step, .dashboard, .cta-box, .quote, .mid-cta { padding: 20px; }
       .mini-grid { grid-template-columns: 1fr; }
 
       .problem-image-full img,
@@ -642,9 +722,10 @@
         display: block;
       }
 
-      .nav-contact {
+      .nav-contact,
+      .nav-pilot {
         min-height: 46px;
-        padding: 0 20px;
+        padding: 0 20px !important;
       }
 
       .step-body {
@@ -673,6 +754,7 @@
         <a href="#solution">Solution</a>
         <a href="#use-cases">Use Cases</a>
         <a href="about.html">About</a>
+        <a href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Explore a Pilot</a>
         <a href="contact.html" class="nav-contact">Contact</a>
       </nav>
     </div>
@@ -695,11 +777,11 @@
           </p>
 
           <div class="hero-highlight">
-            The goal is simple: make operations measurable where they were previously invisible.
+            Built for early, focused deployments where hidden operational loss can be turned into measurable control.
           </div>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="mailto:info@hekone.com?subject=HEKONE%20Inquiry">Request Intro</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
             <a class="btn btn-secondary" href="#solution">See How It Works</a>
           </div>
 
@@ -986,6 +1068,18 @@
             </div>
           </div>
         </div>
+
+        <div class="mid-cta">
+          <div>
+            <h3>Exploring a pilot in a real operational environment?</h3>
+            <p>
+              HEKONE is built to start focused. A small pilot can help reveal where hidden loss, blind spots, and accountability gaps are actually occurring.
+            </p>
+          </div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1041,14 +1135,14 @@
       <div class="wrap">
         <div class="cta-box">
           <div>
-            <h2>Ready to bring measurable visibility into your operation?</h2>
+            <h2>Ready to explore a focused pilot with HEKONE?</h2>
             <p>
-              HEKONE is currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors.
+              We are currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors who want measurable visibility into real-world operations.
             </p>
           </div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-primary" href="mailto:info@hekone.com?subject=HEKONE%20Pilot%20Inquiry">Contact HEKONE</a>
-            <a class="btn btn-secondary" href="mailto:info@hekone.com?subject=Request%20for%20Intro">Request Intro</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
+            <a class="btn btn-secondary" href="mailto:info@hekone.com?subject=HEKONE%20Inquiry">Contact HEKONE</a>
           </div>
         </div>
       </div>
