@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEKONE | Physical Intelligence for Supply Chain Visibility</title>
+  <title>HEKONE | Operational Visibility for the Physical Economy</title>
   <meta
     name="description"
-    content="HEKONE brings physical intelligence into supply chains and operations by turning invisible losses, blind spots, and handoff failures into measurable control."
+    content="HEKONE brings physical intelligence into operations by turning blind spots, handoff failures, and hidden loss into measurable control."
   />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
@@ -16,9 +16,6 @@
   <style>
     :root {
       --bg: #040816;
-      --bg-soft: #081122;
-      --card: rgba(255,255,255,0.06);
-      --card-strong: rgba(255,255,255,0.08);
       --line: rgba(255,255,255,0.12);
       --line-strong: rgba(125, 211, 252, 0.28);
       --text: #eef4ff;
@@ -48,7 +45,7 @@
       line-height: 1.6;
     }
 
-    a { color: inherit; }
+    a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
     .wrap {
@@ -77,7 +74,6 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      text-decoration: none;
       font-weight: 800;
       letter-spacing: 0.16em;
       color: var(--text);
@@ -101,7 +97,6 @@
 
     .nav-links a {
       position: relative;
-      text-decoration: none;
       padding: 10px 12px;
       border-radius: 12px;
       transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
@@ -141,10 +136,9 @@
       min-height: 48px;
       padding: 0 18px;
       border-radius: 999px;
-      text-decoration: none;
       font-weight: 700;
       border: 1px solid transparent;
-      transition: transform .18s ease, border-color .18s ease, opacity .18s ease, background .18s ease, box-shadow .18s ease;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
       cursor: pointer;
     }
 
@@ -161,17 +155,19 @@
       background: rgba(255,255,255,0.05);
     }
 
-    .btn-pilot {
+    .btn-pilot,
+    .nav-pilot {
       color: #06111c;
       background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-weight: 800;
       box-shadow:
         0 18px 40px rgba(125, 211, 252, 0.18),
         inset 0 1px 0 rgba(255,255,255,0.26);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-weight: 800;
     }
 
-    .btn-pilot:hover {
+    .btn-pilot:hover,
+    .nav-pilot:hover {
       box-shadow:
         0 22px 46px rgba(125, 211, 252, 0.24),
         inset 0 1px 0 rgba(255,255,255,0.30);
@@ -179,42 +175,24 @@
     }
 
     .nav-pilot {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       min-height: auto;
       padding: 10px 18px !important;
-      border-radius: 999px;
-      font-weight: 800;
-      color: #07111a !important;
-      background: linear-gradient(90deg, #7dc7ff 0%, #a78bfa 100%);
-      box-shadow:
-        0 14px 30px rgba(125, 211, 252, 0.18),
-        inset 0 1px 0 rgba(255,255,255,0.28);
-      border: 1px solid rgba(255,255,255,0.10);
     }
 
-    .nav-pilot:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.03);
-      box-shadow:
-        0 18px 36px rgba(125, 211, 252, 0.22),
-        inset 0 1px 0 rgba(255,255,255,0.32);
-    }
+    section { padding: 34px 0 74px; }
 
-    .hero {
-      padding: 76px 0 42px;
-    }
+    .hero { padding: 76px 0 48px; }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.9fr;
+      grid-template-columns: 1.18fr 0.92fr;
       gap: 28px;
       align-items: center;
     }
 
     .eyebrow,
-    .section-pill {
+    .section-pill,
+    .section-tag {
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -226,9 +204,7 @@
       font-size: 14px;
     }
 
-    .eyebrow {
-      margin-bottom: 18px;
-    }
+    .eyebrow { margin-bottom: 18px; }
 
     .eyebrow-dot {
       width: 8px;
@@ -241,7 +217,7 @@
     h1 {
       margin: 0;
       max-width: 760px;
-      font-size: clamp(40px, 6.2vw, 76px);
+      font-size: clamp(40px, 6.1vw, 76px);
       line-height: 0.94;
       letter-spacing: -0.06em;
     }
@@ -253,10 +229,7 @@
       font-size: clamp(18px, 2.2vw, 21px);
     }
 
-    .hero-lead strong {
-      color: var(--text);
-      font-weight: 800;
-    }
+    .hero-lead strong { color: var(--text); }
 
     .hero-highlight {
       margin-top: 20px;
@@ -275,7 +248,15 @@
       margin-top: 14px;
       color: var(--muted-2);
       font-size: 15px;
-      max-width: 680px;
+      max-width: 700px;
+    }
+
+    .hero-urgency {
+      margin-top: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
 
     .hero-actions {
@@ -286,8 +267,8 @@
     }
 
     .hero-actions .btn-pilot {
-      padding: 0 22px;
       min-height: 52px;
+      padding: 0 22px;
     }
 
     .trust-row {
@@ -306,12 +287,7 @@
       background: rgba(255,255,255,0.025);
     }
 
-    .hero-visual {
-      position: relative;
-    }
-
     .dashboard {
-      position: relative;
       overflow: hidden;
       border-radius: 28px;
       padding: 22px;
@@ -357,11 +333,7 @@
       margin: 8px 0 10px;
     }
 
-    .bar-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
+    .bar-list { display: grid; gap: 12px; margin-top: 18px; }
 
     .bar-item span {
       display: flex;
@@ -385,10 +357,6 @@
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
     }
 
-    section {
-      padding: 34px 0 80px;
-    }
-
     .section-head {
       display: block;
       text-align: center;
@@ -405,9 +373,15 @@
     .section-head p,
     .section-copy {
       color: var(--muted);
-      max-width: 760px;
+      max-width: 800px;
       margin: 14px auto 0;
       font-size: 17px;
+    }
+
+    .section-copy strong,
+    .ecosystem-note-strong,
+    .why-now-card strong {
+      color: var(--text);
     }
 
     .problem-subnote {
@@ -416,37 +390,66 @@
       opacity: 0.82;
     }
 
+    .grid-2,
     .grid-3,
-    .grid-4,
-    .grid-2 {
+    .grid-4 {
       display: grid;
       gap: 18px;
     }
 
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-    .card {
-      padding: 24px;
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid var(--line);
+    .card,
+    .ecosystem-card,
+    .why-now-card,
+    .outcome-card,
+    .usecase,
+    .metric,
+    .step,
+    .trust-row-card,
+    .deploy-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
       box-shadow: var(--shadow);
     }
 
-    .card h3, .step h3, .quote h3, .ecosystem-card h3 {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.1;
+    .card h3,
+    .ecosystem-card h3,
+    .why-now-card h3,
+    .outcome-card h3,
+    .deploy-card h3,
+    .step h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.08;
       letter-spacing: -0.02em;
     }
 
-    .card p, .step p, .quote p, .metric p, .deploy-copy p, .outcome-card p, .ecosystem-card p {
+    .card p,
+    .ecosystem-card p,
+    .why-now-card p,
+    .outcome-card p,
+    .deploy-card p,
+    .step p,
+    .metric p,
+    .trust-row-card p,
+    .deploy-copy p {
       margin: 0;
       color: var(--muted);
       font-size: 16px;
     }
+
+    .problem-card,
+    .usecase,
+    .outcome-card,
+    .deploy-card,
+    .why-now-card,
+    .ecosystem-card,
+    .step { min-height: 205px; }
 
     .icon {
       width: 42px;
@@ -461,84 +464,18 @@
       flex-shrink: 0;
     }
 
-    .problem-card,
-    .usecase,
-    .step,
-    .outcome-card,
-    .deploy-card,
-    .ecosystem-card {
-      min-height: 220px;
-    }
-
-    .problem-image-full,
-    .flow-image-full,
-    .solution-image-full,
-    .pilot-image-full {
-      width: 100%;
+    .card-head,
+    .step-head {
       display: flex;
-      justify-content: center;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
     }
 
-    .problem-image-full {
-      margin: 10px 0 38px;
-    }
-
-    .flow-image-full,
-    .solution-image-full,
-    .pilot-image-full {
-      margin-top: 26px;
-    }
-
-    .problem-image-full img,
-    .flow-image-full img,
-    .solution-image-full img,
-    .pilot-image-full img,
-    .ecosystem-image img {
-      width: min(1000px, calc(100% - 40px));
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 30px 100px rgba(0,0,0,0.45);
-      display: block;
-    }
-
-    .flow-visual,
-    .solution-visual,
-    .pilot-visual,
-    .deploy-section,
-    .ecosystem-section,
-    .outcomes-section,
-    .trust-section {
-      padding-top: 8px;
-    }
-
-    .flow-visual,
-    .solution-visual,
-    .deploy-section,
-    .ecosystem-section,
-    .outcomes-section,
-    .trust-section {
-      padding-bottom: 50px;
-    }
-
-    .pilot-visual {
-      padding-bottom: 70px;
-    }
-
-    .pilot-note,
-    .ecosystem-note {
-      margin-top: 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      opacity: 0.9;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
+    .ecosystem-shell,
     .deploy-shell,
     .trust-shell,
-    .ecosystem-shell {
+    .why-now-shell {
       padding: 28px;
       border-radius: 30px;
       background:
@@ -548,31 +485,92 @@
       box-shadow: var(--shadow);
     }
 
-    .ecosystem-image {
-      margin-top: 24px;
+    .ecosystem-image,
+    .problem-image-full,
+    .flow-image-full,
+    .solution-image-full,
+    .pilot-image-full {
       display: flex;
       justify-content: center;
     }
 
-    .ecosystem-grid {
+    .ecosystem-image { margin-top: 24px; }
+    .problem-image-full { margin: 10px 0 38px; }
+    .flow-image-full,
+    .solution-image-full,
+    .pilot-image-full { margin-top: 26px; }
+
+    .ecosystem-image img,
+    .problem-image-full img,
+    .flow-image-full img,
+    .solution-image-full img,
+    .pilot-image-full img {
+      width: min(1000px, calc(100% - 40px));
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.45);
+      display: block;
+    }
+
+    .ecosystem-note,
+    .pilot-note {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      opacity: 0.9;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ecosystem-note-strong {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .ecosystem-grid,
+    .outcome-grid,
+    .why-now-grid,
+    .deploy-card-grid,
+    .steps {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       margin-top: 24px;
     }
 
-    .ecosystem-card {
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
+    .why-now-card .label,
+    .outcome-card .label,
+    .deploy-card .label {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    .ecosystem-card h3 {
-      margin-bottom: 10px;
-      font-size: 22px;
-      line-height: 1.08;
+    .why-now-list {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .why-now-list div {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
     .deploy-grid {
@@ -588,12 +586,6 @@
       font-size: clamp(28px, 4vw, 42px);
       line-height: 1.06;
       letter-spacing: -0.03em;
-    }
-
-    .deploy-copy p,
-    .trust-copy p {
-      margin-top: 14px;
-      max-width: 620px;
     }
 
     .deploy-list,
@@ -622,81 +614,6 @@
       color: var(--text);
     }
 
-    .deploy-card-grid,
-    .outcome-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .deploy-card,
-    .outcome-card {
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow);
-    }
-
-    .deploy-card .label,
-    .outcome-card .label {
-      display: inline-flex;
-      margin-bottom: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .deploy-card h3,
-    .outcome-card h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 22px;
-    }
-
-    .step {
-      padding: 24px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.035));
-      border: 1px solid var(--line);
-      position: relative;
-      box-shadow: var(--shadow);
-    }
-
-    .step-num {
-      display: inline-flex;
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
-      border-radius: 999px;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #06111c;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      flex-shrink: 0;
-    }
-
-    .metric {
-      padding: 22px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--line);
-    }
-
     .metric strong {
       display: block;
       font-size: 36px;
@@ -705,18 +622,12 @@
       letter-spacing: -0.04em;
     }
 
-    .quote {
-      padding: 28px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .mid-cta {
-      margin-top: 34px;
+    .mid-cta,
+    .cta-box {
+      display: grid;
+      grid-template-columns: 1.15fr auto;
+      gap: 18px;
+      align-items: center;
       padding: 28px;
       border-radius: 28px;
       background:
@@ -724,52 +635,31 @@
         linear-gradient(135deg, rgba(125,211,252,0.09), rgba(167,139,250,0.08));
       border: 1px solid var(--line-strong);
       box-shadow: var(--shadow-strong);
-      display: grid;
-      grid-template-columns: 1.15fr auto;
-      gap: 18px;
-      align-items: center;
     }
 
-    .mid-cta h3 {
+    .mid-cta { margin-top: 34px; }
+
+    .mid-cta h3,
+    .cta-box h2 {
       margin: 0 0 8px;
       font-size: clamp(24px, 3vw, 34px);
       line-height: 1.08;
       letter-spacing: -0.03em;
     }
 
-    .mid-cta p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 760px;
-    }
-
-    .cta-box {
-      display: grid;
-      grid-template-columns: 1.2fr auto;
-      gap: 20px;
-      align-items: center;
-      padding: 30px;
-      border-radius: 30px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04)),
-        linear-gradient(90deg, rgba(125,211,252,0.08), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .cta-box h2 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 42px);
-      letter-spacing: -0.03em;
-      line-height: 1.02;
-    }
-
+    .mid-cta p,
     .cta-box p {
       margin: 0;
       color: var(--muted);
-      max-width: 760px;
-      font-size: 17px;
+      font-size: 16px;
+      max-width: 780px;
+    }
+
+    .cta-note {
+      margin-top: 10px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
     }
 
     footer {
@@ -792,41 +682,21 @@
       flex-wrap: wrap;
     }
 
-    .footer-links a {
-      text-decoration: none;
-      color: var(--muted);
-    }
-
-    .card-head,
-    .step-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .card-head h3,
-    .step-head h3 {
-      margin-top: 2px;
-    }
-
-    .card-body,
-    .step-body {
-      padding-left: 0;
-    }
+    .footer-links a { color: var(--muted); }
 
     @media (max-width: 1040px) {
       .hero-grid,
-      .grid-4,
-      .grid-3,
-      .steps,
-      .cta-box,
       .grid-2,
-      .mid-cta,
+      .grid-3,
+      .grid-4,
+      .ecosystem-grid,
+      .why-now-grid,
+      .outcome-grid,
       .deploy-grid,
       .deploy-card-grid,
-      .outcome-grid,
-      .ecosystem-grid {
+      .steps,
+      .mid-cta,
+      .cta-box {
         grid-template-columns: 1fr;
       }
     }
@@ -836,33 +706,33 @@
       .hero { padding-top: 44px; }
       h1 { font-size: clamp(38px, 12vw, 58px); }
       .wrap { width: min(var(--max), calc(100% - 22px)); }
-      .card, .step, .dashboard, .cta-box, .quote, .mid-cta, .deploy-shell, .trust-shell, .ecosystem-shell, .deploy-card, .outcome-card, .ecosystem-card { padding: 20px; }
+      .card,
+      .ecosystem-card,
+      .why-now-card,
+      .outcome-card,
+      .deploy-card,
+      .step,
+      .metric,
+      .dashboard,
+      .mid-cta,
+      .cta-box,
+      .deploy-shell,
+      .trust-shell,
+      .ecosystem-shell,
+      .why-now-shell {
+        padding: 20px;
+      }
       .mini-grid { grid-template-columns: 1fr; }
-
+      .ecosystem-image img,
       .problem-image-full img,
       .flow-image-full img,
       .solution-image-full img,
-      .pilot-image-full img,
-      .ecosystem-image img {
+      .pilot-image-full img {
         width: calc(100% - 22px);
         border-radius: 22px;
       }
-
-      .hero-highlight {
-        display: block;
-      }
-
-      .nav-pilot {
-        min-height: 46px;
-        padding: 0 20px !important;
-      }
-
-      .card-head,
-      .step-head,
-      .deploy-row,
-      .trust-row-card {
-        gap: 12px;
-      }
+      .hero-highlight { display: block; }
+      .nav-pilot { min-height: 46px; padding: 0 20px !important; }
     }
   </style>
 </head>
@@ -883,7 +753,7 @@
         <a href="#use-cases">Use Cases</a>
         <a href="about.html">About</a>
         <a href="https://hekone.com/contact">Contact</a>
-        <a href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Explore a Pilot</a>
+        <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
       </nav>
     </div>
   </header>
@@ -900,8 +770,8 @@
           <h1>Make the invisible measurable.</h1>
 
           <p class="hero-lead">
-            HEKONE adds a <strong>physical intelligence layer</strong> to supply chains and operations,
-            helping teams detect blind spots, improve accountability, and act earlier at critical handoff points.
+            HEKONE adds a <strong>physical intelligence layer</strong> to operations,
+            helping teams detect blind spots, reduce hidden loss, and act earlier at critical handoff points.
           </p>
 
           <div class="hero-highlight">
@@ -913,15 +783,17 @@
           </div>
 
           <div class="hero-actions">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
             <a class="btn btn-secondary" href="#ecosystem">See Platform Vision</a>
           </div>
+
+          <div class="hero-urgency">Limited pilot slots available.</div>
 
           <div class="trust-row">
             <div class="pill">Factory → DC → Store → Shelf</div>
             <div class="pill">Selective Sensing + Software</div>
-            <div class="pill">AI-Enabled Intelligence Layer</div>
-            <div class="pill">Early Pilot Conversations Underway</div>
+            <div class="pill">Early pilot discussions underway</div>
+            <div class="pill">Initial validation conversations with operators</div>
           </div>
         </div>
 
@@ -987,14 +859,18 @@
           </div>
 
           <div class="ecosystem-note">
-            Illustrative platform vision showing how HEKONE can create measurable visibility across multiple industries, workflows, and physical value chains — from origin to delivery. This section is intended to communicate the long-term platform opportunity and the scale of the company vision.
+            Illustrative platform vision showing how HEKONE can create measurable visibility across multiple industries, workflows, and physical value chains — from origin to delivery.
+          </div>
+
+          <div class="ecosystem-note-strong">
+            HEKONE is building the operational visibility layer for the physical economy.
           </div>
 
           <div class="ecosystem-grid">
             <div class="ecosystem-card">
               <h3>Cross-industry infrastructure</h3>
               <p>
-                From factory processes to agricultural flows, distribution networks, retail environments, and fuel movement, HEKONE is designed as a physical intelligence layer for operations wherever value moves through the real world.
+                From factory processes to agricultural flows, distribution networks, retail environments, and fuel movement, HEKONE is designed as a physical intelligence layer wherever value moves through the real world.
               </p>
             </div>
 
@@ -1016,6 +892,40 @@
       </div>
     </section>
 
+    <section class="why-now-section">
+      <div class="wrap">
+        <div class="why-now-shell">
+          <div class="section-head">
+            <div class="section-pill">Why now</div>
+            <h2>The timing for this platform is becoming real.</h2>
+            <p>
+              Physical operations are becoming more complex, while existing systems still fail to capture what actually happens at the physical layer.
+            </p>
+          </div>
+
+          <div class="why-now-grid">
+            <div class="why-now-card">
+              <div class="label">Operations</div>
+              <h3>Increased physical complexity</h3>
+              <p>More handoffs, more distributed operations, and more fragmented workflows create more places where value can quietly disappear.</p>
+            </div>
+
+            <div class="why-now-card">
+              <div class="label">AI</div>
+              <h3>Real-time detection is now viable</h3>
+              <p>AI can only optimize what is measured. With better sensing, structured signals can now become usable operational intelligence in real time.</p>
+            </div>
+
+            <div class="why-now-card">
+              <div class="label">Systems Gap</div>
+              <h3>Current systems miss the physical layer</h3>
+              <p>ERP, WMS, and reporting systems often describe records after the fact, but not the real-world event where loss, drift, or failure actually occurs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="deployment" class="deploy-section">
       <div class="wrap">
         <div class="deploy-shell">
@@ -1024,8 +934,7 @@
               <div class="section-pill">What actually gets deployed</div>
               <h2>Grounded, focused deployment instead of heavy infrastructure.</h2>
               <p>
-                HEKONE is designed to start small at the physical points where visibility matters most,
-                rather than requiring full-system instrumentation from day one.
+                HEKONE is designed to start small at the physical points where visibility matters most, rather than requiring full-system instrumentation from day one.
               </p>
 
               <div class="deploy-list">
@@ -1057,25 +966,19 @@
               <div class="deploy-card">
                 <div class="label">Pilot Scope</div>
                 <h3>Focused by design</h3>
-                <p>
-                  Start with one workflow, one site, or one handoff boundary where missing visibility already creates operational friction.
-                </p>
+                <p>Start with one workflow, one site, or one handoff boundary where missing visibility already creates operational friction.</p>
               </div>
 
               <div class="deploy-card">
                 <div class="label">Operator Fit</div>
                 <h3>Built for real environments</h3>
-                <p>
-                  Useful in manufacturing, warehouse, retail, and supply chain settings where physical execution matters more than reporting alone.
-                </p>
+                <p>Useful in manufacturing, warehouse, retail, and supply chain settings where physical execution matters more than reporting alone.</p>
               </div>
 
               <div class="deploy-card">
                 <div class="label">Expansion Path</div>
                 <h3>From pilot to platform</h3>
-                <p>
-                  Once a critical point is measured, the same intelligence model can extend across additional handoffs, sites, and workflows.
-                </p>
+                <p>Once a critical point is measured, the same intelligence model can extend across additional handoffs, sites, and workflows.</p>
               </div>
             </div>
           </div>
@@ -1091,9 +994,7 @@
           <p>
             Fragmented systems miss what actually happens on the ground—creating avoidable loss and weak control.
           </p>
-          <p class="problem-subnote">
-            What isn’t measured cannot be controlled.
-          </p>
+          <p class="problem-subnote">What isn’t measured cannot be controlled.</p>
         </div>
       </div>
 
@@ -1108,9 +1009,7 @@
               <div class="icon">◔</div>
               <h3>Blind Spots</h3>
             </div>
-            <div class="card-body">
-              <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
-            </div>
+            <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
           </div>
 
           <div class="card problem-card">
@@ -1118,9 +1017,7 @@
               <div class="icon">⇄</div>
               <h3>Mismatch &amp; Leakage</h3>
             </div>
-            <div class="card-body">
-              <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
-            </div>
+            <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
           </div>
 
           <div class="card problem-card">
@@ -1128,9 +1025,7 @@
               <div class="icon">!</div>
               <h3>Delayed Decisions</h3>
             </div>
-            <div class="card-body">
-              <p>By the time loss is visible in reports, the opportunity to intervene early and correct the process has often already passed.</p>
-            </div>
+            <p>By the time loss is visible in reports, the opportunity to intervene early has often already passed.</p>
           </div>
         </div>
       </div>
@@ -1141,9 +1036,7 @@
         <div class="section-head">
           <div class="section-pill">Use case visualization</div>
           <h2>Where HEKONE sees what others don’t</h2>
-          <p>
-            HEKONE detects critical issues across physical handoff points, from factory to distribution, store, and shelf.
-          </p>
+          <p>HEKONE detects critical issues across physical handoff points, from factory to distribution, store, and shelf.</p>
         </div>
 
         <div class="flow-image-full">
@@ -1152,14 +1045,12 @@
       </div>
     </section>
 
-    <section class="solution-visual">
+    <section id="solution" class="solution-visual">
       <div class="wrap">
         <div class="section-head">
           <div class="section-pill">System overview</div>
           <h2>From blind operations to measurable control</h2>
-          <p>
-            HEKONE transforms fragmented, reactive systems into structured, real-time operational intelligence.
-          </p>
+          <p>HEKONE transforms fragmented, reactive systems into structured, real-time operational intelligence.</p>
         </div>
 
         <div class="solution-image-full">
@@ -1173,18 +1064,14 @@
         <div class="section-head">
           <div class="section-pill">Pilot deployment example</div>
           <h2>From initial instrument to actionable visibility</h2>
-          <p>
-            An illustrative early deployment shows how actionable signals can be detected across factory, distribution, store, and shelf environments.
-          </p>
+          <p>An illustrative early deployment shows how actionable signals can be detected across factory, distribution, store, and shelf environments.</p>
         </div>
 
         <div class="pilot-image-full">
           <img src="hekone-pilot-visibility.png" alt="Illustrative HEKONE pilot deployment output showing actionable visibility across the supply chain" />
         </div>
 
-        <div class="pilot-note">
-          Illustrative early pilot output — simulated for demonstration purposes only.
-        </div>
+        <div class="pilot-note">Illustrative early pilot output — simulated for demonstration purposes only.</div>
       </div>
     </section>
 
@@ -1193,79 +1080,37 @@
         <div class="section-head">
           <div class="section-pill">What a pilot is designed to show</div>
           <h2>Typical early outcomes are about clarity, speed, and operational truth.</h2>
-          <p>
-            A focused HEKONE pilot is intended to surface where loss is happening, shorten the time to identify exceptions, and create a clearer basis for operational action.
-          </p>
+          <p>A focused HEKONE pilot is intended to surface where loss is happening, shorten the time to identify exceptions, and create a clearer basis for operational action.</p>
         </div>
 
         <div class="outcome-grid">
           <div class="outcome-card">
             <div class="label">Visibility</div>
             <h3>Clearer exception detection</h3>
-            <p>
-              Reveal hidden mismatches, missing handoffs, and untracked movement that may not appear cleanly in existing systems.
-            </p>
+            <p>Reveal hidden mismatches, missing handoffs, and untracked movement that may not appear cleanly in existing systems.</p>
           </div>
 
           <div class="outcome-card">
             <div class="label">Response</div>
             <h3>Faster intervention cycles</h3>
-            <p>
-              Help teams identify operational deviations closer to the event itself, before they become larger downstream losses.
-            </p>
+            <p>Help teams identify operational deviations closer to the event itself, before they become larger downstream losses.</p>
           </div>
 
           <div class="outcome-card">
             <div class="label">Control</div>
             <h3>Stronger accountability at handoff points</h3>
-            <p>
-              Create a measurable record of what occurred at the physical point where trust, transfer, and execution often break down.
-            </p>
+            <p>Create a measurable record of what occurred at the physical point where trust, transfer, and execution often break down.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="solution">
+    <section class="how-section">
       <div class="wrap">
         <div class="section-head">
           <div class="section-pill">How it works</div>
           <h2>HEKONE adds a physical intelligence layer to real-world operations.</h2>
-          <p>
-            We combine targeted instrumentation with a lightweight software layer to convert physical events into structured, AI-enabled, decision-ready data that teams can actually act on.
-          </p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card">
-            <div class="card-head">
-              <div class="icon">◎</div>
-              <h3>Measure</h3>
-            </div>
-            <div class="card-body">
-              <p>Capture key physical events at the point where visibility matters most, using selective instrumentation instead of heavy infrastructure.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-head">
-              <div class="icon">⌁</div>
-              <h3>Interpret</h3>
-            </div>
-            <div class="card-body">
-              <p>Transform raw physical signals into AI-driven operational intelligence, highlighting exceptions and enabling accountability at scale.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-head">
-              <div class="icon">→</div>
-              <h3>Control</h3>
-            </div>
-            <div class="card-body">
-              <p>Enable teams to reduce uncertainty, improve traceability, and respond faster across every monitored handoff point.</p>
-            </div>
-          </div>
+          <p>We combine targeted instrumentation with a lightweight software layer to convert physical events into structured, AI-enabled, decision-ready data that teams can actually act on.</p>
         </div>
 
         <div class="steps">
@@ -1274,9 +1119,7 @@
               <div class="step-num">1</div>
               <h3>Instrument critical points</h3>
             </div>
-            <div class="step-body">
-              <p>Deploy only where real-world measurement creates the highest operational value and fastest clarity.</p>
-            </div>
+            <p>Deploy only where real-world measurement creates the highest operational value and fastest clarity.</p>
           </div>
 
           <div class="step">
@@ -1284,9 +1127,7 @@
               <div class="step-num">2</div>
               <h3>Generate structured intelligence</h3>
             </div>
-            <div class="step-body">
-              <p>Convert physical activity into an AI-powered data layer that integrates directly into operational decision-making.</p>
-            </div>
+            <p>Convert physical activity into an AI-powered data layer that integrates directly into operational decision-making.</p>
           </div>
 
           <div class="step">
@@ -1294,9 +1135,7 @@
               <div class="step-num">3</div>
               <h3>Scale from pilot to platform</h3>
             </div>
-            <div class="step-body">
-              <p>Start with focused deployments, validate outcomes, and expand into broader control across the operation.</p>
-            </div>
+            <p>Start with focused deployments, validate outcomes, and expand into broader control across the operation.</p>
           </div>
         </div>
       </div>
@@ -1307,62 +1146,51 @@
         <div class="section-head">
           <div class="section-pill">Use cases</div>
           <h2>Designed for high-value operational use cases.</h2>
-          <p>
-            HEKONE is built for environments where small visibility failures create large business consequences.
-          </p>
+          <p>HEKONE is built for environments where small visibility failures create large business consequences.</p>
         </div>
 
         <div class="grid-4">
-          <div class="card usecase">
+          <div class="usecase">
             <div class="card-head">
               <div class="icon">▣</div>
               <h3>Retail Shrink Visibility</h3>
             </div>
-            <div class="card-body">
-              <p>Reveal loss patterns and hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
-            </div>
+            <p>Reveal loss patterns and hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
           </div>
 
-          <div class="card usecase">
+          <div class="usecase">
             <div class="card-head">
               <div class="icon">▤</div>
               <h3>Warehouse Accountability</h3>
             </div>
-            <div class="card-body">
-              <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
-            </div>
+            <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
           </div>
 
-          <div class="card usecase">
+          <div class="usecase">
             <div class="card-head">
               <div class="icon">◫</div>
               <h3>Manufacturing Control</h3>
             </div>
-            <div class="card-body">
-              <p>Monitor physical process behavior and detect hidden operational drift before it becomes cost, waste, or rework.</p>
-            </div>
+            <p>Monitor physical process behavior and detect hidden operational drift before it becomes cost, waste, or rework.</p>
           </div>
 
-          <div class="card usecase">
+          <div class="usecase">
             <div class="card-head">
               <div class="icon">◧</div>
               <h3>Supply Chain Traceability</h3>
             </div>
-            <div class="card-body">
-              <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
-            </div>
+            <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
           </div>
         </div>
 
         <div class="mid-cta">
           <div>
             <h3>Exploring a pilot in a real operational environment?</h3>
-            <p>
-              HEKONE is built to start focused. A small pilot can help reveal where hidden loss, blind spots, and accountability gaps are actually occurring.
-            </p>
+            <p>HEKONE is built to start focused. A small pilot can help reveal where hidden loss, blind spots, and accountability gaps are actually occurring.</p>
+            <div class="cta-note">Limited pilot slots available.</div>
           </div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
           </div>
         </div>
       </div>
@@ -1375,12 +1203,8 @@
             <div class="trust-copy">
               <div class="section-pill">Early traction signal</div>
               <h2>Position the company as active, grounded, and operator-oriented.</h2>
-              <p>
-                HEKONE is currently exploring pilot, partner, and strategic collaboration conversations around real operational workflows in manufacturing, warehouse, and supply chain environments.
-              </p>
-              <p>
-                This language gives you a trust signal without overstating traction or implying customer deployments that do not yet exist.
-              </p>
+              <p>HEKONE is currently exploring pilot, partner, and strategic collaboration conversations around real operational workflows in manufacturing, warehouse, and supply chain environments.</p>
+              <p>That gives a trust signal without overstating traction or implying customer deployments that do not yet exist.</p>
             </div>
 
             <div class="trust-list">
@@ -1394,8 +1218,8 @@
               <div class="trust-row-card">
                 <div class="icon">⚑</div>
                 <div>
-                  <strong>Trust without overclaiming</strong>
-                  Signals momentum while staying accurate for an early-stage company that is still validating where traction appears first.
+                  <strong>Validation in motion</strong>
+                  Early pilot discussions and operator conversations show that the problem is being explored in real environments.
                 </div>
               </div>
               <div class="trust-row-card">
@@ -1423,11 +1247,9 @@
             Traditional systems often stop at digital reporting. HEKONE is built to bring operational truth closer to the physical event itself.
           </p>
 
-          <div class="quote" style="margin-top:22px;">
+          <div class="card" style="margin-top:22px; background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)), linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08)); border:1px solid var(--line-strong);">
             <h3>Built for practical deployment</h3>
-            <p>
-              Start focused, prove value quickly, and expand where measurement improves control. The goal is not more dashboards. The goal is better operational truth.
-            </p>
+            <p>Start focused, prove value quickly, and expand where measurement improves control. The goal is not more dashboards. The goal is better operational truth.</p>
           </div>
 
           <p class="section-copy" style="margin-left:0; margin-top:18px;">
@@ -1442,7 +1264,7 @@
         <div class="grid-2">
           <div class="metric">
             <strong>Fast</strong>
-            <p>Pilot-oriented deployment model designed to validate value without unnecessary complexity.</p>
+            <p>Pilot-oriented deployment designed to validate value without unnecessary complexity.</p>
           </div>
           <div class="metric">
             <strong>Selective</strong>
@@ -1465,12 +1287,11 @@
         <div class="cta-box">
           <div>
             <h2>Ready to explore a focused pilot with HEKONE?</h2>
-            <p>
-              We are currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors who want measurable visibility into real-world operations.
-            </p>
+            <p>We are currently exploring pilot, partner, and strategic collaboration opportunities with operators, technical teams, and investors who want measurable visibility into real-world operations.</p>
+            <div class="cta-note">Limited pilot slots available.</div>
           </div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE">Explore a Pilot</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
             <a class="btn btn-secondary" href="mailto:info@hekone.com?subject=HEKONE%20Inquiry">Email HEKONE</a>
           </div>
         </div>
