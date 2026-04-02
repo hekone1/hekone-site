@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HEKONE — Instrumentation Example</title>
+  <meta name="description" content="Illustrative HEKONE instrumentation example showing how physical flow becomes measurable signal." />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
+  <link rel="apple-touch-icon" href="favicon1.png?v=2" />
+  <meta name="theme-color" content="#040816" />
+
   <style>
     :root {
       --bg: #07111f;
@@ -11,20 +17,18 @@
       --panel: rgba(255,255,255,0.05);
       --panel-strong: rgba(255,255,255,0.08);
       --line: rgba(255,255,255,0.12);
+      --line-strong: rgba(125, 211, 252, 0.28);
       --text: #ecf3ff;
       --muted: #a7b7d6;
       --blue: #7cc7ff;
       --violet: #9a7cff;
       --glow: rgba(124,199,255,0.22);
+      --shadow: 0 18px 60px rgba(0,0,0,0.28);
+      --max: 1160px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -42,72 +46,120 @@
       text-decoration: none;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(16px);
-      background: rgba(6, 12, 24, 0.82);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
     .wrap {
-      width: min(1120px, calc(100% - 40px));
+      width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
     }
 
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(14px);
+      background: rgba(4,8,22,0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
     .nav {
-      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 18px;
+      padding: 16px 0;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      font-size: 13px;
-      text-transform: uppercase;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: var(--text);
     }
 
-    .brand-dot {
-      width: 9px;
-      height: 9px;
+    .brand-mark {
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #8ad8ff, #8d7dff);
-      box-shadow: 0 0 14px rgba(138,216,255,0.65);
-      display: inline-block;
-      flex: 0 0 auto;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      box-shadow: 0 0 18px rgba(124,199,255,0.6);
     }
 
     .nav-links {
       display: flex;
+      gap: 8px;
       align-items: center;
-      gap: 26px;
-      font-size: 15px;
-      color: #dbe6ff;
+      color: var(--muted);
+      font-size: 14px;
     }
 
     .nav-links a {
-      opacity: 0.9;
-      transition: opacity 0.2s ease, color 0.2s ease;
+      position: relative;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
     }
 
-    .nav-links a:hover {
-      opacity: 1;
-      color: #ffffff;
+    .nav-links a:not(.nav-pilot):hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
     }
 
-    .btn-outline {
-      padding: 12px 18px;
+    .nav-links a:not(.nav-pilot)::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 6px;
+      height: 2px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.03);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+      opacity: 0;
+      transform: scaleX(0.55);
+      transform-origin: center;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .nav-links a:not(.nav-pilot):hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .nav-links a.active:not(.nav-pilot) {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .nav-links a.active:not(.nav-pilot)::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .nav-pilot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: auto;
+      padding: 10px 18px !important;
+      border-radius: 999px;
+      font-weight: 800;
+      color: #07111a !important;
+      background: linear-gradient(90deg, #7dc7ff 0%, #a78bfa 100%);
+      box-shadow:
+        0 14px 30px rgba(125, 211, 252, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.28);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .nav-pilot:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow:
+        0 18px 36px rgba(125, 211, 252, 0.22),
+        inset 0 1px 0 rgba(255,255,255,0.32);
     }
 
     .page {
@@ -427,8 +479,7 @@
     }
 
     .btn-primary:hover,
-    .btn-secondary:hover,
-    .btn-outline:hover {
+    .btn-secondary:hover {
       transform: translateY(-1px);
     }
 
@@ -470,17 +521,6 @@
         grid-template-columns: 1fr;
       }
 
-      .nav {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 18px 0;
-      }
-
-      .nav-links {
-        flex-wrap: wrap;
-        gap: 16px;
-      }
-
       .signal-arrow {
         display: none;
       }
@@ -506,23 +546,40 @@
         max-height: 460px;
       }
     }
+
+    @media (max-width: 760px) {
+      .nav-links a:not(.nav-pilot) {
+        display: none;
+      }
+
+      .wrap {
+        width: min(var(--max), calc(100% - 22px));
+      }
+
+      .nav-pilot {
+        min-height: 46px;
+        padding: 0 20px !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar">
+  <header>
     <div class="wrap nav">
-      <a class="brand" href="./index.html#top">
-        <span class="brand-dot"></span>
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
         <span>HEKONE</span>
       </a>
 
       <nav class="nav-links">
-        <a href="./instrumentation-example.html">Technology</a>
-        <a href="./index.html#problem">Problem</a>
-        <a href="./index.html#solution">Solution</a>
-        <a href="./index.html#use-cases">Use Cases</a>
-        <a href="./about.html">About</a>
-        <a href="./index.html#contact" class="btn-outline">Contact</a>
+        <a href="/instrumentation-example.html" class="active">Technology</a>
+        <a href="/#problem">Problem</a>
+        <a href="/#deployment">Deployment</a>
+        <a href="/#solution">Solution</a>
+        <a href="/#use-cases">Use Cases</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Explore a Pilot</a>
       </nav>
     </div>
   </header>
@@ -775,8 +832,8 @@
         </div>
 
         <div class="cta-actions">
-          <a class="btn-primary" href="./index.html">Explore how HEKONE works</a>
-          <a class="btn-secondary" href="./index.html#contact">Request Intro</a>
+          <a class="btn-primary" href="/">Explore how HEKONE works</a>
+          <a class="btn-secondary" href="/contact.html">Request Intro</a>
         </div>
       </section>
 
