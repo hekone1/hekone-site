@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About | HEKONE</title>
-  <meta name="description" content="About HEKONE and its founder, Shahriyar Hekmat." />
+  <meta name="description" content="About HEKONE, its founder, and strategic collaborators." />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
   <link rel="apple-touch-icon" href="favicon1.png?v=2" />
@@ -283,6 +283,14 @@
       font-size: 18px;
     }
 
+    .section-label {
+      margin: 0 0 18px;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted-2);
+    }
+
     .profile {
       display: grid;
       grid-template-columns: 0.78fr 1.22fr;
@@ -406,6 +414,12 @@
 
     .feature-card p + p {
       margin-top: 12px;
+    }
+
+    .people-stack {
+      display: grid;
+      gap: 26px;
+      margin-top: 26px;
     }
 
     .grid-3 {
@@ -687,37 +701,71 @@
       <div class="page-head">
         <h1>People behind HEKONE</h1>
         <p>
-          Meet the founder behind HEKONE and the thinking behind the platform.
-          Additional team members, advisors, and collaborators can be introduced here over time.
+          Meet the founder behind HEKONE and the broader thinking shaping the platform.
+          Strategic collaborators and additional team members can be introduced here over time.
         </p>
       </div>
 
-      <section class="profile">
-        <div class="photo-wrap">
-          <img src="founder.png" alt="Shahriyar Hekmat - Founder of HEKONE" />
-        </div>
+      <div class="people-stack">
+        <section>
+          <p class="section-label">Founder</p>
+          <div class="profile">
+            <div class="photo-wrap">
+              <img src="founder.png" alt="Shahriyar Hekmat - Founder of HEKONE" />
+            </div>
 
-        <div class="profile-card">
-          <h2>Shahriyar Hekmat</h2>
-          <p class="role">Founder &amp; Engineer</p>
+            <div class="profile-card">
+              <h2>Shahriyar Hekmat</h2>
+              <p class="role">Founder &amp; Engineer</p>
 
-          <ul class="summary-points">
-            <li>M.Sc. in Mechanical Engineering — University of California, Merced</li>
-            <li>M.Sc. in Automotive Engineering — IUST</li>
-            <li>Inventor of a U.S. patent in battery thermal management systems</li>
-            <li>First-author of multiple peer-reviewed engineering publications</li>
-          </ul>
+              <ul class="summary-points">
+                <li>M.Sc. in Mechanical Engineering — University of California, Merced</li>
+                <li>M.Sc. in Automotive Engineering — IUST</li>
+                <li>Inventor of a U.S. patent in battery thermal management systems</li>
+                <li>First-author of multiple peer-reviewed engineering publications</li>
+              </ul>
 
-          <p class="summary-note">
-            Focused on designing sensing-driven physical systems that connect hardware, data, and real operational environments.
-          </p>
+              <p class="summary-note">
+                Focused on designing sensing-driven physical systems that connect hardware, data, and real operational environments.
+              </p>
 
-          <div class="contact-links">
-            <a href="mailto:hekmat@hekone.com">Email</a>
-            <a href="https://www.linkedin.com/in/shahriyarhekmat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <div class="contact-links">
+                <a href="mailto:hekmat@hekone.com">Email</a>
+                <a href="https://www.linkedin.com/in/shahriyarhekmat/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section>
+          <p class="section-label">Strategic Collaborator</p>
+          <div class="profile">
+            <div class="photo-wrap">
+              <img src="Amir.jpg" alt="Amir H. A. Moghaddami - Strategic Collaborator at HEKONE" />
+            </div>
+
+            <div class="profile-card">
+              <h2>Amir H. A. Moghaddami</h2>
+              <p class="role">Strategic Collaborator</p>
+
+              <p class="summary-note" style="margin-top:0;">
+                Entrepreneur and strategic operator with a focus on energy innovation and scalable operational systems.
+              </p>
+
+              <ul class="summary-points">
+                <li>Experience across large-scale retail, real estate, and hospitality</li>
+                <li>Over a decade of involvement in renewable energy</li>
+                <li>Focused on supply chain intelligence and retail shrink reduction</li>
+                <li>Brings a commercial and operator-centered perspective to early platform development</li>
+              </ul>
+
+              <p class="summary-note">
+                Currently focused on advancing data-driven infrastructure and real-world operational visibility across physical environments.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <section class="feature-card">
         <h3>What I'm building</h3>
