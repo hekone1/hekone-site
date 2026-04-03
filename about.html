@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About | HEKONE</title>
-  <meta name="description" content="About HEKONE, its founder, and strategic collaborators." />
+  <meta name="description" content="About HEKONE, its founder, and early-stage strategic and commercial collaboration." />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
   <link rel="apple-touch-icon" href="favicon1.png?v=2" />
@@ -313,6 +313,7 @@
       border-radius: 24px;
       display: block;
       object-fit: cover;
+      object-position: center top;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 24px 70px rgba(0,0,0,0.35);
       background: rgba(255,255,255,0.03);
@@ -387,38 +388,9 @@
       border-color: var(--accent);
     }
 
-    .feature-card {
-      margin-top: 10px;
-      padding: 26px 28px;
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
-        linear-gradient(135deg, rgba(125,211,252,0.06), rgba(167,139,250,0.05));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .feature-card h3 {
-      margin: 0 0 12px;
-      font-size: 26px;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .feature-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      max-width: 940px;
-    }
-
-    .feature-card p + p {
-      margin-top: 12px;
-    }
-
     .people-stack {
       display: grid;
-      gap: 26px;
+      gap: 8px;
       margin-top: 26px;
     }
 
@@ -426,7 +398,8 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 26px;
+      margin-top: 6px;
+      margin-bottom: 18px;
     }
 
     .card {
@@ -558,6 +531,10 @@
         height: auto;
         aspect-ratio: 4 / 5;
       }
+
+      .grid-3 {
+        margin-top: 0;
+      }
     }
 
     @media (max-width: 900px) {
@@ -633,7 +610,6 @@
 
       .profile-card,
       .card,
-      .feature-card,
       .footer-cta {
         padding: 20px;
       }
@@ -643,8 +619,7 @@
       }
 
       .summary-points,
-      .summary-note,
-      .feature-card p {
+      .summary-note {
         font-size: 15px;
       }
 
@@ -702,7 +677,7 @@
         <h1>People behind HEKONE</h1>
         <p>
           Meet the founder behind HEKONE and the broader thinking shaping the platform.
-          Strategic collaborators and additional team members can be introduced here over time.
+          Additional collaborators may be introduced here over time as the company evolves.
         </p>
       </div>
 
@@ -737,76 +712,64 @@
           </div>
         </section>
 
+        <section class="grid-3">
+          <div class="card">
+            <h3>Technical Credibility</h3>
+            <ul>
+              <li>U.S. patent in thermal and energy systems</li>
+              <li>Published engineering research with real-world relevance</li>
+              <li>Hands-on experimental validation and system testing</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Platform Builder</h3>
+            <ul>
+              <li>Built sensing-driven electromechanical systems</li>
+              <li>Hardware and embedded data capture integration</li>
+              <li>From prototype to real-world deployment thinking</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Interdisciplinary Engineering</h3>
+            <ul>
+              <li>Mechanical, energy, and manufacturing systems background</li>
+              <li>Thermal, sensing, and system-level design experience</li>
+              <li>Cross-domain engineering execution</li>
+            </ul>
+          </div>
+        </section>
+
         <section>
-          <p class="section-label">Strategic Collaborator</p>
+          <p class="section-label">Strategic &amp; Commercial Partner (Early Stage)</p>
           <div class="profile">
             <div class="photo-wrap">
-              <img src="Amir.jpg" alt="Amir H. A. Moghaddami - Strategic Collaborator at HEKONE" />
+              <img src="Amir.jpg" alt="Amir H. A. Moghaddami - Strategic and Commercial Partner at HEKONE" />
             </div>
 
             <div class="profile-card">
               <h2>Amir H. A. Moghaddami</h2>
-              <p class="role">Strategic Collaborator</p>
+              <p class="role">Strategic &amp; Commercial Partner (Early Stage)</p>
 
               <p class="summary-note" style="margin-top:0;">
-                Entrepreneur and strategic operator with a focus on energy innovation and scalable operational systems.
+                Entrepreneur and strategic operator focused on energy innovation, scalable systems, and commercial execution across physical industries.
               </p>
 
               <ul class="summary-points">
                 <li>Experience across large-scale retail, real estate, and hospitality</li>
-                <li>Over a decade of involvement in renewable energy</li>
+                <li>Over a decade in renewable energy</li>
                 <li>Focused on supply chain intelligence and retail shrink reduction</li>
                 <li>Brings a commercial and operator-centered perspective to early platform development</li>
               </ul>
 
               <p class="summary-note">
-                Currently focused on advancing data-driven infrastructure and real-world operational visibility across physical environments.
+                Contributes to early-stage commercial exploration and operator engagement in support of real-world deployment opportunities.
               </p>
             </div>
           </div>
         </section>
       </div>
-
-      <section class="feature-card">
-        <h3>What I'm building</h3>
-        <p>
-          HEKONE is focused on uncovering hidden loss across physical operations by combining sensing,
-          data, and system-level visibility.
-        </p>
-        <p>
-          The goal is to bring control and transparency to environments where current systems often fail
-          to capture what is actually happening on the ground.
-        </p>
-      </section>
-
-      <section class="grid-3">
-        <div class="card">
-          <h3>Technical Credibility</h3>
-          <ul>
-            <li>U.S. patent in thermal and energy systems</li>
-            <li>Published engineering research with real-world relevance</li>
-            <li>Hands-on experimental validation and system testing</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Platform Builder</h3>
-          <ul>
-            <li>Built sensing-driven electromechanical systems</li>
-            <li>Hardware and embedded data capture integration</li>
-            <li>From prototype to real-world deployment thinking</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Interdisciplinary Engineering</h3>
-          <ul>
-            <li>Mechanical, energy, and manufacturing systems background</li>
-            <li>Thermal, sensing, and system-level design experience</li>
-            <li>Cross-domain engineering execution</li>
-          </ul>
-        </div>
-      </section>
 
       <div class="team-note">
         Additional team members, advisors, and collaborators can be introduced here over time.
