@@ -27,9 +27,11 @@
       --line-strong: rgba(125, 211, 252, 0.28);
       --text: #eef4ff;
       --muted: #b7c5df;
+      --muted-2: #96a8ca;
       --accent: #7dd3fc;
       --accent-2: #a78bfa;
       --shadow: 0 18px 60px rgba(0,0,0,0.28);
+      --shadow-strong: 0 20px 50px rgba(125,211,252,0.18);
       --radius: 26px;
       --max: 1240px;
       --profile-height: 440px;
@@ -48,6 +50,11 @@
         radial-gradient(circle at 85% 12%, rgba(167,139,250,0.16), transparent 22%),
         linear-gradient(180deg, #030611 0%, #060b18 35%, #040816 100%);
       line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
     }
 
     a {
@@ -63,9 +70,9 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 1000;
       backdrop-filter: blur(14px);
-      background: rgba(4,8,22,0.72);
+      background: rgba(4,8,22,0.88);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
@@ -75,6 +82,7 @@
       justify-content: space-between;
       gap: 18px;
       padding: 16px 0;
+      position: relative;
     }
 
     .brand {
@@ -84,6 +92,9 @@
       font-weight: 800;
       letter-spacing: 0.16em;
       color: var(--text);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1002;
     }
 
     .brand-mark {
@@ -104,10 +115,10 @@
 
     .nav-links a {
       position: relative;
-      text-decoration: none;
       padding: 10px 12px;
       border-radius: 12px;
       transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
+      white-space: nowrap;
     }
 
     .nav-links a:not(.nav-pilot):hover {
@@ -189,6 +200,64 @@
       box-shadow:
         0 18px 36px rgba(125, 211, 252, 0.22),
         inset 0 1px 0 rgba(255,255,255,0.32);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1002;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.16);
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--text);
+      transition: transform .22s ease, opacity .22s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .menu-backdrop {
+      display: none;
+    }
+
+    .menu-backdrop.show {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 18, 0.55);
+      backdrop-filter: blur(6px);
+      z-index: 998;
     }
 
     main {
@@ -443,6 +512,17 @@
       color: var(--muted);
     }
 
+    @media (max-width: 1180px) {
+      .nav-links {
+        gap: 2px;
+        font-size: 13px;
+      }
+
+      .nav-links a {
+        padding: 10px 10px;
+      }
+    }
+
     @media (max-width: 1040px) {
       .profile,
       .grid-3,
@@ -466,11 +546,73 @@
       }
     }
 
-    @media (max-width: 760px) {
-      .nav-links a:not(.nav-pilot) {
+    @media (max-width: 900px) {
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 24px;
+        background: rgba(6, 10, 24, 0.98);
+        border: 1px solid rgba(125,211,252,0.14);
+        box-shadow: 0 24px 70px rgba(0,0,0,0.42);
+        z-index: 1001;
+        max-height: calc(100vh - 110px);
+        overflow-y: auto;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.035);
+        color: var(--text);
+        font-size: 15px;
+        border: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .nav-links a:not(.nav-pilot)::after {
         display: none;
       }
 
+      .nav-links a:not(.nav-pilot):hover {
+        background: rgba(255,255,255,0.06);
+        box-shadow: none;
+      }
+
+      .nav-pilot {
+        display: inline-flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 6px;
+        min-height: 50px;
+        padding: 0 20px !important;
+        color: #06111c !important;
+        background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%) !important;
+        border: 1px solid rgba(255,255,255,0.16) !important;
+        font-weight: 800;
+        box-shadow:
+          0 18px 40px rgba(125, 211, 252, 0.18),
+          inset 0 1px 0 rgba(255,255,255,0.26);
+      }
+    }
+
+    @media (max-width: 760px) {
       .wrap {
         width: min(var(--max), calc(100% - 22px));
       }
@@ -496,9 +638,17 @@
         font-size: 17px;
       }
 
-      .nav-pilot {
-        min-height: 46px;
-        padding: 0 20px !important;
+      .page-head p,
+      .footer-cta p {
+        font-size: 16px;
+      }
+
+      .footer-cta-actions {
+        width: 100%;
+      }
+
+      .footer-cta-actions .btn {
+        width: 100%;
       }
     }
   </style>
@@ -511,7 +661,13 @@
         <span>HEKONE</span>
       </a>
 
-      <nav class="nav-links">
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="site-menu">
         <a href="/instrumentation-example.html">Technology</a>
         <a href="/#problem">Problem</a>
         <a href="/#deployment">Deployment</a>
@@ -523,6 +679,8 @@
       </nav>
     </div>
   </header>
+
+  <div class="menu-backdrop"></div>
 
   <main>
     <div class="wrap">
@@ -636,5 +794,62 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links a');
+    const menuBackdrop = document.querySelector('.menu-backdrop');
+    const body = document.body;
+
+    function openMenu() {
+      navLinks.classList.add('open');
+      menuToggle.classList.add('active');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuBackdrop.classList.add('show');
+      body.classList.add('menu-open');
+    }
+
+    function closeMenu() {
+      navLinks.classList.remove('open');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuBackdrop.classList.remove('show');
+      body.classList.remove('menu-open');
+    }
+
+    if (menuToggle && navLinks && menuBackdrop) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.contains('open');
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth <= 900) {
+            closeMenu();
+          }
+        });
+      });
+
+      menuBackdrop.addEventListener('click', closeMenu);
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeMenu();
+        }
+      });
+    }
+  </script>
 </body>
 </html>
