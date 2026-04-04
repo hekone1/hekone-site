@@ -341,9 +341,9 @@
   }
 
   .hero-panel,
-  .panel,
   .section-shell,
-  .cta-box {
+  .cta-box,
+  .problem-panel {
     border-radius: 26px;
     background:
       linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
@@ -463,7 +463,6 @@
   }
 
   .card,
-  .mini-card,
   .step,
   .usecase,
   .metric {
@@ -474,7 +473,6 @@
   }
 
   .card h3,
-  .mini-card h3,
   .step h3,
   .usecase h3,
   .metric h3 {
@@ -485,7 +483,6 @@
   }
 
   .card p,
-  .mini-card p,
   .step p,
   .usecase p,
   .metric p {
@@ -520,15 +517,19 @@
     font-size: 14px;
   }
 
-  .problem-visual {
+  .problem-panel {
+    padding: 22px;
     margin-top: 26px;
+  }
+
+  .problem-visual {
     display: flex;
     justify-content: center;
   }
 
   .problem-visual img {
-    width: min(980px, 100%);
-    border-radius: 26px;
+    width: min(900px, 100%);
+    border-radius: 24px;
     border: 1px solid rgba(255,255,255,0.10);
     box-shadow: 0 24px 80px rgba(0,0,0,0.34);
   }
@@ -550,6 +551,74 @@
     border: 1px solid rgba(255,255,255,0.08);
     font-weight: 800;
     color: var(--text);
+  }
+
+  .mini-flow {
+    margin-top: 26px;
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mini-flow-top {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .mini-node {
+    padding: 12px 10px;
+    text-align: center;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .mini-flow-bar {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+
+  .mini-flow-bar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 72%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: inherit;
+  }
+
+  .mini-flow-bottom {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+  }
+
+  .mini-signal {
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mini-signal strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  .mini-signal span {
+    color: var(--muted);
+    font-size: 14px;
   }
 
   .why-grid {
@@ -672,7 +741,9 @@
     .steps,
     .why-grid,
     .cta-box,
-    .metrics {
+    .metrics,
+    .mini-flow-top,
+    .mini-flow-bottom {
       grid-template-columns: 1fr;
     }
   }
@@ -742,12 +813,13 @@
     .hero-panel,
     .section-shell,
     .card,
-    .mini-card,
     .step,
     .usecase,
     .metric,
     .why-lead,
-    .cta-box {
+    .cta-box,
+    .problem-panel,
+    .mini-flow {
       padding: 20px;
     }
 
@@ -760,7 +832,7 @@
     }
 
     .problem-visual img {
-      border-radius: 22px;
+      border-radius: 20px;
     }
   }
 </style>
@@ -966,8 +1038,10 @@
         </p>
       </div>
 
-      <div class="problem-visual">
-        <img src="shrink-problem.png" alt="Operational loss and supply chain blind spots visualization" />
+      <div class="problem-panel">
+        <div class="problem-visual">
+          <img src="shrink-problem.png" alt="Operational loss and supply chain blind spots visualization" />
+        </div>
       </div>
 
       <div class="grid-3" style="margin-top:28px;">
@@ -1032,6 +1106,34 @@
             <div class="step-num">3</div>
             <h3>Scale from pilot to platform</h3>
             <p>Start with one deployment, validate outcomes, and expand across broader workflows, handoffs, and sites over time.</p>
+          </div>
+        </div>
+
+        <div class="mini-flow">
+          <div class="mini-flow-top">
+            <div class="mini-node">Factory</div>
+            <div class="mini-node">DC</div>
+            <div class="mini-node">Store</div>
+            <div class="mini-node">Shelf</div>
+          </div>
+
+          <div class="mini-flow-bar"></div>
+
+          <div class="mini-flow-bottom">
+            <div class="mini-signal">
+              <strong>Missed events</strong>
+              <span>Unmeasured handoffs and blind spots at the physical layer.</span>
+            </div>
+
+            <div class="mini-signal">
+              <strong>Structured signals</strong>
+              <span>Physical activity translated into reviewable operational data.</span>
+            </div>
+
+            <div class="mini-signal">
+              <strong>Alerts and action</strong>
+              <span>Earlier visibility, faster decisions, and better control.</span>
+            </div>
           </div>
         </div>
       </div>
