@@ -439,12 +439,13 @@
     box-shadow: var(--shadow);
   }
 
+  /* UPDATED PLATFORM VISION SECTION */
   .vision-shell {
-    padding: 20px 22px 18px;
+    padding: 16px 20px 14px;
   }
 
   .vision-shell .section-head {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
   .vision-shell .section-head h2 {
@@ -459,7 +460,13 @@
     justify-content: center;
   }
 
-  .vision-image { margin-top: 14px; }
+  .vision-image {
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
   .problem-image-full { margin: 8px 0 28px; }
   .flow-image-full,
   .solution-image-full { margin-top: 18px; }
@@ -476,9 +483,11 @@
   }
 
   .vision-image img {
-    width: min(900px, calc(100% - 80px));
+    width: min(1200px, calc(100% + 80px));
+    max-width: none;
     max-height: 520px;
     object-fit: cover;
+    margin-top: 6px;
   }
 
   .problem-image-full img {
