@@ -3,1469 +3,1211 @@
 <head>
 
 <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "w5nj7hsemw");
+  (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "w5nj7hsemw");
 </script>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEKONE | Operational Visibility for the Physical Economy</title>
-  <meta
-    name="description"
-    content="HEKONE brings physical intelligence into operations by turning blind spots, handoff failures, and hidden loss into measurable control."
-  />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
-  <link rel="apple-touch-icon" href="favicon1.png?v=2" />
-  <meta name="theme-color" content="#040816" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HEKONE | Operational Visibility for the Physical Economy</title>
+<meta
+  name="description"
+  content="HEKONE brings physical intelligence into operations by turning blind spots, handoff failures, and hidden loss into measurable control."
+/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
+<link rel="apple-touch-icon" href="favicon1.png?v=2" />
+<meta name="theme-color" content="#050914" />
 
-  <style>
-    :root {
-      --bg: #040816;
-      --line: rgba(255,255,255,0.12);
-      --line-strong: rgba(125, 211, 252, 0.28);
-      --text: #eef4ff;
-      --muted: #b7c5df;
-      --muted-2: #96a8ca;
-      --accent: #7dd3fc;
-      --accent-2: #a78bfa;
-      --success: #86efac;
-      --shadow: 0 18px 60px rgba(0,0,0,0.28);
-      --shadow-strong: 0 20px 50px rgba(125,211,252,0.18);
-      --radius: 26px;
-      --max: 1160px;
-    }
+<style>
+  :root {
+    --bg: #050914;
+    --bg-soft: #0a1120;
+    --panel: rgba(255,255,255,0.04);
+    --panel-strong: rgba(255,255,255,0.06);
+    --line: rgba(255,255,255,0.10);
+    --line-strong: rgba(255,255,255,0.16);
+    --text: #edf2fb;
+    --muted: #b8c5dc;
+    --muted-2: #8ea1c4;
+    --accent: #8fd3ff;
+    --accent-2: #b59cff;
+    --success: #93f0b3;
+    --radius: 24px;
+    --shadow: 0 18px 55px rgba(0,0,0,0.26);
+    --max: 1140px;
+  }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
-    body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 8%, rgba(125,211,252,0.18), transparent 24%),
-        radial-gradient(circle at 85% 12%, rgba(167,139,250,0.16), transparent 22%),
-        radial-gradient(circle at 50% 40%, rgba(34,197,94,0.05), transparent 18%),
-        linear-gradient(180deg, #030611 0%, #060b18 35%, #040816 100%);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+  body {
+    margin: 0;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(143,211,255,0.08), transparent 22%),
+      radial-gradient(circle at 82% 0%, rgba(181,156,255,0.07), transparent 20%),
+      linear-gradient(180deg, #040814 0%, #060b16 34%, #050914 100%);
+    line-height: 1.62;
+    overflow-x: hidden;
+  }
 
-    body.menu-open {
-      overflow: hidden;
-    }
+  body.menu-open {
+    overflow: hidden;
+  }
 
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-    .wrap {
-      width: min(var(--max), calc(100% - 32px));
-      margin: 0 auto;
-    }
+  img {
+    display: block;
+    max-width: 100%;
+  }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(4,8,22,0.88);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
+  .wrap {
+    width: min(var(--max), calc(100% - 32px));
+    margin: 0 auto;
+  }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 16px 0;
-      position: relative;
-    }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(14px);
+    background: rgba(5, 9, 20, 0.88);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      color: var(--text);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1002;
-    }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 0;
+    position: relative;
+  }
 
-    .brand-mark {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 18px rgba(125,211,252,0.6);
-    }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1002;
+  }
 
+  .brand-mark {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 14px rgba(143,211,255,0.42);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .nav-links a {
+    position: relative;
+    padding: 10px 12px;
+    border-radius: 12px;
+    white-space: nowrap;
+    transition: color .2s ease, background .2s ease;
+  }
+
+  .nav-links a:not(.nav-pilot):hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-pilot,
+  .nav-pilot {
+    color: #07111f;
+    background: linear-gradient(90deg, #8fd3ff 0%, #b59cff 100%);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 14px 34px rgba(143,211,255,0.14);
+    font-weight: 800;
+  }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.03);
+    border-color: var(--line);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--line-strong);
+  }
+
+  .nav-pilot {
+    min-height: auto;
+    padding: 10px 18px !important;
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1002;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text);
+    transition: transform .22s ease, opacity .22s ease;
+  }
+
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .menu-backdrop {
+    display: none;
+  }
+
+  .menu-backdrop.show {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 18, 0.55);
+    backdrop-filter: blur(6px);
+    z-index: 998;
+  }
+
+  main {
+    overflow: hidden;
+  }
+
+  section {
+    padding: 34px 0 76px;
+  }
+
+  .hero {
+    padding: 76px 0 52px;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .eyebrow,
+  .section-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--accent);
+    background: rgba(255,255,255,0.03);
+    font-size: 13px;
+  }
+
+  .eyebrow {
+    margin-bottom: 18px;
+  }
+
+  .eyebrow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 10px rgba(147,240,179,0.45);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(40px, 6vw, 74px);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+    max-width: 720px;
+  }
+
+  .hero-copy p {
+    margin: 20px 0 0;
+    max-width: 720px;
+    color: var(--muted);
+    font-size: clamp(18px, 2.1vw, 21px);
+  }
+
+  .hero-copy strong {
+    color: var(--text);
+  }
+
+  .hero-highlight {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+    font-size: 17px;
+    font-weight: 700;
+    max-width: 720px;
+  }
+
+  .hero-subproof {
+    margin-top: 14px;
+    color: var(--muted-2);
+    font-size: 15px;
+    max-width: 700px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .hero-note {
+    margin-top: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .pill {
+    padding: 9px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.025);
+  }
+
+  .hero-panel,
+  .panel,
+  .section-shell,
+  .cta-box {
+    border-radius: 26px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
+      linear-gradient(135deg, rgba(143,211,255,0.05), rgba(181,156,255,0.04));
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: var(--shadow);
+  }
+
+  .hero-panel {
+    padding: 24px;
+  }
+
+  .hero-panel .tiny,
+  .label {
+    color: var(--muted-2);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-panel h2 {
+    margin: 10px 0 12px;
+    font-size: 28px;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-panel p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .hero-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .hero-item {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 14px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .hero-item .icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+  }
+
+  .hero-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+
+  .hero-item span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .section-head {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .section-head h2 {
+    margin: 14px 0 0;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  .section-head p {
+    max-width: 760px;
+    margin: 14px auto 0;
+    color: var(--muted);
+    font-size: 17px;
+  }
+
+  .section-shell {
+    padding: 28px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    display: grid;
+    gap: 18px;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .card,
+  .mini-card,
+  .step,
+  .usecase,
+  .metric {
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card h3,
+  .mini-card h3,
+  .step h3,
+  .usecase h3,
+  .metric h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .card p,
+  .mini-card p,
+  .step p,
+  .usecase p,
+  .metric p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .card-head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 16px;
+  }
+
+  .scope-note {
+    margin-top: 18px;
+    text-align: center;
+    color: var(--muted-2);
+    font-size: 14px;
+  }
+
+  .problem-visual {
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .problem-visual img {
+    width: min(980px, 100%);
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .step-num {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .why-lead {
+    padding: 26px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    height: 100%;
+  }
+
+  .why-lead h3 {
+    margin: 0 0 12px;
+    font-size: 28px;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  .why-lead p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  .why-lead .subcopy {
+    margin-top: 18px;
+    color: var(--muted-2);
+    font-size: 15px;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .metric strong {
+    display: block;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+  }
+
+  .cta-box {
+    display: grid;
+    grid-template-columns: 1.1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 28px;
+  }
+
+  .cta-box h2 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-box p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 760px;
+  }
+
+  .cta-note {
+    margin-top: 10px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  footer {
+    padding: 28px 0 46px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    color: var(--muted);
+  }
+
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+  }
+
+  @media (max-width: 1180px) {
     .nav-links {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 14px;
+      gap: 2px;
+      font-size: 13px;
     }
 
     .nav-links a {
-      position: relative;
-      padding: 10px 12px;
-      border-radius: 12px;
-      transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
-      white-space: nowrap;
+      padding: 10px 10px;
     }
+  }
 
-    .nav-links a:not(.nav-pilot):hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.06);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  @media (max-width: 980px) {
+    .hero-grid,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .steps,
+    .why-grid,
+    .cta-box,
+    .metrics {
+      grid-template-columns: 1fr;
     }
+  }
 
-    .nav-links a:not(.nav-pilot)::after {
-      content: "";
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 6px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      opacity: 0;
-      transform: scaleX(0.55);
-      transform-origin: center;
-      transition: opacity .22s ease, transform .22s ease;
-    }
-
-    .nav-links a:not(.nav-pilot):hover::after {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      border: 1px solid transparent;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-secondary {
-      color: var(--text);
-      background: rgba(255,255,255,0.03);
-      border-color: var(--line);
-    }
-
-    .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .btn-pilot,
-    .nav-pilot {
-      color: #06111c;
-      background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-weight: 800;
-      box-shadow:
-        0 18px 40px rgba(125, 211, 252, 0.18),
-        inset 0 1px 0 rgba(255,255,255,0.26);
-    }
-
-    .btn-pilot:hover,
-    .nav-pilot:hover {
-      box-shadow:
-        0 22px 46px rgba(125, 211, 252, 0.24),
-        inset 0 1px 0 rgba(255,255,255,0.30);
-      filter: brightness(1.02);
-    }
-
-    .nav-pilot {
-      min-height: auto;
-      padding: 10px 18px !important;
-    }
-
+  @media (max-width: 900px) {
     .menu-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 0;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1002;
-      transition: background .2s ease, border-color .2s ease;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.16);
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--text);
-      transition: transform .22s ease, opacity .22s ease;
-    }
-
-    .menu-toggle.active span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-toggle.active span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .menu-backdrop {
-      display: none;
-    }
-
-    .menu-backdrop.show {
-      display: block;
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 18, 0.55);
-      backdrop-filter: blur(6px);
-      z-index: 998;
-    }
-
-    section { padding: 34px 0 74px; }
-
-    .hero { padding: 76px 0 48px; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.18fr 0.92fr;
-      gap: 28px;
-      align-items: center;
-    }
-
-    .eyebrow,
-    .section-pill,
-    .section-tag {
       display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--accent);
-      background: rgba(255,255,255,0.03);
-      font-size: 14px;
     }
 
-    .eyebrow { margin-bottom: 18px; }
+    .nav-links {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      right: 0;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(6, 10, 24, 0.98);
+      border: 1px solid rgba(143,211,255,0.12);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.42);
+      z-index: 1001;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+    }
 
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 10px rgba(134,239,172,0.6);
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links a {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-pilot {
+      display: inline-flex !important;
+      justify-content: center;
+      width: 100%;
+      margin-top: 6px;
+      min-height: 50px;
+      padding: 0 20px !important;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .wrap {
+      width: min(var(--max), calc(100% - 22px));
+    }
+
+    .hero {
+      padding-top: 48px;
     }
 
     h1 {
-      margin: 0;
-      max-width: 760px;
-      font-size: clamp(40px, 6.1vw, 76px);
-      line-height: 0.94;
-      letter-spacing: -0.06em;
+      font-size: clamp(38px, 12vw, 58px);
     }
 
-    .hero-copy p {
-      margin: 20px 0 0;
-      max-width: 700px;
-      color: var(--muted);
-      font-size: clamp(18px, 2.2vw, 21px);
-    }
-
-    .hero-lead strong { color: var(--text); }
-
-    .hero-highlight {
-      margin-top: 20px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: inline-block;
-      color: var(--text);
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 1.5;
-    }
-
-    .hero-subproof {
-      margin-top: 14px;
-      color: var(--muted-2);
-      font-size: 15px;
-      max-width: 700px;
-    }
-
-    .hero-urgency {
-      margin-top: 10px;
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.01em;
+    .hero-panel,
+    .section-shell,
+    .card,
+    .mini-card,
+    .step,
+    .usecase,
+    .metric,
+    .why-lead,
+    .cta-box {
+      padding: 20px;
     }
 
     .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
     }
 
-    .hero-actions .btn-pilot {
-      min-height: 52px;
-      padding: 0 22px;
+    .hero-actions .btn {
+      width: 100%;
     }
 
-    .trust-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-      color: var(--muted);
-      font-size: 14px;
+    .problem-visual img {
+      border-radius: 22px;
     }
-
-    .pill {
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.025);
-    }
-
-    .dashboard {
-      overflow: hidden;
-      border-radius: 28px;
-      padding: 22px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
-        linear-gradient(135deg, rgba(125,211,252,0.12), rgba(167,139,250,0.06));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .visual-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .tiny {
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .mini-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 16px;
-    }
-
-    .mini-card strong {
-      display: block;
-      font-size: 24px;
-      line-height: 1;
-      margin: 8px 0 10px;
-    }
-
-    .bar-list { display: grid; gap: 12px; margin-top: 18px; }
-
-    .bar-item span {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .bar {
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-
-    .bar > i {
-      display: block;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    }
-
-    .section-head {
-      display: block;
-      text-align: center;
-      margin-bottom: 26px;
-    }
-
-    .section-head h2 {
-      margin: 14px 0 0;
-      font-size: clamp(30px, 4vw, 46px);
-      line-height: 1.04;
-      letter-spacing: -0.03em;
-    }
-
-    .section-head p,
-    .section-copy {
-      color: var(--muted);
-      max-width: 800px;
-      margin: 14px auto 0;
-      font-size: 17px;
-    }
-
-    .section-copy strong,
-    .ecosystem-note-strong,
-    .why-now-card strong {
-      color: var(--text);
-    }
-
-    .problem-subnote {
-      margin-top: 10px !important;
-      font-size: 15px !important;
-      opacity: 0.82;
-    }
-
-    .grid-2,
-    .grid-3,
-    .grid-4 {
-      display: grid;
-      gap: 18px;
-    }
-
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-    .card,
-    .ecosystem-card,
-    .why-now-card,
-    .outcome-card,
-    .usecase,
-    .metric,
-    .step,
-    .trust-row-card,
-    .deploy-card {
-      padding: 22px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: var(--shadow);
-    }
-
-    .card h3,
-    .ecosystem-card h3,
-    .why-now-card h3,
-    .outcome-card h3,
-    .deploy-card h3,
-    .step h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-    }
-
-    .card p,
-    .ecosystem-card p,
-    .why-now-card p,
-    .outcome-card p,
-    .deploy-card p,
-    .step p,
-    .metric p,
-    .trust-row-card p,
-    .deploy-copy p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .problem-card,
-    .usecase,
-    .outcome-card,
-    .deploy-card,
-    .why-now-card,
-    .ecosystem-card,
-    .step { min-height: 205px; }
-
-    .icon {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      border-radius: 14px;
-      display: inline-grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.14));
-      border: 1px solid rgba(125,211,252,0.18);
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .card-head,
-    .step-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .step-num {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      border-radius: 14px;
-      display: inline-grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(125,211,252,0.18), rgba(167,139,250,0.14));
-      border: 1px solid rgba(125,211,252,0.18);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-      flex-shrink: 0;
-    }
-
-    .ecosystem-shell,
-    .deploy-shell,
-    .trust-shell,
-    .why-now-shell {
-      padding: 28px;
-      border-radius: 30px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, rgba(125,211,252,0.08), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .ecosystem-image,
-    .problem-image-full,
-    .flow-image-full,
-    .solution-image-full,
-    .pilot-image-full {
-      display: flex;
-      justify-content: center;
-    }
-
-    .ecosystem-image { margin-top: 24px; }
-    .problem-image-full { margin: 10px 0 38px; }
-    .flow-image-full,
-    .solution-image-full,
-    .pilot-image-full { margin-top: 26px; }
-
-    .ecosystem-image img,
-    .problem-image-full img,
-    .flow-image-full img,
-    .solution-image-full img,
-    .pilot-image-full img {
-      width: min(1000px, calc(100% - 40px));
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 30px 100px rgba(0,0,0,0.45);
-      display: block;
-    }
-
-    .ecosystem-note,
-    .pilot-note {
-      margin-top: 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      opacity: 0.9;
-      max-width: 920px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .ecosystem-note-strong {
-      margin-top: 10px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .ecosystem-grid,
-    .outcome-grid,
-    .why-now-grid,
-    .deploy-card-grid,
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 24px;
-    }
-
-    .why-now-card .label,
-    .outcome-card .label,
-    .deploy-card .label {
-      display: inline-flex;
-      margin-bottom: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .deploy-grid {
-      display: grid;
-      grid-template-columns: 0.95fr 1.15fr;
-      gap: 22px;
-      align-items: stretch;
-    }
-
-    .deploy-copy h2,
-    .trust-copy h2 {
-      margin: 12px 0 0;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.06;
-      letter-spacing: -0.03em;
-    }
-
-    .deploy-list,
-    .trust-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .deploy-row,
-    .trust-row-card {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .deploy-row strong,
-    .trust-row-card strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 16px;
-      color: var(--text);
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 36px;
-      line-height: 1;
-      margin-bottom: 10px;
-      letter-spacing: -0.04em;
-    }
-
-    .mid-cta,
-    .cta-box {
-      display: grid;
-      grid-template-columns: 1.15fr auto;
-      gap: 18px;
-      align-items: center;
-      padding: 28px;
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
-        linear-gradient(135deg, rgba(125,211,252,0.09), rgba(167,139,250,0.08));
-      border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow-strong);
-    }
-
-    .mid-cta { margin-top: 34px; }
-
-    .mid-cta h3,
-    .cta-box h2 {
-      margin: 0 0 8px;
-      font-size: clamp(24px, 3vw, 34px);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-    }
-
-    .mid-cta p,
-    .cta-box p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 780px;
-    }
-
-    .cta-note {
-      margin-top: 10px;
-      color: var(--accent);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 28px 0 46px;
-      color: var(--muted);
-    }
-
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a { color: var(--muted); }
-
-    @media (max-width: 1180px) {
-      .nav-links {
-        gap: 2px;
-        font-size: 13px;
-      }
-
-      .nav-links a {
-        padding: 10px 10px;
-      }
-    }
-
-    @media (max-width: 1040px) {
-      .hero-grid,
-      .grid-2,
-      .grid-3,
-      .grid-4,
-      .ecosystem-grid,
-      .why-now-grid,
-      .outcome-grid,
-      .deploy-grid,
-      .deploy-card-grid,
-      .steps,
-      .mid-cta,
-      .cta-box {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .menu-toggle {
-        display: inline-flex;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: calc(100% + 12px);
-        left: 0;
-        right: 0;
-        display: none;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 14px;
-        border-radius: 24px;
-        background: rgba(6, 10, 24, 0.98);
-        border: 1px solid rgba(125,211,252,0.14);
-        box-shadow: 0 24px 70px rgba(0,0,0,0.42);
-        z-index: 1001;
-        max-height: calc(100vh - 110px);
-        overflow-y: auto;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links a {
-        display: block;
-        width: 100%;
-        padding: 14px 16px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.035);
-        color: var(--text);
-        font-size: 15px;
-        border: 1px solid rgba(255,255,255,0.04);
-      }
-
-      .nav-links a:not(.nav-pilot)::after {
-        display: none;
-      }
-
-      .nav-links a:not(.nav-pilot):hover {
-        background: rgba(255,255,255,0.06);
-        box-shadow: none;
-      }
-
-      .nav-pilot {
-        display: inline-flex !important;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin-top: 6px;
-        min-height: 50px;
-        padding: 0 20px !important;
-        color: #06111c !important;
-        background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%) !important;
-        border: 1px solid rgba(255,255,255,0.16) !important;
-        font-weight: 800;
-        box-shadow:
-          0 18px 40px rgba(125, 211, 252, 0.18),
-          inset 0 1px 0 rgba(255,255,255,0.26);
-      }
-    }
-
-    @media (max-width: 760px) {
-      .hero { padding-top: 44px; }
-      h1 { font-size: clamp(38px, 12vw, 58px); }
-      .wrap { width: min(var(--max), calc(100% - 22px)); }
-
-      .card,
-      .ecosystem-card,
-      .why-now-card,
-      .outcome-card,
-      .deploy-card,
-      .step,
-      .metric,
-      .dashboard,
-      .mid-cta,
-      .cta-box,
-      .deploy-shell,
-      .trust-shell,
-      .ecosystem-shell,
-      .why-now-shell {
-        padding: 20px;
-      }
-
-      .mini-grid { grid-template-columns: 1fr; }
-
-      .ecosystem-image img,
-      .problem-image-full img,
-      .flow-image-full img,
-      .solution-image-full img,
-      .pilot-image-full img {
-        width: calc(100% - 22px);
-        border-radius: 22px;
-      }
-
-      .hero-highlight { display: block; }
-
-      .visual-top {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .hero-actions {
-        gap: 10px;
-      }
-
-      .hero-actions .btn {
-        flex: 1 1 100%;
-      }
-
-      .hero-actions .btn-pilot,
-      .hero-actions .btn-secondary {
-        width: 100%;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#top">
-        <span class="brand-mark"></span>
-        <span>HEKONE</span>
-      </a>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark"></span>
+      <span>HEKONE</span>
+    </a>
 
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-      <nav class="nav-links" id="site-menu">
-        <a href="instrumentation-example.html">Technology</a>
-        <a href="#problem">Problem</a>
-        <a href="#deployment">Deployment</a>
-        <a href="#solution">Solution</a>
-        <a href="#use-cases">Use Cases</a>
-        <a href="about.html">About</a>
-        <a href="https://hekone.com/contact">Contact</a>
-        <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
-      </nav>
+    <nav class="nav-links" id="site-menu">
+      <a href="instrumentation-example.html">Technology</a>
+      <a href="#problem">Problem</a>
+      <a href="#deployment">Deployment</a>
+      <a href="#solution">Solution</a>
+      <a href="#use-cases">Use Cases</a>
+      <a href="about.html">About</a>
+      <a href="https://hekone.com/contact">Contact</a>
+      <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
+    </nav>
+  </div>
+</header>
+
+<div class="menu-backdrop"></div>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Physical Intelligence for Real-World Operations
+        </div>
+
+        <h1>Make the invisible measurable.</h1>
+
+        <p>
+          HEKONE adds a <strong>physical intelligence layer</strong> to operations,
+          helping teams detect blind spots, reduce hidden loss, and act earlier at critical handoff points.
+        </p>
+
+        <div class="hero-highlight">
+          Built for focused pilot deployments where hidden operational loss can be turned into measurable control.
+        </div>
+
+        <div class="hero-subproof">
+          Designed for operators in manufacturing, warehouse, distribution, and retail environments where physical execution matters more than reporting alone.
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
+          <a class="btn btn-secondary" href="#deployment">See how it deploys</a>
+        </div>
+
+        <div class="hero-note">Limited pilot slots available.</div>
+
+        <div class="trust-row">
+          <div class="pill">Factory → DC → Store → Shelf</div>
+          <div class="pill">Selective sensing + software</div>
+          <div class="pill">Early pilot discussions underway</div>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="tiny">What HEKONE is built to do</div>
+        <h2>Operational visibility where systems usually go blind.</h2>
+        <p>
+          Start at one critical handoff point. Capture what is happening in the real world. Turn missed physical events into structured operational signals.
+        </p>
+
+        <div class="hero-list">
+          <div class="hero-item">
+            <div class="icon">◉</div>
+            <div>
+              <strong>Measure the point of loss</strong>
+              <span>Instrument only the places where missing visibility already creates friction, leakage, or uncertainty.</span>
+            </div>
+          </div>
+
+          <div class="hero-item">
+            <div class="icon">↔</div>
+            <div>
+              <strong>Connect physical events to action</strong>
+              <span>Translate handoff activity into structured signals that teams can review, route, and act on faster.</span>
+            </div>
+          </div>
+
+          <div class="hero-item">
+            <div class="icon">▣</div>
+            <div>
+              <strong>Scale from pilot to platform</strong>
+              <span>Prove value in one workflow first, then extend the same logic across additional sites and environments.</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <div class="menu-backdrop"></div>
-
-  <main id="top">
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">
-            <span class="eyebrow-dot"></span>
-            Physical Intelligence for Real-World Operations
-          </div>
-
-          <h1>Make the invisible measurable.</h1>
-
-          <p class="hero-lead">
-            HEKONE adds a <strong>physical intelligence layer</strong> to operations,
-            helping teams detect blind spots, reduce hidden loss, and act earlier at critical handoff points.
-          </p>
-
-          <div class="hero-highlight">
-            Built for focused pilot deployments where hidden operational loss can be turned into measurable control.
-          </div>
-
-          <div class="hero-subproof">
-            Designed for operations leaders in manufacturing, warehouse, distribution, and retail environments.
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
-            <a class="btn btn-secondary" href="#ecosystem">See Platform Vision</a>
-          </div>
-
-          <div class="hero-urgency">Limited pilot slots available.</div>
-
-          <div class="trust-row">
-            <div class="pill">Factory → DC → Store → Shelf</div>
-            <div class="pill">Selective Sensing + Software</div>
-            <div class="pill">Early pilot discussions underway</div>
-            <div class="pill">Initial validation conversations with operators</div>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="dashboard">
-            <div class="visual-top">
-              <div>
-                <div class="tiny">What HEKONE sees that systems miss</div>
-                <strong style="font-size: 24px; display:block; margin-top:6px;">Operational Signal Layer</strong>
-              </div>
-              <div class="pill">System View</div>
-            </div>
-
-            <div class="mini-grid">
-              <div class="mini-card">
-                <div class="tiny">Blind Spot Detection</div>
-                <strong>Captured</strong>
-                <div class="tiny">Untracked handoff event identified</div>
-              </div>
-              <div class="mini-card">
-                <div class="tiny">Exception Handling</div>
-                <strong>Flagged</strong>
-                <div class="tiny">Actionable deviation sent for review</div>
-              </div>
-            </div>
-
-            <div class="bar-list">
-              <div class="bar-item">
-                <span><b>Factory → Warehouse Visibility</b><b></b></span>
-                <div class="bar"><i style="width:82%"></i></div>
-              </div>
-              <div class="bar-item">
-                <span><b>Warehouse Accountability</b><b></b></span>
-                <div class="bar"><i style="width:74%"></i></div>
-              </div>
-              <div class="bar-item">
-                <span><b>Store-Level Monitoring</b><b></b></span>
-                <div class="bar"><i style="width:61%"></i></div>
-              </div>
-              <div class="bar-item">
-                <span><b>Shelf-Level Traceability</b><b></b></span>
-                <div class="bar"><i style="width:53%"></i></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="ecosystem" class="ecosystem-section">
-      <div class="wrap">
-        <div class="ecosystem-shell">
-          <div class="section-head">
-            <div class="section-pill">Platform vision</div>
-            <h2>Wherever physical value moves, visibility breaks.</h2>
-            <p>
-              HEKONE is not limited to one environment. The same platform logic can extend across manufacturing, agriculture, logistics, retail, fuel, and other physical operations where product, material, or inventory moves through multiple handoff points before reaching the end user.
-            </p>
-          </div>
-
-          <div class="ecosystem-image">
-            <img src="ecosystem-platform-vision.png" alt="HEKONE platform vision across manufacturing, agriculture, fuel, logistics, and retail environments" />
-          </div>
-
-          <div class="ecosystem-note">
-            Illustrative platform vision showing how HEKONE can create measurable visibility across multiple industries, workflows, and physical value chains — from origin to delivery.
-          </div>
-
-          <div class="ecosystem-note-strong">
-            HEKONE is building the operational visibility layer for the physical economy.
-          </div>
-
-          <div class="ecosystem-grid">
-            <div class="ecosystem-card">
-              <h3>Cross-industry infrastructure</h3>
-              <p>
-                From factory processes to agricultural flows, distribution networks, retail environments, and fuel movement, HEKONE is designed as a physical intelligence layer wherever value moves through the real world.
-              </p>
-            </div>
-
-            <div class="ecosystem-card">
-              <h3>Track where value is lost</h3>
-              <p>
-                The opportunity is not only visibility — it is identifying where product is delayed, degraded, stolen, leaked, wasted, or lost across fragmented operational chains involving multiple parties.
-              </p>
-            </div>
-
-            <div class="ecosystem-card">
-              <h3>Built for platform scale</h3>
-              <p>
-                A focused pilot may begin at one critical point, but the long-term company vision is a scalable operational data infrastructure layer that can grow across sites, industries, and entire physical ecosystems.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="why-now-section">
-      <div class="wrap">
-        <div class="why-now-shell">
-          <div class="section-head">
-            <div class="section-pill">Why now</div>
-            <h2>The timing for this platform is becoming real.</h2>
-            <p>
-              Physical operations are becoming more complex, while existing systems still fail to capture what actually happens at the physical layer.
-            </p>
-          </div>
-
-          <div class="why-now-grid">
-            <div class="why-now-card">
-              <div class="label">Operations</div>
-              <h3>Increased physical complexity</h3>
-              <p>More handoffs, more distributed operations, and more fragmented workflows create more places where value can quietly disappear.</p>
-            </div>
-
-            <div class="why-now-card">
-              <div class="label">AI</div>
-              <h3>Real-time detection is now viable</h3>
-              <p>AI can only optimize what is measured. With better sensing, structured signals can now become usable operational intelligence in real time.</p>
-            </div>
-
-            <div class="why-now-card">
-              <div class="label">Systems Gap</div>
-              <h3>Current systems miss the physical layer</h3>
-              <p>ERP, WMS, and reporting systems often describe records after the fact, but not the real-world event where loss, drift, or failure actually occurs.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="deployment" class="deploy-section">
-      <div class="wrap">
-        <div class="deploy-shell">
-          <div class="deploy-grid">
-            <div class="deploy-copy">
-              <div class="section-pill">What actually gets deployed</div>
-              <h2>Grounded, focused deployment instead of heavy infrastructure.</h2>
-              <p>
-                HEKONE is designed to start small at the physical points where visibility matters most, rather than requiring full-system instrumentation from day one.
-              </p>
-
-              <div class="deploy-list">
-                <div class="deploy-row">
-                  <div class="icon">◉</div>
-                  <div>
-                    <strong>Selective sensing nodes</strong>
-                    Install at high-value handoff points where physical loss, mismatch, or blind spots are most likely to occur.
-                  </div>
-                </div>
-                <div class="deploy-row">
-                  <div class="icon">⌘</div>
-                  <div>
-                    <strong>Lightweight edge processing</strong>
-                    Convert raw physical events into structured signals closer to where operations are actually happening.
-                  </div>
-                </div>
-                <div class="deploy-row">
-                  <div class="icon">↔</div>
-                  <div>
-                    <strong>Software and workflow integration</strong>
-                    Connect operational signals to existing reporting, dashboards, and team workflows for faster action.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="deploy-card-grid">
-              <div class="deploy-card">
-                <div class="label">Pilot Scope</div>
-                <h3>Focused by design</h3>
-                <p>Start with one workflow, one site, or one handoff boundary where missing visibility already creates operational friction.</p>
-              </div>
-
-              <div class="deploy-card">
-                <div class="label">Operator Fit</div>
-                <h3>Built for real environments</h3>
-                <p>Useful in manufacturing, warehouse, retail, and supply chain settings where physical execution matters more than reporting alone.</p>
-              </div>
-
-              <div class="deploy-card">
-                <div class="label">Expansion Path</div>
-                <h3>From pilot to platform</h3>
-                <p>Once a critical point is measured, the same intelligence model can extend across additional handoffs, sites, and workflows.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="problem">
-      <div class="wrap">
+  <section id="platform-scope">
+    <div class="wrap">
+      <div class="section-shell">
         <div class="section-head">
-          <div class="section-pill">The problem</div>
-          <h2>A $112B problem hiding in plain sight.</h2>
+          <div class="section-pill">Platform scope</div>
+          <h2>Wherever physical value moves, visibility breaks.</h2>
           <p>
-            Fragmented systems miss what actually happens on the ground—creating avoidable loss and weak control.
+            HEKONE is not limited to one device or one workflow. The same platform logic can extend across manufacturing, logistics, warehouse, retail, and supply chain environments wherever product, material, or inventory changes hands.
           </p>
-          <p class="problem-subnote">What isn’t measured cannot be controlled.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Start with one critical point</h3>
+            <p>
+              A pilot can begin at a single handoff boundary where missing visibility already creates operational cost, shrink, mismatch, or delay.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Apply across multiple environments</h3>
+            <p>
+              The same control logic can support factory flow, warehouse accountability, store-level monitoring, and broader supply chain traceability.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Build toward operational infrastructure</h3>
+            <p>
+              The long-term opportunity is not one isolated tool. It is a repeatable visibility layer for real-world operations.
+            </p>
+          </div>
+        </div>
+
+        <div class="scope-note">
+          HEKONE is building an operational visibility layer for the physical economy.
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="problem-image-full">
+  <section id="deployment">
+    <div class="wrap">
+      <div class="section-shell">
+        <div class="section-head">
+          <div class="section-pill">Deployment</div>
+          <h2>Grounded, focused deployment instead of heavy infrastructure.</h2>
+          <p>
+            HEKONE is designed to start small at the physical points where visibility matters most, without requiring full-system instrumentation from day one.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-head">
+              <div class="icon">◉</div>
+              <div>
+                <h3>Selective sensing nodes</h3>
+                <p>Install at high-value handoff points where physical loss, mismatch, or blind spots are most likely to occur.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="icon">⌘</div>
+              <div>
+                <h3>Lightweight edge processing</h3>
+                <p>Convert raw physical events into structured signals closer to where operations are actually happening.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <div class="icon">↔</div>
+              <div>
+                <h3>Workflow integration</h3>
+                <p>Connect operational signals to reporting, dashboards, and team workflows for faster operational response.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-pill">The problem</div>
+        <h2>A $112B problem hiding in plain sight.</h2>
+        <p>
+          Fragmented systems miss what actually happens on the ground, creating avoidable loss, weak control, and delayed decisions.
+        </p>
+      </div>
+
+      <div class="problem-visual">
         <img src="shrink-problem.png" alt="Operational loss and supply chain blind spots visualization" />
       </div>
 
-      <div class="wrap">
-        <div class="grid-3">
-          <div class="card problem-card">
-            <div class="card-head">
-              <div class="icon">◔</div>
-              <h3>Blind Spots</h3>
+      <div class="grid-3" style="margin-top:28px;">
+        <div class="card">
+          <div class="card-head">
+            <div class="icon">◔</div>
+            <div>
+              <h3>Blind spots</h3>
+              <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
             </div>
-            <p>Critical handoff points across factory, warehouse, transport, store, and shelf often operate without direct measurable visibility.</p>
           </div>
+        </div>
 
-          <div class="card problem-card">
-            <div class="card-head">
-              <div class="icon">⇄</div>
-              <h3>Mismatch &amp; Leakage</h3>
+        <div class="card">
+          <div class="card-head">
+            <div class="icon">⇄</div>
+            <div>
+              <h3>Mismatch and leakage</h3>
+              <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
             </div>
-            <p>Inventory, dispensing, shrink, and execution inconsistencies create gaps between what systems report and what actually happens.</p>
           </div>
+        </div>
 
-          <div class="card problem-card">
-            <div class="card-head">
-              <div class="icon">!</div>
-              <h3>Delayed Decisions</h3>
+        <div class="card">
+          <div class="card-head">
+            <div class="icon">!</div>
+            <div>
+              <h3>Delayed decisions</h3>
+              <p>By the time loss is visible in reports, the opportunity to intervene early has often already passed.</p>
             </div>
-            <p>By the time loss is visible in reports, the opportunity to intervene early has often already passed.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="flow-visual">
-      <div class="wrap">
+  <section id="solution">
+    <div class="wrap">
+      <div class="section-shell">
         <div class="section-head">
-          <div class="section-pill">Use case visualization</div>
-          <h2>Where HEKONE sees what others don’t</h2>
-          <p>HEKONE detects critical issues across physical handoff points, from factory to distribution, store, and shelf.</p>
-        </div>
-
-        <div class="flow-image-full">
-          <img src="hekone-visibility-flow.png" alt="HEKONE visibility flow across factory, distribution center, retail store, and shelf" />
-        </div>
-      </div>
-    </section>
-
-    <section id="solution" class="solution-visual">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-pill">System overview</div>
-          <h2>From blind operations to measurable control</h2>
-          <p>HEKONE transforms fragmented, reactive systems into structured, real-time operational intelligence.</p>
-        </div>
-
-        <div class="solution-image-full">
-          <img src="hekone-solution.png" alt="HEKONE system and before-after transformation" />
-        </div>
-      </div>
-    </section>
-
-    <section class="how-section">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-pill">How it works</div>
-          <h2>HEKONE adds a physical intelligence layer to real-world operations.</h2>
-          <p>We combine targeted instrumentation with a lightweight software layer to convert physical events into structured, AI-enabled, decision-ready data that teams can actually act on.</p>
+          <div class="section-pill">Solution</div>
+          <h2>From blind operations to measurable control.</h2>
+          <p>
+            HEKONE transforms fragmented, reactive systems into structured, real-time operational intelligence that teams can actually use.
+          </p>
         </div>
 
         <div class="steps">
           <div class="step">
-            <div class="step-head">
-              <div class="step-num">1</div>
-              <h3>Instrument critical points</h3>
-            </div>
-            <p>Deploy only where real-world measurement creates the highest operational value and fastest clarity.</p>
+            <div class="step-num">1</div>
+            <h3>Instrument critical points</h3>
+            <p>Deploy only where real-world measurement creates the highest operational value and the fastest clarity.</p>
           </div>
 
           <div class="step">
-            <div class="step-head">
-              <div class="step-num">2</div>
-              <h3>Generate structured intelligence</h3>
-            </div>
-            <p>Convert physical activity into an AI-powered data layer that integrates directly into operational decision-making.</p>
+            <div class="step-num">2</div>
+            <h3>Generate structured signals</h3>
+            <p>Turn physical activity into decision-ready operational data instead of waiting for lagging records after the fact.</p>
           </div>
 
           <div class="step">
-            <div class="step-head">
-              <div class="step-num">3</div>
-              <h3>Scale from pilot to platform</h3>
-            </div>
-            <p>Start with focused deployments, validate outcomes, and expand into broader control across the operation.</p>
+            <div class="step-num">3</div>
+            <h3>Scale from pilot to platform</h3>
+            <p>Start with one deployment, validate outcomes, and expand across broader workflows, handoffs, and sites over time.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="use-cases" class="usecases-priority">
-      <div class="wrap">
-        <div class="section-head">
-          <div class="section-pill">Use cases</div>
-          <h2>Designed for high-value operational use cases.</h2>
-          <p>HEKONE is built for environments where small visibility failures create large business consequences — and where a broader operational layer can expand over time.</p>
-          <p class="section-copy"><strong>Over time, HEKONE can become a standard operational layer across industries where physical value moves.</strong></p>
-        </div>
-
-        <div class="grid-4">
-          <div class="usecase">
-            <div class="card-head">
-              <div class="icon">▣</div>
-              <h3>Retail Shrink Visibility</h3>
-            </div>
-            <p>Reveal loss patterns and hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
-          </div>
-
-          <div class="usecase">
-            <div class="card-head">
-              <div class="icon">▤</div>
-              <h3>Warehouse Accountability</h3>
-            </div>
-            <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
-          </div>
-
-          <div class="usecase">
-            <div class="card-head">
-              <div class="icon">◫</div>
-              <h3>Manufacturing Control</h3>
-            </div>
-            <p>Monitor physical process behavior and detect hidden operational drift before it becomes cost, waste, or rework.</p>
-          </div>
-
-          <div class="usecase">
-            <div class="card-head">
-              <div class="icon">◧</div>
-              <h3>Supply Chain Traceability</h3>
-            </div>
-            <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
-          </div>
-        </div>
-
-        <div class="mid-cta">
-          <div>
-            <h3>Exploring a pilot in a real operational environment?</h3>
-            <p>HEKONE is built to start focused. A small pilot can help reveal where hidden loss, blind spots, and accountability gaps are actually occurring.</p>
-            <div class="cta-note">Limited pilot slots available. Early access for selected operators.</div>
-          </div>
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="wrap grid-2">
-        <div>
-          <div class="section-head" style="margin-bottom:18px; display:block; text-align:left;">
-            <div class="section-pill">Why HEKONE</div>
-            <h2>Why HEKONE</h2>
-          </div>
-
-          <p class="section-copy" style="margin-left:0;">
-            Traditional systems often stop at digital reporting. HEKONE is built to bring operational truth closer to the physical event itself.
-          </p>
-
-          <div class="card" style="margin-top:22px; background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)), linear-gradient(135deg, rgba(125,211,252,0.10), rgba(167,139,250,0.08)); border:1px solid var(--line-strong);">
-            <h3>Built for practical deployment</h3>
-            <p>Start focused, prove value quickly, and expand where measurement improves control. The goal is not more dashboards. The goal is better operational truth.</p>
-          </div>
-
-          <p class="section-copy" style="margin-left:0; margin-top:18px;">
-            HEKONE is designed as a control-grade intelligence layer for real-world operations.
-          </p>
-
-          <p class="section-copy" style="margin-left:0; margin-top:12px;">
-            As operations become more complex, measurable physical intelligence will become a necessity—not an option.
-          </p>
-        </div>
-
-        <div class="grid-2">
-          <div class="metric">
-            <strong>Fast</strong>
-            <p>Pilot-oriented deployment designed to validate value without unnecessary complexity.</p>
-          </div>
-          <div class="metric">
-            <strong>Selective</strong>
-            <p>Targeted hardware where it matters most, instead of expensive full-system instrumentation everywhere.</p>
-          </div>
-          <div class="metric">
-            <strong>Integrated</strong>
-            <p>Physical sensing and software intelligence working together as a single operational control layer.</p>
-          </div>
-          <div class="metric">
-            <strong>Scalable</strong>
-            <p>Built to grow from one use case into a broader platform across multiple handoff points and sites.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="wrap">
-        <div class="cta-box">
-          <div>
-            <h2>Start a pilot. See what your operations are missing.</h2>
-            <p>We are currently exploring pilot, partner, and strategic collaboration opportunities with selected operators, technical teams, and investors who want measurable visibility into real-world operations.</p>
-            <div class="cta-note">Limited pilot slots available.</div>
-          </div>
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
-            <a class="btn btn-secondary" href="mailto:info@hekone.com?subject=HEKONE%20Inquiry">Email HEKONE</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap footer-row">
-      <div>© 2026 HEKONE. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="#problem">Problem</a>
-        <a href="#deployment">Deployment</a>
-        <a href="#solution">Solution</a>
-        <a href="#use-cases">Use Cases</a>
-        <a href="about.html">About</a>
-        <a href="mailto:info@hekone.com">info@hekone.com</a>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const navItems = document.querySelectorAll('.nav-links a');
-    const menuBackdrop = document.querySelector('.menu-backdrop');
-    const body = document.body;
+  <section id="use-cases">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-pill">Use cases</div>
+        <h2>Designed for high-value operational use cases.</h2>
+        <p>
+          HEKONE is built for environments where small visibility failures create large business consequences and where a broader operational layer can expand over time.
+        </p>
+      </div>
 
-    function openMenu() {
-      navLinks.classList.add('open');
-      menuToggle.classList.add('active');
-      menuToggle.setAttribute('aria-expanded', 'true');
-      menuBackdrop.classList.add('show');
-      body.classList.add('menu-open');
-    }
+      <div class="grid-4">
+        <div class="usecase">
+          <h3>Retail shrink visibility</h3>
+          <p>Reveal hidden exceptions across store-level product flow and customer-facing dispensing environments.</p>
+        </div>
 
-    function closeMenu() {
-      navLinks.classList.remove('open');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuBackdrop.classList.remove('show');
-      body.classList.remove('menu-open');
-    }
+        <div class="usecase">
+          <h3>Warehouse accountability</h3>
+          <p>Improve confidence at receiving, storage, movement, and outbound handoff points where inconsistencies accumulate.</p>
+        </div>
 
-    if (menuToggle && navLinks && menuBackdrop) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.contains('open');
-        if (isOpen) {
+        <div class="usecase">
+          <h3>Manufacturing control</h3>
+          <p>Detect process drift earlier before it becomes cost, waste, rework, or missed throughput.</p>
+        </div>
+
+        <div class="usecase">
+          <h3>Supply chain traceability</h3>
+          <p>Create measurable visibility from origin to endpoint across fragmented physical workflows and handoff boundaries.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-shell">
+        <div class="section-head">
+          <div class="section-pill">Why HEKONE</div>
+          <h2>Built for practical deployment.</h2>
+          <p>
+            Traditional systems often stop at digital reporting. HEKONE is designed to bring operational truth closer to the physical event itself.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-lead">
+            <h3>Start focused. Prove value. Expand where visibility improves control.</h3>
+            <p>
+              The goal is not more dashboards. The goal is better operational truth at the moment physical activity actually happens.
+            </p>
+            <div class="subcopy">
+              As operations become more complex, measurable physical intelligence becomes less optional and more necessary.
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div class="metric">
+              <strong>Fast</strong>
+              <p>Pilot-oriented deployment designed to validate value without unnecessary complexity.</p>
+            </div>
+
+            <div class="metric">
+              <strong>Selective</strong>
+              <p>Targeted instrumentation where it matters most, instead of expensive full-system coverage everywhere.</p>
+            </div>
+
+            <div class="metric">
+              <strong>Integrated</strong>
+              <p>Physical sensing and software intelligence working together as one operational control layer.</p>
+            </div>
+
+            <div class="metric">
+              <strong>Scalable</strong>
+              <p>Built to grow from one use case into a broader platform across multiple handoff points and sites.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Start a pilot. See what your operations are missing.</h2>
+          <p>
+            We are currently exploring pilot, partner, and strategic collaboration opportunities with selected operators, technical teams, and investors who want measurable visibility into real-world operations.
+          </p>
+          <div class="cta-note">Limited pilot slots available.</div>
+        </div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 HEKONE. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#problem">Problem</a>
+      <a href="#deployment">Deployment</a>
+      <a href="#solution">Solution</a>
+      <a href="#use-cases">Use Cases</a>
+      <a href="about.html">About</a>
+      <a href="mailto:info@hekone.com">info@hekone.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  const navItems = document.querySelectorAll('.nav-links a');
+  const menuBackdrop = document.querySelector('.menu-backdrop');
+  const body = document.body;
+
+  function openMenu() {
+    navLinks.classList.add('open');
+    menuToggle.classList.add('active');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuBackdrop.classList.add('show');
+    body.classList.add('menu-open');
+  }
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuBackdrop.classList.remove('show');
+    body.classList.remove('menu-open');
+  }
+
+  if (menuToggle && navLinks && menuBackdrop) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.contains('open');
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
           closeMenu();
-        } else {
-          openMenu();
         }
       });
+    });
 
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          if (window.innerWidth <= 900) {
-            closeMenu();
-          }
-        });
-      });
+    menuBackdrop.addEventListener('click', closeMenu);
 
-      menuBackdrop.addEventListener('click', closeMenu);
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        closeMenu();
+      }
+    });
 
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 900) {
-          closeMenu();
-        }
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          closeMenu();
-        }
-      });
-    }
-  </script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+  }
+</script>
 </body>
 </html>
