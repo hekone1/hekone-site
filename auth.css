@@ -1,1 +1,150 @@
+* {
+  box-sizing: border-box;
+}
 
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(130, 80, 255, 0.25), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(90, 120, 255, 0.18), transparent 30%),
+    #080c18;
+  color: #f3f6ff;
+  min-height: 100vh;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 18px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(17, 24, 45, 0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+.auth-card-wide {
+  max-width: 880px;
+}
+
+.brand-block {
+  margin-bottom: 22px;
+}
+
+.brand-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(132, 102, 255, 0.18);
+  color: #d7ccff;
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.brand-block h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.brand-block p {
+  margin: 0;
+  color: #b8c0de;
+  line-height: 1.6;
+}
+
+.auth-form {
+  margin-top: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 14px;
+  color: #cdd6f5;
+}
+
+input {
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #0f1630;
+  color: white;
+  outline: none;
+}
+
+input::placeholder {
+  color: #7f8ab3;
+}
+
+input:focus {
+  border-color: rgba(135, 111, 255, 0.8);
+  box-shadow: 0 0 0 3px rgba(135, 111, 255, 0.12);
+}
+
+.auth-button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  background: linear-gradient(135deg, #7b61ff, #5f8bff);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.auth-button:hover {
+  opacity: 0.95;
+}
+
+.auth-footer {
+  margin-top: 18px;
+  color: #aeb8d8;
+  text-align: center;
+}
+
+.auth-footer a {
+  color: #d6cbff;
+  text-decoration: none;
+}
+
+@media (max-width: 760px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card-wide {
+    max-width: 520px;
+  }
+
+  .brand-block h1 {
+    font-size: 26px;
+  }
+}
