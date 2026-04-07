@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE | Register</title>
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card auth-card-wide">
+      <div class="brand-block">
+        <div class="brand-badge">HEKONE</div>
+        <h1>Create Your Dashboard Account</h1>
+        <p>
+          Register your store and create access to your HEKONE traction dashboard.
+        </p>
+      </div>
 
+      <form class="auth-form" id="registerForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="storeName">Store Name</label>
+            <input type="text" id="storeName" name="storeName" placeholder="Merced Fresh Market" required />
+          </div>
+
+          <div class="form-group">
+            <label for="responsibleName">Responsible Person</label>
+            <input type="text" id="responsibleName" name="responsibleName" placeholder="John Smith" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Business Email</label>
+            <input type="email" id="email" name="email" placeholder="manager@store.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="storeadmin" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Create password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="address1">Address Line 1</label>
+            <input type="text" id="address1" name="address1" placeholder="123 Main Street" required />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="address2">Address Line 2</label>
+            <input type="text" id="address2" name="address2" placeholder="Suite, unit, etc. (optional)" />
+          </div>
+
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" placeholder="Merced" required />
+          </div>
+
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" placeholder="CA" required />
+          </div>
+
+          <div class="form-group">
+            <label for="zip">ZIP Code</label>
+            <input type="text" id="zip" name="zip" placeholder="95340" required />
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" placeholder="USA" required />
+          </div>
+        </div>
+
+        <button type="submit" class="auth-button">Create Account</button>
+
+        <p class="auth-footer">
+          Already have an account?
+          <a href="login.html">Sign in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
