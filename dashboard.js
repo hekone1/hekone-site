@@ -1,8 +1,8 @@
 console.log("dashboard.js loaded");
-console.log("supabase client:", supabase);
+console.log("supabase client:", supabaseClient);
 
 async function loadDashboardData() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("traction_events")
     .select("*")
     .order("created_at", { ascending: false });
