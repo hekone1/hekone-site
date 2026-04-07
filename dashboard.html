@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE | Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div>
+        <div class="logo-box">HEKONE</div>
+        <p class="sidebar-subtitle">Physical Intelligence Dashboard</p>
+      </div>
 
+      <nav class="sidebar-nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Devices</a>
+        <a href="#">Transactions</a>
+        <a href="#">Analytics</a>
+        <a href="#">Store Profile</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <h1>Store Dashboard</h1>
+          <p>Track device traction, usage, and transaction performance.</p>
+        </div>
+
+        <div class="topbar-controls">
+          <select id="deviceSelect">
+            <option>All Devices</option>
+            <option>HK-01</option>
+            <option>HK-02</option>
+          </select>
+
+          <select id="timeRange">
+            <option value="daily">Daily</option>
+            <option value="weekly" selected>Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </header>
+
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <span>Revenue</span>
+          <h2 id="revenueValue">$0.00</h2>
+          <small>Current selected range</small>
+        </div>
+
+        <div class="kpi-card">
+          <span>Transactions</span>
+          <h2 id="transactionsValue">0</h2>
+          <small>Total completed dispensing events</small>
+        </div>
+
+        <div class="kpi-card">
+          <span>Weight (g)</span>
+          <h2 id="weightGValue">0</h2>
+          <small>Total dispensed weight in grams</small>
+        </div>
+
+        <div class="kpi-card">
+          <span>Weight (lb)</span>
+          <h2 id="weightLbValue">0.00</h2>
+          <small>Total dispensed weight in pounds</small>
+        </div>
+      </section>
+
+      <section class="charts-grid">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3>Revenue Trend</h3>
+          </div>
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3>Transactions Trend</h3>
+          </div>
+          <canvas id="transactionsChart"></canvas>
+        </div>
+      </section>
+
+      <section class="table-panel">
+        <div class="panel-header">
+          <h3>Recent Transactions</h3>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Device</th>
+                <th>Weight (g)</th>
+                <th>Weight (lb)</th>
+                <th>Calories</th>
+                <th>Price</th>
+                <th>Mode</th>
+                <th>Txn ID</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
