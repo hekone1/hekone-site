@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE | Login</title>
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="brand-block">
+        <div class="brand-badge">HEKONE</div>
+        <h1>Welcome Back</h1>
+        <p>Sign in to access your device traction dashboard.</p>
+      </div>
 
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" name="loginEmail" placeholder="manager@store.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter password" required />
+        </div>
+
+        <button type="submit" class="auth-button">Sign In</button>
+
+        <p class="auth-footer">
+          Need an account?
+          <a href="register.html">Register</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
