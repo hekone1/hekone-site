@@ -35,20 +35,21 @@
           <p>Track device traction, usage, and transaction performance.</p>
         </div>
 
-        <div class="topbar-controls">
-          <select id="deviceSelect">
-            <option>All Devices</option>
-            <option>HK-01</option>
-            <option>HK-02</option>
-          </select>
-
-          <select id="timeRange">
-            <option value="daily">Daily</option>
-            <option value="weekly" selected>Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
-        </div>
+      <div class="topbar-controls">
+        <select id="metricSelect">
+          <option value="price" selected>Price</option>
+          <option value="weight_g">Weight (g)</option>
+          <option value="weight_lb">Weight (lb)</option>
+          <option value="calories">Calories</option>
+        </select>
+      
+        <select id="timeRange">
+          <option value="daily" selected>Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
       </header>
 
       <section class="kpi-grid">
@@ -80,11 +81,11 @@
       <section class="charts-grid">
         <div class="panel-card">
           <div class="panel-header">
-            <h3>Revenue Trend</h3>
+            <h3 id="mainChartTitle">Price Trend</h3>
           </div>
-          <canvas id="revenueChart"></canvas>
+          <canvas id="mainTrendChart"></canvas>
         </div>
-
+      
         <div class="panel-card">
           <div class="panel-header">
             <h3>Transactions Trend</h3>
