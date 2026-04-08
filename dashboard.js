@@ -1,374 +1,168 @@
-console.log("dashboard.js loaded");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE | Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div>
+          <div class="logo-box">HEKONE</div>
+          <p class="sidebar-subtitle">Physical Intelligence Dashboard</p>
+        </div>
+      </div>
 
-let mainTrendChartInstance = null;
-let revenueChartInstance = null;
-let allRows = [];
+      <nav class="sidebar-nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Devices</a>
+        <a href="#">Transactions</a>
+        <a href="#">Analytics</a>
+        <a href="#">Store Profile</a>
+        <a href="login.html">Logout</a>
+      </nav>
+    </aside>
 
-function byId(id) {
-  return document.getElementById(id);
-}
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="eyebrow-row">
+            <span class="eyebrow">Dashboard / Store Analytics</span>
+            <span class="status-pill live" id="connectionStatus">Live</span>
+          </div>
 
-function setText(id, value) {
-  const el = byId(id);
-  if (!el) {
-    console.warn(`Missing element: #${id}`);
-    return false;
-  }
-  el.textContent = value;
-  return true;
-}
+          <h1>Store Dashboard</h1>
+          <p>Track device traction, usage, and transaction performance.</p>
+        </div>
 
-function formatCurrency(value) {
-  return `$${Number(value || 0).toFixed(2)}`;
-}
+        <div class="topbar-controls">
+          <select id="metricSelect">
+            <option value="price" selected>Price</option>
+            <option value="weight_g">Weight (g)</option>
+            <option value="weight_lb">Weight (lb)</option>
+            <option value="calories">Calories</option>
+          </select>
 
-function formatWeightG(value) {
-  return Number(value || 0).toFixed(2);
-}
+          <select id="timeRange">
+            <option value="daily" selected>Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
 
-function formatWeightLb(value) {
-  return Number(value || 0).toFixed(3);
-}
+          <select id="chartMode">
+            <option value="incremental" selected>Incremental</option>
+            <option value="cumulative">Cumulative</option>
+          </select>
+        </div>
+      </header>
 
-function formatMetricValue(metric, value) {
-  if (metric === "price") return `$${Number(value || 0).toFixed(2)}`;
-  if (metric === "weight_g") return `${Number(value || 0).toFixed(2)} g`;
-  if (metric === "weight_lb") return `${Number(value || 0).toFixed(3)} lb`;
-  if (metric === "calories") return `${Number(value || 0).toFixed(0)} cal`;
-  return Number(value || 0).toFixed(2);
-}
+      <section class="status-row">
+        <div class="status-card">
+          <div class="status-card-left">
+            <span class="status-dot"></span>
+            <div>
+              <strong id="statusTitle">Connected</strong>
+              <p id="statusText">Live data synced successfully.</p>
+            </div>
+          </div>
+          <div class="status-meta" id="statusMeta">Updated just now</div>
+        </div>
+      </section>
 
-function formatPeriodLabel(range) {
-  if (range === "daily") return "today";
-  if (range === "weekly") return "this week";
-  if (range === "monthly") return "this month";
-  if (range === "yearly") return "this year";
-  return "selected period";
-}
+      <section class="hero-section">
+        <div class="hero-image">
+          <img src="dispenser.png" alt="HEKONE Dispenser" />
+        </div>
 
-function updateStatus(message, isError = false) {
-  const statusTitle = byId("statusTitle");
-  const statusText = byId("statusText");
-  const statusMeta = byId("statusMeta");
-  const connectionStatus = byId("connectionStatus");
+        <div class="hero-content">
+          <section class="kpi-grid">
+            <div class="kpi-card">
+              <span>Revenue</span>
+              <h2 id="revenueValue">$0.00</h2>
+              <small id="revenueSubtext">Selected range total revenue</small>
+            </div>
 
-  if (statusTitle) statusTitle.textContent = isError ? "Connection issue" : "Connected";
-  if (statusText) statusText.textContent = message;
-  if (statusMeta) {
-    statusMeta.textContent = `Updated ${new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit"
-    })}`;
-  }
+            <div class="kpi-card">
+              <span>Transactions</span>
+              <h2 id="transactionsValue">0</h2>
+              <small id="transactionsSubtext">Completed dispensing events</small>
+            </div>
 
-  if (connectionStatus) {
-    connectionStatus.textContent = isError ? "Issue" : "Live";
-    connectionStatus.className = isError ? "status-pill error" : "status-pill live";
-  }
-}
+            <div class="kpi-card">
+              <span>Weight (g)</span>
+              <h2 id="weightGValue">0.00</h2>
+              <small id="weightGSubtext">Total dispensed weight in grams</small>
+            </div>
 
-async function loadDashboardData() {
-  try {
-    updateStatus("Loading live data from Supabase...");
+            <div class="kpi-card">
+              <span>Avg Ticket</span>
+              <h2 id="avgTicketValue">$0.00</h2>
+              <small id="avgTicketSubtext">Average value per transaction</small>
+            </div>
+          </section>
+        </div>
+      </section>
 
-    const { data, error } = await supabaseClient
-      .from("traction_events")
-      .select("*")
-      .order("created_at", { ascending: false });
+      <section class="charts-grid">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 id="mainChartTitle">Price Trend</h3>
+            <span class="panel-note" id="mainChartNote">Trend for selected metric</span>
+          </div>
+          <canvas id="mainTrendChart"></canvas>
+        </div>
 
-    if (error) {
-      console.error("Supabase error:", error);
-      updateStatus("Unable to load live data from Supabase.", true);
-      return;
-    }
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3 id="revenueChartTitle">Revenue by Period</h3>
+            <span class="panel-note" id="revenueChartNote">Aggregated revenue across selected range</span>
+          </div>
+          <canvas id="transactionsChart"></canvas>
+        </div>
+      </section>
 
-    allRows = Array.isArray(data) ? data : [];
-    updateStatus(`${allRows.length} rows loaded successfully from the live store feed.`);
-    renderDashboard();
-  } catch (err) {
-    console.error("Unexpected loadDashboardData error:", err);
-    updateStatus(`Unexpected error: ${err.message}`, true);
-  }
-}
+      <section class="table-panel">
+        <div class="panel-header panel-header-split">
+          <div>
+            <h3>Recent Transactions</h3>
+            <span class="panel-note">Latest 10 dispensing events</span>
+          </div>
+          <span class="table-summary" id="tableSummary">0 rows</span>
+        </div>
 
-function renderDashboard() {
-  const filteredRows = filterRowsByRange(allRows);
-  updateKPIs(filteredRows);
-  updateTransactionsTable(filteredRows);
-  updateMainChart(filteredRows);
-  updateRevenueChart(filteredRows);
-}
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Device</th>
+                <th>Weight (g)</th>
+                <th>Weight (lb)</th>
+                <th>Calories</th>
+                <th>Price</th>
+                <th>Mode</th>
+                <th>Txn ID</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
 
-function filterRowsByRange(rows) {
-  const rangeEl = byId("timeRange");
-  const range = rangeEl ? rangeEl.value : "daily";
-  const now = new Date();
+  <script>
+    const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
+    const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
 
-  return rows.filter((item) => {
-    const d = new Date(item.created_at);
-    const diffMs = now - d;
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-    if (range === "daily") return diffDays <= 1;
-    if (range === "weekly") return diffDays <= 7;
-    if (range === "monthly") return diffDays <= 30;
-    if (range === "yearly") return diffDays <= 365;
-
-    return true;
-  });
-}
-
-function getMetricConfig(metric) {
-  if (metric === "weight_g") {
-    return { key: "weight_g", label: "Weight (g)", title: "Weight (g) Trend" };
-  }
-  if (metric === "weight_lb") {
-    return { key: "weight_lb", label: "Weight (lb)", title: "Weight (lb) Trend" };
-  }
-  if (metric === "calories") {
-    return { key: "calories", label: "Calories", title: "Calories Trend" };
-  }
-  return { key: "price", label: "Price", title: "Price Trend" };
-}
-
-function groupMetricByRange(rows, metricKey, range) {
-  const grouped = {};
-
-  rows.forEach((item) => {
-    const d = new Date(item.created_at);
-    let label = "";
-
-    if (range === "daily") {
-      label = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    } else if (range === "weekly") {
-      label = d.toLocaleDateString([], { weekday: "short" });
-    } else if (range === "monthly") {
-      label = d.toLocaleDateString([], { month: "short", day: "numeric" });
-    } else {
-      label = d.toLocaleDateString([], { month: "short", year: "numeric" });
-    }
-
-    if (!grouped[label]) {
-      grouped[label] = {
-        metric: 0,
-        revenue: 0,
-        count: 0
-      };
-    }
-
-    grouped[label].metric += Number(item[metricKey] || 0);
-    grouped[label].revenue += Number(item.price || 0);
-    grouped[label].count += 1;
-  });
-
-  const labels = Object.keys(grouped).reverse();
-
-  return {
-    labels,
-    metricSeries: labels.map((label) => Number(grouped[label].metric.toFixed(2))),
-    revenueSeries: labels.map((label) => Number(grouped[label].revenue.toFixed(2))),
-    countSeries: labels.map((label) => grouped[label].count)
-  };
-}
-
-function updateKPIs(rows) {
-  let revenue = 0;
-  let weightG = 0;
-
-  rows.forEach((item) => {
-    revenue += Number(item.price || 0);
-    weightG += Number(item.weight_g || 0);
-  });
-
-  const txnCount = rows.length;
-  const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
-
-  const rangeEl = byId("timeRange");
-  const periodText = formatPeriodLabel(rangeEl ? rangeEl.value : "daily");
-
-  setText("revenueValue", formatCurrency(revenue));
-  setText("transactionsValue", String(txnCount));
-  setText("weightGValue", formatWeightG(weightG));
-  setText("avgTicketValue", formatCurrency(avgTicket));
-
-  setText("revenueSubtext", `Total revenue for ${periodText}`);
-  setText("transactionsSubtext", `Completed events for ${periodText}`);
-  setText("weightGSubtext", `Total dispensed grams for ${periodText}`);
-  setText(
-    "avgTicketSubtext",
-    txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range"
-  );
-}
-
-function updateTransactionsTable(rows) {
-  const tbody = byId("transactionsTableBody");
-  const tableSummary = byId("tableSummary");
-
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-  const recentRows = rows.slice(0, 10);
-
-  if (tableSummary) {
-    tableSummary.textContent = `${recentRows.length} rows`;
-  }
-
-  recentRows.forEach((item) => {
-    const mode = String(item.mode || "-").toLowerCase();
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${new Date(item.created_at).toLocaleString()}</td>
-      <td><span class="device-chip">${item.device_id ?? "-"}</span></td>
-      <td>${formatWeightG(item.weight_g)}</td>
-      <td>${formatWeightLb(item.weight_lb)}</td>
-      <td>${item.calories ?? 0}</td>
-      <td class="price-cell">${formatCurrency(item.price)}</td>
-      <td><span class="mode-badge ${mode}">${item.mode ?? "-"}</span></td>
-      <td class="txn-id">${item.transaction_id ?? item.id ?? "-"}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function updateMainChart(rows) {
-  const metricEl = byId("metricSelect");
-  const rangeEl = byId("timeRange");
-  const canvas = byId("mainTrendChart");
-
-  if (!metricEl || !rangeEl || !canvas) return;
-
-  const metric = metricEl.value;
-  const range = rangeEl.value;
-  const config = getMetricConfig(metric);
-  const grouped = groupMetricByRange(rows, config.key, range);
-
-  setText("mainChartTitle", config.title);
-  setText("mainChartNote", `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`);
-
-  if (mainTrendChartInstance) {
-    mainTrendChartInstance.destroy();
-  }
-
-  mainTrendChartInstance = new Chart(canvas, {
-    type: "line",
-    data: {
-      labels: grouped.labels,
-      datasets: [
-        {
-          label: config.label,
-          data: grouped.metricSeries,
-          tension: 0.35,
-          borderWidth: 2,
-          pointRadius: 3,
-          pointHoverRadius: 5,
-          fill: false
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          labels: {
-            color: "#dce6ff"
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return formatMetricValue(metric, context.parsed.y);
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: "#aeb8d8" },
-          grid: { color: "rgba(255,255,255,0.06)" }
-        },
-        y: {
-          ticks: {
-            color: "#aeb8d8",
-            callback: function (value) {
-              if (metric === "price") return `$${value}`;
-              if (metric === "weight_g") return `${value}g`;
-              if (metric === "weight_lb") return `${value}lb`;
-              if (metric === "calories") return `${value}`;
-              return value;
-            }
-          },
-          grid: { color: "rgba(255,255,255,0.06)" }
-        }
-      }
-    }
-  });
-}
-
-function updateRevenueChart(rows) {
-  const rangeEl = byId("timeRange");
-  const canvas = byId("transactionsChart");
-  if (!rangeEl || !canvas) return;
-
-  const grouped = groupMetricByRange(rows, "price", rangeEl.value);
-
-  if (revenueChartInstance) {
-    revenueChartInstance.destroy();
-  }
-
-  revenueChartInstance = new Chart(canvas, {
-    type: "bar",
-    data: {
-      labels: grouped.labels,
-      datasets: [
-        {
-          label: "Revenue",
-          data: grouped.revenueSeries,
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          labels: {
-            color: "#dce6ff"
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return formatCurrency(context.parsed.y);
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: "#aeb8d8" },
-          grid: { color: "rgba(255,255,255,0.06)" }
-        },
-        y: {
-          ticks: {
-            color: "#aeb8d8",
-            callback: function (value) {
-              return `$${value}`;
-            }
-          },
-          grid: { color: "rgba(255,255,255,0.06)" }
-        }
-      }
-    }
-  });
-}
-
-const metricSelect = byId("metricSelect");
-const timeRange = byId("timeRange");
-
-if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
-if (timeRange) timeRange.addEventListener("change", renderDashboard);
-
-loadDashboardData();
-setInterval(loadDashboardData, 10000);
+  <script src="dashboard.js"></script>
+</body>
+</html>
