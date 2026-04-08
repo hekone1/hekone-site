@@ -467,6 +467,7 @@ tbody tr:last-child td {
   }
 }
 
+/* HERO SECTION */
 
 .hero-section {
   display: grid;
@@ -480,6 +481,7 @@ tbody tr:last-child td {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .hero-image img {
@@ -489,6 +491,19 @@ tbody tr:last-child td {
   transition: transform 0.3s ease;
 }
 
+/* hover effect */
 .hero-image img:hover {
   transform: scale(1.03);
+}
+
+/* floating animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+.hero-image img {
+  animation: float 4s ease-in-out infinite;
+}
 }
