@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  
 </head>
 <body>
   <div class="dashboard-layout">
@@ -30,51 +28,69 @@
 
     <main class="main-content">
       <header class="topbar">
-        <div>
+        <div class="topbar-left">
+          <div class="eyebrow-row">
+            <span class="eyebrow">Dashboard / Store Analytics</span>
+            <span class="status-pill live" id="connectionStatus">Live</span>
+          </div>
+
           <h1>Store Dashboard</h1>
           <p>Track device traction, usage, and transaction performance.</p>
         </div>
 
-      <div class="topbar-controls">
-        <select id="metricSelect">
-          <option value="price" selected>Price</option>
-          <option value="weight_g">Weight (g)</option>
-          <option value="weight_lb">Weight (lb)</option>
-          <option value="calories">Calories</option>
-        </select>
-      
-        <select id="timeRange">
-          <option value="daily" selected>Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-      </div>
+        <div class="topbar-controls">
+          <select id="metricSelect">
+            <option value="price" selected>Price</option>
+            <option value="weight_g">Weight (g)</option>
+            <option value="weight_lb">Weight (lb)</option>
+            <option value="calories">Calories</option>
+          </select>
+
+          <select id="timeRange">
+            <option value="daily" selected>Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
       </header>
+
+      <section class="status-row">
+        <div class="status-card">
+          <div class="status-card-left">
+            <span class="status-dot"></span>
+            <div>
+              <strong id="statusTitle">Connected</strong>
+              <p id="statusText">Live data synced successfully.</p>
+            </div>
+          </div>
+          <div class="status-meta" id="statusMeta">Updated just now</div>
+        </div>
+      </section>
 
       <section class="kpi-grid">
         <div class="kpi-card">
           <span>Revenue</span>
           <h2 id="revenueValue">$0.00</h2>
-          <small>Current selected range</small>
+          <small id="revenueSubtext">Selected range total revenue</small>
         </div>
 
         <div class="kpi-card">
           <span>Transactions</span>
           <h2 id="transactionsValue">0</h2>
-          <small>Total completed dispensing events</small>
+          <small id="transactionsSubtext">Completed dispensing events</small>
         </div>
 
         <div class="kpi-card">
           <span>Weight (g)</span>
           <h2 id="weightGValue">0</h2>
-          <small>Total dispensed weight in grams</small>
+          <small id="weightGSubtext">Total dispensed weight in grams</small>
         </div>
 
         <div class="kpi-card">
-          <span>Weight (lb)</span>
-          <h2 id="weightLbValue">0.00</h2>
-          <small>Total dispensed weight in pounds</small>
+          <span>Avg Ticket</span>
+          <h2 id="avgTicketValue">$0.00</h2>
+          <small id="avgTicketSubtext">Average value per transaction</small>
         </div>
       </section>
 
@@ -82,21 +98,27 @@
         <div class="panel-card">
           <div class="panel-header">
             <h3 id="mainChartTitle">Price Trend</h3>
+            <span class="panel-note" id="mainChartNote">Trend for selected metric</span>
           </div>
           <canvas id="mainTrendChart"></canvas>
         </div>
-      
+
         <div class="panel-card">
           <div class="panel-header">
-            <h3>Transactions Trend</h3>
+            <h3>Revenue by Period</h3>
+            <span class="panel-note">Aggregated revenue across selected range</span>
           </div>
           <canvas id="transactionsChart"></canvas>
         </div>
       </section>
 
       <section class="table-panel">
-        <div class="panel-header">
-          <h3>Recent Transactions</h3>
+        <div class="panel-header panel-header-split">
+          <div>
+            <h3>Recent Transactions</h3>
+            <span class="panel-note">Latest 10 dispensing events</span>
+          </div>
+          <span class="table-summary" id="tableSummary">0 rows</span>
         </div>
 
         <div class="table-wrap">
@@ -119,19 +141,13 @@
       </section>
     </main>
   </div>
-  
-  
 
+  <script>
+    const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
+    const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
 
-<script>
-  const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
-  const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-
-  
   <script src="dashboard.js"></script>
-
-  
 </body>
 </html>
