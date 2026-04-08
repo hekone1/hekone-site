@@ -4,91 +4,78 @@ let mainTrendChartInstance = null;
 let transactionsChartInstance = null;
 let allRows = [];
 
-function showDebug(message, isError = false) {
-  let debugBox = document.getElementById("debugBox");
+function formatCurrency(value) {
+  return `$${Number(value || 0).toFixed(2)}`;
+}
 
-  if (!debugBox) {
-    debugBox = document.createElement("div");
-    debugBox.id = "debugBox";
-    debugBox.style.marginBottom = "16px";
-    debugBox.style.padding = "12px 14px";
-    debugBox.style.borderRadius = "12px";
-    debugBox.style.fontSize = "14px";
-    debugBox.style.lineHeight = "1.5";
-    debugBox.style.whiteSpace = "pre-wrap";
-    debugBox.style.background = isError
-      ? "rgba(255, 90, 90, 0.12)"
-      : "rgba(123, 97, 255, 0.12)";
-    debugBox.style.border = isError
-      ? "1px solid rgba(255, 90, 90, 0.25)"
-      : "1px solid rgba(123, 97, 255, 0.25)";
-    debugBox.style.color = "#edf2ff";
+function formatWeightG(value) {
+  return Number(value || 0).toFixed(2);
+}
 
-    const mainContent = document.querySelector(".main-content");
-    const topbar = document.querySelector(".topbar");
-    mainContent.insertBefore(debugBox, topbar.nextSibling);
-  }
+function formatWeightLb(value) {
+  return Number(value || 0).toFixed(3);
+}
 
-  debugBox.style.background = isError
-    ? "rgba(255, 90, 90, 0.12)"
-    : "rgba(123, 97, 255, 0.12)";
-  debugBox.style.border = isError
-    ? "1px solid rgba(255, 90, 90, 0.25)"
-    : "1px solid rgba(123, 97, 255, 0.25)";
+function formatMetricValue(metric, value) {
+  if (metric === "price") return `$${Number(value || 0).toFixed(2)}`;
+  if (metric === "weight_g") return `${Number(value || 0).toFixed(2)} g`;
+  if (metric === "weight_lb") return `${Number(value || 0).toFixed(3)} lb`;
+  if (metric === "calories") return `${Number(value || 0).toFixed(0)} cal`;
+  return Number(value || 0).toFixed(2);
+}
 
-  debugBox.textContent = message;
+function formatPeriodLabel(range) {
+  if (range === "daily") return "today";
+  if (range === "weekly") return "this week";
+  if (range === "monthly") return "this month";
+  if (range === "yearly") return "this year";
+  return "selected period";
+}
+
+function updateStatus(message, isError = false) {
+  const statusTitle = document.getElementById("statusTitle");
+  const statusText = document.getElementById("statusText");
+  const statusMeta = document.getElementById("statusMeta");
+  const connectionStatus = document.getElementById("connectionStatus");
+
+  statusTitle.textContent = isError ? "Connection issue" : "Connected";
+  statusText.textContent = message;
+  statusMeta.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+  connectionStatus.textContent = isError ? "Issue" : "Live";
+  connectionStatus.className = isError ? "status-pill error" : "status-pill live";
 }
 
 async function loadDashboardData() {
   try {
-    if (!window.supabase || !window.supabase.createClient) {
-      showDebug("Supabase library did not load.", true);
-      return;
-    }
-
-    if (typeof supabaseClient === "undefined" || !supabaseClient) {
-      showDebug("supabaseClient is not defined.", true);
-      return;
-    }
-
-    showDebug("Loading data from Supabase...");
+    updateStatus("Loading live data from Supabase...");
 
     const { data, error } = await supabaseClient
       .from("traction_events")
       .select("*")
       .order("created_at", { ascending: false });
 
-    console.log("Supabase data:", data);
-    console.log("Supabase error:", error);
-
     if (error) {
-      showDebug("Supabase error:\n" + JSON.stringify(error, null, 2), true);
+      console.error("Supabase error:", error);
+      updateStatus("Unable to load live data from Supabase.", true);
       return;
     }
 
     allRows = Array.isArray(data) ? data : [];
-
-    showDebug(`Connected successfully. Rows loaded: ${allRows.length}`);
-
+    updateStatus(`${allRows.length} rows loaded successfully from the live store feed.`);
     renderDashboard();
   } catch (err) {
     console.error("Unexpected loadDashboardData error:", err);
-    showDebug("Unexpected JS error:\n" + (err?.message || String(err)), true);
+    updateStatus("Unexpected dashboard error while syncing data.", true);
   }
 }
 
 function renderDashboard() {
-  try {
-    const filteredRows = filterRowsByRange(allRows);
+  const filteredRows = filterRowsByRange(allRows);
 
-    updateKPIs(filteredRows);
-    updateTransactionsTable(filteredRows);
-    updateMainChart(filteredRows);
-    updateTransactionsChart(filteredRows);
-  } catch (err) {
-    console.error("renderDashboard error:", err);
-    showDebug("Render error:\n" + (err?.message || String(err)), true);
-  }
+  updateKPIs(filteredRows);
+  updateTransactionsTable(filteredRows);
+  updateMainChart(filteredRows);
+  updateRevenueChart(filteredRows);
 }
 
 function filterRowsByRange(rows) {
@@ -142,19 +129,24 @@ function groupMetricByRange(rows, metricKey, range) {
     if (!grouped[label]) {
       grouped[label] = {
         metric: 0,
-        transactions: 0
+        revenue: 0,
+        count: 0
       };
     }
 
     grouped[label].metric += Number(item[metricKey] || 0);
-    grouped[label].transactions += 1;
+    grouped[label].revenue += Number(item.price || 0);
+    grouped[label].count += 1;
   });
 
   const labels = Object.keys(grouped).reverse();
-  const metricSeries = labels.map((label) => Number(grouped[label].metric.toFixed(2)));
-  const transactionSeries = labels.map((label) => grouped[label].transactions);
 
-  return { labels, metricSeries, transactionSeries };
+  return {
+    labels,
+    metricSeries: labels.map((label) => Number(grouped[label].metric.toFixed(2))),
+    revenueSeries: labels.map((label) => Number(grouped[label].revenue.toFixed(2))),
+    countSeries: labels.map((label) => grouped[label].count)
+  };
 }
 
 function updateKPIs(rows) {
@@ -168,27 +160,43 @@ function updateKPIs(rows) {
     weightLb += Number(item.weight_lb || 0);
   });
 
-  document.getElementById("revenueValue").textContent = `$${revenue.toFixed(2)}`;
-  document.getElementById("transactionsValue").textContent = rows.length;
-  document.getElementById("weightGValue").textContent = weightG.toFixed(2);
-  document.getElementById("weightLbValue").textContent = weightLb.toFixed(3);
+  const txnCount = rows.length;
+  const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
+  const periodText = formatPeriodLabel(document.getElementById("timeRange").value);
+
+  document.getElementById("revenueValue").textContent = formatCurrency(revenue);
+  document.getElementById("transactionsValue").textContent = txnCount;
+  document.getElementById("weightGValue").textContent = formatWeightG(weightG);
+  document.getElementById("avgTicketValue").textContent = formatCurrency(avgTicket);
+
+  document.getElementById("revenueSubtext").textContent = `Total revenue for ${periodText}`;
+  document.getElementById("transactionsSubtext").textContent = `Completed events for ${periodText}`;
+  document.getElementById("weightGSubtext").textContent = `Total dispensed grams for ${periodText}`;
+  document.getElementById("avgTicketSubtext").textContent = txnCount > 0
+    ? `Average across ${txnCount} transactions`
+    : "No transactions in selected range";
 }
 
 function updateTransactionsTable(rows) {
   const tbody = document.getElementById("transactionsTableBody");
+  const tableSummary = document.getElementById("tableSummary");
   tbody.innerHTML = "";
 
-  rows.forEach((item) => {
+  const recentRows = rows.slice(0, 10);
+  tableSummary.textContent = `${recentRows.length} rows`;
+
+  recentRows.forEach((item) => {
+    const mode = String(item.mode || "-").toLowerCase();
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${new Date(item.created_at).toLocaleString()}</td>
-      <td>${item.device_id ?? "-"}</td>
-      <td>${Number(item.weight_g ?? 0).toFixed(2)}</td>
-      <td>${Number(item.weight_lb ?? 0).toFixed(3)}</td>
+      <td><span class="device-chip">${item.device_id ?? "-"}</span></td>
+      <td>${formatWeightG(item.weight_g)}</td>
+      <td>${formatWeightLb(item.weight_lb)}</td>
       <td>${item.calories ?? 0}</td>
-      <td>$${Number(item.price ?? 0).toFixed(2)}</td>
-      <td>${item.mode ?? "-"}</td>
-      <td>${item.transaction_id ?? item.id ?? "-"}</td>
+      <td class="price-cell">${formatCurrency(item.price)}</td>
+      <td><span class="mode-badge ${mode}">${item.mode ?? "-"}</span></td>
+      <td class="txn-id">${item.transaction_id ?? item.id ?? "-"}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -201,6 +209,7 @@ function updateMainChart(rows) {
   const grouped = groupMetricByRange(rows, config.key, range);
 
   document.getElementById("mainChartTitle").textContent = config.title;
+  document.getElementById("mainChartNote").textContent = `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`;
 
   if (mainTrendChartInstance) {
     mainTrendChartInstance.destroy();
@@ -216,6 +225,8 @@ function updateMainChart(rows) {
           data: grouped.metricSeries,
           tension: 0.35,
           borderWidth: 2,
+          pointRadius: 3,
+          pointHoverRadius: 5,
           fill: false
         }
       ]
@@ -228,6 +239,13 @@ function updateMainChart(rows) {
           labels: {
             color: "#dce6ff"
           }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return formatMetricValue(metric, context.parsed.y);
+            }
+          }
         }
       },
       scales: {
@@ -236,7 +254,16 @@ function updateMainChart(rows) {
           grid: { color: "rgba(255,255,255,0.06)" }
         },
         y: {
-          ticks: { color: "#aeb8d8" },
+          ticks: {
+            color: "#aeb8d8",
+            callback: function(value) {
+              if (metric === "price") return `$${value}`;
+              if (metric === "weight_g") return `${value}g`;
+              if (metric === "weight_lb") return `${value}lb`;
+              if (metric === "calories") return `${value}`;
+              return value;
+            }
+          },
           grid: { color: "rgba(255,255,255,0.06)" }
         }
       }
@@ -244,11 +271,9 @@ function updateMainChart(rows) {
   });
 }
 
-function updateTransactionsChart(rows) {
+function updateRevenueChart(rows) {
   const range = document.getElementById("timeRange").value;
-  const metric = document.getElementById("metricSelect").value;
-  const config = getMetricConfig(metric);
-  const grouped = groupMetricByRange(rows, config.key, range);
+  const grouped = groupMetricByRange(rows, "price", range);
 
   if (transactionsChartInstance) {
     transactionsChartInstance.destroy();
@@ -260,8 +285,8 @@ function updateTransactionsChart(rows) {
       labels: grouped.labels,
       datasets: [
         {
-          label: "Transactions",
-          data: grouped.transactionSeries,
+          label: "Revenue",
+          data: grouped.revenueSeries,
           borderWidth: 1
         }
       ]
@@ -274,6 +299,13 @@ function updateTransactionsChart(rows) {
           labels: {
             color: "#dce6ff"
           }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return formatCurrency(context.parsed.y);
+            }
+          }
         }
       },
       scales: {
@@ -282,7 +314,12 @@ function updateTransactionsChart(rows) {
           grid: { color: "rgba(255,255,255,0.06)" }
         },
         y: {
-          ticks: { color: "#aeb8d8" },
+          ticks: {
+            color: "#aeb8d8",
+            callback: function(value) {
+              return `$${value}`;
+            }
+          },
           grid: { color: "rgba(255,255,255,0.06)" }
         }
       }
