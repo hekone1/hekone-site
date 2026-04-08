@@ -1,35 +1,94 @@
 console.log("dashboard.js loaded");
-console.log("supabase client:", supabaseClient);
 
 let mainTrendChartInstance = null;
 let transactionsChartInstance = null;
 let allRows = [];
 
-async function loadDashboardData() {
-  const { data, error } = await supabaseClient
-    .from("traction_events")
-    .select("*")
-    .order("created_at", { ascending: false });
+function showDebug(message, isError = false) {
+  let debugBox = document.getElementById("debugBox");
 
-  console.log("data:", data);
-  console.log("error:", error);
+  if (!debugBox) {
+    debugBox = document.createElement("div");
+    debugBox.id = "debugBox";
+    debugBox.style.marginBottom = "16px";
+    debugBox.style.padding = "12px 14px";
+    debugBox.style.borderRadius = "12px";
+    debugBox.style.fontSize = "14px";
+    debugBox.style.lineHeight = "1.5";
+    debugBox.style.whiteSpace = "pre-wrap";
+    debugBox.style.background = isError
+      ? "rgba(255, 90, 90, 0.12)"
+      : "rgba(123, 97, 255, 0.12)";
+    debugBox.style.border = isError
+      ? "1px solid rgba(255, 90, 90, 0.25)"
+      : "1px solid rgba(123, 97, 255, 0.25)";
+    debugBox.style.color = "#edf2ff";
 
-  if (error) {
-    console.error("Supabase load error:", error);
-    return;
+    const mainContent = document.querySelector(".main-content");
+    const topbar = document.querySelector(".topbar");
+    mainContent.insertBefore(debugBox, topbar.nextSibling);
   }
 
-  allRows = data || [];
-  renderDashboard();
+  debugBox.style.background = isError
+    ? "rgba(255, 90, 90, 0.12)"
+    : "rgba(123, 97, 255, 0.12)";
+  debugBox.style.border = isError
+    ? "1px solid rgba(255, 90, 90, 0.25)"
+    : "1px solid rgba(123, 97, 255, 0.25)";
+
+  debugBox.textContent = message;
+}
+
+async function loadDashboardData() {
+  try {
+    if (!window.supabase || !window.supabase.createClient) {
+      showDebug("Supabase library did not load.", true);
+      return;
+    }
+
+    if (typeof supabaseClient === "undefined" || !supabaseClient) {
+      showDebug("supabaseClient is not defined.", true);
+      return;
+    }
+
+    showDebug("Loading data from Supabase...");
+
+    const { data, error } = await supabaseClient
+      .from("traction_events")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    console.log("Supabase data:", data);
+    console.log("Supabase error:", error);
+
+    if (error) {
+      showDebug("Supabase error:\n" + JSON.stringify(error, null, 2), true);
+      return;
+    }
+
+    allRows = Array.isArray(data) ? data : [];
+
+    showDebug(`Connected successfully. Rows loaded: ${allRows.length}`);
+
+    renderDashboard();
+  } catch (err) {
+    console.error("Unexpected loadDashboardData error:", err);
+    showDebug("Unexpected JS error:\n" + (err?.message || String(err)), true);
+  }
 }
 
 function renderDashboard() {
-  const filteredRows = filterRowsByRange(allRows);
+  try {
+    const filteredRows = filterRowsByRange(allRows);
 
-  updateKPIs(filteredRows);
-  updateTransactionsTable(filteredRows);
-  updateMainChart(filteredRows);
-  updateTransactionsChart(filteredRows);
+    updateKPIs(filteredRows);
+    updateTransactionsTable(filteredRows);
+    updateMainChart(filteredRows);
+    updateTransactionsChart(filteredRows);
+  } catch (err) {
+    console.error("renderDashboard error:", err);
+    showDebug("Render error:\n" + (err?.message || String(err)), true);
+  }
 }
 
 function filterRowsByRange(rows) {
