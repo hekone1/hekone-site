@@ -1,6 +1,10 @@
 console.log("dashboard.js loaded");
 console.log("supabase client:", supabaseClient);
 
+let mainTrendChartInstance = null;
+let transactionsChartInstance = null;
+let allRows = [];
+
 async function loadDashboardData() {
   const { data, error } = await supabaseClient
     .from("traction_events")
@@ -10,10 +14,12 @@ async function loadDashboardData() {
   console.log("data:", data);
   console.log("error:", error);
 
-  if (error) return;
+  if (error) {
+    console.error("Supabase load error:", error);
+    return;
+  }
 
   allRows = data || [];
-
   renderDashboard();
 }
 
@@ -92,6 +98,43 @@ function groupMetricByRange(rows, metricKey, range) {
   return { labels, metricSeries, transactionSeries };
 }
 
+function updateKPIs(rows) {
+  let revenue = 0;
+  let weightG = 0;
+  let weightLb = 0;
+
+  rows.forEach((item) => {
+    revenue += Number(item.price || 0);
+    weightG += Number(item.weight_g || 0);
+    weightLb += Number(item.weight_lb || 0);
+  });
+
+  document.getElementById("revenueValue").textContent = `$${revenue.toFixed(2)}`;
+  document.getElementById("transactionsValue").textContent = rows.length;
+  document.getElementById("weightGValue").textContent = weightG.toFixed(2);
+  document.getElementById("weightLbValue").textContent = weightLb.toFixed(3);
+}
+
+function updateTransactionsTable(rows) {
+  const tbody = document.getElementById("transactionsTableBody");
+  tbody.innerHTML = "";
+
+  rows.forEach((item) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${new Date(item.created_at).toLocaleString()}</td>
+      <td>${item.device_id ?? "-"}</td>
+      <td>${Number(item.weight_g ?? 0).toFixed(2)}</td>
+      <td>${Number(item.weight_lb ?? 0).toFixed(3)}</td>
+      <td>${item.calories ?? 0}</td>
+      <td>$${Number(item.price ?? 0).toFixed(2)}</td>
+      <td>${item.mode ?? "-"}</td>
+      <td>${item.transaction_id ?? item.id ?? "-"}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
 function updateMainChart(rows) {
   const metric = document.getElementById("metricSelect").value;
   const range = document.getElementById("timeRange").value;
@@ -120,6 +163,7 @@ function updateMainChart(rows) {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           labels: {
@@ -165,6 +209,7 @@ function updateTransactionsChart(rows) {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           labels: {
@@ -186,45 +231,8 @@ function updateTransactionsChart(rows) {
   });
 }
 
-  let revenue = 0;
-  let weightG = 0;
-  let weightLb = 0;
-  
-  let mainTrendChartInstance = null;
-  let transactionsChartInstance = null;
-  let allRows = [];
-
-  const tbody = document.getElementById("transactionsTableBody");
-  tbody.innerHTML = "";
-
-  data.forEach((item) => {
-    revenue += Number(item.price || 0);
-    weightG += Number(item.weight_g || 0);
-    weightLb += Number(item.weight_lb || 0);
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${new Date(item.created_at).toLocaleString()}</td>
-      <td>${item.device_id ?? "-"}</td>
-      <td>${Number(item.weight_g ?? 0).toFixed(2)}</td>
-      <td>${Number(item.weight_lb ?? 0).toFixed(3)}</td>
-      <td>${item.calories ?? 0}</td>
-      <td>$${Number(item.price ?? 0).toFixed(2)}</td>
-      <td>${item.mode ?? "-"}</td>
-      <td>${item.transaction_id ?? "-"}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  document.getElementById("revenueValue").textContent = `$${revenue.toFixed(2)}`;
-  document.getElementById("weightGValue").textContent = weightG.toFixed(2);
-  document.getElementById("weightLbValue").textContent = weightLb.toFixed(3);
-}
-
-loadDashboardData();
-
-
 document.getElementById("metricSelect").addEventListener("change", renderDashboard);
 document.getElementById("timeRange").addEventListener("change", renderDashboard);
 
+loadDashboardData();
 setInterval(loadDashboardData, 10000);
