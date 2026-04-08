@@ -8,6 +8,7 @@ function byId(id) {
   return document.getElementById(id);
 }
 
+
 function setText(id, value) {
   const el = byId(id);
   if (!el) {
