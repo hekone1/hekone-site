@@ -37,7 +37,7 @@
           </div>
 
           <h1>Store Dashboard</h1>
-          <p>Track device traction, usage, and transaction performance.</p>
+          <p>Track device traction, usage, transactions, and inventory accountability.</p>
         </div>
 
         <div class="topbar-controls">
@@ -105,6 +105,30 @@
               <h2 id="avgTicketValue">$0.00</h2>
               <small id="avgTicketSubtext">Average value per transaction</small>
             </div>
+
+            <div class="kpi-card kpi-card-accent">
+              <span>Initial Load</span>
+              <h2 id="initialLoadValue">25.000 lb</h2>
+              <small id="initialLoadSubtext">Starting loaded inventory</small>
+            </div>
+
+            <div class="kpi-card">
+              <span>Recorded Dispense</span>
+              <h2 id="recordedDispenseValue">0.000 lb</h2>
+              <small id="recordedDispenseSubtext">Tracked outflow from transactions</small>
+            </div>
+
+            <div class="kpi-card">
+              <span>Expected Remaining</span>
+              <h2 id="remainingInventoryValue">25.000 lb</h2>
+              <small id="remainingInventorySubtext">Initial load minus recorded dispense</small>
+            </div>
+
+            <div class="kpi-card kpi-card-warn">
+              <span>Accounted Flow</span>
+              <h2 id="accountedFlowValue">0.0%</h2>
+              <small id="accountedFlowSubtext">Share of initial load captured by transactions</small>
+            </div>
           </section>
         </div>
       </section>
@@ -163,6 +187,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=5"></script>
+  <script src="dashboard.js?v=6"></script>
 </body>
 </html>
