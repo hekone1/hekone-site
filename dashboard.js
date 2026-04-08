@@ -23,14 +23,6 @@ function showDebug(msg) {
   if (!box) {
     box = document.createElement("div");
     box.id = "debugBox";
-    box.style.margin = "12px 0 20px";
-    box.style.padding = "12px 14px";
-    box.style.borderRadius = "12px";
-    box.style.background = "rgba(123,97,255,0.12)";
-    box.style.border = "1px solid rgba(123,97,255,0.25)";
-    box.style.color = "#fff";
-    box.style.fontSize = "14px";
-    box.style.whiteSpace = "pre-wrap";
     const main = document.querySelector(".main-content");
     const statusRow = document.querySelector(".status-row");
     if (main && statusRow) {
@@ -115,7 +107,9 @@ async function loadDashboardData() {
 
     allRows = Array.isArray(data) ? data : [];
     updateStatus(`${allRows.length} rows loaded successfully from the live store feed.`);
-    showDebug(`Supabase OK\nRows fetched: ${allRows.length}\nFirst row time: ${allRows[0]?.created_at || "none"}`);
+    showDebug(`Supabase OK
+Rows fetched: ${allRows.length}
+First row time: ${allRows[0]?.created_at || "none"}`);
 
     renderDashboard();
   } catch (err) {
@@ -123,6 +117,14 @@ async function loadDashboardData() {
     updateStatus(`Unexpected error: ${err.message}`, true);
     showDebug("Unexpected JS error:\n" + err.message);
   }
+}
+
+function renderDashboard() {
+  const filteredRows = filterRowsByRange(allRows);
+  updateKPIs(filteredRows);
+  updateTransactionsTable(filteredRows);
+  updateMainChart(filteredRows);
+  updateRevenueChart(filteredRows);
 }
 
 function filterRowsByRange(rows) {
@@ -207,7 +209,10 @@ function updateKPIs(rows) {
   setText("revenueSubtext", `Total revenue for ${periodText}`);
   setText("transactionsSubtext", `Completed events for ${periodText}`);
   setText("weightGSubtext", `Total dispensed grams for ${periodText}`);
-  setText("avgTicketSubtext", txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range");
+  setText(
+    "avgTicketSubtext",
+    txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range"
+  );
 }
 
 function updateTransactionsTable(rows) {
@@ -254,10 +259,16 @@ function updateMainChart(rows) {
     chartSeries = makeCumulative(grouped.metricSeries);
   }
 
-  setText("mainChartTitle", chartMode === "cumulative" ? `${config.title} (Cumulative)` : `${config.title} (Incremental)`);
-  setText("mainChartNote", chartMode === "cumulative"
-    ? `Cumulative ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`
-    : `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`
+  setText(
+    "mainChartTitle",
+    chartMode === "cumulative" ? `${config.title} (Cumulative)` : `${config.title} (Incremental)`
+  );
+
+  setText(
+    "mainChartNote",
+    chartMode === "cumulative"
+      ? `Cumulative ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`
+      : `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`
   );
 
   if (mainTrendChartInstance) mainTrendChartInstance.destroy();
@@ -278,7 +289,24 @@ function updateMainChart(rows) {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#dce6ff"
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        },
+        y: {
+          ticks: { color: "#aeb8d8" },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        }
+      }
     }
   });
 }
@@ -297,10 +325,16 @@ function updateRevenueChart(rows) {
     revenueSeries = makeCumulative(grouped.revenueSeries);
   }
 
-  setText("revenueChartTitle", chartMode === "cumulative" ? "Cumulative Revenue" : "Revenue by Period");
-  setText("revenueChartNote", chartMode === "cumulative"
-    ? "Running total revenue across selected range"
-    : "Aggregated revenue across selected range"
+  setText(
+    "revenueChartTitle",
+    chartMode === "cumulative" ? "Cumulative Revenue" : "Revenue by Period"
+  );
+
+  setText(
+    "revenueChartNote",
+    chartMode === "cumulative"
+      ? "Running total revenue across selected range"
+      : "Aggregated revenue across selected range"
   );
 
   if (revenueChartInstance) revenueChartInstance.destroy();
@@ -317,7 +351,24 @@ function updateRevenueChart(rows) {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#dce6ff"
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        },
+        y: {
+          ticks: { color: "#aeb8d8" },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        }
+      }
     }
   });
 }
