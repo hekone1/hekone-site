@@ -38,6 +38,8 @@ function updateStatus(message, isError = false) {
   const statusMeta = document.getElementById("statusMeta");
   const connectionStatus = document.getElementById("connectionStatus");
 
+  if (!statusTitle || !statusText || !statusMeta || !connectionStatus) return;
+
   statusTitle.textContent = isError ? "Connection issue" : "Connected";
   statusText.textContent = message;
   statusMeta.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
@@ -70,12 +72,17 @@ async function loadDashboardData() {
 }
 
 function renderDashboard() {
-  const filteredRows = filterRowsByRange(allRows);
+  try {
+    const filteredRows = filterRowsByRange(allRows);
 
-  updateKPIs(filteredRows);
-  updateTransactionsTable(filteredRows);
-  updateMainChart(filteredRows);
-  updateRevenueChart(filteredRows);
+    updateKPIs(filteredRows);
+    updateTransactionsTable(filteredRows);
+    updateMainChart(filteredRows);
+    updateRevenueChart(filteredRows);
+  } catch (err) {
+    console.error("Render error:", err);
+    updateStatus(`Render error: ${err.message}`, true);
+  }
 }
 
 function filterRowsByRange(rows) {
@@ -152,12 +159,10 @@ function groupMetricByRange(rows, metricKey, range) {
 function updateKPIs(rows) {
   let revenue = 0;
   let weightG = 0;
-  let weightLb = 0;
 
   rows.forEach((item) => {
     revenue += Number(item.price || 0);
     weightG += Number(item.weight_g || 0);
-    weightLb += Number(item.weight_lb || 0);
   });
 
   const txnCount = rows.length;
@@ -172,9 +177,8 @@ function updateKPIs(rows) {
   document.getElementById("revenueSubtext").textContent = `Total revenue for ${periodText}`;
   document.getElementById("transactionsSubtext").textContent = `Completed events for ${periodText}`;
   document.getElementById("weightGSubtext").textContent = `Total dispensed grams for ${periodText}`;
-  document.getElementById("avgTicketSubtext").textContent = txnCount > 0
-    ? `Average across ${txnCount} transactions`
-    : "No transactions in selected range";
+  document.getElementById("avgTicketSubtext").textContent =
+    txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range";
 }
 
 function updateTransactionsTable(rows) {
