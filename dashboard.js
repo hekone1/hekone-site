@@ -1,8 +1,22 @@
 console.log("dashboard.js loaded");
 
 let mainTrendChartInstance = null;
-let transactionsChartInstance = null;
+let revenueChartInstance = null;
 let allRows = [];
+
+function byId(id) {
+  return document.getElementById(id);
+}
+
+function setText(id, value) {
+  const el = byId(id);
+  if (!el) {
+    console.warn(`Missing element: #${id}`);
+    return false;
+  }
+  el.textContent = value;
+  return true;
+}
 
 function formatCurrency(value) {
   return `$${Number(value || 0).toFixed(2)}`;
@@ -33,18 +47,24 @@ function formatPeriodLabel(range) {
 }
 
 function updateStatus(message, isError = false) {
-  const statusTitle = document.getElementById("statusTitle");
-  const statusText = document.getElementById("statusText");
-  const statusMeta = document.getElementById("statusMeta");
-  const connectionStatus = document.getElementById("connectionStatus");
+  const statusTitle = byId("statusTitle");
+  const statusText = byId("statusText");
+  const statusMeta = byId("statusMeta");
+  const connectionStatus = byId("connectionStatus");
 
-  if (!statusTitle || !statusText || !statusMeta || !connectionStatus) return;
+  if (statusTitle) statusTitle.textContent = isError ? "Connection issue" : "Connected";
+  if (statusText) statusText.textContent = message;
+  if (statusMeta) {
+    statusMeta.textContent = `Updated ${new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    })}`;
+  }
 
-  statusTitle.textContent = isError ? "Connection issue" : "Connected";
-  statusText.textContent = message;
-  statusMeta.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-  connectionStatus.textContent = isError ? "Issue" : "Live";
-  connectionStatus.className = isError ? "status-pill error" : "status-pill live";
+  if (connectionStatus) {
+    connectionStatus.textContent = isError ? "Issue" : "Live";
+    connectionStatus.className = isError ? "status-pill error" : "status-pill live";
+  }
 }
 
 async function loadDashboardData() {
@@ -67,26 +87,21 @@ async function loadDashboardData() {
     renderDashboard();
   } catch (err) {
     console.error("Unexpected loadDashboardData error:", err);
-    updateStatus("Unexpected dashboard error while syncing data.", true);
+    updateStatus(`Unexpected error: ${err.message}`, true);
   }
 }
 
 function renderDashboard() {
-  try {
-    const filteredRows = filterRowsByRange(allRows);
-
-    updateKPIs(filteredRows);
-    updateTransactionsTable(filteredRows);
-    updateMainChart(filteredRows);
-    updateRevenueChart(filteredRows);
-  } catch (err) {
-    console.error("Render error:", err);
-    updateStatus(`Render error: ${err.message}`, true);
-  }
+  const filteredRows = filterRowsByRange(allRows);
+  updateKPIs(filteredRows);
+  updateTransactionsTable(filteredRows);
+  updateMainChart(filteredRows);
+  updateRevenueChart(filteredRows);
 }
 
 function filterRowsByRange(rows) {
-  const range = document.getElementById("timeRange").value;
+  const rangeEl = byId("timeRange");
+  const range = rangeEl ? rangeEl.value : "daily";
   const now = new Date();
 
   return rows.filter((item) => {
@@ -167,27 +182,36 @@ function updateKPIs(rows) {
 
   const txnCount = rows.length;
   const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
-  const periodText = formatPeriodLabel(document.getElementById("timeRange").value);
 
-  document.getElementById("revenueValue").textContent = formatCurrency(revenue);
-  document.getElementById("transactionsValue").textContent = txnCount;
-  document.getElementById("weightGValue").textContent = formatWeightG(weightG);
-  document.getElementById("avgTicketValue").textContent = formatCurrency(avgTicket);
+  const rangeEl = byId("timeRange");
+  const periodText = formatPeriodLabel(rangeEl ? rangeEl.value : "daily");
 
-  document.getElementById("revenueSubtext").textContent = `Total revenue for ${periodText}`;
-  document.getElementById("transactionsSubtext").textContent = `Completed events for ${periodText}`;
-  document.getElementById("weightGSubtext").textContent = `Total dispensed grams for ${periodText}`;
-  document.getElementById("avgTicketSubtext").textContent =
-    txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range";
+  setText("revenueValue", formatCurrency(revenue));
+  setText("transactionsValue", String(txnCount));
+  setText("weightGValue", formatWeightG(weightG));
+  setText("avgTicketValue", formatCurrency(avgTicket));
+
+  setText("revenueSubtext", `Total revenue for ${periodText}`);
+  setText("transactionsSubtext", `Completed events for ${periodText}`);
+  setText("weightGSubtext", `Total dispensed grams for ${periodText}`);
+  setText(
+    "avgTicketSubtext",
+    txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range"
+  );
 }
 
 function updateTransactionsTable(rows) {
-  const tbody = document.getElementById("transactionsTableBody");
-  const tableSummary = document.getElementById("tableSummary");
-  tbody.innerHTML = "";
+  const tbody = byId("transactionsTableBody");
+  const tableSummary = byId("tableSummary");
 
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
   const recentRows = rows.slice(0, 10);
-  tableSummary.textContent = `${recentRows.length} rows`;
+
+  if (tableSummary) {
+    tableSummary.textContent = `${recentRows.length} rows`;
+  }
 
   recentRows.forEach((item) => {
     const mode = String(item.mode || "-").toLowerCase();
@@ -207,19 +231,25 @@ function updateTransactionsTable(rows) {
 }
 
 function updateMainChart(rows) {
-  const metric = document.getElementById("metricSelect").value;
-  const range = document.getElementById("timeRange").value;
+  const metricEl = byId("metricSelect");
+  const rangeEl = byId("timeRange");
+  const canvas = byId("mainTrendChart");
+
+  if (!metricEl || !rangeEl || !canvas) return;
+
+  const metric = metricEl.value;
+  const range = rangeEl.value;
   const config = getMetricConfig(metric);
   const grouped = groupMetricByRange(rows, config.key, range);
 
-  document.getElementById("mainChartTitle").textContent = config.title;
-  document.getElementById("mainChartNote").textContent = `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`;
+  setText("mainChartTitle", config.title);
+  setText("mainChartNote", `Trend for ${config.label.toLowerCase()} in ${formatPeriodLabel(range)}`);
 
   if (mainTrendChartInstance) {
     mainTrendChartInstance.destroy();
   }
 
-  mainTrendChartInstance = new Chart(document.getElementById("mainTrendChart"), {
+  mainTrendChartInstance = new Chart(canvas, {
     type: "line",
     data: {
       labels: grouped.labels,
@@ -246,7 +276,7 @@ function updateMainChart(rows) {
         },
         tooltip: {
           callbacks: {
-            label: function(context) {
+            label: function (context) {
               return formatMetricValue(metric, context.parsed.y);
             }
           }
@@ -260,7 +290,7 @@ function updateMainChart(rows) {
         y: {
           ticks: {
             color: "#aeb8d8",
-            callback: function(value) {
+            callback: function (value) {
               if (metric === "price") return `$${value}`;
               if (metric === "weight_g") return `${value}g`;
               if (metric === "weight_lb") return `${value}lb`;
@@ -276,14 +306,17 @@ function updateMainChart(rows) {
 }
 
 function updateRevenueChart(rows) {
-  const range = document.getElementById("timeRange").value;
-  const grouped = groupMetricByRange(rows, "price", range);
+  const rangeEl = byId("timeRange");
+  const canvas = byId("transactionsChart");
+  if (!rangeEl || !canvas) return;
 
-  if (transactionsChartInstance) {
-    transactionsChartInstance.destroy();
+  const grouped = groupMetricByRange(rows, "price", rangeEl.value);
+
+  if (revenueChartInstance) {
+    revenueChartInstance.destroy();
   }
 
-  transactionsChartInstance = new Chart(document.getElementById("transactionsChart"), {
+  revenueChartInstance = new Chart(canvas, {
     type: "bar",
     data: {
       labels: grouped.labels,
@@ -306,7 +339,7 @@ function updateRevenueChart(rows) {
         },
         tooltip: {
           callbacks: {
-            label: function(context) {
+            label: function (context) {
               return formatCurrency(context.parsed.y);
             }
           }
@@ -320,7 +353,7 @@ function updateRevenueChart(rows) {
         y: {
           ticks: {
             color: "#aeb8d8",
-            callback: function(value) {
+            callback: function (value) {
               return `$${value}`;
             }
           },
@@ -331,8 +364,11 @@ function updateRevenueChart(rows) {
   });
 }
 
-document.getElementById("metricSelect").addEventListener("change", renderDashboard);
-document.getElementById("timeRange").addEventListener("change", renderDashboard);
+const metricSelect = byId("metricSelect");
+const timeRange = byId("timeRange");
+
+if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
+if (timeRange) timeRange.addEventListener("change", renderDashboard);
 
 loadDashboardData();
 setInterval(loadDashboardData, 10000);
