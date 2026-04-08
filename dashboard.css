@@ -288,6 +288,16 @@ a {
   line-height: 1.4;
 }
 
+.kpi-card-accent {
+  border: 1px solid rgba(123, 97, 255, 0.28);
+  background: linear-gradient(180deg, rgba(123, 97, 255, 0.10), rgba(18, 28, 52, 0.92));
+}
+
+.kpi-card-warn {
+  border: 1px solid rgba(255, 184, 77, 0.26);
+  background: linear-gradient(180deg, rgba(255, 184, 77, 0.08), rgba(18, 28, 52, 0.92));
+}
+
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
