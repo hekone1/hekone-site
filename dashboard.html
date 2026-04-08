@@ -11,9 +11,11 @@
 <body>
   <div class="dashboard-layout">
     <aside class="sidebar">
-      <div>
-        <div class="logo-box">HEKONE</div>
-        <p class="sidebar-subtitle">Physical Intelligence Dashboard</p>
+      <div class="sidebar-top">
+        <div>
+          <div class="logo-box">HEKONE</div>
+          <p class="sidebar-subtitle">Physical Intelligence Dashboard</p>
+        </div>
       </div>
 
       <nav class="sidebar-nav">
@@ -52,6 +54,11 @@
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
+
+          <select id="chartMode">
+            <option value="incremental" selected>Incremental</option>
+            <option value="cumulative">Cumulative</option>
+          </select>
         </div>
       </header>
 
@@ -68,46 +75,40 @@
         </div>
       </section>
 
-<section class="hero-section">
-
-  <!-- LEFT: DISPENSER IMAGE -->
-  <div class="hero-image">
-    <img src="dispenser.png" alt="HEKONE Dispenser" />
-  </div>
-
-  <!-- RIGHT: KPI -->
-  <div class="hero-content">
-    
-
-      
-      <section class="kpi-grid">
-        <div class="kpi-card">
-          <span>Revenue</span>
-          <h2 id="revenueValue">$0.00</h2>
-          <small id="revenueSubtext">Selected range total revenue</small>
+      <section class="hero-section">
+        <div class="hero-image">
+          <img src="dispenser.png" alt="HEKONE Dispenser" />
         </div>
 
-        <div class="kpi-card">
-          <span>Transactions</span>
-          <h2 id="transactionsValue">0</h2>
-          <small id="transactionsSubtext">Completed dispensing events</small>
-        </div>
+        <div class="hero-content">
+          <section class="kpi-grid">
+            <div class="kpi-card">
+              <span>Revenue</span>
+              <h2 id="revenueValue">$0.00</h2>
+              <small id="revenueSubtext">Selected range total revenue</small>
+            </div>
 
-        <div class="kpi-card">
-          <span>Weight (g)</span>
-          <h2 id="weightGValue">0.00</h2>
-          <small id="weightGSubtext">Total dispensed weight in grams</small>
-        </div>
+            <div class="kpi-card">
+              <span>Transactions</span>
+              <h2 id="transactionsValue">0</h2>
+              <small id="transactionsSubtext">Completed dispensing events</small>
+            </div>
 
-        <div class="kpi-card">
-          <span>Avg Ticket</span>
-          <h2 id="avgTicketValue">$0.00</h2>
-          <small id="avgTicketSubtext">Average value per transaction</small>
+            <div class="kpi-card">
+              <span>Weight (g)</span>
+              <h2 id="weightGValue">0.00</h2>
+              <small id="weightGSubtext">Total dispensed weight in grams</small>
+            </div>
+
+            <div class="kpi-card">
+              <span>Avg Ticket</span>
+              <h2 id="avgTicketValue">$0.00</h2>
+              <small id="avgTicketSubtext">Average value per transaction</small>
+            </div>
+          </section>
         </div>
       </section>
-  </div>
 
-</section>
       <section class="charts-grid">
         <div class="panel-card">
           <div class="panel-header">
@@ -119,8 +120,8 @@
 
         <div class="panel-card">
           <div class="panel-header">
-            <h3>Revenue by Period</h3>
-            <span class="panel-note">Aggregated revenue across selected range</span>
+            <h3 id="revenueChartTitle">Revenue by Period</h3>
+            <span class="panel-note" id="revenueChartNote">Aggregated revenue across selected range</span>
           </div>
           <canvas id="transactionsChart"></canvas>
         </div>
