@@ -1,8 +1,10 @@
-console.log("dashboard.js loaded - debug version");
+console.log("dashboard.js loaded - accountability version");
 
 let mainTrendChartInstance = null;
 let revenueChartInstance = null;
 let allRows = [];
+
+const INITIAL_LOAD_LB = 25;
 
 function byId(id) {
   return document.getElementById(id);
@@ -42,6 +44,14 @@ function formatWeightG(value) {
 
 function formatWeightLb(value) {
   return Number(value || 0).toFixed(3);
+}
+
+function formatPercent(value) {
+  return `${Number(value || 0).toFixed(1)}%`;
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }
 
 function formatMetricValue(metric, value) {
@@ -190,10 +200,12 @@ function groupMetricByRange(rows, metricKey, range) {
 function updateKPIs(rows) {
   let revenue = 0;
   let weightG = 0;
+  let weightLb = 0;
 
   rows.forEach((item) => {
     revenue += Number(item.price || 0);
     weightG += Number(item.weight_g || 0);
+    weightLb += Number(item.weight_lb || 0);
   });
 
   const txnCount = rows.length;
@@ -212,6 +224,23 @@ function updateKPIs(rows) {
   setText(
     "avgTicketSubtext",
     txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range"
+  );
+
+  const recordedDispenseLb = weightLb;
+  const remainingInventoryLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
+  const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
+
+  setText("initialLoadValue", `${formatWeightLb(INITIAL_LOAD_LB)} lb`);
+  setText("recordedDispenseValue", `${formatWeightLb(recordedDispenseLb)} lb`);
+  setText("remainingInventoryValue", `${formatWeightLb(remainingInventoryLb)} lb`);
+  setText("accountedFlowValue", formatPercent(accountedFlowPct));
+
+  setText("initialLoadSubtext", `Configured starting inventory for ${periodText}`);
+  setText("recordedDispenseSubtext", `Recorded outflow captured in ${periodText}`);
+  setText("remainingInventorySubtext", `Expected remaining inventory for ${periodText}`);
+  setText(
+    "accountedFlowSubtext",
+    `${formatWeightLb(recordedDispenseLb)} lb of ${formatWeightLb(INITIAL_LOAD_LB)} lb accounted`
   );
 }
 
