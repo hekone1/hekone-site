@@ -506,6 +506,71 @@
       max-width: 860px;
     }
 
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 28px;
+    }
+
+    .video-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35), 0 0 40px var(--glow);
+    }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #030814;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .video-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .video-meta {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #9fb1cf;
+      text-align: center;
+    }
+
+    .demo-points {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .demo-point {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .demo-point strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: #eef5ff;
+    }
+
+    .demo-point span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
     .cta {
       margin-top: 92px;
       padding: 36px;
@@ -604,7 +669,8 @@
       .grid-2,
       .grid-3,
       .signal-row,
-      .engineering-grid {
+      .engineering-grid,
+      .demo-grid {
         grid-template-columns: 1fr;
       }
 
@@ -631,6 +697,11 @@
 
       .image-card.cad-card img {
         max-height: 460px;
+      }
+
+      .video-card {
+        max-width: 520px;
+        margin: 0 auto;
       }
     }
 
@@ -773,6 +844,60 @@
           <img src="./smart-bin.png" alt="HEKONE Smart Gravity Bin prototype" />
           <div class="image-caption">
             Early-stage prototype — part of a broader HEKONE instrumentation approach.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-kicker">Live demo</div>
+        <h2>See the HEKONE Smart Dispenser in action.</h2>
+        <p class="section-intro">
+          This short demo shows a real working prototype translating physical dispensing activity into measurable signal. It is an early proof point of how HEKONE can connect real-world interaction to structured operational visibility.
+        </p>
+
+        <div class="demo-grid">
+          <div class="video-card">
+            <div class="video-embed">
+              <iframe
+                src="https://www.youtube.com/embed/Jq9ZalQI-Nc"
+                title="HEKONE Smart Dispenser Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="video-meta">
+              Working prototype demo — embedded from HEKONE YouTube Shorts.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>What this demo represents</h3>
+            <p>
+              This is not a concept rendering or mock interface. It is a real prototype demonstration showing how HEKONE can instrument a physical interaction point and convert that moment into usable data.
+            </p>
+
+            <div class="demo-points">
+              <div class="demo-point">
+                <strong>Real interaction</strong>
+                <span>Shows actual use of the system at the dispensing point rather than a simulated workflow.</span>
+              </div>
+
+              <div class="demo-point">
+                <strong>Signal generation</strong>
+                <span>Demonstrates how physical activity can become measurable, structured operational input.</span>
+              </div>
+
+              <div class="demo-point">
+                <strong>Platform relevance</strong>
+                <span>Supports the broader HEKONE vision of building the physical data layer for AI-enabled operations.</span>
+              </div>
+            </div>
+
+            <div class="cta-actions" style="margin-top: 22px;">
+              <a class="btn-primary" href="https://youtube.com/shorts/Jq9ZalQI-Nc?feature=share" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+              <a class="btn-secondary" href="/contact.html">Discuss a Pilot</a>
+            </div>
           </div>
         </div>
       </section>
@@ -1010,8 +1135,6 @@
       </footer>
     </div>
   </main>
-
-  <div class="menu-backdrop"></div>
 
   <script>
     const menuToggle = document.querySelector('.menu-toggle');
