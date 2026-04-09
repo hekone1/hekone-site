@@ -81,6 +81,13 @@
         </div>
 
         <div class="hero-content">
+          <div class="inventory-banner">
+            <div class="inventory-banner-label">Inventory Cycle Snapshot</div>
+            <div class="inventory-banner-text" id="inventoryBannerText">
+              Projection based on a configured 25 lb loaded cycle.
+            </div>
+          </div>
+
           <section class="kpi-grid">
             <div class="kpi-card">
               <span>Revenue</span>
@@ -109,25 +116,25 @@
             <div class="kpi-card kpi-card-accent">
               <span>Initial Load</span>
               <h2 id="initialLoadValue">25.000 lb</h2>
-              <small id="initialLoadSubtext">Starting loaded inventory</small>
+              <small id="initialLoadSubtext">Configured cycle starting inventory</small>
             </div>
 
             <div class="kpi-card">
               <span>Recorded Dispense</span>
               <h2 id="recordedDispenseValue">0.000 lb</h2>
-              <small id="recordedDispenseSubtext">Tracked outflow from transactions</small>
+              <small id="recordedDispenseSubtext">Tracked outflow captured by transactions</small>
             </div>
 
             <div class="kpi-card">
-              <span>Expected Remaining</span>
+              <span>Projected Remaining</span>
               <h2 id="remainingInventoryValue">25.000 lb</h2>
-              <small id="remainingInventorySubtext">Initial load minus recorded dispense</small>
+              <small id="remainingInventorySubtext">Projected inventory remaining in cycle</small>
             </div>
 
             <div class="kpi-card kpi-card-warn">
               <span>Accounted Flow</span>
               <h2 id="accountedFlowValue">0.0%</h2>
-              <small id="accountedFlowSubtext">Share of initial load captured by transactions</small>
+              <small id="accountedFlowSubtext">Recorded outflow versus configured load</small>
             </div>
           </section>
         </div>
@@ -187,6 +194,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=6"></script>
+  <script src="dashboard.js?v=7"></script>
 </body>
 </html>
