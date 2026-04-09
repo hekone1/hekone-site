@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - decision support version");
+console.log("dashboard.js loaded - executive layer version");
 
 let mainTrendChartInstance = null;
 let revenueChartInstance = null;
@@ -7,6 +7,11 @@ let allRows = [];
 const INITIAL_LOAD_LB = 25;
 const GAP_TOLERANCE_LB = 0.001;
 const LOW_INVENTORY_THRESHOLD_LB = 5;
+
+// Directional / modeled baseline
+const MODELED_BASELINE_DAILY_LB = 3.5;
+const VARIANCE_WARNING_THRESHOLD_LB = 0.5;
+const VARIANCE_ALERT_THRESHOLD_LB = 1.0;
 
 function byId(id) {
   return document.getElementById(id);
@@ -38,6 +43,12 @@ function formatPercent(value) {
   return `${Number(value || 0).toFixed(1)}%`;
 }
 
+function formatSignedWeightLb(value) {
+  const n = Number(value || 0);
+  const sign = n > 0 ? "+" : "";
+  return `${sign}${n.toFixed(3)} lb`;
+}
+
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
@@ -56,6 +67,14 @@ function formatRangeLabel(range) {
   if (range === "monthly") return "monthly view";
   if (range === "yearly") return "yearly view";
   return "selected view";
+}
+
+function getRangeDays(range) {
+  if (range === "daily") return 1;
+  if (range === "weekly") return 7;
+  if (range === "monthly") return 30;
+  if (range === "yearly") return 365;
+  return 1;
 }
 
 function makeCumulative(series) {
@@ -217,41 +236,56 @@ function updateKPIs(rows) {
   const selectedRange = rangeEl ? rangeEl.value : "daily";
   const periodText = formatPeriodLabel(selectedRange);
   const rangeLabel = formatRangeLabel(selectedRange);
+  const rangeDays = getRangeDays(selectedRange);
 
   const recordedDispenseLb = weightLb;
   const projectedRemainingLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
   const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
-  const inventoryGapLb = Math.max(
+
+  const balanceCheckLb = Math.max(
     0,
     INITIAL_LOAD_LB - (recordedDispenseLb + projectedRemainingLb)
   );
-  const estimatedCostImpact = inventoryGapLb * avgPricePerLb;
 
-  let inventoryStatus = "Monitoring";
-  let inventoryStatusSubtext = "Cycle is being tracked normally";
-  let actionValue = "Monitor";
-  let actionSubtext = "No intervention required right now";
+  const expectedDispenseLb = MODELED_BASELINE_DAILY_LB * rangeDays;
+  const varianceLb = recordedDispenseLb - expectedDispenseLb;
 
-  if (inventoryGapLb > GAP_TOLERANCE_LB) {
+  const dailyRevenueRunRate = rangeDays > 0 ? revenue / rangeDays : 0;
+  const monthlyProjectionRevenue = dailyRevenueRunRate * 30;
+  const annualProjectionRevenue = dailyRevenueRunRate * 365;
+
+  const estimatedCostImpact = Math.max(varianceLb, 0) * avgPricePerLb;
+
+  let inventoryStatus = "On Track";
+  let inventoryStatusSubtext = "Cycle is operating within the current modeled range";
+  let actionValue = "No Action Needed";
+  let actionSubtext = "No intervention signal is currently being triggered";
+
+  if (balanceCheckLb > GAP_TOLERANCE_LB) {
     inventoryStatus = "Variance Detected";
-    inventoryStatusSubtext = "Unaccounted inventory difference detected";
+    inventoryStatusSubtext = "Balance check suggests an unaccounted movement signal";
     actionValue = "Investigate Inventory";
-    actionSubtext = "Review cycle state and verify remaining material";
+    actionSubtext = "Review inventory state and verify remaining material";
   } else if (projectedRemainingLb <= LOW_INVENTORY_THRESHOLD_LB) {
     inventoryStatus = "Low Inventory";
-    inventoryStatusSubtext = "Projected remaining inventory is running low";
+    inventoryStatusSubtext = "Projected remaining inventory is approaching refill range";
     actionValue = "Schedule Refill";
     actionSubtext = "Prepare the next refill before the cycle runs low";
-  } else if (accountedFlowPct < 25) {
-    inventoryStatus = "Cycle Healthy";
-    inventoryStatusSubtext = "Cycle has started normally and remains within projection";
-    actionValue = "Continue Monitoring";
-    actionSubtext = "Observe activity as the cycle progresses";
-  } else {
-    inventoryStatus = "On Track";
-    inventoryStatusSubtext = "No projected loss or variance under the current model";
-    actionValue = "No Action Needed";
-    actionSubtext = "System is operating within the current projected cycle";
+  } else if (varianceLb >= VARIANCE_ALERT_THRESHOLD_LB) {
+    inventoryStatus = "Above Expected";
+    inventoryStatusSubtext = "Dispense volume is running materially above the modeled baseline";
+    actionValue = "Review Usage Pattern";
+    actionSubtext = "Check whether current activity reflects expected demand or abnormal usage";
+  } else if (varianceLb <= -VARIANCE_ALERT_THRESHOLD_LB) {
+    inventoryStatus = "Below Expected";
+    inventoryStatusSubtext = "Observed activity is trending below the modeled baseline";
+    actionValue = "Check Throughput";
+    actionSubtext = "Review demand conditions or device utilization for the selected period";
+  } else if (Math.abs(varianceLb) >= VARIANCE_WARNING_THRESHOLD_LB) {
+    inventoryStatus = "Watch Variance";
+    inventoryStatusSubtext = "A directional variance is emerging versus the modeled baseline";
+    actionValue = "Monitor Trend";
+    actionSubtext = "Continue observing usage to confirm whether the pattern persists";
   }
 
   setText("revenueValue", formatCurrency(revenue));
@@ -271,7 +305,7 @@ function updateKPIs(rows) {
   setText("recordedDispenseValue", `${formatWeightLb(recordedDispenseLb)} lb`);
   setText("remainingInventoryValue", `${formatWeightLb(projectedRemainingLb)} lb`);
   setText("accountedFlowValue", formatPercent(accountedFlowPct));
-  setText("inventoryGapValue", `${formatWeightLb(inventoryGapLb)} lb`);
+  setText("inventoryGapValue", `${formatWeightLb(balanceCheckLb)} lb`);
 
   setText("initialLoadSubtext", `Configured cycle load shown in ${rangeLabel}`);
   setText("recordedDispenseSubtext", `Recorded outflow captured in ${periodText}`);
@@ -281,10 +315,10 @@ function updateKPIs(rows) {
     `${formatWeightLb(recordedDispenseLb)} lb recorded out of ${formatWeightLb(INITIAL_LOAD_LB)} lb loaded`
   );
 
-  if (inventoryGapLb <= GAP_TOLERANCE_LB) {
-    setText("inventoryGapSubtext", "Balanced under the current projection model");
+  if (balanceCheckLb <= GAP_TOLERANCE_LB) {
+    setText("inventoryGapSubtext", "Projected balance remains aligned under the current model");
   } else {
-    setText("inventoryGapSubtext", "Detected difference between configured load and accounted movement");
+    setText("inventoryGapSubtext", "Balance check suggests a directional difference worth reviewing");
   }
 
   setText(
@@ -295,15 +329,27 @@ function updateKPIs(rows) {
   setText("impactCycleProgress", formatPercent(accountedFlowPct));
   setText("impactCycleProgressSubtext", `${formatWeightLb(recordedDispenseLb)} lb dispensed from the configured cycle`);
 
+  setText("impactVarianceValue", formatSignedWeightLb(varianceLb));
+  setText(
+    "impactVarianceSubtext",
+    `Expected baseline for ${periodText}: ${formatWeightLb(expectedDispenseLb)} lb`
+  );
+
   setText("impactInventoryStatus", inventoryStatus);
   setText("impactInventoryStatusSubtext", inventoryStatusSubtext);
 
   setText("impactCostValue", formatCurrency(estimatedCostImpact));
   setText(
     "impactCostSubtext",
-    inventoryGapLb > GAP_TOLERANCE_LB
-      ? "Projected value of detected inventory variance"
-      : "No projected variance currently detected"
+    estimatedCostImpact > 0
+      ? "Projected cost of above-expected usage under the current model"
+      : "No projected loss signal under the current modeled baseline"
+  );
+
+  setText("impactProjectionValue", formatCurrency(monthlyProjectionRevenue));
+  setText(
+    "impactProjectionSubtext",
+    `Annualized outlook: ${formatCurrency(annualProjectionRevenue)}`
   );
 
   setText("impactActionValue", actionValue);
@@ -312,7 +358,7 @@ function updateKPIs(rows) {
   const gapCard = byId("inventoryGapCard");
   if (gapCard) {
     gapCard.classList.remove("gap-ok", "gap-alert");
-    gapCard.classList.add(inventoryGapLb <= GAP_TOLERANCE_LB ? "gap-ok" : "gap-alert");
+    gapCard.classList.add(balanceCheckLb <= GAP_TOLERANCE_LB ? "gap-ok" : "gap-alert");
   }
 }
 
