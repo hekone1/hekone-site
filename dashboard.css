@@ -230,7 +230,7 @@ a {
 
 .impact-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -295,17 +295,17 @@ a {
 .device-label {
   width: 100%;
   max-width: 240px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 14px;
-  background: rgba(18, 28, 52, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(18, 28, 52, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: left;
 }
 
 .device-label-title {
   display: block;
   color: #8fa2d8;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 4px;
@@ -314,7 +314,7 @@ a {
 .device-label-value {
   display: block;
   color: #edf2ff;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .hero-content {
@@ -465,8 +465,8 @@ a {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .table-summary {
