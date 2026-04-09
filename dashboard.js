@@ -65,23 +65,17 @@ function makeCumulative(series) {
   });
 }
 
-// FIX: robust parser for Supabase timestamps with microseconds
 function parseSupabaseDate(value) {
   if (!value) return null;
   if (value instanceof Date) return isNaN(value.getTime()) ? null : value;
 
   let s = String(value).trim();
-
-  // Normalize space-separated timestamps if any
   s = s.replace(" ", "T");
-
-  // Trim fractional seconds to milliseconds only
   s = s.replace(/\.(\d{3})\d+/, ".$1");
 
   const d = new Date(s);
   if (!isNaN(d.getTime())) return d;
 
-  // Fallback: remove fractional part completely
   s = s.replace(/\.\d+(?=[+-]\d{2}:\d{2}|Z$)/, "");
   const fallback = new Date(s);
   return isNaN(fallback.getTime()) ? null : fallback;
