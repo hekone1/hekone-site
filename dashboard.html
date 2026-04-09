@@ -136,6 +136,12 @@
               <h2 id="accountedFlowValue">0.0%</h2>
               <small id="accountedFlowSubtext">Recorded outflow versus configured load</small>
             </div>
+
+            <div class="kpi-card kpi-card-gap" id="inventoryGapCard">
+              <span>Inventory Gap</span>
+              <h2 id="inventoryGapValue">0.000 lb</h2>
+              <small id="inventoryGapSubtext">Balanced under the current projection model</small>
+            </div>
           </section>
         </div>
       </section>
@@ -194,6 +200,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=7"></script>
+  <script src="dashboard.js?v=8"></script>
 </body>
 </html>
