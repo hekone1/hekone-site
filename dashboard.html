@@ -70,6 +70,12 @@
           </div>
 
           <div class="impact-card">
+            <span>Variance vs Expected</span>
+            <h2 id="impactVarianceValue">0.000 lb</h2>
+            <small id="impactVarianceSubtext">Expected baseline for today: 0.000 lb</small>
+          </div>
+
+          <div class="impact-card">
             <span>Inventory Status</span>
             <h2 id="impactInventoryStatus">Monitoring</h2>
             <small id="impactInventoryStatusSubtext">Cycle is being tracked normally</small>
@@ -79,6 +85,12 @@
             <span>Estimated Cost Impact</span>
             <h2 id="impactCostValue">$0.00</h2>
             <small id="impactCostSubtext">No projected loss under current model</small>
+          </div>
+
+          <div class="impact-card">
+            <span>Monthly Projection</span>
+            <h2 id="impactProjectionValue">$0.00</h2>
+            <small id="impactProjectionSubtext">Annualized outlook: $0.00</small>
           </div>
 
           <div class="impact-card">
@@ -156,9 +168,9 @@
             </div>
 
             <div class="kpi-card kpi-card-gap" id="inventoryGapCard">
-              <span>Inventory Gap</span>
+              <span>Balance Check</span>
               <h2 id="inventoryGapValue">0.000 lb</h2>
-              <small id="inventoryGapSubtext">Balanced under the current projection model</small>
+              <small id="inventoryGapSubtext">Projected balance remains aligned under the current model</small>
             </div>
           </section>
         </div>
@@ -243,6 +255,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=14"></script>
+  <script src="dashboard.js?v=15"></script>
 </body>
 </html>
