@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - accountability gap version");
+console.log("dashboard.js loaded - decision support version");
 
 let mainTrendChartInstance = null;
 let revenueChartInstance = null;
@@ -6,6 +6,7 @@ let allRows = [];
 
 const INITIAL_LOAD_LB = 25;
 const GAP_TOLERANCE_LB = 0.001;
+const LOW_INVENTORY_THRESHOLD_LB = 5;
 
 function byId(id) {
   return document.getElementById(id);
@@ -210,10 +211,48 @@ function updateKPIs(rows) {
 
   const txnCount = rows.length;
   const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
+  const avgPricePerLb = weightLb > 0 ? revenue / weightLb : 0;
+
   const rangeEl = byId("timeRange");
   const selectedRange = rangeEl ? rangeEl.value : "daily";
   const periodText = formatPeriodLabel(selectedRange);
   const rangeLabel = formatRangeLabel(selectedRange);
+
+  const recordedDispenseLb = weightLb;
+  const projectedRemainingLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
+  const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
+  const inventoryGapLb = Math.max(
+    0,
+    INITIAL_LOAD_LB - (recordedDispenseLb + projectedRemainingLb)
+  );
+  const estimatedCostImpact = inventoryGapLb * avgPricePerLb;
+
+  let inventoryStatus = "Monitoring";
+  let inventoryStatusSubtext = "Cycle is being tracked normally";
+  let actionValue = "Monitor";
+  let actionSubtext = "No intervention required right now";
+
+  if (inventoryGapLb > GAP_TOLERANCE_LB) {
+    inventoryStatus = "Variance";
+    inventoryStatusSubtext = "Unaccounted inventory difference detected";
+    actionValue = "Investigate";
+    actionSubtext = "Review inventory state and verify remaining material";
+  } else if (projectedRemainingLb <= LOW_INVENTORY_THRESHOLD_LB) {
+    inventoryStatus = "Low Stock";
+    inventoryStatusSubtext = "Projected remaining inventory is running low";
+    actionValue = "Refill Soon";
+    actionSubtext = "Prepare a refill to avoid running the cycle too low";
+  } else if (accountedFlowPct < 25) {
+    inventoryStatus = "Early Cycle";
+    inventoryStatusSubtext = "Only a small share of loaded inventory has been dispensed";
+    actionValue = "Monitor";
+    actionSubtext = "Continue observing transaction activity";
+  } else {
+    inventoryStatus = "Balanced";
+    inventoryStatusSubtext = "No projected loss under the current cycle model";
+    actionValue = "Continue";
+    actionSubtext = "System is operating within current expected projection";
+  }
 
   setText("revenueValue", formatCurrency(revenue));
   setText("transactionsValue", String(txnCount));
@@ -226,14 +265,6 @@ function updateKPIs(rows) {
   setText(
     "avgTicketSubtext",
     txnCount > 0 ? `Average across ${txnCount} transactions` : "No transactions in selected range"
-  );
-
-  const recordedDispenseLb = weightLb;
-  const projectedRemainingLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
-  const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
-  const inventoryGapLb = Math.max(
-    0,
-    INITIAL_LOAD_LB - (recordedDispenseLb + projectedRemainingLb)
   );
 
   setText("initialLoadValue", `${formatWeightLb(INITIAL_LOAD_LB)} lb`);
@@ -260,6 +291,23 @@ function updateKPIs(rows) {
     "inventoryBannerText",
     `Projection based on a configured ${formatWeightLb(INITIAL_LOAD_LB)} lb loaded cycle in ${rangeLabel}.`
   );
+
+  setText("impactCycleProgress", formatPercent(accountedFlowPct));
+  setText("impactCycleProgressSubtext", `${formatWeightLb(recordedDispenseLb)} lb dispensed from the configured cycle`);
+
+  setText("impactInventoryStatus", inventoryStatus);
+  setText("impactInventoryStatusSubtext", inventoryStatusSubtext);
+
+  setText("impactCostValue", formatCurrency(estimatedCostImpact));
+  setText(
+    "impactCostSubtext",
+    inventoryGapLb > GAP_TOLERANCE_LB
+      ? "Projected value of detected inventory variance"
+      : "No projected loss under the current model"
+  );
+
+  setText("impactActionValue", actionValue);
+  setText("impactActionSubtext", actionSubtext);
 
   const gapCard = byId("inventoryGapCard");
   if (gapCard) {
@@ -317,7 +365,9 @@ function updateMainChart(rows) {
 
   setText(
     "mainChartTitle",
-    chartMode === "cumulative" ? `${config.title} (Cumulative)` : `${config.title} (Incremental)`
+    chartMode === "cumulative"
+      ? `${config.title} — ${formatPeriodLabel(range)} (Cumulative)`
+      : `${config.title} — ${formatPeriodLabel(range)} (Incremental)`
   );
 
   setText(
@@ -383,7 +433,9 @@ function updateRevenueChart(rows) {
 
   setText(
     "revenueChartTitle",
-    chartMode === "cumulative" ? "Cumulative Revenue" : "Revenue by Period"
+    chartMode === "cumulative"
+      ? `Revenue — ${formatPeriodLabel(rangeEl.value)} (Cumulative)`
+      : `Revenue — ${formatPeriodLabel(rangeEl.value)}`
   );
 
   setText(
