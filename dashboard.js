@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - accountability version");
+console.log("dashboard.js loaded - inventory cycle version");
 
 let mainTrendChartInstance = null;
 let revenueChartInstance = null;
@@ -68,6 +68,14 @@ function formatPeriodLabel(range) {
   if (range === "monthly") return "this month";
   if (range === "yearly") return "this year";
   return "selected period";
+}
+
+function formatRangeLabel(range) {
+  if (range === "daily") return "daily view";
+  if (range === "weekly") return "weekly view";
+  if (range === "monthly") return "monthly view";
+  if (range === "yearly") return "yearly view";
+  return "selected view";
 }
 
 function makeCumulative(series) {
@@ -211,7 +219,9 @@ function updateKPIs(rows) {
   const txnCount = rows.length;
   const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
   const rangeEl = byId("timeRange");
-  const periodText = formatPeriodLabel(rangeEl ? rangeEl.value : "daily");
+  const selectedRange = rangeEl ? rangeEl.value : "daily";
+  const periodText = formatPeriodLabel(selectedRange);
+  const rangeLabel = formatRangeLabel(selectedRange);
 
   setText("revenueValue", formatCurrency(revenue));
   setText("transactionsValue", String(txnCount));
@@ -227,20 +237,25 @@ function updateKPIs(rows) {
   );
 
   const recordedDispenseLb = weightLb;
-  const remainingInventoryLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
+  const projectedRemainingLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
   const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
 
   setText("initialLoadValue", `${formatWeightLb(INITIAL_LOAD_LB)} lb`);
   setText("recordedDispenseValue", `${formatWeightLb(recordedDispenseLb)} lb`);
-  setText("remainingInventoryValue", `${formatWeightLb(remainingInventoryLb)} lb`);
+  setText("remainingInventoryValue", `${formatWeightLb(projectedRemainingLb)} lb`);
   setText("accountedFlowValue", formatPercent(accountedFlowPct));
 
-  setText("initialLoadSubtext", `Configured starting inventory for ${periodText}`);
+  setText("initialLoadSubtext", `Configured cycle load shown in ${rangeLabel}`);
   setText("recordedDispenseSubtext", `Recorded outflow captured in ${periodText}`);
-  setText("remainingInventorySubtext", `Expected remaining inventory for ${periodText}`);
+  setText("remainingInventorySubtext", `Projected remaining inventory based on recorded outflow`);
   setText(
     "accountedFlowSubtext",
-    `${formatWeightLb(recordedDispenseLb)} lb of ${formatWeightLb(INITIAL_LOAD_LB)} lb accounted`
+    `${formatWeightLb(recordedDispenseLb)} lb recorded out of ${formatWeightLb(INITIAL_LOAD_LB)} lb loaded`
+  );
+
+  setText(
+    "inventoryBannerText",
+    `Projection based on a configured ${formatWeightLb(INITIAL_LOAD_LB)} lb loaded cycle in ${rangeLabel}.`
   );
 }
 
