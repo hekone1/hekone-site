@@ -54,6 +54,41 @@
         </div>
       </section>
 
+      <section class="impact-section">
+        <div class="impact-header">
+          <div>
+            <h3>Today’s Impact</h3>
+            <span class="panel-note">Operational summary translated into business context</span>
+          </div>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <span>Cycle Progress</span>
+            <h2 id="impactCycleProgress">0.0%</h2>
+            <small id="impactCycleProgressSubtext">Share of configured load already dispensed</small>
+          </div>
+
+          <div class="impact-card">
+            <span>Inventory Status</span>
+            <h2 id="impactInventoryStatus">Monitoring</h2>
+            <small id="impactInventoryStatusSubtext">Cycle is being tracked normally</small>
+          </div>
+
+          <div class="impact-card">
+            <span>Estimated Cost Impact</span>
+            <h2 id="impactCostValue">$0.00</h2>
+            <small id="impactCostSubtext">No projected loss under current model</small>
+          </div>
+
+          <div class="impact-card">
+            <span>Recommended Action</span>
+            <h2 id="impactActionValue">Monitor</h2>
+            <small id="impactActionSubtext">No intervention required right now</small>
+          </div>
+        </div>
+      </section>
+
       <section class="hero-section">
         <div class="hero-image">
           <img src="dispenser.png" alt="HEKONE Dispenser" />
@@ -125,26 +160,26 @@
         </div>
       </section>
 
-      <section class="charts-grid">
-        <div class="panel-card">
-          <div class="panel-header">
-            <h3 id="mainChartTitle">Price Trend</h3>
-            <span class="panel-note" id="mainChartNote">Trend for selected metric</span>
+      <section class="charts-section">
+        <div class="charts-grid">
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3 id="mainChartTitle">Price Trend</h3>
+              <span class="panel-note" id="mainChartNote">Trend for selected metric</span>
+            </div>
+            <canvas id="mainTrendChart"></canvas>
           </div>
-          <canvas id="mainTrendChart"></canvas>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3 id="revenueChartTitle">Revenue by Period</h3>
+              <span class="panel-note" id="revenueChartNote">Aggregated revenue across selected range</span>
+            </div>
+            <canvas id="transactionsChart"></canvas>
+          </div>
         </div>
 
-        <div class="panel-card">
-          <div class="panel-header">
-            <h3 id="revenueChartTitle">Revenue by Period</h3>
-            <span class="panel-note" id="revenueChartNote">Aggregated revenue across selected range</span>
-          </div>
-          <canvas id="transactionsChart"></canvas>
-        </div>
-      </section>
-
-      <div class="chart-controls-shell">
-        <div class="chart-controls-row">
+        <div class="chart-controls-shell">
           <div class="topbar-controls chart-bottom-controls">
             <select id="metricSelect">
               <option value="price" selected>Price</option>
@@ -166,7 +201,7 @@
             </select>
           </div>
         </div>
-      </div>
+      </section>
 
       <section class="table-panel">
         <div class="panel-header panel-header-split">
@@ -204,6 +239,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=11"></script>
+  <script src="dashboard.js?v=13"></script>
 </body>
 </html>
