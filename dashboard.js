@@ -20,19 +20,7 @@ function setText(id, value) {
   return true;
 }
 
-function showDebug(msg) {
-  let box = byId("debugBox");
-  if (!box) {
-    box = document.createElement("div");
-    box.id = "debugBox";
-    const main = document.querySelector(".main-content");
-    const statusRow = document.querySelector(".status-row");
-    if (main && statusRow) {
-      main.insertBefore(box, statusRow.nextSibling);
-    }
-  }
-  box.textContent = msg;
-}
+
 
 function formatCurrency(value) {
   return `$${Number(value || 0).toFixed(2)}`;
@@ -119,7 +107,7 @@ async function loadDashboardData() {
     if (error) {
       console.error(error);
       updateStatus("Unable to load live data from Supabase.", true);
-      showDebug("Supabase error:\n" + JSON.stringify(error, null, 2));
+  
       return;
     }
 
@@ -131,7 +119,7 @@ async function loadDashboardData() {
   } catch (err) {
     console.error(err);
     updateStatus(`Unexpected error: ${err.message}`, true);
-    showDebug("Unexpected JS error:\n" + err.message);
+   
   }
 }
 
