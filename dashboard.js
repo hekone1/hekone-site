@@ -155,8 +155,8 @@ function filterRowsByRange(rows) {
 }
 
 function getMetricConfig(metric) {
-  if (metric === "weight_g") return { key: "weight_g", label: "Weight (g)", title: "Weight (g) Trend" };
-  if (metric === "weight_lb") return { key: "weight_lb", label: "Weight (lb)", title: "Weight (lb) Trend" };
+  if (metric === "weight_g") return { key: "weight_g", label: "Weight (g)", title: "Weight Trend" };
+  if (metric === "weight_lb") return { key: "weight_lb", label: "Weight (lb)", title: "Weight Trend" };
   if (metric === "calories") return { key: "calories", label: "Calories", title: "Calories Trend" };
   return { key: "price", label: "Price", title: "Price Trend" };
 }
@@ -233,25 +233,25 @@ function updateKPIs(rows) {
   let actionSubtext = "No intervention required right now";
 
   if (inventoryGapLb > GAP_TOLERANCE_LB) {
-    inventoryStatus = "Variance";
+    inventoryStatus = "Variance Detected";
     inventoryStatusSubtext = "Unaccounted inventory difference detected";
-    actionValue = "Investigate";
-    actionSubtext = "Review inventory state and verify remaining material";
+    actionValue = "Investigate Inventory";
+    actionSubtext = "Review cycle state and verify remaining material";
   } else if (projectedRemainingLb <= LOW_INVENTORY_THRESHOLD_LB) {
-    inventoryStatus = "Low Stock";
+    inventoryStatus = "Low Inventory";
     inventoryStatusSubtext = "Projected remaining inventory is running low";
-    actionValue = "Refill Soon";
-    actionSubtext = "Prepare a refill to avoid running the cycle too low";
+    actionValue = "Schedule Refill";
+    actionSubtext = "Prepare the next refill before the cycle runs low";
   } else if (accountedFlowPct < 25) {
-    inventoryStatus = "Early Cycle";
-    inventoryStatusSubtext = "Only a small share of loaded inventory has been dispensed";
-    actionValue = "Monitor";
-    actionSubtext = "Continue observing transaction activity";
+    inventoryStatus = "Cycle Healthy";
+    inventoryStatusSubtext = "Cycle has started normally and remains within projection";
+    actionValue = "Continue Monitoring";
+    actionSubtext = "Observe activity as the cycle progresses";
   } else {
-    inventoryStatus = "Balanced";
-    inventoryStatusSubtext = "No projected loss under the current cycle model";
-    actionValue = "Continue";
-    actionSubtext = "System is operating within current expected projection";
+    inventoryStatus = "On Track";
+    inventoryStatusSubtext = "No projected loss or variance under the current model";
+    actionValue = "No Action Needed";
+    actionSubtext = "System is operating within the current projected cycle";
   }
 
   setText("revenueValue", formatCurrency(revenue));
@@ -303,7 +303,7 @@ function updateKPIs(rows) {
     "impactCostSubtext",
     inventoryGapLb > GAP_TOLERANCE_LB
       ? "Projected value of detected inventory variance"
-      : "No projected loss under the current model"
+      : "No projected variance currently detected"
   );
 
   setText("impactActionValue", actionValue);
