@@ -143,26 +143,28 @@
         </div>
       </section>
 
-      <div class="chart-controls-row">
-        <div class="topbar-controls chart-bottom-controls">
-          <select id="metricSelect">
-            <option value="price" selected>Price</option>
-            <option value="weight_g">Weight (g)</option>
-            <option value="weight_lb">Weight (lb)</option>
-            <option value="calories">Calories</option>
-          </select>
+      <div class="chart-controls-shell">
+        <div class="chart-controls-row">
+          <div class="topbar-controls chart-bottom-controls">
+            <select id="metricSelect">
+              <option value="price" selected>Price</option>
+              <option value="weight_g">Weight (g)</option>
+              <option value="weight_lb">Weight (lb)</option>
+              <option value="calories">Calories</option>
+            </select>
 
-          <select id="timeRange">
-            <option value="daily" selected>Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
+            <select id="timeRange">
+              <option value="daily" selected>Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
 
-          <select id="chartMode">
-            <option value="incremental" selected>Incremental</option>
-            <option value="cumulative">Cumulative</option>
-          </select>
+            <select id="chartMode">
+              <option value="incremental" selected>Incremental</option>
+              <option value="cumulative">Cumulative</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -202,6 +204,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=10"></script>
+  <script src="dashboard.js?v=11"></script>
 </body>
 </html>
