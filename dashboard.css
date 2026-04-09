@@ -271,9 +271,11 @@ a {
 
 .hero-image {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
+  gap: 12px;
 }
 
 .hero-image img {
@@ -288,6 +290,31 @@ a {
 
 .hero-image img:hover {
   transform: scale(1.03);
+}
+
+.device-label {
+  width: 100%;
+  max-width: 240px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(18, 28, 52, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+.device-label-title {
+  display: block;
+  color: #8fa2d8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.device-label-value {
+  display: block;
+  color: #edf2ff;
+  font-size: 14px;
 }
 
 .hero-content {
@@ -558,7 +585,8 @@ tbody tr:last-child td {
     grid-template-columns: 220px 1fr;
   }
 
-  .hero-image img {
+  .hero-image img,
+  .device-label {
     max-width: 200px;
   }
 }
@@ -581,7 +609,8 @@ tbody tr:last-child td {
     width: 100%;
   }
 
-  .hero-image img {
+  .hero-image img,
+  .device-label {
     max-width: 220px;
   }
 }
@@ -678,7 +707,8 @@ tbody tr:last-child td {
     grid-template-columns: 1fr;
   }
 
-  .hero-image img {
+  .hero-image img,
+  .device-label {
     max-width: 180px;
   }
 
