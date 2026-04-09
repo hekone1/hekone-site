@@ -109,7 +109,7 @@ function updateStatus(message, isError = false) {
 async function loadDashboardData() {
   try {
     updateStatus("Loading live data from Supabase...");
-    showDebug("Starting Supabase request...");
+
 
     const { data, error } = await supabaseClient
       .from("traction_events")
@@ -125,9 +125,7 @@ async function loadDashboardData() {
 
     allRows = Array.isArray(data) ? data : [];
     updateStatus(`${allRows.length} rows loaded successfully from the live store feed.`);
-    showDebug(`Supabase OK
-Rows fetched: ${allRows.length}
-First row time: ${allRows[0]?.created_at || "none"}`);
+
 
     renderDashboard();
   } catch (err) {
