@@ -376,10 +376,10 @@
 
     .engineering-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 32px;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
       margin-top: 28px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .card {
@@ -434,12 +434,40 @@
       font-weight: 700;
     }
 
-    .engineering-grid .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 600px;
-      height: 100%;
+    .impact-line {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #eef5ff;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .quote-bar {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(124,199,255,0.10), rgba(154,124,255,0.06));
+      border: 1px solid rgba(124,199,255,0.20);
+      color: #eef5ff;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.45;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .engineering-text-card {
+      min-height: 0;
+      padding: 28px 28px 26px;
+    }
+
+    .engineering-text-card ul {
+      margin-top: 14px;
+      margin-bottom: 0;
+    }
+
+    .engineering-text-card p:last-child {
+      margin-bottom: 0;
     }
 
     .image-card.patent-card {
@@ -448,7 +476,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 100%;
+      height: auto;
     }
 
     .image-card.patent-card img {
@@ -530,12 +558,6 @@
       color: #e8f3ff;
       font-size: 17px;
       max-width: 860px;
-    }
-
-    .quote-box.quote-sharp {
-      background: linear-gradient(180deg, rgba(124,199,255,0.10), rgba(154,124,255,0.06));
-      border-left: 3px solid #9fd8ff;
-      font-weight: 700;
     }
 
     .demo-grid {
@@ -726,10 +748,6 @@
         padding: 30px 24px;
       }
 
-      .engineering-grid .card {
-        min-height: auto;
-      }
-
       .image-card.patent-card,
       .image-card.cad-card {
         max-width: 100%;
@@ -746,6 +764,10 @@
       .video-card {
         max-width: 520px;
         margin: 0 auto;
+      }
+
+      .quote-bar {
+        font-size: 17px;
       }
     }
 
@@ -831,6 +853,11 @@
       .cta-actions .btn-primary,
       .cta-actions .btn-secondary {
         width: 100%;
+      }
+
+      .quote-bar {
+        padding: 16px 18px;
+        font-size: 16px;
       }
     }
   </style>
@@ -972,9 +999,9 @@
               <li>Exception handling happens too late.</li>
               <li>Accountability is weakened at the exact handoff point that matters.</li>
             </ul>
-            <p style="margin-top: 16px; color: #e8f3ff; font-weight: 700;">
+            <div class="impact-line">
               This loss is already happening — it’s just not being measured.
-            </p>
+            </div>
           </div>
         </div>
 
@@ -993,9 +1020,19 @@
             <div class="impact-kicker">From technical visibility to financial impact</div>
           </div>
 
-          <div class="quote-box quote-sharp" style="margin-top: 0; max-width: none;">
-            If you can’t measure it at the moment it happens, you’re guessing.
+          <div class="card">
+            <h3>Why this gets missed</h3>
+            <p>
+              In many environments, teams only see the result later — after inventory drift, waste, or unexplained variance has already accumulated.
+            </p>
+            <p>
+              Without real-time measurement at the point of use, operators are often left reconciling symptoms instead of seeing the event itself.
+            </p>
           </div>
+        </div>
+
+        <div class="quote-bar">
+          If you can’t measure it at the moment it happens, you’re guessing.
         </div>
       </section>
 
@@ -1077,7 +1114,7 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card engineering-text-card">
             <h3>Designed for real-world deployment</h3>
             <p>
               This prototype is supported by a structured engineering design, developed to operate reliably in physical environments.
@@ -1090,7 +1127,7 @@
               <li>Built with manufacturability and integration in mind</li>
             </ul>
 
-            <p style="margin-top: 14px;">
+            <p style="margin-top: 16px;">
               The system design has been filed as part of an intellectual property framework supporting HEKONE’s broader platform vision.
             </p>
           </div>
@@ -1190,8 +1227,8 @@
         </div>
 
         <div class="cta-actions">
-          <a class="btn-primary" href="/">Explore how HEKONE works</a>
-          <a class="btn-secondary" href="/contact.html">Start a pilot</a>
+          <a class="btn-primary" href="/">Explore How HEKONE Works</a>
+          <a class="btn-secondary" href="/contact.html">Start a Pilot</a>
         </div>
       </section>
 
