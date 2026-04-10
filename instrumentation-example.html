@@ -408,6 +408,32 @@
       padding-left: 18px;
     }
 
+    .impact-card {
+      border: 1px solid rgba(124,199,255,0.18);
+      background:
+        radial-gradient(circle at top left, rgba(124,199,255,0.10), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(124,199,255,0.04);
+    }
+
+    .impact-card p strong {
+      color: #eff6ff;
+    }
+
+    .impact-kicker {
+      display: inline-flex;
+      margin-top: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124,199,255,0.10);
+      border: 1px solid rgba(124,199,255,0.16);
+      color: #d9ebff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .engineering-grid .card {
       display: flex;
       flex-direction: column;
@@ -506,6 +532,12 @@
       max-width: 860px;
     }
 
+    .quote-box.quote-sharp {
+      background: linear-gradient(180deg, rgba(124,199,255,0.10), rgba(154,124,255,0.06));
+      border-left: 3px solid #9fd8ff;
+      font-weight: 700;
+    }
+
     .demo-grid {
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
@@ -598,6 +630,18 @@
       margin: 10px 0 0;
       color: #c5d3ee;
       max-width: 700px;
+    }
+
+    .cta-lead {
+      display: inline-flex;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #def0ff;
+      background: rgba(124,199,255,0.10);
+      border: 1px solid rgba(124,199,255,0.16);
     }
 
     .cta-actions {
@@ -813,7 +857,7 @@
         <a href="/#use-cases">Use Cases</a>
         <a href="/about.html">About</a>
         <a href="/contact.html">Contact</a>
-        <a href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Explore a Pilot</a>
+        <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
       </nav>
     </div>
   </header>
@@ -928,6 +972,29 @@
               <li>Exception handling happens too late.</li>
               <li>Accountability is weakened at the exact handoff point that matters.</li>
             </ul>
+            <p style="margin-top: 16px; color: #e8f3ff; font-weight: 700;">
+              This loss is already happening — it’s just not being measured.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card impact-card">
+            <h3>What this typically looks like</h3>
+            <p>
+              Most dispensing environments operate with <strong>2–8% untracked variance</strong> between expected and actual usage.
+            </p>
+            <p>
+              For a single location, that can represent <strong>$3K–$15K+ annually</strong> depending on volume.
+            </p>
+            <p>
+              Across multiple locations, the impact scales quickly.
+            </p>
+            <div class="impact-kicker">From technical visibility to financial impact</div>
+          </div>
+
+          <div class="quote-box quote-sharp" style="margin-top: 0; max-width: none;">
+            If you can’t measure it at the moment it happens, you’re guessing.
           </div>
         </div>
       </section>
@@ -1115,6 +1182,7 @@
 
       <section class="cta">
         <div>
+          <div class="cta-lead">See what’s actually happening — measure real usage in your own environment.</div>
           <h3>Explore HEKONE beyond this example.</h3>
           <p>
             Smart Gravity Bin illustrates one instrumentation approach. The broader opportunity is a physical intelligence layer that helps teams detect, interpret, and control what conventional systems miss.
@@ -1123,7 +1191,7 @@
 
         <div class="cta-actions">
           <a class="btn-primary" href="/">Explore how HEKONE works</a>
-          <a class="btn-secondary" href="/contact.html">Request Intro</a>
+          <a class="btn-secondary" href="/contact.html">Start a pilot</a>
         </div>
       </section>
 
