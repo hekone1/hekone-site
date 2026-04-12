@@ -13,7 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HEKONE — Instrumentation Example</title>
-  <meta name="description" content="Illustrative HEKONE instrumentation example showing how physical flow becomes measurable signal." />
+  <meta name="description" content="Illustrative HEKONE instrumentation example showing how physical flow becomes measurable signal and cost impact." />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
   <link rel="apple-touch-icon" href="favicon1.png?v=2" />
@@ -275,7 +275,7 @@
     .hero-copy {
       font-size: 18px;
       color: var(--muted);
-      max-width: 620px;
+      max-width: 660px;
       margin: 22px 0 0;
     }
 
@@ -354,7 +354,7 @@
     }
 
     .section-intro {
-      max-width: 760px;
+      max-width: 780px;
       color: var(--muted);
       font-size: 17px;
       margin-top: 14px;
@@ -441,6 +441,48 @@
       color: #eef5ff;
       font-weight: 700;
       line-height: 1.5;
+    }
+
+    .impact-strip {
+      margin-top: 34px;
+    }
+
+    .impact-strip .impact-card {
+      padding: 26px;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .impact-metric {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .impact-metric-label {
+      font-size: 12px;
+      color: #b8cae8;
+      margin-bottom: 8px;
+    }
+
+    .impact-metric-value {
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1;
+      font-weight: 800;
+      color: #f1f7ff;
+      letter-spacing: -0.03em;
+    }
+
+    .impact-metric-note {
+      margin-top: 7px;
+      font-size: 13px;
+      color: var(--muted);
     }
 
     .quote-bar {
@@ -683,6 +725,7 @@
       font-weight: 700;
       font-size: 14px;
       transition: transform 0.2s ease, opacity 0.2s ease;
+      text-align: center;
     }
 
     .btn-primary:hover,
@@ -736,7 +779,8 @@
       .grid-3,
       .signal-row,
       .engineering-grid,
-      .demo-grid {
+      .demo-grid,
+      .impact-grid {
         grid-template-columns: 1fr;
       }
 
@@ -898,7 +942,7 @@
           <div class="eyebrow">Illustrative instrumentation example</div>
           <h1>From physical flow to measurable signal.</h1>
           <p class="hero-copy">
-            Smart Gravity Bin is one example of how HEKONE instruments real-world activity at the shelf level — turning product movement into structured, AI-ready, decision-ready signals.
+            Smart Gravity Bin is one example of how HEKONE instruments real-world activity at the shelf level — turning product movement into structured signals that help quantify variance in real terms, identify hidden operational loss, and translate usage into cost impact.
           </p>
           <div class="hero-note">
             This is not the HEKONE platform itself. It is a targeted instrumentation example for one specific blind spot.
@@ -919,11 +963,43 @@
         </div>
       </section>
 
+      <section class="impact-strip">
+        <div class="card impact-card">
+          <div class="section-kicker" style="margin-bottom: 12px;">Estimated impact</div>
+          <h2 style="font-size: clamp(26px, 3.2vw, 38px);">Estimated Operational Impact</h2>
+          <p class="section-intro" style="margin-top: 12px; max-width: 860px;">
+            Even directional modeling can create the right context: translate usage into cost impact, identify hidden operational loss, and quantify variance in real terms before it compounds across locations.
+          </p>
+
+          <div class="impact-grid">
+            <div class="impact-metric">
+              <div class="impact-metric-label">Potential overuse detected</div>
+              <div class="impact-metric-value">$120–$450/day</div>
+              <div class="impact-metric-note">Modeled range based on volume and usage variance.</div>
+            </div>
+
+            <div class="impact-metric">
+              <div class="impact-metric-label">Projected monthly variance</div>
+              <div class="impact-metric-value">$3K–$12K</div>
+              <div class="impact-metric-note">Creates immediate context for operational review.</div>
+            </div>
+
+            <div class="impact-metric">
+              <div class="impact-metric-label">Estimated annual impact</div>
+              <div class="impact-metric-value">$36K–$140K+</div>
+              <div class="impact-metric-note">Illustrative directional estimate for a live environment.</div>
+            </div>
+          </div>
+
+          <div class="impact-kicker">Directional estimate — actual values vary by volume and environment</div>
+        </div>
+      </section>
+
       <section class="section">
         <div class="section-kicker">Live demo</div>
         <h2>See the HEKONE Smart Dispenser in action.</h2>
         <p class="section-intro">
-          This short demo shows a real working prototype translating physical dispensing activity into measurable signal. It is an early proof point of how HEKONE can connect real-world interaction to structured operational visibility.
+          This short demo shows a real working prototype translating physical dispensing activity into measurable signal. It is an early proof point of how HEKONE can connect real-world interaction to structured operational visibility and translate usage into cost impact.
         </p>
 
         <div class="demo-grid">
@@ -945,7 +1021,7 @@
           <div class="card">
             <h3>What this demo represents</h3>
             <p>
-              This is not a concept rendering or mock interface. It is a real prototype demonstration showing how HEKONE can instrument a physical interaction point and convert that moment into usable data.
+              This is not a concept rendering or mock interface. It is a real prototype demonstration showing how HEKONE can instrument a physical interaction point, identify hidden operational loss, and convert that moment into usable data.
             </p>
 
             <div class="demo-points">
@@ -960,8 +1036,8 @@
               </div>
 
               <div class="demo-point">
-                <strong>Platform relevance</strong>
-                <span>Supports the broader HEKONE vision of building the physical data layer for AI-enabled operations.</span>
+                <strong>Decision relevance</strong>
+                <span>Supports the broader HEKONE vision of quantifying variance in real terms and exposing cost impact earlier.</span>
               </div>
             </div>
 
@@ -977,7 +1053,7 @@
         <div class="section-kicker">Blind spot</div>
         <h2>The shelf is often where visibility breaks down — and where significant, untracked loss occurs.</h2>
         <p class="section-intro">
-          In many physical environments, product leaves the shelf or dispensing point without reliable real-time measurement. Systems may report inventory later, but they often miss what actually happened in the moment.
+          In many physical environments, product leaves the shelf or dispensing point without reliable real-time measurement. Systems may report inventory later, but they often miss what actually happened in the moment — making it harder to quantify variance in real terms or identify hidden operational loss before cost accumulates.
         </p>
 
         <div class="grid-2">
@@ -1026,7 +1102,7 @@
               In many environments, teams only see the result later — after inventory drift, waste, or unexplained variance has already accumulated.
             </p>
             <p>
-              Without real-time measurement at the point of use, operators are often left reconciling symptoms instead of seeing the event itself.
+              Without real-time measurement at the point of use, operators are often left reconciling symptoms instead of seeing the event itself or translating usage into cost impact.
             </p>
           </div>
         </div>
@@ -1040,7 +1116,7 @@
         <div class="section-kicker">Instrumentation logic</div>
         <h2>Capturing physical activity as a usable signal.</h2>
         <p class="section-intro">
-          The role of this prototype is simple: detect product movement at the point of interaction and convert that change into structured, AI-ready signal data that can feed the larger HEKONE layer.
+          The role of this prototype is simple: detect product movement at the point of interaction and convert that change into structured, AI-ready signal data that helps quantify variance in real terms and translate usage into cost impact across operations.
         </p>
 
         <div class="grid-3">
@@ -1054,14 +1130,14 @@
           <div class="card">
             <h3>Structure</h3>
             <p>
-              Each physical event can be translated into usable operational data that supports exception tracking, visibility, and reporting.
+              Each physical event can be translated into usable operational data that supports exception tracking, visibility, reporting, and quantification of real-world variance and cost impact.
             </p>
           </div>
 
           <div class="card">
             <h3>Connect</h3>
             <p>
-              The captured signal can feed a broader HEKONE workflow, where physical events become part of a measurable operational system.
+              The captured signal can feed a broader HEKONE workflow, where physical events become part of a measurable operational system with decision-ready cost context.
             </p>
           </div>
         </div>
@@ -1071,7 +1147,7 @@
         <div class="section-kicker">System role</div>
         <h2>Part of the HEKONE system — not the whole system.</h2>
         <p class="section-intro">
-          Smart Gravity Bin is best understood as a signal-generating node. It does not define the platform. It contributes one stream of visibility for one type of operational blind spot.
+          Smart Gravity Bin is best understood as a signal-generating node. It does not define the platform. It contributes one stream of visibility for one type of operational blind spot — helping teams identify hidden operational loss sooner.
         </p>
 
         <div class="signal-flow">
@@ -1145,7 +1221,7 @@
         <div class="section-kicker">Dashboard example</div>
         <h2>Illustrative dashboard view for Smart Gravity Bin.</h2>
         <p class="section-intro">
-          This example shows how one instrumented dispensing point can connect to a practical dashboard layer. It combines fill-level visibility, weekly sales trends, temperature and humidity monitoring, discount decision support, and multi-bin operational oversight.
+          This example shows how one instrumented dispensing point can connect to a practical dashboard layer. It combines fill-level visibility, weekly sales trends, temperature and humidity monitoring, discount decision support, multi-bin operational oversight, and the ability to translate usage into cost impact.
         </p>
 
         <div class="image-card" style="margin-top: 28px;">
@@ -1222,13 +1298,13 @@
           <div class="cta-lead">See what’s actually happening — measure real usage in your own environment.</div>
           <h3>Explore HEKONE beyond this example.</h3>
           <p>
-            Smart Gravity Bin illustrates one instrumentation approach. The broader opportunity is a physical intelligence layer that helps teams detect, interpret, and control what conventional systems miss.
+            Smart Gravity Bin illustrates one instrumentation approach. The broader opportunity is a physical intelligence layer that helps teams detect, interpret, and control what conventional systems miss — while identifying cost impact earlier.
           </p>
         </div>
 
         <div class="cta-actions">
           <a class="btn-primary" href="/">Explore How HEKONE Works</a>
-          <a class="btn-secondary" href="/contact.html">Start a Pilot</a>
+          <a class="btn-secondary" href="/contact.html">Start a Pilot — Measure Real Usage and Identify Cost Impact</a>
         </div>
       </section>
 
