@@ -1,239 +1,880 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>HEKONE Pilot</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE Pilot</title>
+  <meta
+    name="description"
+    content="Start a HEKONE pilot to measure real dispensing activity in real time and build operational visibility from physical data."
+  />
 
-<style>
+  <style>
+    :root {
+      --bg: #f7f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f3efff;
+      --text: #111827;
+      --muted: #5b6475;
+      --line: #e5e7eb;
+      --primary: #6d3df5;
+      --primary-dark: #4b22c7;
+      --navy: #16113a;
+      --success: #14b86a;
+      --shadow: 0 16px 40px rgba(17, 24, 39, 0.08);
+      --radius: 24px;
+      --radius-sm: 16px;
+      --max: 1160px;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #ffffff;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.container {
-  max-width: 950px;
-  margin: auto;
-  padding: 40px 20px;
-  text-align: center;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* HERO */
-h1 {
-  font-size: 2.7rem;
-  margin-bottom: 10px;
-}
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(109, 61, 245, 0.12), transparent 28%),
+        linear-gradient(180deg, #fcfcff 0%, #f7f7fb 100%);
+      line-height: 1.55;
+    }
 
-.highlight {
-  color: #22c55e;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-.sub {
-  font-size: 1.2rem;
-  opacity: 0.85;
-  margin-bottom: 30px;
-}
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-/* VIDEO */
-.video iframe {
-  width: 100%;
-  height: 420px;
-  border-radius: 12px;
-  border: none;
-}
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
 
-/* CARDS */
-.card {
-  background: #1e293b;
-  padding: 25px;
-  border-radius: 14px;
-  margin: 25px 0;
-}
+    .topbar {
+      padding: 20px 0;
+    }
 
-.card h2 {
-  color: #22c55e;
-  margin-bottom: 10px;
-}
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--primary);
+    }
 
-/* BULLET */
-.bullet {
-  text-align: left;
-  max-width: 500px;
-  margin: auto;
-}
+    .brand-mark {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--primary), #9f7bff);
+      box-shadow: 0 8px 18px rgba(109, 61, 245, 0.25);
+    }
 
-.bullet li {
-  margin-bottom: 10px;
-}
+    .hero {
+      padding: 28px 0 42px;
+    }
 
-/* ROI BOX */
-.roi {
-  background: #020617;
-  border: 1px solid #22c55e;
-}
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 32px;
+      align-items: center;
+    }
 
-/* CTA */
-.cta {
-  margin-top: 40px;
-  padding: 30px;
-  background: #22c55e;
-  color: #000;
-  border-radius: 14px;
-}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: rgba(109, 61, 245, 0.08);
+      border: 1px solid rgba(109, 61, 245, 0.12);
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
 
-.cta h2 {
-  margin-bottom: 10px;
-}
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+      max-width: 760px;
+    }
 
-/* FORM */
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
+    h1 .accent {
+      color: var(--primary);
+    }
 
-input {
-  background: #f1f5f9;
-}
+    .hero-copy {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
 
-button {
-  background: #000;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
 
-button:hover {
-  opacity: 0.9;
-}
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      cursor: pointer;
+    }
 
-/* FAQ */
-.faq {
-  text-align: left;
-  margin-top: 40px;
-}
+    .btn:hover {
+      transform: translateY(-1px);
+    }
 
-.faq h3 {
-  margin-top: 20px;
-  color: #22c55e;
-}
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(109, 61, 245, 0.24);
+    }
 
-/* FOOTER */
-footer {
-  margin-top: 50px;
-  opacity: 0.6;
-  font-size: 0.9rem;
-}
+    .btn-secondary {
+      background: #fff;
+      color: var(--navy);
+      border-color: #d8dbe4;
+    }
 
-</style>
+    .micro-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .micro-pill {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 22px rgba(17, 24, 39, 0.04);
+    }
+
+    .hero-visual {
+      position: relative;
+      background: linear-gradient(180deg, #ffffff 0%, #f6f2ff 100%);
+      border: 1px solid rgba(109, 61, 245, 0.12);
+      border-radius: 32px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(109, 61, 245, 0.18), transparent 70%);
+      pointer-events: none;
+    }
+
+    .prototype-tag {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 2;
+      background: rgba(22, 17, 58, 0.92);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(17, 24, 39, 0.2);
+    }
+
+    .visual-device {
+      width: 100%;
+      border-radius: 22px;
+      background: #fff;
+    }
+
+    .visual-caption {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .section {
+      padding: 34px 0;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      margin: 0 0 22px;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 1.05rem;
+    }
+
+    .problem-grid,
+    .steps-grid,
+    .value-grid,
+    .faq-grid,
+    .contact-grid,
+    .form-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .problem-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 22px;
+      box-shadow: 0 10px 28px rgba(17, 24, 39, 0.04);
+    }
+
+    .metric {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .metric-note {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .video-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    iframe {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-radius: 20px;
+      background: #000;
+    }
+
+    .side-panel {
+      background: linear-gradient(180deg, #fbf9ff 0%, #f2ecff 100%);
+      border: 1px solid rgba(109, 61, 245, 0.12);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .side-panel h3,
+    .card h3,
+    .faq-item h3 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      line-height: 1.25;
+    }
+
+    .check-list,
+    .plain-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .check-list li,
+    .plain-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .plain-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .value-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .value-card {
+      background: linear-gradient(180deg, #fff 0%, #faf8ff 100%);
+    }
+
+    .value-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.06em;
+    }
+
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      background: rgba(109, 61, 245, 0.1);
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .cta-band {
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--navy), #23185f);
+      color: #fff;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 18px 36px rgba(17, 24, 39, 0.16);
+    }
+
+    .cta-band-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .cta-band h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-band p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 760px;
+    }
+
+    .form-section {
+      padding-top: 40px;
+    }
+
+    .form-shell {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .field,
+    .field-full {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d9ddea;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--text);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(109, 61, 245, 0.55);
+      box-shadow: 0 0 0 4px rgba(109, 61, 245, 0.1);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 14px;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(17, 24, 39, 0.04);
+    }
+
+    .contact-line {
+      margin: 10px 0;
+      color: var(--muted);
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .video-grid,
+      .problem-grid,
+      .value-grid,
+      .steps-grid,
+      .faq-grid,
+      .contact-grid,
+      .cta-band-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 10px;
+      }
+
+      iframe {
+        min-height: 300px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(var(--max), calc(100% - 20px));
+      }
+
+      .topbar {
+        padding: 14px 0;
+      }
+
+      .hero,
+      .section,
+      .form-section {
+        padding: 22px 0;
+      }
+
+      .hero-visual,
+      .form-shell,
+      .cta-band,
+      .video-wrap,
+      .card,
+      .contact-card,
+      .faq-item,
+      .side-panel {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>HEKONE</span>
+      </a>
+    </div>
 
-<div class="container">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Pilot-ready prototype • real-time dispensing visibility</div>
+          <h1>
+            Turn physical dispensing into<br />
+            <span class="accent">measurable data.</span>
+          </h1>
+          <p class="hero-copy">
+            HEKONE captures actual dispensing activity in real time and helps build the operational visibility needed for smarter decisions. Start with a pilot and see what is physically happening in your workflow.
+          </p>
 
-<!-- HERO -->
-<h1>
-Identify <span class="highlight">Hidden Loss</span> Before It Hits Your Revenue
-</h1>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pilot-form">Request a Pilot</a>
+            <a class="btn btn-secondary" href="#demo">Watch Demo</a>
+          </div>
 
-<p class="sub">
-Most operations lose 2–5% in untracked product — without ever seeing it in reports.
-</p>
+          <div class="micro-proof">
+            <div class="micro-pill">Measure actual dispensing activity in real time</div>
+            <div class="micro-pill">Standalone pilot — no POS or ERP integration required</div>
+            <div class="micro-pill">Foundation for future discrepancy and loss analysis</div>
+          </div>
+        </div>
 
-<!-- VIDEO -->
-<div class="video">
-<iframe src="https://www.youtube.com/embed/Jq9ZalQI-Nc" allowfullscreen></iframe>
-</div>
+        <div class="hero-visual">
+          <div class="prototype-tag">Pilot prototype shown</div>
+          <img
+            class="visual-device"
+            src="https://hekone.com/HEKONE-dispenser-prototype.png"
+            alt="HEKONE pilot prototype"
+          />
+          <div class="visual-caption">
+            A practical entry point for measuring dispensing activity, usage behavior, and real-world operational events.
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- WHAT IT DOES -->
-<div class="card">
-<h2>What HEKONE Measures</h2>
-<ul class="bullet">
-<li>Actual product dispensed in real time</li>
-<li>Difference between expected vs. actual usage</li>
-<li>Loss occurring before checkout</li>
-</ul>
-</div>
+    <section class="section" aria-labelledby="problem-title">
+      <h2 class="section-title" id="problem-title">Why this matters</h2>
+      <p class="section-sub">
+        Many operations still rely on assumptions about what is physically happening during dispensing. Direct measurement creates a clearer picture of actual activity and usage behavior.
+      </p>
 
-<!-- WHY IT MATTERS -->
-<div class="card">
-<h2>Why It Matters</h2>
-<p>
-Small daily differences compound into thousands of dollars per location annually.
-</p>
-</div>
+      <div class="problem-grid">
+        <div class="card">
+          <div class="metric">Real-time</div>
+          <div class="metric-note">Measure actual dispensing activity as it happens at the point of interaction.</div>
+        </div>
+        <div class="card">
+          <div class="metric">1–2 weeks</div>
+          <div class="metric-note">A practical pilot window to observe real usage patterns and evaluate workflow behavior.</div>
+        </div>
+        <div class="card">
+          <div class="metric">Future-ready</div>
+          <div class="metric-note">Creates the data layer needed for future discrepancy and loss analysis as the system expands.</div>
+        </div>
+      </div>
+    </section>
 
-<!-- ROI -->
-<div class="card roi">
-<h2>Typical Impact</h2>
-<p>
-Even a 2% unnoticed loss can translate to <strong>$3K–$15K+ annually</strong> per location.
-</p>
-</div>
+    <section class="section" id="demo" aria-labelledby="demo-title">
+      <h2 class="section-title" id="demo-title">See the pilot in action</h2>
+      <p class="section-sub">
+        This prototype demonstrates how HEKONE captures dispensing activity, measures actual output, and creates a measurable record of physical events in the workflow.
+      </p>
 
-<!-- HOW IT WORKS -->
-<div class="card">
-<h2>How the Pilot Works</h2>
-<ul class="bullet">
-<li>We install the device in your operation</li>
-<li>Track real dispensing behavior over 1–2 weeks</li>
-<li>Provide simple, actionable insights</li>
-</ul>
-</div>
+      <div class="video-wrap">
+        <div class="video-grid">
+          <iframe
+            src="https://www.youtube.com/embed/Jq9ZalQI-Nc"
+            title="HEKONE pilot demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
 
-<!-- CTA -->
-<div class="cta">
-<h2>Start a Pilot</h2>
-<p>
-Identify measurable loss in your operation within 1–2 weeks.
-</p>
+          <div class="side-panel">
+            <h3>What the pilot demonstrates</h3>
+            <ul class="check-list">
+              <li>Actual product dispensed at the point of interaction</li>
+              <li>Visibility into dispensing events and usage behavior</li>
+              <li>Simple dashboard-ready data for review and action</li>
+              <li>A practical first step toward broader physical operations visibility</li>
+            </ul>
 
-<form action="#" method="POST">
-<input type="text" placeholder="Your Name" required>
-<input type="text" placeholder="Business Name" required>
-<input type="text" placeholder="Phone Number" required>
-<button type="submit">Request Pilot</button>
-</form>
+            <div style="height: 12px"></div>
 
-<p style="margin-top:10px;font-size:0.9rem;">
-No commitment required
-</p>
-</div>
+            <h3>What this pilot is designed to do</h3>
+            <ul class="plain-list">
+              <li>Measure dispensing activity directly</li>
+              <li>Reduce dependence on assumptions about usage</li>
+              <li>Build a physical data layer for future system expansion</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- FAQ -->
-<div class="faq">
+    <section class="section" aria-labelledby="value-title">
+      <h2 class="section-title" id="value-title">Where HEKONE creates value</h2>
+      <p class="section-sub">
+        HEKONE is built to make physical workflows more visible, measurable, and operationally understandable.
+      </p>
 
-<h2>Common Questions</h2>
+      <div class="value-grid">
+        <div class="card value-card">
+          <span class="value-label">MEASURE</span>
+          <h3>Actual dispensing</h3>
+          <p>Capture what is physically dispensed in real time instead of relying only on assumptions or delayed records.</p>
+        </div>
+        <div class="card value-card">
+          <span class="value-label">OBSERVE</span>
+          <h3>Usage behavior</h3>
+          <p>See how dispensing happens across time, interaction patterns, and workflow conditions.</p>
+        </div>
+        <div class="card value-card">
+          <span class="value-label">BUILD</span>
+          <h3>Operational visibility</h3>
+          <p>Create a reliable data foundation for better operational review, analysis, and future system intelligence.</p>
+        </div>
+        <div class="card value-card">
+          <span class="value-label">EXPAND</span>
+          <h3>Future discrepancy analysis</h3>
+          <p>Support future evolution toward broader discrepancy and loss detection as more sensing layers are added.</p>
+        </div>
+      </div>
+    </section>
 
-<h3>Does this integrate with our POS or inventory system?</h3>
-<p>
-No. HEKONE measures what actually happens physically — independent of reporting systems.
-</p>
+    <section class="section" aria-labelledby="pilot-steps-title">
+      <h2 class="section-title" id="pilot-steps-title">How the pilot works</h2>
+      <p class="section-sub">
+        The goal is simple: install, observe, measure, and review. Keep the first pilot lightweight and focused on usable operational insight.
+      </p>
 
-<h3>How long does it take?</h3>
-<p>
-Most pilots run for 1–2 weeks and provide immediate visibility.
-</p>
+      <div class="steps-grid">
+        <div class="card">
+          <div class="step-num">1</div>
+          <h3>Install and activate</h3>
+          <p>We set up the pilot prototype in a suitable workflow and define the observation period.</p>
+        </div>
+        <div class="card">
+          <div class="step-num">2</div>
+          <h3>Measure real activity</h3>
+          <p>HEKONE records actual dispensing behavior and builds a measurable log of physical interactions.</p>
+        </div>
+        <div class="card">
+          <div class="step-num">3</div>
+          <h3>Review findings</h3>
+          <p>We summarize usage patterns, operational observations, and next-step opportunities for deeper visibility.</p>
+        </div>
+      </div>
 
-<h3>Is this disruptive to operations?</h3>
-<p>
-No. The system is designed for simple installation and minimal workflow impact.
-</p>
+      <div class="cta-band">
+        <div class="cta-band-grid">
+          <div>
+            <h2>Start with measurement, then expand insight.</h2>
+            <p>
+              This pilot is designed to help you measure actual dispensing activity, build operational visibility, and evaluate where deeper sensing can create more value over time.
+            </p>
+          </div>
+          <a class="btn btn-primary" href="#pilot-form">Request a Pilot</a>
+        </div>
+      </div>
+    </section>
 
-</div>
+    <section class="form-section" id="pilot-form" aria-labelledby="form-title">
+      <div class="form-shell">
+        <h2 class="section-title" id="form-title">Request a pilot</h2>
+        <p class="section-sub">
+          Tell us a little about your operation. We will use this to understand fit, timeline, and the best workflow to evaluate.
+        </p>
 
-<footer>
-HEKONE — Physical Intelligence for Real-World Operations
-</footer>
+        <form action="#" method="post">
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" required />
+            </div>
 
-</div>
+            <div class="field">
+              <label for="company">Company / location</label>
+              <input id="company" name="company" type="text" placeholder="Company or location name" required />
+            </div>
 
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@company.com" required />
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="Phone number" />
+            </div>
+
+            <div class="field">
+              <label for="industry">Operation type</label>
+              <select id="industry" name="industry">
+                <option value="">Select an option</option>
+                <option>Retail / self-serve</option>
+                <option>Food service</option>
+                <option>Warehouse / distribution</option>
+                <option>Manufacturing</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="timeline">Preferred timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="">Select an option</option>
+                <option>As soon as possible</option>
+                <option>Within 30 days</option>
+                <option>Within 60 days</option>
+                <option>Just exploring</option>
+              </select>
+            </div>
+
+            <div class="field-full">
+              <label for="message">What workflow are you most interested in evaluating?</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="For example: self-serve dispensing, back-of-house usage, packaging fill variation, material handling, or another physical workflow."
+              ></textarea>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+            <button class="btn btn-primary" type="submit">Submit Pilot Request</button>
+            <div class="form-note">No commitment required. We will follow up to assess fit and next steps.</div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <h2 class="section-title" id="faq-title">Common questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>Does this need to connect to our POS or ERP?</h3>
+          <p>No. A first pilot can run as a standalone measurement layer focused on what is physically happening in the workflow.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What do we get from a pilot?</h3>
+          <p>A practical view into actual dispensing activity, usage behavior, and real-world workflow data, along with a review of what those findings may mean operationally.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Does the current pilot fully detect hidden loss?</h3>
+          <p>Not yet. The current pilot measures actual dispensing output and builds the data foundation needed for future discrepancy and loss analysis as additional sensing layers are added.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is this only about dispensing?</h3>
+          <p>No. Dispensing is an entry point. The broader goal is to capture physical events across operations and turn them into actionable data.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="contact-title">
+      <div class="contact-grid">
+        <div>
+          <h2 class="section-title" id="contact-title">Want to discuss fit before submitting?</h2>
+          <p class="section-sub">
+            If you would rather start with a short conversation, reach out directly and we can quickly assess whether a pilot makes sense.
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Shahriyar Hekmat</h3>
+          <div class="contact-line">Founder, HEKONE</div>
+          <div class="contact-line">info@hekone.com</div>
+          <div class="contact-line">www.hekone.com</div>
+          <div class="contact-line">Physical Intelligence for Real-World Operations</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-row">
+        <div>HEKONE — Physical Intelligence for Real-World Operations</div>
+        <div>Designed for pilot conversations, real-world measurement, and operational visibility.</div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
