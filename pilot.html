@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -29,8 +27,13 @@ html = """<!DOCTYPE html>
       --max: 1160px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -112,7 +115,9 @@ html = """<!DOCTYPE html>
       max-width: 760px;
     }
 
-    h1 .accent { color: var(--primary); }
+    h1 .accent {
+      color: var(--primary);
+    }
 
     .hero-copy {
       font-size: 1.1rem;
@@ -143,7 +148,9 @@ html = """<!DOCTYPE html>
       cursor: pointer;
     }
 
-    .btn:hover { transform: translateY(-1px); }
+    .btn:hover {
+      transform: translateY(-1px);
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -219,7 +226,9 @@ html = """<!DOCTYPE html>
       font-size: 0.95rem;
     }
 
-    .section { padding: 34px 0; }
+    .section {
+      padding: 34px 0;
+    }
 
     .section-title {
       margin: 0 0 10px;
@@ -246,7 +255,9 @@ html = """<!DOCTYPE html>
       gap: 18px;
     }
 
-    .problem-grid { grid-template-columns: repeat(3, 1fr); }
+    .problem-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     .card {
       background: var(--surface);
@@ -340,9 +351,13 @@ html = """<!DOCTYPE html>
       color: var(--primary);
     }
 
-    .value-grid { grid-template-columns: repeat(4, 1fr); }
+    .value-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
-    .value-card { background: linear-gradient(180deg, #fff 0%, #faf8ff 100%); }
+    .value-card {
+      background: linear-gradient(180deg, #fff 0%, #faf8ff 100%);
+    }
 
     .value-label {
       display: inline-block;
@@ -353,9 +368,13 @@ html = """<!DOCTYPE html>
       letter-spacing: 0.06em;
     }
 
-    .impact-grid { grid-template-columns: repeat(3, 1fr); }
+    .impact-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
-    .impact-card { background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%); }
+    .impact-card {
+      background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
+    }
 
     .impact-tag {
       display: inline-flex;
@@ -383,7 +402,9 @@ html = """<!DOCTYPE html>
       color: var(--muted);
     }
 
-    .steps-grid { grid-template-columns: repeat(3, 1fr); }
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     .step-num {
       width: 40px;
@@ -427,73 +448,101 @@ html = """<!DOCTYPE html>
       max-width: 760px;
     }
 
-    .form-section { padding-top: 40px; }
+    .form-section {
+      padding-top: 40px;
+    }
 
-.form-shell {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  padding: 28px;
-  box-shadow: var(--shadow);
-  color: var(--text);
-}
+    .form-shell {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      color: var(--text);
+    }
 
-.form-shell .section-title,
-.form-shell .section-sub,
-.form-shell label,
-.form-shell .form-note {
-  color: inherit;
-}
+    .form-shell .section-title,
+    .form-shell .section-sub,
+    .form-shell label,
+    .form-shell .form-note {
+      color: inherit;
+    }
 
-.form-shell .section-sub,
-.form-shell .form-note {
-  color: var(--muted);
-}
+    .form-shell .section-sub,
+    .form-shell .form-note {
+      color: var(--muted);
+    }
 
-input,
-textarea,
-select {
-  width: 100%;
-  border: 1px solid #d9ddea;
-  background: #ffffff;
-  color: var(--text);
-  border-radius: 14px;
-  padding: 14px 16px;
-  font: inherit;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
-  outline: none;
-}
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
 
-input::placeholder,
-textarea::placeholder {
-  color: #8a94a6;
-}
+    .field,
+    .field-full {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: rgba(109, 61, 245, 0.55);
-  box-shadow: 0 0 0 4px rgba(109, 61, 245, 0.1);
-}
+    .field-full {
+      grid-column: 1 / -1;
+    }
 
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #ffffff;
-  color: var(--text);
-  padding-right: 48px;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235b6475' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 18px;
-}
+    label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
 
-select option {
-  background: #ffffff;
-  color: #111827;
-}
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d9ddea;
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font: inherit;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      outline: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #8a94a6;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(109, 61, 245, 0.55);
+      box-shadow: 0 0 0 4px rgba(109, 61, 245, 0.1);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-color: #ffffff;
+      color: var(--text);
+      padding-right: 48px;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235b6475' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 18px;
+    }
+
+    select option {
+      background: #ffffff;
+      color: #111827;
+    }
 
     .button-row {
       margin-top: 18px;
@@ -501,6 +550,12 @@ select option {
       flex-wrap: wrap;
       gap: 12px;
       align-items: center;
+    }
+
+    .form-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 0;
     }
 
     .contact-grid {
@@ -521,7 +576,9 @@ select option {
       color: var(--muted);
     }
 
-    .faq-grid { grid-template-columns: 1fr 1fr; }
+    .faq-grid {
+      grid-template-columns: 1fr 1fr;
+    }
 
     .faq-item {
       background: #fff;
@@ -558,16 +615,29 @@ select option {
         grid-template-columns: 1fr;
       }
 
-      .hero { padding-top: 10px; }
-      iframe { min-height: 300px; }
+      .hero {
+        padding-top: 10px;
+      }
+
+      iframe {
+        min-height: 300px;
+      }
     }
 
     @media (max-width: 720px) {
-      .container { width: min(var(--max), calc(100% - 20px)); }
-      .topbar { padding: 14px 0; }
+      .container {
+        width: min(var(--max), calc(100% - 20px));
+      }
+
+      .topbar {
+        padding: 14px 0;
+      }
+
       .hero,
       .section,
-      .form-section { padding: 22px 0; }
+      .form-section {
+        padding: 22px 0;
+      }
 
       .hero-visual,
       .form-shell,
@@ -586,8 +656,13 @@ select option {
         align-items: stretch;
       }
 
-      .btn { width: 100%; }
-      .form-grid { grid-template-columns: 1fr; }
+      .btn {
+        width: 100%;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
 
       .button-row {
         flex-direction: column;
@@ -939,8 +1014,3 @@ select option {
   </div>
 </body>
 </html>
-"""
-
-path = Path("/mnt/data/pilot-formspree-fixed.html")
-path.write_text(html, encoding="utf-8")
-print(path)
