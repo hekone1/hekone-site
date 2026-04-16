@@ -247,6 +247,7 @@
     .problem-grid,
     .steps-grid,
     .value-grid,
+    .impact-grid,
     .faq-grid,
     .contact-grid,
     .form-grid {
@@ -365,6 +366,40 @@
       font-weight: 800;
       color: var(--primary);
       letter-spacing: 0.06em;
+    }
+
+    .impact-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .impact-card {
+      background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
+    }
+
+    .impact-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      text-transform: uppercase;
+    }
+
+    .impact-tag::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(109, 61, 245, 0.22);
+      box-shadow: inset 0 0 0 3px rgba(109, 61, 245, 0.22);
+    }
+
+    .impact-card p {
+      margin: 0;
+      color: var(--muted);
     }
 
     .steps-grid {
@@ -527,6 +562,7 @@
       .video-grid,
       .problem-grid,
       .value-grid,
+      .impact-grid,
       .steps-grid,
       .faq-grid,
       .contact-grid,
@@ -717,6 +753,51 @@
           <span class="value-label">EXPAND</span>
           <h3>Future discrepancy analysis</h3>
           <p>Support future evolution toward broader discrepancy and loss detection as more sensing layers are added.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="impact-title">
+      <h2 class="section-title" id="impact-title">Operational impact you can see immediately</h2>
+      <p class="section-sub">
+        Beyond measurement, the pilot can improve the day-to-day experience for customers, operators, and the business by making dispensing more controlled, visible, and efficient.
+      </p>
+
+      <div class="impact-grid">
+        <div class="card impact-card">
+          <div class="impact-tag">Customer experience</div>
+          <h3>Faster, more modern dispensing</h3>
+          <p>Creates a smoother self-service experience and gives customers a cleaner, more engaging interaction at the point of use.</p>
+        </div>
+
+        <div class="card impact-card">
+          <div class="impact-tag">Operator visibility</div>
+          <h3>Real-time dashboard access</h3>
+          <p>Gives the operator direct visibility into dispensing activity, usage patterns, and sales-related signals as they happen.</p>
+        </div>
+
+        <div class="card impact-card">
+          <div class="impact-tag">Workflow efficiency</div>
+          <h3>Less checkout dependency</h3>
+          <p>Reduces reliance on manual weighing and repetitive cashier involvement in workflows where dispensing can happen directly at the point of interaction.</p>
+        </div>
+
+        <div class="card impact-card">
+          <div class="impact-tag">Waste reduction</div>
+          <h3>More controlled dispensing</h3>
+          <p>Helps reduce product spillage and unnecessary waste during dispensing by creating a more guided and controlled flow.</p>
+        </div>
+
+        <div class="card impact-card">
+          <div class="impact-tag">Behavior insight</div>
+          <h3>Clearer understanding of usage</h3>
+          <p>Shows how customers actually interact with the product, when usage peaks happen, and where workflow friction may exist.</p>
+        </div>
+
+        <div class="card impact-card">
+          <div class="impact-tag">Business foundation</div>
+          <h3>Ready for broader system value</h3>
+          <p>Builds the operational data layer needed for future discrepancy analysis, loss visibility, and broader intelligence across physical workflows.</p>
         </div>
       </div>
     </section>
