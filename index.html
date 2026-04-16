@@ -1,6 +1,4 @@
-from pathlib import Path
-
-updated_html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -860,7 +858,7 @@ updated_html = r'''<!DOCTYPE html>
         <a href="https://hekone.com/contact">Contact</a>
         <a href="login.html">Login / Dashboard</a>
         
-        <a href="pilot.html" class="nav-pilot">Start a Pilot</a>
+        <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
       </nav>
     </div>
   </header>
@@ -884,7 +882,7 @@ updated_html = r'''<!DOCTYPE html>
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-pilot" href="pilot.html">Start a Pilot</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
             <a class="btn btn-secondary" href="#ecosystem">See Platform Vision</a>
           </div>
 
@@ -1204,7 +1202,7 @@ updated_html = r'''<!DOCTYPE html>
             <div class="cta-proof">Start with one site, one workflow, or one measurable blind spot.</div>
           </div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a class="btn btn-pilot" href="pilot.html">Start a Pilot</a>
+            <a class="btn btn-pilot" href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE">Start a Pilot</a>
             <a class="btn btn-secondary" href="mailto:info@hekone.com?subject=HEKONE%20Inquiry">Email HEKONE</a>
           </div>
         </div>
@@ -1285,8 +1283,3 @@ updated_html = r'''<!DOCTYPE html>
   </script>
 </body>
 </html>
-'''
-
-path = Path('/mnt/data/hekone-homepage-updated.html')
-path.write_text(updated_html, encoding='utf-8')
-print(f"Saved to {path}")
