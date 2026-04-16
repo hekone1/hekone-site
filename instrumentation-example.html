@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -955,7 +957,7 @@
         <a href="/#use-cases">Use Cases</a>
         <a href="/about.html">About</a>
         <a href="/contact.html">Contact</a>
-        <a href="mailto:info@hekone.com?subject=Start%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Start a Pilot</a>
+        <a href="/pilot.html" class="nav-pilot">Start a Pilot</a>
       </nav>
     </div>
   </header>
@@ -1074,7 +1076,7 @@
 
             <div class="cta-actions" style="margin-top: 22px;">
               <a class="btn-primary" href="https://youtube.com/shorts/Jq9ZalQI-Nc?feature=share" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
-              <a class="btn-secondary" href="/contact.html">Discuss a Pilot</a>
+              <a class="btn-secondary" href="/pilot.html">Discuss a Pilot</a>
             </div>
           </div>
         </div>
@@ -1381,7 +1383,7 @@
         </div>
 
         <div class="cta-actions">
-          <a class="btn-primary" href="/contact.html">Start a Pilot</a>
+          <a class="btn-primary" href="/pilot.html">Start a Pilot</a>
           <a class="btn-secondary" href="/">Explore Platform</a>
         </div>
       </section>
@@ -1453,3 +1455,8 @@
   </script>
 </body>
 </html>
+"""
+
+path = Path("/mnt/data/hekone-technology-updated.html")
+path.write_text(html, encoding="utf-8")
+print(path)
