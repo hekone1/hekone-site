@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -27,13 +29,8 @@
       --max: 1160px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -115,9 +112,7 @@
       max-width: 760px;
     }
 
-    h1 .accent {
-      color: var(--primary);
-    }
+    h1 .accent { color: var(--primary); }
 
     .hero-copy {
       font-size: 1.1rem;
@@ -148,9 +143,7 @@
       cursor: pointer;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
+    .btn:hover { transform: translateY(-1px); }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -226,9 +219,7 @@
       font-size: 0.95rem;
     }
 
-    .section {
-      padding: 34px 0;
-    }
+    .section { padding: 34px 0; }
 
     .section-title {
       margin: 0 0 10px;
@@ -255,9 +246,7 @@
       gap: 18px;
     }
 
-    .problem-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .problem-grid { grid-template-columns: repeat(3, 1fr); }
 
     .card {
       background: var(--surface);
@@ -351,13 +340,9 @@
       color: var(--primary);
     }
 
-    .value-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+    .value-grid { grid-template-columns: repeat(4, 1fr); }
 
-    .value-card {
-      background: linear-gradient(180deg, #fff 0%, #faf8ff 100%);
-    }
+    .value-card { background: linear-gradient(180deg, #fff 0%, #faf8ff 100%); }
 
     .value-label {
       display: inline-block;
@@ -368,13 +353,9 @@
       letter-spacing: 0.06em;
     }
 
-    .impact-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .impact-grid { grid-template-columns: repeat(3, 1fr); }
 
-    .impact-card {
-      background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%);
-    }
+    .impact-card { background: linear-gradient(180deg, #ffffff 0%, #faf8ff 100%); }
 
     .impact-tag {
       display: inline-flex;
@@ -402,9 +383,7 @@
       color: var(--muted);
     }
 
-    .steps-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .steps-grid { grid-template-columns: repeat(3, 1fr); }
 
     .step-num {
       width: 40px;
@@ -448,9 +427,7 @@
       max-width: 760px;
     }
 
-    .form-section {
-      padding-top: 40px;
-    }
+    .form-section { padding-top: 40px; }
 
     .form-shell {
       background: linear-gradient(180deg, rgba(16, 27, 54, 0.92), rgba(9, 16, 34, 0.96));
@@ -473,9 +450,7 @@
       color: #b8c4e6;
     }
 
-    .form-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+    .form-grid { grid-template-columns: 1fr 1fr; }
 
     .field,
     .field-full {
@@ -484,9 +459,7 @@
       gap: 8px;
     }
 
-    .field-full {
-      grid-column: 1 / -1;
-    }
+    .field-full { grid-column: 1 / -1; }
 
     label {
       font-size: 0.95rem;
@@ -509,9 +482,7 @@
     }
 
     input::placeholder,
-    textarea::placeholder {
-      color: #8292b5;
-    }
+    textarea::placeholder { color: #8292b5; }
 
     input:focus,
     textarea:focus,
@@ -570,9 +541,7 @@
       color: var(--muted);
     }
 
-    .faq-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+    .faq-grid { grid-template-columns: 1fr 1fr; }
 
     .faq-item {
       background: #fff;
@@ -609,29 +578,16 @@
         grid-template-columns: 1fr;
       }
 
-      .hero {
-        padding-top: 10px;
-      }
-
-      iframe {
-        min-height: 300px;
-      }
+      .hero { padding-top: 10px; }
+      iframe { min-height: 300px; }
     }
 
     @media (max-width: 720px) {
-      .container {
-        width: min(var(--max), calc(100% - 20px));
-      }
-
-      .topbar {
-        padding: 14px 0;
-      }
-
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .topbar { padding: 14px 0; }
       .hero,
       .section,
-      .form-section {
-        padding: 22px 0;
-      }
+      .form-section { padding: 22px 0; }
 
       .hero-visual,
       .form-shell,
@@ -650,13 +606,8 @@
         align-items: stretch;
       }
 
-      .btn {
-        width: 100%;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      .btn { width: 100%; }
+      .form-grid { grid-template-columns: 1fr; }
 
       .button-row {
         flex-direction: column;
@@ -890,7 +841,7 @@
           Tell us a little about your operation. We will use this to understand fit, timeline, and the best workflow to evaluate.
         </p>
 
-        <form action="https://formspree.io/f/mgonjqbj" method="POST">
+        <form action="https://formspree.io/f/mgonjqbj" method="POST" accept-charset="UTF-8">
           <input type="hidden" name="_subject" value="HEKONE Pilot Request" />
           <input type="hidden" name="reason" value="Pilot opportunity" />
           <input type="hidden" name="source_page" value="Pilot page" />
@@ -1008,3 +959,8 @@
   </div>
 </body>
 </html>
+"""
+
+path = Path("/mnt/data/pilot-formspree-fixed.html")
+path.write_text(html, encoding="utf-8")
+print(path)
