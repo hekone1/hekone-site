@@ -259,7 +259,7 @@
       line-height: 1.55;
     }
 
-    /* UPDATED IMAGE SECTIONS */
+    /* FULL-WIDTH VISUAL SECTIONS */
     .feature-section {
       padding: 95px 0;
       border-top: 1px solid rgba(255,255,255,0.04);
@@ -294,8 +294,31 @@
       object-fit: cover;
     }
 
-    .feature-spacer {
-      height: 8px;
+    .comparison-section {
+      padding: 85px 0 95px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .comparison-copy {
+      max-width: 920px;
+      margin-bottom: 28px;
+    }
+
+    .comparison-image {
+      width: 100%;
+      background:
+        radial-gradient(circle at center, rgba(140,82,255,0.08), transparent 45%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(140,82,255,0.12);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.4);
+    }
+
+    .comparison-image img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .capabilities {
@@ -464,14 +487,16 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .feature-section {
+      .feature-section,
+      .comparison-section {
         padding: 78px 0;
       }
     }
 
     @media (max-width: 680px) {
       .section,
-      .feature-section {
+      .feature-section,
+      .comparison-section {
         padding: 64px 0;
       }
 
@@ -500,11 +525,13 @@
         max-width: none;
       }
 
-      .feature-copy {
+      .feature-copy,
+      .comparison-copy {
         margin-bottom: 22px;
       }
 
-      .feature-image {
+      .feature-image,
+      .comparison-image {
         border-radius: 20px;
       }
     }
@@ -535,7 +562,7 @@
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="contact.html">Explore a Pilot</a>
-              <a class="btn btn-secondary" href="#story">See How It Works</a>
+              <a class="btn btn-secondary" href="#comparison">See How It Works</a>
             </div>
 
             <div class="hero-note">
@@ -575,6 +602,24 @@
             <strong>Faster Response</strong>
             <p>Flag problem zones and focus inspections where they matter most.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON SECTION -->
+    <section id="comparison" class="comparison-section">
+      <div class="container">
+        <div class="eyebrow">Process Comparison</div>
+        <div class="comparison-copy">
+          <h2>Eliminate the weighing step.</h2>
+          <p class="lede">
+            Replace a slower multi-step harvest flow with direct measurement at the moment of harvest — reducing labor,
+            delay, and operational friction while improving visibility in real time.
+          </p>
+        </div>
+
+        <div class="comparison-image">
+          <img src="origin-weightingstep.png" alt="Comparison showing traditional harvest process versus HEKONE Origin with the weighing step eliminated" />
         </div>
       </div>
     </section>
