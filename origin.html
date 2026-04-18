@@ -46,12 +46,12 @@
     }
 
     .container {
-      width: min(1180px, calc(100% - 40px));
+      width: min(1240px, calc(100% - 40px));
       margin: 0 auto;
     }
 
     .section {
-      padding: 84px 0;
+      padding: 90px 0;
       border-top: 1px solid rgba(255,255,255,0.04);
     }
 
@@ -82,6 +82,7 @@
       font-size: clamp(30px, 4vw, 46px);
       letter-spacing: -1px;
       margin-bottom: 18px;
+      max-width: 1100px;
     }
 
     h3 {
@@ -99,7 +100,7 @@
     .lede {
       font-size: 21px;
       color: #d7dcee;
-      max-width: 760px;
+      max-width: 900px;
     }
 
     .muted {
@@ -258,60 +259,43 @@
       line-height: 1.55;
     }
 
-    .story-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 26px;
-      align-items: center;
-      margin-top: 28px;
+    /* UPDATED IMAGE SECTIONS */
+    .feature-section {
+      padding: 95px 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
     }
 
-    .story-grid.reverse .story-copy {
-      order: 2;
+    .feature-copy {
+      max-width: 980px;
+      margin-bottom: 30px;
     }
 
-    .story-grid.reverse .story-media {
-      order: 1;
-    }
-
-    .story-copy p + p {
+    .feature-copy p + p {
       margin-top: 14px;
     }
 
-    .story-points {
-      margin-top: 22px;
-      display: grid;
-      gap: 12px;
+    .feature-image-wrap {
+      width: 100%;
     }
 
-    .story-point {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 14px 16px;
-      color: #d7dcee;
-      font-size: 16px;
-      line-height: 1.55;
-    }
-
-    .story-media {
+    .feature-image {
+      width: 100%;
       background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 28px;
       overflow: hidden;
       box-shadow: var(--shadow);
     }
 
-    .story-media img {
+    .feature-image img {
       display: block;
       width: 100%;
       height: auto;
+      object-fit: cover;
     }
 
-    .caption {
-      margin-top: 12px;
-      font-size: 14px;
-      color: var(--soft);
+    .feature-spacer {
+      height: 8px;
     }
 
     .capabilities {
@@ -470,14 +454,8 @@
 
     @media (max-width: 1024px) {
       .hero-grid,
-      .story-grid,
       .platform-grid {
         grid-template-columns: 1fr;
-      }
-
-      .story-grid.reverse .story-copy,
-      .story-grid.reverse .story-media {
-        order: initial;
       }
 
       .metrics,
@@ -485,15 +463,20 @@
       .timeline {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .feature-section {
+        padding: 78px 0;
+      }
     }
 
     @media (max-width: 680px) {
-      .section {
+      .section,
+      .feature-section {
         padding: 64px 0;
       }
 
       .container {
-        width: min(100% - 28px, 1180px);
+        width: min(100% - 28px, 1240px);
       }
 
       .metrics,
@@ -515,6 +498,14 @@
         position: static;
         margin: 14px;
         max-width: none;
+      }
+
+      .feature-copy {
+        margin-bottom: 22px;
+      }
+
+      .feature-image {
+        border-radius: 20px;
       }
     }
   </style>
@@ -589,156 +580,80 @@
     </section>
 
     <!-- STORY 1 -->
-    <section id="story" class="section">
+    <section id="story" class="feature-section">
       <div class="container">
         <div class="eyebrow">Product Overview</div>
-        <h2>Start with the bin. Build visibility across the orchard.</h2>
-        <p class="lede">
-          HEKONE Origin begins with a smart harvest bin that measures filled weight in the field and sends it
-          to a live system without waiting for a later weighing step.
-        </p>
+        <div class="feature-copy">
+          <h2>Start with the bin. Build visibility across the orchard.</h2>
+          <p class="lede">
+            HEKONE Origin begins with a smart harvest bin that measures filled weight in the field and sends it
+            to a live system without waiting for a later weighing step.
+          </p>
+        </div>
 
-        <div class="story-grid">
-          <div class="story-copy">
-            <h3>A measurement point at the source</h3>
-            <p>
-              Each harvest bin becomes a live source of operational data. As product is collected, the system can
-              record weight, time, and harvest context immediately.
-            </p>
-            <p>
-              This makes source data available the moment work happens — creating a stronger base for traceability,
-              comparison, and decision-making later in the process.
-            </p>
-
-            <div class="story-points">
-              <div class="story-point">Real-time weight measurement in the field</div>
-              <div class="story-point">Wireless transmission to the live dashboard</div>
-              <div class="story-point">Designed to connect harvest activity with location context</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="story-media">
-              <img src="origin.png" alt="HEKONE Origin smart harvest bin product visual" />
-            </div>
-            <div class="caption">A harvest bin becomes a live data point, not just a container.</div>
+        <div class="feature-image-wrap">
+          <div class="feature-image">
+            <img src="origin.png" alt="HEKONE Origin smart harvest bin product visual" />
           </div>
         </div>
       </div>
     </section>
 
     <!-- STORY 2 -->
-    <section class="section">
+    <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Live Operations</div>
-        <h2>See harvest activity across the orchard — as it happens.</h2>
-        <p class="lede">
-          Instead of waiting for delayed reports, teams can monitor where bins are located, how much each bin contains,
-          and which areas are outperforming or falling behind.
-        </p>
+        <div class="feature-copy">
+          <h2>See harvest activity across the orchard — as it happens.</h2>
+          <p class="lede">
+            Instead of waiting for delayed reports, teams can monitor where bins are located, how much each bin contains,
+            and which areas are outperforming or falling behind.
+          </p>
+        </div>
 
-        <div class="story-grid reverse">
-          <div class="story-copy">
-            <h3>Operational visibility that supports real decisions</h3>
-            <p>
-              HEKONE Origin can turn bin activity into a map-based operational view. Growers and managers can see
-              the location of bins in the orchard and track live harvest weight by zone, block, or team.
-            </p>
-            <p>
-              This creates a clearer picture of actual field performance, making it easier to spot uneven activity
-              and respond faster during the workday.
-            </p>
-
-            <div class="story-points">
-              <div class="story-point">Live orchard map with bin locations and weights</div>
-              <div class="story-point">Performance comparisons across harvest bins</div>
-              <div class="story-point">Early visibility into low-yield or inconsistent zones</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="story-media">
-              <img src="origin-location.png" alt="HEKONE Origin live harvest map showing orchard bin locations and weights" />
-            </div>
-            <div class="caption">A live harvest map shows where each bin is and how much has been collected.</div>
+        <div class="feature-image-wrap">
+          <div class="feature-image">
+            <img src="origin-location.png" alt="HEKONE Origin live harvest map showing orchard bin locations and weights" />
           </div>
         </div>
       </div>
     </section>
 
     <!-- STORY 3 -->
-    <section class="section">
+    <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Performance Insight</div>
-        <h2>Compare bins in real time and identify where output is stronger or weaker.</h2>
-        <p class="lede">
-          Not every harvest zone performs the same way. HEKONE Origin can help visualize which bins are filling faster,
-          which are lagging, and where attention may be needed.
-        </p>
+        <div class="feature-copy">
+          <h2>Compare bins in real time and identify where output is stronger or weaker.</h2>
+          <p class="lede">
+            Not every harvest zone performs the same way. HEKONE Origin can help visualize which bins are filling faster,
+            which are lagging, and where attention may be needed.
+          </p>
+        </div>
 
-        <div class="story-grid">
-          <div class="story-copy">
-            <h3>From weights to performance signals</h3>
-            <p>
-              By comparing live weight across multiple bins, teams can quickly see which harvest points are above average,
-              slightly below, or clearly underperforming.
-            </p>
-            <p>
-              This is where simple measurement becomes operational intelligence — giving managers a faster read on
-              productivity, consistency, and field-level variation.
-            </p>
-
-            <div class="story-points">
-              <div class="story-point">Identify top-performing and low-performing harvest bins</div>
-              <div class="story-point">Track average versus actual output in the field</div>
-              <div class="story-point">Support better staffing, routing, and inspection decisions</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="story-media">
-              <img src="origin-performance.png" alt="HEKONE Origin harvest performance overview with workers robots and bins" />
-            </div>
-            <div class="caption">Performance visibility helps surface stronger and weaker harvest activity in real time.</div>
+        <div class="feature-image-wrap">
+          <div class="feature-image">
+            <img src="origin-performance.png" alt="HEKONE Origin harvest performance overview with workers robots and bins" />
           </div>
         </div>
       </div>
     </section>
 
     <!-- STORY 4 -->
-    <section class="section">
+    <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Trace Back to Source</div>
-        <h2>When a quality problem appears, trace it back to where it started.</h2>
-        <p class="lede">
-          Downstream quality issues are far more valuable when they can be linked back to the harvest area that produced them.
-          HEKONE Origin helps connect the problem bin to its source location on the map.
-        </p>
+        <div class="feature-copy">
+          <h2>When a quality problem appears, trace it back to where it started.</h2>
+          <p class="lede">
+            Downstream quality issues are far more valuable when they can be linked back to the harvest area that produced them.
+            HEKONE Origin helps connect the problem bin to its source location on the map.
+          </p>
+        </div>
 
-        <div class="story-grid reverse">
-          <div class="story-copy">
-            <h3>From damaged fruit to a defined problem area</h3>
-            <p>
-              If a bin shows a higher rate of damaged, rotten, or pest-affected fruit, the system can highlight
-              where that bin came from and reveal the block or rows associated with the issue.
-            </p>
-            <p>
-              This helps teams move from reacting to symptoms to targeting the source — improving inspection,
-              intervention, and future prevention.
-            </p>
-
-            <div class="story-points">
-              <div class="story-point">Flag bins with abnormal damage rates</div>
-              <div class="story-point">Trace affected bins back to harvest zones</div>
-              <div class="story-point">Focus field inspection where risk appears concentrated</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="story-media">
-              <img src="origin-problem.png" alt="HEKONE Origin traceability view showing damaged fruit traced back to source block" />
-            </div>
-            <div class="caption">A quality issue becomes an actionable field signal, not just a downstream surprise.</div>
+        <div class="feature-image-wrap">
+          <div class="feature-image">
+            <img src="origin-problem.png" alt="HEKONE Origin traceability view showing damaged fruit traced back to source block" />
           </div>
         </div>
       </div>
