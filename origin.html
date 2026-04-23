@@ -208,7 +208,7 @@
       border-radius: 14px;
       padding: 12px 14px;
       box-shadow: 0 12px 30px rgba(0,0,0,0.26);
-      max-width: 235px;
+      max-width: 260px;
     }
 
     .floating-badge .small {
@@ -259,7 +259,6 @@
       line-height: 1.55;
     }
 
-    /* FULL-WIDTH VISUAL SECTIONS */
     .feature-section {
       padding: 95px 0;
       border-top: 1px solid rgba(255,255,255,0.04);
@@ -446,11 +445,6 @@
       margin: 0 auto;
     }
 
-    .cta-panel .hero-actions {
-      justify-content: center;
-      margin-top: 24px;
-    }
-
     .mini-tag-row {
       display: flex;
       flex-wrap: wrap;
@@ -468,6 +462,105 @@
       font-size: 14px;
     }
 
+    .detail-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .detail-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.012));
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .detail-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .detail-card p {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .roi-panel {
+      margin-top: 32px;
+      background:
+        radial-gradient(circle at top left, rgba(140,82,255,0.12), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid rgba(140,82,255,0.12);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .roi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .roi-item {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .roi-item strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .roi-item p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .split-section {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .list-panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .list-panel h3 {
+      margin-bottom: 14px;
+    }
+
+    .list-panel ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .list-panel li {
+      margin-bottom: 12px;
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .alert-note {
+      margin-top: 18px;
+      font-size: 15px;
+      color: #d7dcee;
+      max-width: 980px;
+    }
+
     footer {
       padding: 26px 0 50px;
       color: var(--soft);
@@ -477,13 +570,16 @@
 
     @media (max-width: 1024px) {
       .hero-grid,
-      .platform-grid {
+      .platform-grid,
+      .split-section,
+      .detail-grid {
         grid-template-columns: 1fr;
       }
 
       .metrics,
       .capabilities,
-      .timeline {
+      .timeline,
+      .roi-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -506,7 +602,8 @@
 
       .metrics,
       .capabilities,
-      .timeline {
+      .timeline,
+      .roi-grid {
         grid-template-columns: 1fr;
       }
 
@@ -534,6 +631,10 @@
       .comparison-image {
         border-radius: 20px;
       }
+
+      .list-panel ul {
+        padding-left: 20px;
+      }
     }
   </style>
 </head>
@@ -559,6 +660,18 @@
               The result is more than measurement. It creates traceability from bin to source, performance visibility
               across harvest zones, and faster response when quality issues appear downstream.
             </p>
+            <p>
+              Designed for scalable deployment, HEKONE Origin is intended to support both smaller field operations and
+              larger environments with many bins, while minimizing added friction for harvest crews.
+            </p>
+            <p>
+              Unlike delayed weighing steps, isolated GPS tools, or disconnected reporting systems, HEKONE Origin links
+              physical harvest activity directly to usable operational data where current systems often remain blind.
+            </p>
+            <p>
+              The value is economic as well as operational: less re-handling, faster decisions, better visibility,
+              and a stronger path to measurable return in the field.
+            </p>
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="contact.html">Explore a Pilot</a>
@@ -575,8 +688,8 @@
               <img src="origin.png" alt="HEKONE Origin smart harvest bin with live weight display and dashboard" />
             </div>
             <div class="floating-badge">
-              <span class="small">What growers see</span>
-              <strong>Live weight at the source, sent in real time to the dashboard.</strong>
+              <span class="small">What operators see</span>
+              <strong>Live field weight, source context, and actionable visibility without waiting for downstream reporting.</strong>
             </div>
           </div>
         </div>
@@ -585,7 +698,7 @@
           <div class="metric">
             <span class="label">Measure at Source</span>
             <strong>Real Time</strong>
-            <p>Capture harvest data at the moment material is collected.</p>
+            <p>Capture harvest data at the moment material is collected, not later in a separate weighing process.</p>
           </div>
           <div class="metric">
             <span class="label">Field Visibility</span>
@@ -593,14 +706,14 @@
             <p>See where bins are, how full they are, and what areas are underperforming.</p>
           </div>
           <div class="metric">
-            <span class="label">Traceability</span>
-            <strong>Bin to Block</strong>
-            <p>Link quality issues back to the harvest location that produced them.</p>
+            <span class="label">Deployment Logic</span>
+            <strong>Scalable</strong>
+            <p>Built to support operational scaling with clearer visibility into cost, coverage, and field value.</p>
           </div>
           <div class="metric">
             <span class="label">Action Layer</span>
-            <strong>Faster Response</strong>
-            <p>Flag problem zones and focus inspections where they matter most.</p>
+            <strong>ROI Driven</strong>
+            <p>Reduce wasted time, improve responsiveness, and focus labor where it has the highest impact.</p>
           </div>
         </div>
       </div>
@@ -615,6 +728,10 @@
           <p class="lede">
             Replace a slower multi-step harvest flow with direct measurement at the moment of harvest — reducing labor,
             delay, and operational friction while improving visibility in real time.
+          </p>
+          <p>
+            Instead of moving material through an added weighing checkpoint, HEKONE Origin captures data where harvest
+            already happens. That means fewer handoffs, faster information, and less delay between collection and decision.
           </p>
         </div>
 
@@ -633,6 +750,10 @@
           <p class="lede">
             HEKONE Origin begins with a smart harvest bin that measures filled weight in the field and sends it
             to a live system without waiting for a later weighing step.
+          </p>
+          <p>
+            The bin is the entry point, but the bigger value is what it unlocks: structured field data, operational awareness,
+            and measurable visibility at the source.
           </p>
         </div>
 
@@ -654,6 +775,10 @@
             Instead of waiting for delayed reports, teams can monitor where bins are located, how much each bin contains,
             and which areas are outperforming or falling behind.
           </p>
+          <p>
+            Connectivity can vary in field environments, so the system is intended to support practical real-world deployment
+            where data reliability matters as much as visibility.
+          </p>
         </div>
 
         <div class="feature-image-wrap">
@@ -674,6 +799,10 @@
             Not every harvest zone performs the same way. HEKONE Origin can help visualize which bins are filling faster,
             which are lagging, and where attention may be needed.
           </p>
+          <p>
+            This is not just about seeing activity. It is about understanding where time, labor, or yield performance may
+            be drifting so teams can respond earlier.
+          </p>
         </div>
 
         <div class="feature-image-wrap">
@@ -681,6 +810,34 @@
             <img src="origin-performance.png" alt="HEKONE Origin harvest performance overview with workers robots and bins" />
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ALERT / SHRINKAGE -->
+    <section class="feature-section">
+      <div class="container">
+        <div class="eyebrow">Operational Alerts</div>
+        <div class="feature-copy">
+          <h2>Detect unexpected bin changes and flag activity that may need attention.</h2>
+          <p class="lede">
+            When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and give operators a clear
+            signal that something needs to be checked.
+          </p>
+          <p>
+            This kind of alerting helps move the system beyond passive measurement into active operational awareness.
+            It can support faster intervention when shrinkage, handling issues, or irregular movement may be happening in the field.
+          </p>
+        </div>
+
+        <div class="feature-image-wrap">
+          <div class="feature-image">
+            <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
+          </div>
+        </div>
+
+        <p class="alert-note">
+          Real-time alerts can help reduce unnoticed loss, improve accountability, and make field events more visible before they become larger operational or financial issues.
+        </p>
       </div>
     </section>
 
@@ -694,11 +851,94 @@
             Downstream quality issues are far more valuable when they can be linked back to the harvest area that produced them.
             HEKONE Origin helps connect the problem bin to its source location on the map.
           </p>
+          <p>
+            That turns delayed discovery into a faster inspection path, helping teams focus attention where it is most likely needed.
+          </p>
         </div>
 
         <div class="feature-image-wrap">
           <div class="feature-image">
             <img src="origin-problem.png" alt="HEKONE Origin traceability view showing damaged fruit traced back to source block" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY DIFFERENT -->
+    <section class="section">
+      <div class="container">
+        <div class="eyebrow">Why It Is Different</div>
+        <h2>Not just weighing. Not just tracking. A better operational data layer.</h2>
+        <p class="lede">
+          Many field operations already use some form of weighing, location tracking, or reporting. The gap is that those tools
+          often remain disconnected from the moment the physical event actually happens.
+        </p>
+
+        <div class="split-section">
+          <div class="list-panel">
+            <h3>What existing tools often provide</h3>
+            <ul>
+              <li>Delayed weighing after harvest activity has already moved on</li>
+              <li>Location data without direct connection to measured field output</li>
+              <li>Manual reporting that arrives too late for immediate response</li>
+              <li>Visibility into movement, but limited visibility into source-side operational loss</li>
+            </ul>
+          </div>
+
+          <div class="list-panel">
+            <h3>What HEKONE Origin adds</h3>
+            <ul>
+              <li>Measurement at the source, at the time the event happens</li>
+              <li>Structured linkage between weight, time, and harvest location</li>
+              <li>Real-time visibility that supports faster decisions in the field</li>
+              <li>A clearer path to operational and financial ROI from reduced delay, re-handling, and blind spots</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPLOYMENT / FIELD READINESS -->
+    <section class="section">
+      <div class="container">
+        <div class="eyebrow">Field Readiness</div>
+        <h2>Built for practical deployment in real operating conditions.</h2>
+        <p class="lede">
+          Field technology has to work where operations are demanding — with dirt, handling, motion, weather exposure,
+          and inconsistent connectivity.
+        </p>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h3>Durability</h3>
+            <p>
+              HEKONE Origin is being developed with real-world field conditions in mind, including repeated handling,
+              environmental exposure, and daily operational wear.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Connectivity Approach</h3>
+            <p>
+              Real-time visibility matters, but so does reliability. The system is intended for environments where connectivity
+              may vary, with a deployment approach shaped around practical field conditions rather than ideal assumptions.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Workflow Impact</h3>
+            <p>
+              Adoption depends on minimizing friction. HEKONE Origin is designed to fit into harvest operations with as little
+              disruption as possible so crews can keep moving.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Scalability Logic</h3>
+            <p>
+              Large operations will naturally ask how this scales across many bins. The deployment model is intended to support
+              broader field coverage while keeping the economic logic clear at the operator level.
+            </p>
           </div>
         </div>
       </div>
@@ -725,14 +965,14 @@
 
           <div class="card">
             <div class="icon">📡</div>
-            <h3>Live Dashboard Visibility</h3>
-            <p>Monitor bin status, harvest performance, and activity from anywhere through a connected system.</p>
+            <h3>Connected Visibility</h3>
+            <p>Monitor bin status, harvest performance, and activity through a connected system built around practical field use.</p>
           </div>
 
           <div class="card">
             <div class="icon">🚨</div>
-            <h3>Quality Issue Traceback</h3>
-            <p>Move from a problem detected in the bin to the harvest area that likely needs inspection.</p>
+            <h3>Operational Alerting</h3>
+            <p>Move from passive measurement to active awareness when unexpected activity or potential shrinkage appears.</p>
           </div>
         </div>
       </div>
@@ -767,6 +1007,40 @@
             <div class="step-number">4</div>
             <h3>Trace &amp; Act</h3>
             <p>When a quality issue appears, trace it back to source and guide inspection faster.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROI -->
+    <section class="section">
+      <div class="container">
+        <div class="eyebrow">Economic Value</div>
+        <h2>Operational visibility is only valuable if it improves economics.</h2>
+
+        <div class="roi-panel">
+          <p class="lede">
+            HEKONE Origin is intended to improve not just field awareness, but operator outcomes: time saved, labor reduced,
+            better issue response, and stronger visibility into where yield or handling performance may be slipping.
+          </p>
+
+          <div class="roi-grid">
+            <div class="roi-item">
+              <strong>Reduce delay</strong>
+              <p>Get actionable field information sooner instead of waiting for downstream measurement or manual reporting.</p>
+            </div>
+            <div class="roi-item">
+              <strong>Reduce re-handling</strong>
+              <p>Eliminating separate weighing steps can reduce extra movement, touchpoints, and process inefficiency.</p>
+            </div>
+            <div class="roi-item">
+              <strong>Improve response</strong>
+              <p>Surface issues earlier so quality checks, inspections, or labor adjustments can happen faster.</p>
+            </div>
+            <div class="roi-item">
+              <strong>Improve yield visibility</strong>
+              <p>See where output is stronger or weaker and focus operational attention where it matters most.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -815,6 +1089,9 @@
           <p>
             We are exploring pilot opportunities with growers, agricultural operators, and partners interested in
             bringing live harvest visibility, source traceability, and faster field insight into real operations.
+          </p>
+          <p style="margin-top:14px;">
+            Pilot engagement is intended to validate deployment practicality, workflow fit, and measurable ROI in real field conditions.
           </p>
 
           <div class="mini-tag-row">
