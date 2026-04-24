@@ -157,6 +157,90 @@
       transform: scaleX(1);
     }
 
+    .nav-dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-dropdown::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      z-index: 1002;
+    }
+
+    .nav-dropdown-btn {
+      position: relative;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color .22s ease, background .22s ease, box-shadow .22s ease;
+    }
+
+    .nav-dropdown-btn::after {
+      content: "▾";
+      margin-left: 6px;
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-btn,
+    .nav-dropdown.open .nav-dropdown-btn,
+    .nav-dropdown.active .nav-dropdown-btn {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 6px;
+      min-width: 210px;
+      display: none;
+      padding: 8px;
+      border-radius: 18px;
+      background: rgba(6, 10, 24, 0.98);
+      border: 1px solid rgba(125,211,252,0.16);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.42);
+      z-index: 1003;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown.open .nav-dropdown-menu {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-dropdown-menu a:hover,
+    .nav-dropdown-menu a.active {
+      background: rgba(255,255,255,0.07);
+      color: #ffffff;
+    }
+
+    .nav-dropdown-menu a::after {
+      display: none !important;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -584,6 +668,59 @@
         box-shadow: none;
       }
 
+      .nav-dropdown {
+        display: block;
+        width: 100%;
+      }
+
+      .nav-dropdown::after {
+        display: none;
+      }
+
+      .nav-dropdown-btn {
+        width: 100%;
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.035);
+        color: var(--text);
+        font-size: 15px;
+        border: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .nav-dropdown-btn::after {
+        float: right;
+        margin-top: 3px;
+      }
+
+      .nav-dropdown-menu {
+        position: static;
+        display: none;
+        margin-top: 8px;
+        min-width: 0;
+        padding: 8px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.035);
+        box-shadow: none;
+      }
+
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: grid;
+      }
+
+      .nav-dropdown:hover .nav-dropdown-menu {
+        display: none;
+      }
+
+      .nav-dropdown.open:hover .nav-dropdown-menu {
+        display: grid;
+      }
+
+      .nav-dropdown-menu a {
+        padding: 12px 14px;
+        background: rgba(255,255,255,0.04);
+      }
+
       .nav-pilot {
         display: inline-flex !important;
         justify-content: center;
@@ -656,14 +793,18 @@
       </button>
 
       <nav class="nav-links" id="site-menu">
-        <a href="/instrumentation-example.html">Technology</a>
-        <a href="/#problem">Problem</a>
-        <a href="/#deployment">Deployment</a>
-        <a href="/#solution">Solution</a>
-        <a href="/#use-cases">Use Cases</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" type="button" aria-expanded="false">Technology</button>
+          <div class="nav-dropdown-menu">
+            <a href="/instrumentation-example.html">Smart Dispenser</a>
+            <a href="/origin.html">HEKONE Origin</a>
+          </div>
+        </div>
+        <a href="/#ecosystem">HEKONE Platform</a>
         <a href="/about.html" class="active">About</a>
         <a href="/contact.html">Contact</a>
-        <a href="mailto:info@hekone.com?subject=Explore%20a%20Pilot%20with%20HEKONE" class="nav-pilot">Explore a Pilot</a>
+        <a href="/login.html">Login / Dashboard</a>
+        <a href="/pilot.html" class="nav-pilot">Start a Pilot</a>
       </nav>
     </div>
   </header>
@@ -839,7 +980,15 @@
     const navLinks = document.querySelector('.nav-links');
     const navItems = document.querySelectorAll('.nav-links a');
     const menuBackdrop = document.querySelector('.menu-backdrop');
+    const dropdown = document.querySelector('.nav-dropdown');
+    const dropdownBtn = document.querySelector('.nav-dropdown-btn');
     const body = document.body;
+
+    function closeDropdown() {
+      if (!dropdown || !dropdownBtn) return;
+      dropdown.classList.remove('open');
+      dropdownBtn.setAttribute('aria-expanded', 'false');
+    }
 
     function openMenu() {
       navLinks.classList.add('open');
@@ -855,6 +1004,7 @@
       menuToggle.setAttribute('aria-expanded', 'false');
       menuBackdrop.classList.remove('show');
       body.classList.remove('menu-open');
+      closeDropdown();
     }
 
     if (menuToggle && navLinks && menuBackdrop) {
@@ -867,10 +1017,27 @@
         }
       });
 
+      if (dropdown && dropdownBtn) {
+        dropdownBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
+          dropdown.classList.toggle('open');
+          const isDropdownOpen = dropdown.classList.contains('open');
+          dropdownBtn.setAttribute('aria-expanded', isDropdownOpen ? 'true' : 'false');
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        if (dropdown && !dropdown.contains(event.target)) {
+          closeDropdown();
+        }
+      });
+
       navItems.forEach(item => {
         item.addEventListener('click', () => {
           if (window.innerWidth <= 900) {
             closeMenu();
+          } else {
+            closeDropdown();
           }
         });
       });
