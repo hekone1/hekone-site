@@ -160,6 +160,16 @@
       align-items: center;
     }
 
+    .nav-dropdown::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      z-index: 1002;
+    }
+
     .nav-dropdown-btn {
       position: relative;
       padding: 10px 12px;
@@ -190,8 +200,9 @@
 
     .nav-dropdown-menu {
       position: absolute;
-      top: calc(100% + 10px);
+      top: 100%;
       left: 0;
+      margin-top: 6px;
       min-width: 210px;
       display: none;
       padding: 8px;
@@ -966,6 +977,10 @@
       .nav-dropdown {
         display: block;
         width: 100%;
+      }
+
+      .nav-dropdown::after {
+        display: none;
       }
 
       .nav-dropdown-btn {
