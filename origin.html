@@ -855,6 +855,57 @@
         transform: scale(1.08);
       }
     }
+
+    /* Compact centered Field Reality card */
+    #field-reality .impact-panel {
+      width: min(860px, 100%);
+      max-width: 860px;
+      margin: 32px auto 0 !important;
+      padding: 22px !important;
+      border-radius: 22px;
+    }
+
+    #field-reality .impact-callout {
+      padding: 22px !important;
+      border-radius: 18px;
+    }
+
+    #field-reality .impact-callout strong {
+      font-size: clamp(28px, 3vw, 38px) !important;
+      line-height: 1.08;
+    }
+
+    #field-reality .impact-money-grid,
+    #field-reality .impact-list {
+      gap: 10px !important;
+    }
+
+    #field-reality .impact-money-card {
+      min-height: 118px !important;
+      padding: 16px !important;
+    }
+
+    #field-reality .impact-money-card strong {
+      font-size: 26px !important;
+    }
+
+    #field-reality .impact-money-card p {
+      font-size: 13px !important;
+      line-height: 1.45;
+    }
+
+    #field-reality .impact-item {
+      min-height: 72px !important;
+      padding: 14px 16px !important;
+      font-size: 14px !important;
+    }
+
+    @media (max-width: 900px) {
+      #field-reality .impact-panel {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
