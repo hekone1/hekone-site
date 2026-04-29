@@ -49,13 +49,8 @@
       --nav-success: #86efac;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -68,19 +63,9 @@
       overflow-x: hidden;
     }
 
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
     .wrap {
       width: min(1180px, calc(100% - 32px));
@@ -247,9 +232,7 @@
       color: #ffffff;
     }
 
-    .nav-dropdown-menu a::after {
-      display: none !important;
-    }
+    .nav-dropdown-menu a::after { display: none !important; }
 
     .menu-toggle {
       display: none;
@@ -284,21 +267,11 @@
       transition: transform .22s ease, opacity .22s ease;
     }
 
-    .menu-toggle.active span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
+    .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-toggle.active span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .menu-backdrop {
-      display: none;
-    }
+    .menu-backdrop { display: none; }
 
     .menu-backdrop.show {
       display: block;
@@ -377,8 +350,8 @@
     }
 
     .hero-lede {
-      font-size: clamp(25px, 3.3vw, 38px);
-      line-height: 1.18;
+      font-size: clamp(25px, 3.1vw, 36px);
+      line-height: 1.16;
       color: #ffffff;
       font-weight: 800;
       letter-spacing: -0.7px;
@@ -386,9 +359,7 @@
       margin-top: 8px;
     }
 
-    .accent {
-      color: var(--accent);
-    }
+    .accent { color: var(--accent); }
 
     .small-text {
       font-size: 14px;
@@ -403,13 +374,8 @@
       align-items: center;
     }
 
-    .hero-copy {
-      padding: 20px 0;
-    }
-
-    .hero-copy p + p {
-      margin-top: 16px;
-    }
+    .hero-copy { padding: 20px 0; }
+    .hero-copy p + p { margin-top: 16px; }
 
     .hero-actions {
       display: flex;
@@ -432,9 +398,7 @@
       border: 1px solid transparent;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
+    .btn:hover { transform: translateY(-1px); }
 
     .btn-primary {
       background: var(--accent);
@@ -442,9 +406,7 @@
       box-shadow: 0 12px 30px rgba(140,82,255,0.28);
     }
 
-    .btn-primary:hover {
-      background: var(--accent-2);
-    }
+    .btn-primary:hover { background: var(--accent-2); }
 
     .btn-secondary {
       background: rgba(255,255,255,0.03);
@@ -492,9 +454,7 @@
       box-shadow: var(--shadow);
     }
 
-    .hero-visual {
-      position: relative;
-    }
+    .hero-visual { position: relative; }
 
     .hero-card img,
     .feature-image img,
@@ -571,9 +531,7 @@
       margin-bottom: 6px;
     }
 
-    .metric .danger-text {
-      color: var(--danger);
-    }
+    .metric .danger-text { color: var(--danger); }
 
     .metric p {
       font-size: 14px;
@@ -587,9 +545,7 @@
     }
 
     .feature-copy p + p,
-    .comparison-copy p + p {
-      margin-top: 14px;
-    }
+    .comparison-copy p + p { margin-top: 14px; }
 
     .impact-panel,
     .roi-panel,
@@ -628,9 +584,7 @@
       margin-bottom: 12px;
     }
 
-    .impact-callout .money {
-      color: var(--danger);
-    }
+    .impact-callout .money { color: var(--danger); }
 
     .impact-list {
       display: grid;
@@ -691,9 +645,7 @@
 
     .deployment-grid,
     .platform-grid,
-    .split-section {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .split-section { grid-template-columns: repeat(2, 1fr); }
 
     .roi-item strong,
     .deployment-card strong,
@@ -777,20 +729,14 @@
       .impact-grid,
       .deployment-grid,
       .platform-grid,
-      .split-section {
-        grid-template-columns: 1fr;
-      }
+      .split-section { grid-template-columns: 1fr; }
 
       .metrics,
-      .roi-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .roi-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 900px) {
-      .menu-toggle {
-        display: inline-flex;
-      }
+      .menu-toggle { display: inline-flex; }
 
       .nav-links {
         position: absolute;
@@ -811,9 +757,7 @@
         overflow-y: auto;
       }
 
-      .nav-links.open {
-        display: flex;
-      }
+      .nav-links.open { display: flex; }
 
       .nav-links a {
         display: block;
@@ -853,17 +797,9 @@
         box-shadow: none;
       }
 
-      .nav-dropdown.open .nav-dropdown-menu {
-        display: grid;
-      }
-
-      .nav-dropdown:hover .nav-dropdown-menu {
-        display: none;
-      }
-
-      .nav-dropdown.open:hover .nav-dropdown-menu {
-        display: grid;
-      }
+      .nav-dropdown.open .nav-dropdown-menu { display: grid; }
+      .nav-dropdown:hover .nav-dropdown-menu { display: none; }
+      .nav-dropdown.open:hover .nav-dropdown-menu { display: grid; }
 
       .nav-pilot {
         display: inline-flex !important;
@@ -881,28 +817,20 @@
     @media (max-width: 680px) {
       .section,
       .feature-section,
-      .comparison-section {
-        padding: 64px 0;
-      }
+      .comparison-section { padding: 64px 0; }
 
-      .container {
-        width: min(100% - 28px, 1240px);
-      }
+      .container { width: min(100% - 28px, 1240px); }
 
       .metrics,
       .roi-grid,
-      .impact-money-grid {
-        grid-template-columns: 1fr;
-      }
+      .impact-money-grid { grid-template-columns: 1fr; }
 
       .hero-actions {
         flex-direction: column;
         align-items: stretch;
       }
 
-      .btn {
-        width: 100%;
-      }
+      .btn { width: 100%; }
 
       .floating-badge {
         position: static;
@@ -956,7 +884,7 @@
             <h1>HEKONE <span class="accent">Origin</span></h1>
 
             <p class="hero-lede">
-              You are losing money at the moment of harvest. HEKONE makes it measurable.
+              Measure harvest where value is created. Detect loss before it leaves the field.
             </p>
 
             <p>
@@ -991,15 +919,15 @@
 
         <div class="metrics">
           <div class="metric featured">
-            <span class="label">Untracked Loss</span>
+            <span class="label">Example Loss Exposure</span>
             <strong class="danger-text">$480-$1,200+</strong>
-            <p>Estimated daily loss exposure in a single active block when inefficiency and variation go unmeasured.</p>
+            <p>Example daily loss exposure in a single active block when inefficiency and variation go unmeasured.</p>
           </div>
 
           <div class="metric featured">
-            <span class="label">Season Impact</span>
+            <span class="label">Example Season Impact</span>
             <strong class="danger-text">$50K+</strong>
-            <p>Potential seasonal value at risk when delayed visibility hides field-level operational gaps.</p>
+            <p>Example seasonal value at risk when delayed visibility hides field-level operational gaps.</p>
           </div>
 
           <div class="metric">
@@ -1036,14 +964,14 @@
 
               <div class="impact-money-grid">
                 <div class="impact-money-card">
-                  <span>Today</span>
+                  <span>Example Today</span>
                   <strong>$640 loss</strong>
-                  <p>Example recoverable loss from slow fill rate, underfilled bins, or delayed response.</p>
+                  <p>Sample recoverable loss from slow fill rate, underfilled bins, or delayed response.</p>
                 </div>
                 <div class="impact-money-card">
-                  <span>Season</span>
+                  <span>Example Season</span>
                   <strong>$50K+ risk</strong>
-                  <p>Potential untracked variance when field performance is measured too late.</p>
+                  <p>Sample untracked variance when field performance is measured too late.</p>
                 </div>
               </div>
 
@@ -1261,12 +1189,12 @@
 
           <div class="roi-grid">
             <div class="roi-item">
-              <strong>$480-$1,200+ daily loss exposure</strong>
-              <p>Example field-level loss exposure from unmeasured inefficiency, underfilled bins, or delayed response.</p>
+              <strong>$480-$1,200+ example daily loss exposure</strong>
+              <p>Example field-level scenario from unmeasured inefficiency, underfilled bins, or delayed response.</p>
             </div>
             <div class="roi-item">
-              <strong>$50K+ seasonal value at risk</strong>
-              <p>Potential value hidden when field performance is measured after the opportunity to act has passed.</p>
+              <strong>$50K+ example seasonal value at risk</strong>
+              <p>Example value hidden when field performance is measured after the opportunity to act has passed.</p>
             </div>
             <div class="roi-item">
               <strong>20-35% labor reduction</strong>
@@ -1279,7 +1207,7 @@
           </div>
 
           <p class="small-text" style="margin-top:16px;">
-            These figures represent expected pilot ranges and example operating scenarios. Final claims should be validated against real deployment data.
+            These figures represent example operating scenarios and expected pilot ranges. Final performance claims should be validated against real deployment data.
           </p>
         </div>
       </div>
