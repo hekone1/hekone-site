@@ -565,39 +565,8 @@
     }
 
     .impact-grid {
-      grid-template-columns: 0.92fr 1.08fr;
+      grid-template-columns: 1fr;
       align-items: stretch;
-    }
-
-    .impact-visual {
-      position: relative;
-      min-height: 440px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at center, rgba(140,82,255,0.08), transparent 48%),
-        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
-    }
-
-    .impact-visual img {
-      width: 100%;
-      height: 100%;
-      min-height: 440px;
-      object-fit: cover;
-      transform: scale(1.18);
-      transform-origin: center center;
-      filter: contrast(1.05) brightness(0.94);
-    }
-
-    .impact-visual::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(11,13,18,0.10), transparent 24%, transparent 76%, rgba(11,13,18,0.18)),
-        radial-gradient(circle at center, transparent 58%, rgba(0,0,0,0.26));
     }
 
     .impact-callout {
@@ -609,16 +578,19 @@
 
     .impact-callout strong {
       display: block;
-      font-size: clamp(28px, 4vw, 44px);
+      font-size: clamp(30px, 4vw, 48px);
       line-height: 1.05;
       color: #fff;
       margin-bottom: 12px;
     }
 
+    .impact-callout > p { max-width: 920px; }
+
     .impact-callout .money { color: var(--danger); }
 
     .impact-list {
       display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       margin-top: 18px;
     }
@@ -627,10 +599,13 @@
       border: 1px solid rgba(255,255,255,0.07);
       background: rgba(255,255,255,0.025);
       border-radius: 16px;
-      padding: 16px;
+      padding: 18px;
       color: #d7dcee;
       font-size: 16px;
       line-height: 1.55;
+      min-height: 92px;
+      display: flex;
+      align-items: center;
     }
 
     .impact-money-grid {
@@ -642,9 +617,10 @@
 
     .impact-money-card {
       border-radius: 16px;
-      padding: 16px;
+      padding: 22px;
       background: rgba(255,93,93,0.07);
       border: 1px solid rgba(255,93,93,0.16);
+      min-height: 150px;
     }
 
     .impact-money-card span {
@@ -657,15 +633,15 @@
     }
 
     .impact-money-card strong {
-      font-size: 25px;
+      font-size: 31px;
       color: #fff;
       margin: 0;
       line-height: 1.2;
     }
 
     .impact-money-card p {
-      margin-top: 6px;
-      font-size: 13px;
+      margin-top: 8px;
+      font-size: 15px;
       line-height: 1.55;
     }
 
@@ -854,7 +830,8 @@
 
       .metrics,
       .roi-grid,
-      .impact-money-grid { grid-template-columns: 1fr; }
+      .impact-money-grid,
+      .impact-list { grid-template-columns: 1fr; }
 
       .hero-actions {
         flex-direction: column;
@@ -1019,12 +996,10 @@
                 <div class="impact-item">See which block or row needs attention first.</div>
                 <div class="impact-item">Translate weight and speed into estimated revenue and loss.</div>
                 <div class="impact-item">Move from delayed reports to same-day operational decisions.</div>
+                <div class="impact-item">Prioritize the highest-value recovery opportunities first.</div>
               </div>
             </div>
 
-            <div class="feature-image impact-visual">
-              <img src="origin-performance4.png" alt="Harvest performance dashboard showing revenue, loss, and action recommendations" />
-            </div>
           </div>
         </div>
       </div>
