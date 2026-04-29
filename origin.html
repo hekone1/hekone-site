@@ -906,6 +906,49 @@
       }
     }
 
+
+    /* Split layout for Operational Alerts section */
+    .alert-split-panel {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .alert-split-panel .feature-copy {
+      margin-bottom: 0;
+      max-width: 560px;
+    }
+
+    .alert-split-panel .feature-image {
+      max-width: 620px;
+      justify-self: end;
+      border-radius: 22px;
+    }
+
+    .alert-split-panel .feature-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .alert-split-panel .alert-note {
+      margin-top: 16px;
+      max-width: 560px;
+    }
+
+    @media (max-width: 1024px) {
+      .alert-split-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .alert-split-panel .feature-image {
+        max-width: 760px;
+        justify-self: start;
+      }
+    }
+
   </style>
 </head>
 
@@ -1121,24 +1164,28 @@
 
     <section class="feature-section">
       <div class="container">
-        <div class="eyebrow">Operational Alerts</div>
-        <div class="feature-copy">
-          <h2>Catch loss the moment it happens.</h2>
-          <p class="lede">
-            When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
-          </p>
-          <p>
-            This moves the system beyond passive measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
-          </p>
-        </div>
+        <div class="alert-split-panel">
+          <div>
+            <div class="eyebrow">Operational Alerts</div>
+            <div class="feature-copy">
+              <h2>Catch loss the moment it happens.</h2>
+              <p class="lede">
+                When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
+              </p>
+              <p>
+                This moves the system beyond passive measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
+              </p>
+            </div>
 
-        <div class="feature-image">
-          <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
-        </div>
+            <p class="alert-note">
+              Real-time alerting can help reduce unnoticed loss, improve accountability, and make field events visible before they become larger financial issues.
+            </p>
+          </div>
 
-        <p class="alert-note">
-          Real-time alerting can help reduce unnoticed loss, improve accountability, and make field events visible before they become larger financial issues.
-        </p>
+          <div class="feature-image">
+            <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
+          </div>
+        </div>
       </div>
     </section>
 
