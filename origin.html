@@ -82,7 +82,6 @@
       display: block;
     }
 
-    /* NAV */
     .wrap {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
@@ -310,7 +309,6 @@
       z-index: 998;
     }
 
-    /* PAGE */
     .container {
       width: min(1240px, calc(100% - 40px));
       margin: 0 auto;
@@ -462,28 +460,17 @@
       border-radius: 999px;
     }
 
-    .nav-pilot:hover {
-      box-shadow:
-        0 22px 46px rgba(125, 211, 252, 0.24),
-        inset 0 1px 0 rgba(255,255,255,0.30);
-      filter: brightness(1.02);
-    }
-
     .hero-note {
       margin-top: 18px;
       font-size: 14px;
       color: var(--soft);
     }
 
-    .hero-visual {
-      position: relative;
-    }
-
     .hero-card,
     .feature-image,
     .comparison-image,
+    .impact-panel,
     .stat-panel,
-    .proof-panel,
     .roi-panel,
     .cta-panel,
     .platform-panel,
@@ -493,6 +480,10 @@
       border-radius: 24px;
       overflow: hidden;
       box-shadow: var(--shadow);
+    }
+
+    .hero-visual {
+      position: relative;
     }
 
     .hero-card img,
@@ -537,13 +528,10 @@
     }
 
     .metric,
-    .card,
-    .timeline-step,
-    .proof-item,
-    .roi-item,
     .deployment-card,
     .platform-item,
-    .list-panel {
+    .list-panel,
+    .roi-item {
       background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 20px;
@@ -582,12 +570,7 @@
       margin-top: 14px;
     }
 
-    .comparison-image {
-      border: 1px solid rgba(140,82,255,0.12);
-    }
-
-    .stat-panel,
-    .proof-panel,
+    .impact-panel,
     .roi-panel,
     .platform-panel,
     .deployment-panel {
@@ -595,27 +578,58 @@
       margin-top: 28px;
     }
 
-    .stat-grid,
-    .proof-grid,
+    .impact-grid,
     .roi-grid,
     .deployment-grid,
-    .capabilities,
-    .timeline,
     .platform-grid,
     .split-section {
       display: grid;
       gap: 18px;
     }
 
-    .stat-grid {
-      grid-template-columns: repeat(4, 1fr);
+    .impact-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
     }
 
-    .proof-grid,
-    .roi-grid,
-    .capabilities,
-    .timeline {
+    .impact-callout {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .impact-callout strong {
+      display: block;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .impact-callout .money {
+      color: var(--danger);
+    }
+
+    .impact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .impact-item {
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.025);
+      border-radius: 16px;
+      padding: 16px;
+      color: #d7dcee;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .roi-grid {
       grid-template-columns: repeat(4, 1fr);
+      margin-top: 22px;
     }
 
     .deployment-grid,
@@ -624,35 +638,6 @@
       grid-template-columns: repeat(2, 1fr);
     }
 
-    .stat-box {
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    .stat-box .kicker {
-      display: block;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.35px;
-      color: var(--soft);
-      margin-bottom: 8px;
-    }
-
-    .stat-box strong {
-      display: block;
-      font-size: 32px;
-      line-height: 1.05;
-      margin-bottom: 8px;
-    }
-
-    .stat-box p {
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .proof-item strong,
     .roi-item strong,
     .deployment-card strong,
     .platform-item strong,
@@ -662,54 +647,12 @@
       margin-bottom: 8px;
     }
 
-    .proof-item p,
     .roi-item p,
     .deployment-card p,
     .platform-item p,
     .list-panel p {
       font-size: 14px;
       line-height: 1.6;
-    }
-
-    .card .icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      background: rgba(140,82,255,0.14);
-      color: #d5bfff;
-      font-size: 20px;
-    }
-
-    .card p {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .timeline-step {
-      min-height: 220px;
-    }
-
-    .step-number {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(140,82,255,0.16);
-      color: #d8c3ff;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 14px;
-      border: 1px solid rgba(140,82,255,0.2);
-    }
-
-    .timeline-step p {
-      font-size: 15px;
     }
 
     .list-panel ul {
@@ -730,15 +673,6 @@
       font-size: 15px;
       color: #d7dcee;
       max-width: 980px;
-    }
-
-    .closing-quote {
-      margin-top: 32px;
-      text-align: center;
-      font-size: clamp(22px, 3vw, 34px);
-      line-height: 1.35;
-      color: #ddd3ff;
-      letter-spacing: -0.6px;
     }
 
     .mini-tag-row {
@@ -781,19 +715,9 @@
       border-top: 1px solid rgba(255,255,255,0.06);
     }
 
-    @media (max-width: 1180px) {
-      .nav-links {
-        gap: 2px;
-        font-size: 13px;
-      }
-
-      .nav-links a {
-        padding: 10px 10px;
-      }
-    }
-
     @media (max-width: 1024px) {
       .hero-grid,
+      .impact-grid,
       .deployment-grid,
       .platform-grid,
       .split-section {
@@ -801,11 +725,7 @@
       }
 
       .metrics,
-      .stat-grid,
-      .proof-grid,
-      .roi-grid,
-      .capabilities,
-      .timeline {
+      .roi-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
@@ -849,22 +769,9 @@
         border: 1px solid rgba(255,255,255,0.04);
       }
 
-      .nav-links a:not(.nav-pilot)::after {
-        display: none;
-      }
-
-      .nav-links a:not(.nav-pilot):hover {
-        background: rgba(255,255,255,0.06);
-        box-shadow: none;
-      }
-
       .nav-dropdown {
         display: block;
         width: 100%;
-      }
-
-      .nav-dropdown::after {
-        display: none;
       }
 
       .nav-dropdown-btn {
@@ -876,11 +783,6 @@
         color: var(--nav-text);
         font-size: 15px;
         border: 1px solid rgba(255,255,255,0.04);
-      }
-
-      .nav-dropdown-btn::after {
-        float: right;
-        margin-top: 3px;
       }
 
       .nav-dropdown-menu {
@@ -906,11 +808,6 @@
         display: grid;
       }
 
-      .nav-dropdown-menu a {
-        padding: 12px 14px;
-        background: rgba(255,255,255,0.04);
-      }
-
       .nav-pilot {
         display: inline-flex !important;
         justify-content: center;
@@ -921,11 +818,6 @@
         padding: 0 20px !important;
         color: #06111c !important;
         background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%) !important;
-        border: 1px solid rgba(255,255,255,0.16) !important;
-        font-weight: 800;
-        box-shadow:
-          0 18px 40px rgba(125, 211, 252, 0.18),
-          inset 0 1px 0 rgba(255,255,255,0.26);
       }
     }
 
@@ -941,11 +833,7 @@
       }
 
       .metrics,
-      .stat-grid,
-      .proof-grid,
-      .roi-grid,
-      .capabilities,
-      .timeline {
+      .roi-grid {
         grid-template-columns: 1fr;
       }
 
@@ -962,10 +850,6 @@
         position: static;
         margin: 14px;
         max-width: none;
-      }
-
-      .list-panel ul {
-        padding-left: 20px;
       }
     }
   </style>
@@ -1005,21 +889,19 @@
   <div class="menu-backdrop"></div>
 
   <main>
-    <!-- HERO -->
     <section class="hero">
       <div class="container">
         <div class="hero-grid">
           <div class="hero-copy">
-            <div class="eyebrow">In Development — Seeking Pilot Partners</div>
+            <div class="eyebrow">In Development - Seeking Pilot Partners</div>
             <h1>HEKONE <span class="accent">Origin</span></h1>
             <p class="lede">
-              Smart Harvest &amp; Source Capture for real-time visibility, lower labor dependency, and measurable field ROI.
+              See what is happening. Fix what is losing money.
             </p>
             <p>
               HEKONE Origin captures weight, time, and harvest location at the point where material enters the system.
               Instead of relying on delayed measurement, growers gain live operational data directly from the field.
             </p>
-
             <p>
               The commercial outcome is sharper: fewer handling steps, faster field decisions, lower labor burden,
               better accountability, and a clearer path to measurable ROI.
@@ -1027,7 +909,7 @@
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="contact.html">Explore a Pilot</a>
-              <a class="btn btn-secondary" href="#comparison">See How It Works</a>
+              <a class="btn btn-secondary" href="#field-reality">See How It Works</a>
             </div>
 
             <div class="hero-note">
@@ -1049,17 +931,17 @@
         <div class="metrics">
           <div class="metric">
             <span class="label">Labor Impact</span>
-            <strong>20–35%</strong>
+            <strong>20-35%</strong>
             <p>Target reduction in labor touches by removing separate weighing and re-handling steps.</p>
           </div>
           <div class="metric">
             <span class="label">Flow Improvement</span>
-            <strong>15–25%</strong>
+            <strong>15-25%</strong>
             <p>Target improvement in harvest flow by reducing queueing, waiting, and manual recording.</p>
           </div>
           <div class="metric">
             <span class="label">Response Speed</span>
-            <strong>10–20%</strong>
+            <strong>10-20%</strong>
             <p>Target faster response to weight changes, weak zones, shrinkage signals, or quality concerns.</p>
           </div>
           <div class="metric">
@@ -1071,15 +953,47 @@
       </div>
     </section>
 
-    <!-- COMPARISON -->
+    <section id="field-reality" class="section">
+      <div class="container">
+        <div class="eyebrow">Field Reality</div>
+        <h2>You are losing money in the field, and you cannot see where.</h2>
+        <p class="lede">
+          Harvest inefficiencies, idle time, and uneven picking performance quietly reduce daily output.
+          Most of it goes unmeasured, so it stays uncorrected.
+        </p>
+
+        <div class="impact-panel">
+          <div class="impact-grid">
+            <div class="impact-callout">
+              <strong>Turn hidden field loss into a visible action.</strong>
+              <p>
+                HEKONE Origin is designed to show where output is slowing, which bins are falling below expected performance,
+                and what lost value may be recoverable.
+              </p>
+
+              <div class="impact-list">
+                <div class="impact-item">See which block or row needs attention first.</div>
+                <div class="impact-item">Translate weight and speed into estimated revenue and loss.</div>
+                <div class="impact-item">Move from delayed reports to same-day operational decisions.</div>
+              </div>
+            </div>
+
+            <div class="feature-image">
+              <img src="origin-performance4.png" alt="Harvest performance dashboard showing revenue, loss, and action recommendations" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="comparison" class="comparison-section">
       <div class="container">
         <div class="eyebrow">Process Comparison</div>
         <div class="comparison-copy">
-          <h2>Eliminate the weighing step.</h2>
+          <h2>Remove a full step from your harvest process.</h2>
           <p class="lede">
-            Replace a slower multi-step harvest flow with direct measurement at the moment of harvest — reducing labor,
-            delay, and operational friction while improving visibility in real time.
+            Replace a slower multi-step harvest flow with direct measurement at the moment of harvest,
+            reducing labor, delay, and operational friction while improving visibility in real time.
           </p>
           <p>
             Instead of moving material through an added weighing checkpoint, HEKONE Origin captures data where harvest
@@ -1093,12 +1007,11 @@
       </div>
     </section>
 
-    <!-- LIVE OPERATIONS -->
     <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Live Operations</div>
         <div class="feature-copy">
-          <h2>See harvest activity across the orchard — as it happens.</h2>
+          <h2>See harvest activity across the orchard as it happens.</h2>
           <p class="lede">
             Instead of waiting for delayed reports, teams can monitor where bins are located, how much each bin contains,
             and which areas are outperforming or falling behind.
@@ -1114,20 +1027,18 @@
         </div>
 
         <p class="section-note">
-          This is not just real-time when the network is perfect. It is intended to be operationally reliable in the kinds of field conditions operators actually deal with.
+          This is not just real time when the network is perfect. It is intended to be operationally reliable in the kinds of field conditions operators actually deal with.
         </p>
       </div>
     </section>
 
-    <!-- PERFORMANCE -->
     <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Performance Insight</div>
         <div class="feature-copy">
-          <h2>Compare bins in real time and identify where output is stronger or weaker.</h2>
+          <h2>Know what is working, and what is costing you.</h2>
           <p class="lede">
-            Not every harvest zone performs the same way. HEKONE Origin can help visualize which bins are filling faster,
-            which are lagging, and where attention may be needed.
+            See output, picking speed, lost value, and action recommendations in real time, so teams can respond before small inefficiencies compound.
           </p>
           <p>
             This is not just about seeing activity. It is about understanding where labor efficiency, harvest timing,
@@ -1136,17 +1047,16 @@
         </div>
 
         <div class="feature-image">
-          <img src="origin-performance4.png" alt="HEKONE Origin harvest performance overview with workers robots and bins" />
+          <img src="origin-performance4.png" alt="HEKONE Origin harvest performance overview with financial impact and bin comparison" />
         </div>
       </div>
     </section>
 
-    <!-- ALERTS -->
     <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Operational Alerts</div>
         <div class="feature-copy">
-          <h2>Detect unexpected bin changes and flag activity that may need attention.</h2>
+          <h2>Catch problems before they become losses.</h2>
           <p class="lede">
             When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and give operators a clear
             signal that something needs to be checked.
@@ -1167,12 +1077,11 @@
       </div>
     </section>
 
-    <!-- TRACEABILITY -->
     <section class="feature-section">
       <div class="container">
         <div class="eyebrow">Trace Back to Source</div>
         <div class="feature-copy">
-          <h2>When a quality problem appears, trace it back to where it started.</h2>
+          <h2>Trace problems back to the exact source.</h2>
           <p class="lede">
             Downstream quality issues are far more valuable when they can be linked back to the harvest area that produced them.
             HEKONE Origin helps connect the problem bin to its source location on the map.
@@ -1188,7 +1097,6 @@
       </div>
     </section>
 
-    <!-- WHY DIFFERENT -->
     <section class="section">
       <div class="container">
         <div class="eyebrow">Why It Is Different</div>
@@ -1226,13 +1134,12 @@
       </div>
     </section>
 
-    <!-- DEPLOYMENT READINESS -->
     <section class="section">
       <div class="container">
         <div class="eyebrow">Field Readiness</div>
         <h2>Built for practical deployment in real operating conditions.</h2>
         <p class="lede">
-          Field technology has to work where operations are demanding — with dirt, handling, motion, weather exposure,
+          Field technology has to work where operations are demanding, with dirt, handling, motion, weather exposure,
           and inconsistent connectivity.
         </p>
 
@@ -1273,29 +1180,28 @@
         </div>
       </div>
     </section>
-    <!-- ROI -->
+
     <section class="section">
       <div class="container">
         <div class="eyebrow">Economic Validation</div>
-        <h2>Measured impact on field operations.</h2>
+        <h2>Recover lost value in your first season.</h2>
 
         <div class="roi-panel">
           <p class="lede">
-            HEKONE Origin is designed to validate measurable operational gains through real field deployment,
-            with clear targets for labor reduction, harvest flow, response speed, and ROI.
+            HEKONE Origin is designed to turn hidden inefficiencies into measurable financial gains within a single harvest cycle.
           </p>
 
-          <div class="roi-grid" style="margin-top:22px;">
+          <div class="roi-grid">
             <div class="roi-item">
-              <strong>20–35% labor reduction</strong>
+              <strong>20-35% labor reduction</strong>
               <p>Target reduction in manual handling, separate weighing, movement, and data entry steps.</p>
             </div>
             <div class="roi-item">
-              <strong>15–25% faster harvest flow</strong>
+              <strong>15-25% faster harvest flow</strong>
               <p>Target cycle-speed improvement by reducing queueing, bottlenecks, and delayed measurement.</p>
             </div>
             <div class="roi-item">
-              <strong>10–20% faster response</strong>
+              <strong>10-20% faster response</strong>
               <p>Target faster detection of anomalies, shrinkage events, weak zones, or quality issues.</p>
             </div>
             <div class="roi-item">
@@ -1310,7 +1216,7 @@
         </div>
       </div>
     </section>
-    <!-- PLATFORM -->
+
     <section class="section">
       <div class="container">
         <div class="eyebrow">Platform Context</div>
@@ -1336,7 +1242,6 @@
       </div>
     </section>
 
-    <!-- CTA -->
     <section class="section">
       <div class="container">
         <div class="cta-panel">
@@ -1369,7 +1274,7 @@
   </main>
 
   <footer class="container">
-    HEKONE Origin — Smart Harvest &amp; Source Capture
+    HEKONE Origin - Smart Harvest &amp; Source Capture
   </footer>
 
   <script>
