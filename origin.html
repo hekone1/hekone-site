@@ -1,1366 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<script type="text/javascript">
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window, document, "clarity", "script", "w5nj7hsemw");
-</script>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEKONE Origin</title>
-  <meta
-    name="description"
-    content="HEKONE Origin measures harvest activity at the source, turning field weight, time, and location into real-time operational visibility, loss detection, and measurable ROI."
-  />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon1.png?v=2" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon1.png?v=2" />
-  <link rel="apple-touch-icon" href="favicon1.png?v=2" />
-  <meta name="theme-color" content="#040816" />
-
-  <style>
-    :root {
-      --bg: #0b0d12;
-      --panel: #121621;
-      --panel-2: #171b28;
-      --text: #ffffff;
-      --muted: #b8bfd3;
-      --soft: #8f97ad;
-      --accent: #8c52ff;
-      --accent-2: #6f3be0;
-      --border: rgba(255,255,255,0.08);
-      --glow: rgba(140, 82, 255, 0.18);
-      --success: #20d38a;
-      --warning: #ffbf3c;
-      --danger: #ff5d5d;
-      --shadow: 0 18px 50px rgba(0,0,0,0.35);
-
-      --nav-bg: #040816;
-      --nav-line: rgba(255,255,255,0.10);
-      --nav-line-strong: rgba(125, 211, 252, 0.22);
-      --nav-text: #eef4ff;
-      --nav-muted: #b7c5df;
-      --nav-accent: #7dd3fc;
-      --nav-accent-2: #a78bfa;
-      --nav-success: #86efac;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(140,82,255,0.12), transparent 28%),
-        radial-gradient(circle at top right, rgba(140,82,255,0.08), transparent 20%),
-        linear-gradient(180deg, #090b10 0%, #0d1017 100%);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    body.menu-open { overflow: hidden; }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-
-    .wrap {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(14px);
-      background: rgba(4,8,22,0.88);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 14px 0;
-      position: relative;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      color: var(--nav-text);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1002;
-    }
-
-    .brand-mark {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--nav-accent), var(--nav-accent-2));
-      box-shadow: 0 0 18px rgba(125,211,252,0.6);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      color: var(--nav-muted);
-      font-size: 14px;
-    }
-
-    .nav-links a {
-      position: relative;
-      padding: 10px 12px;
-      border-radius: 12px;
-      transition: color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
-      white-space: nowrap;
-    }
-
-    .nav-links a:not(.nav-pilot):hover {
-      color: var(--nav-text);
-      background: rgba(255,255,255,0.06);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-    }
-
-    .nav-links a:not(.nav-pilot)::after {
-      content: "";
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 6px;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--nav-accent), var(--nav-accent-2));
-      opacity: 0;
-      transform: scaleX(0.55);
-      transform-origin: center;
-      transition: opacity .22s ease, transform .22s ease;
-    }
-
-    .nav-links a:not(.nav-pilot):hover::after {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-
-    .nav-dropdown {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .nav-dropdown::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      height: 14px;
-      z-index: 1002;
-    }
-
-    .nav-dropdown-btn {
-      position: relative;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 0;
-      background: transparent;
-      color: var(--nav-muted);
-      font: inherit;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color .22s ease, background .22s ease, box-shadow .22s ease;
-    }
-
-    .nav-dropdown-btn::after {
-      content: "▾";
-      margin-left: 6px;
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-    .nav-dropdown:hover .nav-dropdown-btn,
-    .nav-dropdown.open .nav-dropdown-btn,
-    .nav-dropdown.active .nav-dropdown-btn {
-      color: var(--nav-text);
-      background: rgba(255,255,255,0.06);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-    }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      margin-top: 6px;
-      min-width: 210px;
-      display: none;
-      padding: 8px;
-      border-radius: 18px;
-      background: rgba(6, 10, 24, 0.98);
-      border: 1px solid rgba(125,211,252,0.16);
-      box-shadow: 0 24px 70px rgba(0,0,0,0.42);
-      z-index: 1003;
-    }
-
-    .nav-dropdown:hover .nav-dropdown-menu,
-    .nav-dropdown.open .nav-dropdown-menu {
-      display: grid;
-      gap: 6px;
-    }
-
-    .nav-dropdown-menu a {
-      display: block;
-      padding: 12px 14px;
-      border-radius: 12px;
-      color: var(--nav-text);
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .nav-dropdown-menu a:hover,
-    .nav-dropdown-menu a.active {
-      background: rgba(255,255,255,0.07);
-      color: #ffffff;
-    }
-
-    .nav-dropdown-menu a::after { display: none !important; }
-
-    .menu-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 0;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1002;
-      transition: background .2s ease, border-color .2s ease;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(255,255,255,0.07);
-      border-color: rgba(255,255,255,0.16);
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--nav-text);
-      transition: transform .22s ease, opacity .22s ease;
-    }
-
-    .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    .menu-backdrop { display: none; }
-
-    .menu-backdrop.show {
-      display: block;
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 18, 0.55);
-      backdrop-filter: blur(6px);
-      z-index: 998;
-    }
-
-    .container {
-      width: min(1240px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .section,
-    .feature-section,
-    .comparison-section {
-      padding: 90px 0;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .hero {
-      padding: 42px 0 34px;
-      position: relative;
-      overflow: hidden;
-      border-top: none;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(140, 82, 255, 0.14);
-      color: #ccb2ff;
-      font-size: 13px;
-      letter-spacing: 0.3px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(140,82,255,0.18);
-    }
-
-    h1, h2, h3 {
-      margin: 0;
-      line-height: 1.08;
-    }
-
-    h1 {
-      font-size: clamp(42px, 7vw, 74px);
-      letter-spacing: -1.8px;
-      margin-bottom: 14px;
-    }
-
-    h2 {
-      font-size: clamp(30px, 4vw, 46px);
-      letter-spacing: -1px;
-      margin-bottom: 18px;
-      max-width: 1100px;
-    }
-
-    h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.7;
-      color: var(--muted);
-    }
-
-    .lede {
-      font-size: 21px;
-      color: #d7dcee;
-      max-width: 940px;
-    }
-
-    .hero-lede {
-      font-size: clamp(25px, 3.1vw, 36px);
-      line-height: 1.16;
-      color: #ffffff;
-      font-weight: 800;
-      letter-spacing: -0.7px;
-      max-width: 760px;
-      margin-top: 8px;
-    }
-
-    .accent { color: var(--accent); }
-
-    .small-text {
-      font-size: 14px;
-      color: var(--soft);
-      line-height: 1.65;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.02fr 0.98fr;
-      gap: 34px;
-      align-items: center;
-    }
-
-    .hero-copy { padding: 20px 0; }
-    .hero-copy p + p { margin-top: 16px; }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 30px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 22px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 600;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-      border: 1px solid transparent;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 12px 30px rgba(140,82,255,0.28);
-    }
-
-    .btn-primary:hover { background: var(--accent-2); }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.03);
-      border-color: rgba(255,255,255,0.1);
-      color: #fff;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.16);
-    }
-
-    .nav-pilot {
-      color: #06111c;
-      background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%);
-      border: 1px solid rgba(255,255,255,0.12);
-      font-weight: 800;
-      box-shadow:
-        0 18px 40px rgba(125, 211, 252, 0.18),
-        inset 0 1px 0 rgba(255,255,255,0.26);
-      min-height: auto;
-      padding: 10px 18px !important;
-      border-radius: 999px;
-    }
-
-    .hero-note {
-      margin-top: 18px;
-      font-size: 14px;
-      color: var(--soft);
-    }
-
-    .hero-card,
-    .feature-image,
-    .comparison-image,
-    .impact-panel,
-    .stat-panel,
-    .roi-panel,
-    .cta-panel,
-    .platform-panel,
-    .deployment-panel {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .hero-visual { position: relative; }
-
-    .hero-card img,
-    .feature-image img,
-    .comparison-image img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    .floating-badge {
-      position: absolute;
-      right: 18px;
-      top: 18px;
-      background: rgba(11,13,18,0.82);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 12px 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.26);
-      max-width: 310px;
-    }
-
-    .floating-badge .small {
-      font-size: 12px;
-      color: var(--soft);
-      margin-bottom: 6px;
-      display: block;
-    }
-
-    .floating-badge strong {
-      display: block;
-      font-size: 16px;
-      line-height: 1.35;
-    }
-
-    .metrics {
-      margin-top: 36px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .metric,
-    .deployment-card,
-    .platform-item,
-    .list-panel,
-    .roi-item {
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .metric.featured {
-      border-color: rgba(255,93,93,0.22);
-      background:
-        radial-gradient(circle at top right, rgba(255,93,93,0.12), transparent 35%),
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
-    }
-
-    .metric .label {
-      display: block;
-      font-size: 12px;
-      letter-spacing: 0.35px;
-      text-transform: uppercase;
-      color: var(--soft);
-      margin-bottom: 10px;
-    }
-
-    .metric strong {
-      font-size: 28px;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .metric .danger-text { color: var(--danger); }
-
-    .metric p {
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .feature-copy,
-    .comparison-copy {
-      max-width: 980px;
-      margin-bottom: 30px;
-    }
-
-    .feature-copy p + p,
-    .comparison-copy p + p { margin-top: 14px; }
-
-    .impact-panel,
-    .roi-panel,
-    .platform-panel,
-    .deployment-panel {
-      padding: 28px;
-      margin-top: 28px;
-    }
-
-    .impact-grid,
-    .roi-grid,
-    .deployment-grid,
-    .platform-grid,
-    .split-section {
-      display: grid;
-      gap: 18px;
-    }
-
-    .impact-grid {
-      grid-template-columns: 1fr;
-      align-items: stretch;
-    }
-
-    .impact-callout {
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px;
-      padding: 24px;
-    }
-
-    .impact-callout strong {
-      display: block;
-      font-size: clamp(30px, 4vw, 48px);
-      line-height: 1.05;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-
-    .impact-callout > p { max-width: 920px; }
-
-    .impact-callout .money { color: var(--danger); }
-
-    .impact-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .impact-item {
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(255,255,255,0.025);
-      border-radius: 16px;
-      padding: 18px;
-      color: #d7dcee;
-      font-size: 16px;
-      line-height: 1.55;
-      min-height: 92px;
-      display: flex;
-      align-items: center;
-    }
-
-    .impact-money-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .impact-money-card {
-      border-radius: 16px;
-      padding: 22px;
-      background: rgba(255,93,93,0.07);
-      border: 1px solid rgba(255,93,93,0.16);
-      min-height: 150px;
-    }
-
-    .impact-money-card span {
-      display: block;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.35px;
-      color: var(--soft);
-      margin-bottom: 8px;
-    }
-
-    .impact-money-card strong {
-      font-size: 31px;
-      color: #fff;
-      margin: 0;
-      line-height: 1.2;
-    }
-
-    .impact-money-card p {
-      margin-top: 8px;
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .roi-grid {
-      grid-template-columns: repeat(4, 1fr);
-      margin-top: 22px;
-    }
-
-    .deployment-grid,
-    .platform-grid,
-    .split-section { grid-template-columns: repeat(2, 1fr); }
-
-    .roi-item strong,
-    .deployment-card strong,
-    .platform-item strong,
-    .list-panel strong {
-      display: block;
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .roi-item p,
-    .deployment-card p,
-    .platform-item p,
-    .list-panel p {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .list-panel ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-    }
-
-    .list-panel li {
-      margin-bottom: 12px;
-      line-height: 1.65;
-      font-size: 16px;
-    }
-
-    .alert-note,
-    .section-note {
-      margin-top: 18px;
-      font-size: 15px;
-      color: #d7dcee;
-      max-width: 980px;
-    }
-
-    .mini-tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-      justify-content: center;
-    }
-
-    .mini-tag {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #d2d8ea;
-      border-radius: 999px;
-      padding: 9px 14px;
-      font-size: 14px;
-    }
-
-    .cta-panel {
-      padding: 34px 26px;
-      text-align: center;
-    }
-
-    .cta-panel p {
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .cta-panel .hero-actions {
-      justify-content: center;
-      margin-top: 24px;
-    }
-
-    footer {
-      padding: 26px 0 50px;
-      color: var(--soft);
-      font-size: 14px;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    @media (max-width: 1024px) {
-      .hero-grid,
-      .impact-grid,
-      .deployment-grid,
-      .platform-grid,
-      .split-section { grid-template-columns: 1fr; }
-
-      .metrics,
-      .roi-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 900px) {
-      .menu-toggle { display: inline-flex; }
-
-      .nav-links {
-        position: absolute;
-        top: calc(100% + 12px);
-        left: 0;
-        right: 0;
-        display: none;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding: 14px;
-        border-radius: 24px;
-        background: rgba(6, 10, 24, 0.98);
-        border: 1px solid rgba(125,211,252,0.14);
-        box-shadow: 0 24px 70px rgba(0,0,0,0.42);
-        z-index: 1001;
-        max-height: calc(100vh - 110px);
-        overflow-y: auto;
-      }
-
-      .nav-links.open { display: flex; }
-
-      .nav-links a {
-        display: block;
-        width: 100%;
-        padding: 14px 16px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.035);
-        color: var(--nav-text);
-        font-size: 15px;
-        border: 1px solid rgba(255,255,255,0.04);
-      }
-
-      .nav-dropdown {
-        display: block;
-        width: 100%;
-      }
-
-      .nav-dropdown-btn {
-        width: 100%;
-        text-align: left;
-        padding: 14px 16px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.035);
-        color: var(--nav-text);
-        font-size: 15px;
-        border: 1px solid rgba(255,255,255,0.04);
-      }
-
-      .nav-dropdown-menu {
-        position: static;
-        display: none;
-        margin-top: 8px;
-        min-width: 0;
-        padding: 8px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.035);
-        box-shadow: none;
-      }
-
-      .nav-dropdown.open .nav-dropdown-menu { display: grid; }
-      .nav-dropdown:hover .nav-dropdown-menu { display: none; }
-      .nav-dropdown.open:hover .nav-dropdown-menu { display: grid; }
-
-      .nav-pilot {
-        display: inline-flex !important;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin-top: 6px;
-        min-height: 50px;
-        padding: 0 20px !important;
-        color: #06111c !important;
-        background: linear-gradient(90deg, #7dd3fc 0%, #a78bfa 100%) !important;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .section,
-      .feature-section,
-      .comparison-section { padding: 64px 0; }
-
-      .container { width: min(100% - 28px, 1240px); }
-
-      .metrics,
-      .roi-grid,
-      .impact-money-grid,
-      .impact-list { grid-template-columns: 1fr; }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn { width: 100%; }
-
-      .floating-badge {
-        position: static;
-        margin: 14px;
-        max-width: none;
-      }
-
-      .impact-visual {
-        min-height: 300px;
-      }
-
-      .impact-visual img {
-        min-height: 300px;
-        transform: scale(1.08);
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEKONE Origin</title>
+
+<style>
+
+/* ===== BASE ===== */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, #1a1235, #05060d);
+  color: white;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+p {
+  color: #a8b0c0;
+  line-height: 1.6;
+}
+
+/* ===== HERO ===== */
+.hero {
+  padding: 80px 0;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  font-size: 48px;
+}
+
+.hero-text span {
+  color: #9b7cff;
+}
+
+.hero-text h2 {
+  margin-top: 16px;
+  font-size: 24px;
+}
+
+.hero-buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-right: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  background: linear-gradient(45deg, #7c4dff, #b388ff);
+  color: white;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* ===== KPI ROW ===== */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.kpi {
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.kpi.red {
+  border: 1px solid rgba(255,80,80,0.3);
+  background: rgba(255,80,80,0.05);
+}
+
+/* ===== FIELD LOSS SECTION ===== */
+.field-loss-section {
+  padding: 100px 0;
+}
+
+.section-header h2 {
+  font-size: 36px;
+  margin: 12px 0;
+}
+
+.badge {
+  background: rgba(120, 80, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #b39cff;
+}
+
+.loss-card {
+  margin-top: 40px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.highlight {
+  color: #ff5c5c;
+}
+
+.top-cards {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,80,80,0.3);
+  background: rgba(255,80,80,0.05);
+}
+
+.action-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 16px;
+}
+
+.action-card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+}
+
+/* ===== IMAGE SECTIONS ===== */
+.full-image {
+  width: 100%;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+/* ===== CTA ===== */
+.cta {
+  margin: 100px 0;
+  padding: 60px;
+  text-align: center;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .kpis {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .top-cards,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
-        <span>HEKONE</span>
-      </a>
 
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+<div class="container">
 
-      <nav class="nav-links" id="site-menu">
-        <div class="nav-dropdown active">
-          <button class="nav-dropdown-btn" type="button" aria-expanded="false">Technology</button>
-          <div class="nav-dropdown-menu">
-            <a href="instrumentation-example.html">Smart Dispenser</a>
-            <a href="origin.html" class="active">HEKONE Origin</a>
-          </div>
-        </div>
-        <a href="index.html#ecosystem">HEKONE Platform</a>
-        <a href="about.html">About</a>
-        <a href="https://hekone.com/contact">Contact</a>
-        <a href="login.html">Login / Dashboard</a>
-        <a href="pilot.html" class="nav-pilot">Start a Pilot</a>
-      </nav>
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-text">
+    <h1>HEKONE <span>Origin</span></h1>
+    <h2>Measure harvest where value is created. Detect loss before it leaves the field.</h2>
+
+    <p>
+      Capture weight, time, and location at the moment of harvest.  
+      Turn hidden inefficiencies into measurable ROI.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn primary">Start a Pilot</button>
+      <button class="btn secondary">See Real Data</button>
     </div>
-  </header>
 
-  <div class="menu-backdrop"></div>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <div class="eyebrow">Early Deployment - Seeking Pilot Partners</div>
-
-            <h1>HEKONE <span class="accent">Origin</span></h1>
-
-            <p class="hero-lede">
-              Measure harvest where value is created. Detect loss before it leaves the field.
-            </p>
-
-            <p>
-              HEKONE Origin captures weight, time, and harvest location directly where harvest happens.
-              Instead of waiting for delayed reports, operators can see field activity, hidden loss, and recoverable value in real time.
-            </p>
-
-            <p>
-              The goal is simple: measure at the source, reduce unnecessary handling, respond faster, and validate measurable ROI within a real harvest cycle.
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="contact.html">Start a Pilot</a>
-              <a class="btn btn-secondary" href="#field-reality">See Real Field Data</a>
-            </div>
-
-            <div class="hero-note">
-              Limited early pilot slots available for growers, harvest operators, and field operations partners.
-            </div>
-          </div>
-
-          <div class="hero-visual">
-            <div class="hero-card">
-              <img src="origin.png" alt="HEKONE Origin smart harvest bin with live weight display and dashboard" />
-            </div>
-            <div class="floating-badge">
-              <span class="small">Operator value</span>
-              <strong>Measure at source. Detect loss earlier. Improve response. Validate ROI in real field conditions.</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="metrics">
-          <div class="metric featured">
-            <span class="label">Example Loss Exposure</span>
-            <strong class="danger-text">$480-$1,200+</strong>
-            <p>Example daily loss exposure in a single active block when inefficiency and variation go unmeasured.</p>
-          </div>
-
-          <div class="metric featured">
-            <span class="label">Example Season Impact</span>
-            <strong class="danger-text">$50K+</strong>
-            <p>Example seasonal value at risk when delayed visibility hides field-level operational gaps.</p>
-          </div>
-
-          <div class="metric">
-            <span class="label">Labor Impact</span>
-            <strong>20-35%</strong>
-            <p>Target reduction in labor touches by removing separate weighing and re-handling steps.</p>
-          </div>
-
-          <div class="metric">
-            <span class="label">ROI Window</span>
-            <strong>1 Season</strong>
-            <p>Designed to validate measurable operational ROI within one harvest cycle or pilot period.</p>
-          </div>
-        </div>
+    <div class="kpis">
+      <div class="kpi red">
+        <h4>$480–$1,200+</h4>
+        <p>Daily loss exposure</p>
       </div>
-    </section>
-
-    <section id="field-reality" class="section">
-      <div class="container">
-        <div class="eyebrow">Field Reality</div>
-        <h2>You are losing money in the field, and you cannot see where.</h2>
-        <p class="lede">
-          Most harvest operations still rely on delayed measurement while labor cost, shrinkage, and output variance continue to rise.
-        </p>
-
-        <div class="impact-panel">
-          <div class="impact-grid">
-            <div class="impact-callout">
-              <strong>Turn hidden field loss into <span class="money">measurable dollars.</span></strong>
-              <p>
-                HEKONE Origin is designed to show which blocks are underperforming, where harvest is slowing,
-                and what value may be recoverable before small inefficiencies compound.
-              </p>
-
-              <div class="impact-money-grid">
-                <div class="impact-money-card">
-                  <span>Example Today</span>
-                  <strong>$640 loss</strong>
-                  <p>Sample recoverable loss from slow fill rate, underfilled bins, or delayed response.</p>
-                </div>
-                <div class="impact-money-card">
-                  <span>Example Season</span>
-                  <strong>$50K+ risk</strong>
-                  <p>Sample untracked variance when field performance is measured too late.</p>
-                </div>
-              </div>
-
-              <div class="impact-list">
-                <div class="impact-item">See which block or row needs attention first.</div>
-                <div class="impact-item">Translate weight and speed into estimated revenue and loss.</div>
-                <div class="impact-item">Move from delayed reports to same-day operational decisions.</div>
-                <div class="impact-item">Prioritize the highest-value recovery opportunities first.</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
+      <div class="kpi red">
+        <h4>$50K+</h4>
+        <p>Seasonal impact</p>
       </div>
-    </section>
-
-    <section id="comparison" class="comparison-section">
-      <div class="container">
-        <div class="eyebrow">Process Comparison</div>
-        <div class="comparison-copy">
-          <h2>Eliminate the weighing step.</h2>
-          <p class="lede">
-            Replace a slower 5-step harvest process with a 3-step real-time system that measures while harvesting.
-          </p>
-          <p>
-            Instead of moving material through an added weighing checkpoint, HEKONE Origin captures data where harvest already happens.
-            That means fewer handoffs, faster information, and less delay between collection and decision.
-          </p>
-        </div>
-
-        <div class="comparison-image">
-          <img src="origin-weightingstep.png" alt="Comparison showing traditional harvest process versus HEKONE Origin with the weighing step eliminated" />
-        </div>
+      <div class="kpi">
+        <h4>20–35%</h4>
+        <p>Labor reduction</p>
       </div>
-    </section>
-
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Live Operations</div>
-        <div class="feature-copy">
-          <h2>See harvest activity across the orchard as it happens.</h2>
-          <p class="lede">
-            Know where bins are, how fast they are filling, and which areas are outperforming or falling behind.
-          </p>
-          <p>
-            Field connectivity is not always perfect, so the system is designed around practical deployment logic:
-            capture locally, sync reliably, and preserve operational visibility when coverage is inconsistent.
-          </p>
-        </div>
-
-        <div class="feature-image">
-          <img src="origin-location.png" alt="HEKONE Origin live harvest map showing orchard bin locations and weights" />
-        </div>
-
-        <p class="section-note">
-          This is not just real time when the network is perfect. It is intended to be useful in the field conditions operators actually deal with.
-        </p>
+      <div class="kpi">
+        <h4>1 Season</h4>
+        <p>ROI validation</p>
       </div>
-    </section>
+    </div>
 
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Performance Insight</div>
-        <div class="feature-copy">
-          <h2>Know what is making money, and what is losing it.</h2>
-          <p class="lede">
-            See output, picking speed, lost value, and action recommendations in real time.
-          </p>
-          <p>
-            HEKONE Origin turns harvest activity into financial insight, so teams can respond before small inefficiencies become larger operational losses.
-          </p>
-        </div>
+  </div>
 
-        <div class="feature-image">
-          <img src="origin-performance4.png" alt="HEKONE Origin harvest performance overview with financial impact and bin comparison" />
-        </div>
+</section>
+
+<!-- FIELD LOSS -->
+<section class="field-loss-section">
+
+  <div class="section-header">
+    <span class="badge">Field Reality</span>
+    <h2>You are losing money in the field, and you cannot see where.</h2>
+    <p>Most operations rely on delayed measurement.</p>
+  </div>
+
+  <div class="loss-card">
+
+    <h3>Turn hidden field loss into <span class="highlight">measurable dollars.</span></h3>
+
+    <p>
+      Identify underperforming areas and recover lost value before inefficiencies compound.
+    </p>
+
+    <div class="top-cards">
+      <div class="card">
+        <h4>$640 loss</h4>
+        <p>Example daily loss</p>
       </div>
-    </section>
 
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Operational Alerts</div>
-        <div class="feature-copy">
-          <h2>Catch loss the moment it happens.</h2>
-          <p class="lede">
-            When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
-          </p>
-          <p>
-            This moves the system beyond passive measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
-          </p>
-        </div>
-
-        <div class="feature-image">
-          <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
-        </div>
-
-        <p class="alert-note">
-          Real-time alerting can help reduce unnoticed loss, improve accountability, and make field events visible before they become larger financial issues.
-        </p>
+      <div class="card">
+        <h4>$50K+ risk</h4>
+        <p>Season-level impact</p>
       </div>
-    </section>
+    </div>
 
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Trace Back to Source</div>
-        <div class="feature-copy">
-          <h2>Trace every problem back to its source.</h2>
-          <p class="lede">
-            Connect downstream quality issues directly to the harvest area where they started.
-          </p>
-          <p>
-            HEKONE Origin links each bin to weight, time, and location, turning delayed discovery into a faster inspection and response path.
-          </p>
-        </div>
+    <div class="action-grid">
+      <div class="action-card">See weak blocks instantly</div>
+      <div class="action-card">Translate data into revenue</div>
+      <div class="action-card">Act same-day</div>
+      <div class="action-card">Prioritize high ROI fixes</div>
+    </div>
 
-        <div class="feature-image">
-          <img src="origin-problem.png" alt="HEKONE Origin traceability view showing damaged fruit traced back to source block" />
-        </div>
-      </div>
-    </section>
+  </div>
 
-    <section class="section">
-      <div class="container">
-        <div class="eyebrow">Why It Is Different</div>
-        <h2>This is not another tool. It is a missing operational data layer.</h2>
-        <p class="lede">
-          Most systems measure later, report later, or track movement separately. HEKONE measures at the moment the physical event actually happens.
-        </p>
+</section>
 
-        <div class="split-section" style="margin-top:28px;">
-          <div class="list-panel">
-            <strong>What existing tools often provide</strong>
-            <ul>
-              <li>Delayed weighing after harvest activity has already moved on</li>
-              <li>Location data without direct connection to measured field output</li>
-              <li>Manual reporting that arrives too late for immediate response</li>
-              <li>Visibility into movement, but limited visibility into source-side operational loss</li>
-            </ul>
-          </div>
+<!-- PROCESS -->
+<section>
+  <h2>Eliminate the weighing step.</h2>
+  <img src="process.png" class="full-image">
+</section>
 
-          <div class="list-panel">
-            <strong>What HEKONE Origin adds</strong>
-            <ul>
-              <li>Measurement at the source, at the time the event happens</li>
-              <li>Structured linkage between weight, time, and harvest location</li>
-              <li>Real-time visibility that supports faster field decisions</li>
-              <li>A clearer path to labor savings, loss reduction, and measurable ROI</li>
-            </ul>
-          </div>
-        </div>
+<!-- LIVE MAP -->
+<section>
+  <h2>See harvest activity live.</h2>
+  <img src="map.png" class="full-image">
+</section>
 
-        <p class="section-note">
-          Existing systems may record output later or track movement separately. HEKONE Origin turns the harvest event itself into immediate operational intelligence.
-        </p>
-      </div>
-    </section>
+<!-- DASHBOARD -->
+<section>
+  <h2>Know what is making money.</h2>
+  <img src="dashboard.png" class="full-image">
+</section>
 
-    <section class="section">
-      <div class="container">
-        <div class="eyebrow">Field Readiness</div>
-        <h2>Built for practical deployment in real operating conditions.</h2>
-        <p class="lede">
-          Field technology has to work where operations are demanding, with dirt, handling, motion, weather exposure, and inconsistent connectivity.
-        </p>
+<!-- ALERT -->
+<section>
+  <h2>Catch loss the moment it happens.</h2>
+  <img src="alert.png" class="full-image">
+</section>
 
-        <div class="deployment-panel">
-          <div class="deployment-grid">
-            <div class="deployment-card">
-              <strong>Durability target: IP65+ outdoor-ready enclosure</strong>
-              <p>
-                HEKONE Origin is being developed for harsh field use, with a durability target aimed at dust protection,
-                splash resistance, repeated handling, vibration, and daily outdoor exposure.
-              </p>
-            </div>
+<!-- TRACE -->
+<section>
+  <h2>Trace problems back to source.</h2>
+  <img src="trace.png" class="full-image">
+</section>
 
-            <div class="deployment-card">
-              <strong>Connectivity approach: local capture, reliable sync</strong>
-              <p>
-                Real-time visibility matters, but reliability matters more. The system is intended to capture data at the edge
-                and sync through a practical field connectivity model rather than assuming perfect continuous wireless coverage.
-              </p>
-            </div>
+<!-- CTA -->
+<section class="cta">
+  <h2>Deploy in the field. See real results.</h2>
+  <p>Limited pilot slots available.</p>
 
-            <div class="deployment-card">
-              <strong>Workflow impact: designed for minimal crew friction</strong>
-              <p>
-                Adoption drops when harvest crews slow down. HEKONE Origin is designed to fit into the harvest process
-                with minimal added steps and no separate weighing station dependency.
-              </p>
-            </div>
+  <button class="btn primary">Start a Pilot</button>
+  <button class="btn secondary">See Full Platform</button>
+</section>
 
-            <div class="deployment-card">
-              <strong>Scalability logic: phased rollout, high-value zones first</strong>
-              <p>
-                Large operations may have hundreds or thousands of bins. The deployment logic is to start where the labor,
-                visibility, or quality value is highest, validate ROI, and expand based on measured operational gain.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+</div>
 
-    <section class="section">
-      <div class="container">
-        <div class="eyebrow">Economic Validation</div>
-        <h2>Recover lost value in your first season.</h2>
-
-        <div class="roi-panel">
-          <p class="lede">
-            Move from delayed reporting to real-time operational control, with pilot metrics designed to quantify real financial impact.
-          </p>
-
-          <div class="roi-grid">
-            <div class="roi-item">
-              <strong>$480-$1,200+ example daily loss exposure</strong>
-              <p>Example field-level scenario from unmeasured inefficiency, underfilled bins, or delayed response.</p>
-            </div>
-            <div class="roi-item">
-              <strong>$50K+ example seasonal value at risk</strong>
-              <p>Example value hidden when field performance is measured after the opportunity to act has passed.</p>
-            </div>
-            <div class="roi-item">
-              <strong>20-35% labor reduction</strong>
-              <p>Target reduction in manual handling, separate weighing, movement, and data entry steps.</p>
-            </div>
-            <div class="roi-item">
-              <strong>1-season ROI validation</strong>
-              <p>Designed to demonstrate economic value within the first deployment cycle or harvest season.</p>
-            </div>
-          </div>
-
-          <p class="small-text" style="margin-top:16px;">
-            These figures represent example operating scenarios and expected pilot ranges. Final performance claims should be validated against real deployment data.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="eyebrow">Platform Context</div>
-        <h2>From source to consumption, one continuous physical data layer.</h2>
-
-        <div class="platform-panel">
-          <p class="lede">
-            Origin captures value at the source. Dispenser captures value at the point of consumption.
-            Together, they create a physical intelligence system that turns real-world operations into measurable data.
-          </p>
-
-          <div class="platform-grid" style="margin-top:18px;">
-            <div class="platform-item">
-              <strong>HEKONE Origin</strong>
-              <p>Source-side visibility for harvest, field operations, and initial handling.</p>
-            </div>
-            <div class="platform-item">
-              <strong>HEKONE Smart Dispenser</strong>
-              <p>Output-side visibility for dispensing, usage, and physical interaction data.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="cta-panel">
-          <div class="eyebrow">Pilot Opportunity</div>
-          <h2>Deploy in the field. See real results.</h2>
-          <p>
-            We are working with a limited number of early operators to validate real-world impact in agriculture,
-            harvest operations, and source-side field visibility.
-          </p>
-          <p style="margin-top:14px;">
-            Pilot engagement is intended to validate deployment practicality, durability in field use, workflow fit,
-            labor reduction, loss detection, and measurable ROI in real operating conditions.
-          </p>
-
-          <div class="mini-tag-row">
-            <span class="mini-tag">Agriculture</span>
-            <span class="mini-tag">Harvest Operations</span>
-            <span class="mini-tag">Traceability</span>
-            <span class="mini-tag">Labor Reduction</span>
-            <span class="mini-tag">Field Intelligence</span>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="contact.html">Start a Pilot</a>
-            <a class="btn btn-secondary" href="index.html#ecosystem">See Full Platform</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="container">
-    HEKONE Origin - Smart Harvest &amp; Source Capture
-  </footer>
-
-  <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const backdrop = document.querySelector('.menu-backdrop');
-    const dropdown = document.querySelector('.nav-dropdown');
-    const dropdownBtn = document.querySelector('.nav-dropdown-btn');
-
-    function closeDropdown() {
-      if (!dropdown || !dropdownBtn) return;
-      dropdown.classList.remove('open');
-      dropdownBtn.setAttribute('aria-expanded', 'false');
-    }
-
-    function closeMenu() {
-      menuToggle.classList.remove('active');
-      navLinks.classList.remove('open');
-      backdrop.classList.remove('show');
-      document.body.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      closeDropdown();
-    }
-
-    function openMenu() {
-      menuToggle.classList.add('active');
-      navLinks.classList.add('open');
-      backdrop.classList.add('show');
-      document.body.classList.add('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'true');
-    }
-
-    if (menuToggle && navLinks && backdrop) {
-      menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.contains('open');
-        if (isOpen) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
-      });
-
-      backdrop.addEventListener('click', closeMenu);
-
-      if (dropdown && dropdownBtn) {
-        dropdownBtn.addEventListener('click', (event) => {
-          event.stopPropagation();
-          dropdown.classList.toggle('open');
-          const isDropdownOpen = dropdown.classList.contains('open');
-          dropdownBtn.setAttribute('aria-expanded', isDropdownOpen ? 'true' : 'false');
-        });
-      }
-
-      document.addEventListener('click', (event) => {
-        if (dropdown && !dropdown.contains(event.target)) {
-          closeDropdown();
-        }
-      });
-
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          if (window.innerWidth <= 900) {
-            closeMenu();
-          } else {
-            closeDropdown();
-          }
-        });
-      });
-
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 900) {
-          closeMenu();
-        }
-      });
-    }
-  </script>
 </body>
 </html>
