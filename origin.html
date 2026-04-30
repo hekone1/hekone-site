@@ -732,12 +732,11 @@
     }
 
     @media (max-width: 1024px) {
-  .patent-panel {
-    width: 100%;
-    max-width: none;
-    grid-template-columns: 1fr;
-  }
-}
+      .hero-grid,
+      .impact-grid,
+      .deployment-grid,
+      .platform-grid,
+      .split-section { grid-template-columns: 1fr; }
 
       .metrics,
       .roi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -911,18 +910,26 @@
 
     /* Patent-style architecture section */
     .patent-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-  width: 80%;
-  max-width: 1100px;
-  margin: 40px auto 0;
-}
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      width: 80%;
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
 
     .patent-copy {
-  max-width: 420px;
-}
+      max-width: 560px;
+    }
 
     .patent-copy p + p {
       margin-top: 14px;
@@ -949,16 +956,19 @@
       border-radius: 22px;
       overflow: hidden;
       box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .patent-visual img {
-  width: 80%;
-  max-width: 560px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  background: transparent;
-}
+      width: 70%;
+      max-width: 560px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      background: transparent;
+    }
 
     .patent-caption {
       display: flex;
@@ -978,28 +988,47 @@
     }
 
     @media (max-width: 1024px) {
-  .patent-panel {
-    width: 100%;
-    max-width: none;
-    grid-template-columns: 1fr;
-  }
-}
+      .patent-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      width: 80%;
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
 
       .patent-copy {
-  max-width: 420px;
-}
+        max-width: 900px;
+      }
     }
 
     @media (max-width: 680px) {
       .patent-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-  width: 80%;
-  max-width: 1100px;
-  margin: 40px auto 0;
-}
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      width: 80%;
+      max-width: 1100px;
+      margin: 40px auto 0;
+      padding: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
 
       .patent-caption {
         flex-direction: column;
@@ -1039,16 +1068,144 @@
     }
 
     @media (max-width: 1024px) {
-  .patent-panel {
-    width: 100%;
-    max-width: none;
-    grid-template-columns: 1fr;
-  }
-}
+      .alert-split-panel {
+        grid-template-columns: 1fr;
+      }
 
       .alert-split-panel .feature-image {
         max-width: 760px;
         justify-self: start;
+      }
+    }
+
+  
+    /* Strong mobile layout fixes */
+    @media (max-width: 900px) {
+      .wrap,
+      .container {
+        width: min(100% - 28px, 100%) !important;
+      }
+
+      .nav {
+        gap: 10px;
+      }
+
+      .nav-links {
+        position: absolute !important;
+        top: calc(100% + 12px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        display: none !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+
+      .nav-links.open {
+        display: flex !important;
+      }
+
+      .menu-toggle {
+        display: inline-flex !important;
+      }
+
+      .hero {
+        padding: 34px 0 28px;
+      }
+
+      .hero-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        align-items: start !important;
+      }
+
+      .hero-copy {
+        padding: 0 !important;
+      }
+
+      h1 {
+        font-size: clamp(42px, 14vw, 62px);
+      }
+
+      .hero-lede {
+        max-width: 100%;
+        font-size: clamp(24px, 8vw, 34px);
+      }
+
+      .hero-copy p {
+        max-width: 100%;
+      }
+
+      .hero-visual {
+        width: 100%;
+      }
+
+      .hero-card {
+        width: 100%;
+      }
+
+      .floating-badge {
+        position: static !important;
+        margin: 14px 0 0 !important;
+        max-width: none !important;
+        width: 100%;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+
+      .metric {
+        width: 100%;
+      }
+
+      .patent-panel {
+        width: 100% !important;
+        max-width: none !important;
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        padding: 18px !important;
+      }
+
+      .patent-copy {
+        max-width: 100% !important;
+      }
+
+      .patent-visual {
+        width: 100%;
+        min-height: 0;
+      }
+
+      .patent-visual img {
+        width: 88% !important;
+        max-width: 520px !important;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .hero-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      .btn {
+        width: 100% !important;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      p,
+      .lede {
+        font-size: 17px;
+      }
+
+      .patent-visual img {
+        width: 96% !important;
       }
     }
 
@@ -1369,8 +1526,7 @@
           </div>
 
           <div class="patent-visual">
-            <img src="Patent2.png" alt="Patent-style technical drawing of HEKONE Origin structural sensing architecture with load cells and integrated electronics module" />
-            
+            <img src="Patent.png" alt="Patent-style technical drawing of HEKONE Origin structural sensing architecture with load cells and integrated electronics module" />
           </div>
         </div>
       </div>
