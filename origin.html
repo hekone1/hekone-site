@@ -907,6 +907,101 @@
     }
 
 
+
+    /* Patent-style architecture section */
+    .patent-panel {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 34px;
+      align-items: center;
+      margin-top: 30px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .patent-copy {
+      max-width: 560px;
+    }
+
+    .patent-copy p + p {
+      margin-top: 14px;
+    }
+
+    .ip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(140,82,255,0.12);
+      border: 1px solid rgba(140,82,255,0.22);
+      color: #e2d6ff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .patent-visual {
+      position: relative;
+      background: #f7f7f8;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+    }
+
+    .patent-visual img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+
+    .patent-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      color: #222936;
+      background: rgba(255,255,255,0.92);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .patent-caption strong {
+      color: #111827;
+    }
+
+    @media (max-width: 1024px) {
+      .patent-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .patent-copy {
+        max-width: 900px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .patent-panel {
+        padding: 18px;
+        gap: 20px;
+      }
+
+      .patent-caption {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
     /* Split layout for Operational Alerts section */
     .alert-split-panel {
       display: grid;
@@ -1241,6 +1336,38 @@
         <p class="section-note">
           Existing systems may record output later or track movement separately. HEKONE Origin turns the harvest event itself into immediate operational intelligence.
         </p>
+      </div>
+    </section>
+
+
+    <section class="section" id="patent-architecture">
+      <div class="container">
+        <div class="eyebrow">Patent Pending Architecture</div>
+        <h2>Engineered at the physical layer.</h2>
+        <p class="lede">
+          HEKONE Origin is designed as a structural sensing system, where measurement is embedded directly into the physical architecture rather than added as an external layer.
+        </p>
+
+        <div class="patent-panel">
+          <div class="patent-copy">
+            <h3>Measurement built into the bin itself.</h3>
+            <p>
+              The architecture integrates load sensing between internal plates, with electronics, display, power, and wireless communication organized into a front module for practical field deployment.
+            </p>
+            <p>
+              This enables real-time capture of weight, time, location, and operational events at the exact point where harvest activity occurs.
+            </p>
+            <div class="ip-badge">Patent filed • Source-level physical data capture</div>
+          </div>
+
+          <div class="patent-visual">
+            <img src="Patent.png" alt="Patent-style technical drawing of HEKONE Origin structural sensing architecture with load cells and integrated electronics module" />
+            <div class="patent-caption">
+              <span><strong>Illustrative architecture:</strong> embedded sensing system for source-level measurement.</span>
+              <span>Patent pending</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
