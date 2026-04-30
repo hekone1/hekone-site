@@ -914,7 +914,9 @@
       grid-template-columns: 0.86fr 1.14fr;
       gap: 34px;
       align-items: center;
-      margin-top: 30px;
+      width: 60%;
+      max-width: 760px;
+      margin: 30px auto 0;
       padding: 28px;
       background:
         radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
@@ -984,6 +986,8 @@
 
     @media (max-width: 1024px) {
       .patent-panel {
+        width: 100%;
+        max-width: none;
         grid-template-columns: 1fr;
       }
 
