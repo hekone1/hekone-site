@@ -732,11 +732,12 @@
     }
 
     @media (max-width: 1024px) {
-      .hero-grid,
-      .impact-grid,
-      .deployment-grid,
-      .platform-grid,
-      .split-section { grid-template-columns: 1fr; }
+  .patent-panel {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 1fr;
+  }
+}
 
       .metrics,
       .roi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -910,26 +911,18 @@
 
     /* Patent-style architecture section */
     .patent-panel {
-      display: grid;
-      grid-template-columns: 0.86fr 1.14fr;
-      gap: 34px;
-      align-items: center;
-      width: 60%;
-      max-width: 760px;
-      margin: 30px auto 0;
-      padding: 28px;
-      background:
-        radial-gradient(circle at top right, rgba(140,82,255,0.10), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  width: 60%;
+  max-width: 900px;
+  margin: 40px auto 0;
+}
 
     .patent-copy {
-      max-width: 560px;
-    }
+  max-width: 420px;
+}
 
     .patent-copy p + p {
       margin-top: 14px;
@@ -959,13 +952,13 @@
     }
 
     .patent-visual img {
-      width: 70%;
-      max-width: 520px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      background: transparent;
-    }
+  width: 80%;
+  max-width: 560px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  background: transparent;
+}
 
     .patent-caption {
       display: flex;
@@ -985,22 +978,28 @@
     }
 
     @media (max-width: 1024px) {
-      .patent-panel {
-        width: 100%;
-        max-width: none;
-        grid-template-columns: 1fr;
-      }
+  .patent-panel {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 1fr;
+  }
+}
 
       .patent-copy {
-        max-width: 900px;
-      }
+  max-width: 420px;
+}
     }
 
     @media (max-width: 680px) {
       .patent-panel {
-        padding: 18px;
-        gap: 20px;
-      }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  width: 60%;
+  max-width: 900px;
+  margin: 40px auto 0;
+}
 
       .patent-caption {
         flex-direction: column;
@@ -1040,9 +1039,12 @@
     }
 
     @media (max-width: 1024px) {
-      .alert-split-panel {
-        grid-template-columns: 1fr;
-      }
+  .patent-panel {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 1fr;
+  }
+}
 
       .alert-split-panel .feature-image {
         max-width: 760px;
