@@ -1,198 +1,197 @@
 import React from "react";
 import {
-  Home,
-  MapPin,
-  Users,
-  FileText,
-  Bell,
-  Settings,
-  TrendingUp,
-  DollarSign,
-  Clock,
-  Calendar,
-  Wifi,
-  Info,
-  Zap,
-  BarChart3,
+  Home, MapPin, Users, FileText, Bell, Settings, TrendingUp, DollarSign,
+  Clock, Calendar, Wifi, Info, Zap, BarChart3
 } from "lucide-react";
 
 const bins = [
-  { id: "BIN-001", weight: "248.32", status: "Above Average", pct: "+8%", tone: "green", fill: "5.21", value: "$744.96", x: "15%" },
-  { id: "BIN-002", weight: "214.06", status: "Slightly Below", pct: "-8%", tone: "orange", fill: "4.18", value: "$642.17", x: "39%" },
-  { id: "BIN-003", weight: "187.42", status: "Below Average", pct: "-22%", tone: "red", fill: "3.23", value: "$562.26", x: "63%" },
-  { id: "BIN-004", weight: "256.21", status: "Good Performance", pct: "+12%", tone: "green", fill: "4.72", value: "$768.63", x: "86%" },
+  { id: "BIN-001", weight: "248.32", status: "Above Average", pct: "+8%", tone: "green", fill: "5.21", value: "$744.96", left: 270 },
+  { id: "BIN-002", weight: "214.06", status: "Slightly Below", pct: "-8%", tone: "orange", fill: "4.18", value: "$642.17", left: 590 },
+  { id: "BIN-003", weight: "187.42", status: "Below Average", pct: "-22%", tone: "red", fill: "3.23", value: "$562.26", left: 900 },
+  { id: "BIN-004", weight: "256.21", status: "Good Performance", pct: "+12%", tone: "green", fill: "4.72", value: "$768.63", left: 1255 },
 ];
 
 const tone = {
-  green: { text: "text-emerald-400", bg: "bg-emerald-500", soft: "bg-emerald-500/15", stroke: "#00d084" },
-  orange: { text: "text-orange-400", bg: "bg-orange-500", soft: "bg-orange-500/15", stroke: "#ff9800" },
-  red: { text: "text-red-400", bg: "bg-red-500", soft: "bg-red-500/15", stroke: "#ff2020" },
+  green: { text: "text-emerald-400", bg: "bg-emerald-500", stroke: "#00c875" },
+  orange: { text: "text-orange-400", bg: "bg-orange-500", stroke: "#ff9900" },
+  red: { text: "text-red-500", bg: "bg-red-600", stroke: "#ff2020" },
 };
 
-function Card({ children, className = "" }) {
-  return <div className={`rounded-xl border border-cyan-300/15 bg-[#041923]/88 shadow-[0_0_22px_rgba(0,170,255,.08)] backdrop-blur-md ${className}`}>{children}</div>;
+function Glass({ children, className = "" }) {
+  return <div className={`rounded-md border border-cyan-300/20 bg-[#031722]/92 shadow-[0_0_18px_rgba(0,255,255,.07)] ${className}`}>{children}</div>;
 }
 
-function MiniLine({ t = "green" }) {
+function MiniLine({ t }) {
   return (
-    <svg viewBox="0 0 100 40" className="h-9 w-24">
-      <line x1="4" y1="35" x2="98" y2="35" stroke="rgba(255,255,255,.18)" />
-      <polyline points="5,31 16,30 25,19 34,25 43,18 52,22 61,15 70,17 80,10 91,13 98,6" fill="none" stroke={tone[t].stroke} strokeWidth="2.4" />
+    <svg viewBox="0 0 90 36" className="h-9 w-20">
+      <line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)" />
+      <polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke={tone[t].stroke} strokeWidth="2" />
     </svg>
   );
 }
 
-function OrchardBin({ b }) {
+function BinCard({ b }) {
   return (
-    <div className="absolute top-[16%] -translate-x-1/2" style={{ left: b.x }}>
-      <Card className="relative z-20 w-[210px] p-4">
-        <div className="flex justify-between gap-3">
+    <div className="absolute top-[64px] z-20" style={{ left: b.left }}>
+      <Glass className="w-[205px] p-3">
+        <div className="flex justify-between">
           <div>
             <div className="text-sm text-white">{b.id}</div>
-            <div className="mt-1 text-2xl font-light text-white">{b.weight} <span className="text-sm">lb</span></div>
-            <div className={`text-sm font-semibold ${tone[b.tone].text}`}>{b.status}</div>
+            <div className="mt-1 text-[25px] leading-none text-white">{b.weight} <span className="text-sm">lb</span></div>
+            <div className={`mt-1 text-sm font-semibold ${tone[b.tone].text}`}>{b.status}</div>
           </div>
-          <span className={`h-fit rounded-md px-3 py-1 text-sm font-bold text-black ${tone[b.tone].bg}`}>{b.pct}</span>
+          <div className={`h-fit rounded px-3 py-1 text-sm font-bold text-black ${tone[b.tone].bg}`}>{b.pct}</div>
         </div>
-        <div className="mt-3 flex items-end justify-between border-b border-white/10 pb-2">
-          <div className="text-xs leading-5 text-slate-300">Fill Rate<br /><span className="text-white">{b.fill} lb/min</span></div>
+        <div className="mt-3 flex items-end justify-between border-b border-white/15 pb-1">
+          <div className="text-xs leading-5 text-slate-300">Fill Rate<br/><span className="text-white">{b.fill} lb/min</span></div>
           <MiniLine t={b.tone} />
         </div>
-        <div className="mt-2 text-xs leading-5 text-slate-300">Est. Value<br /><span className="text-xl text-white">{b.value}</span><br />@ $3.00 / lb</div>
-      </Card>
-
-      <Wifi className="absolute left-1/2 top-[205px] z-20 -translate-x-1/2 text-blue-400" size={30} />
-
-      <div className="absolute left-1/2 top-[228px] z-10 -translate-x-1/2">
-        <div className="relative h-[92px] w-[190px] overflow-hidden rounded-t-md border-2 border-slate-500 bg-gradient-to-b from-red-700 to-[#2b0d05] shadow-2xl">
-          <div className="grid grid-cols-12 gap-[3px] p-3">
-            {Array.from({ length: 84 }).map((_, i) => <span key={i} className="h-[9px] w-[9px] rounded-full bg-red-500 shadow-[0_0_8px_rgba(255,40,20,.9)]" />)}
-          </div>
-        </div>
-        <div className="mx-auto w-fit rounded-sm bg-slate-200 px-3 py-1 text-[11px] font-bold text-slate-900">{b.weight} lb</div>
-      </div>
+        <div className="mt-2 text-xs leading-5 text-slate-300">Est. Value<br/><span className="text-xl text-white">{b.value}</span><br/>@ $3.00 / lb</div>
+      </Glass>
     </div>
   );
+}
+
+function AppleBin({ b }) {
+  return (
+    <div className="absolute top-[275px] z-10" style={{ left: b.left + 18 }}>
+      <Wifi className="absolute -top-28 left-[72px] text-blue-400" size={30} />
+      <div className="h-[102px] w-[178px] overflow-hidden border-2 border-slate-500 bg-gradient-to-b from-red-700 via-[#651405] to-[#250805] shadow-2xl">
+        <div className="grid grid-cols-12 gap-[3px] p-3">
+          {Array.from({ length: 96 }).map((_, i) => <span key={i} className="h-[9px] w-[9px] rounded-full bg-red-500 shadow-[0_0_7px_rgba(255,40,20,.95)]" />)}
+        </div>
+      </div>
+      <div className="mx-auto -mt-9 w-fit rounded-sm bg-slate-100 px-3 py-1 text-[11px] font-bold text-black">{b.weight} lb</div>
+    </div>
+  );
+}
+
+function OrchardBackground() {
+  return (
+    <>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,36,.20),transparent_32%),linear-gradient(180deg,#081407_0%,#06110c_38%,#02070b_72%)]" />
+      <div className="absolute inset-0 opacity-80 [background-image:radial-gradient(#cf8206_1.3px,transparent_1.3px)] [background-size:10px_10px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.5)_42%,rgba(0,0,0,.88)_100%)]" />
+      {[
+        [70,95,-28,88,215], [455,15,18,82,250], [760,20,-14,74,245], [1150,50,22,92,235]
+      ].map(([x,y,r,w,h], i) => <div key={i} className="absolute rounded-b-full border border-slate-300/20 bg-slate-900/60 shadow-2xl" style={{ left:x, top:y, width:w, height:h, transform:`rotate(${r}deg)` }} />)}
+      <div className="absolute left-[35px] top-[150px] h-[160px] w-[75px] rounded-b-3xl bg-slate-800/70 rotate-[28deg] border border-slate-400/20" />
+      <div className="absolute right-[260px] top-[145px] h-[170px] w-[82px] rounded-b-3xl bg-slate-800/70 rotate-[26deg] border border-slate-400/20" />
+    </>
+  );
+}
+
+function Header() {
+  return <header className="absolute left-0 right-0 top-0 z-40 flex items-center justify-between px-4 py-3">
+    <div className="flex items-center gap-3">
+      <div className="h-9 w-9 rounded bg-gradient-to-br from-purple-600 via-indigo-500 to-cyan-400" />
+      <div><div className="text-2xl font-semibold leading-6 text-white">HEKONE Origin</div><div className="text-sm text-slate-300">Live Bin Performance</div></div>
+    </div>
+    <div className="flex items-center gap-3 text-sm text-slate-300"><span>May 16, 09:41:32</span><button className="rounded border border-white/20 bg-slate-900/85 px-4 py-2 text-white">Today</button><Calendar size={18}/><Bell size={17}/><span className="rounded-full bg-purple-600 px-3 py-2 text-white">JD</span></div>
+  </header>;
 }
 
 function Sidebar() {
-  const items = [[Home, "Dashboard", true], [MapPin, "Locations"], [Users, "Harvest Teams"], [FileText, "Reports"], [Bell, "Alerts"], [Settings, "Settings"]];
-  return (
-    <Card className="absolute bottom-[205px] left-3 z-30 w-[190px] p-3">
-      <div className="mb-5 flex items-center gap-3">
-        <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-purple-600 via-indigo-500 to-cyan-400" />
-        <div><div className="text-xl font-semibold text-white">HEKONE</div><div className="text-xs text-slate-400">Origin</div></div>
-      </div>
-      <div className="space-y-1">
-        {items.map(([Icon, label, active]) => <div key={label} className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm ${active ? "bg-white/10 text-white ring-1 ring-purple-500/50" : "text-slate-400"}`}><Icon size={18} />{label}</div>)}
-      </div>
-      <button className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg border border-purple-500/70 px-3 py-3 text-sm text-purple-400"><TrendingUp size={16} /> View All Insights</button>
-    </Card>
-  );
+  const items = [[Home,"Dashboard",true],[MapPin,"Locations"],[Users,"Harvest Teams"],[FileText,"Reports"],[Bell,"Alerts"],[Settings,"Settings"]];
+  return <Glass className="absolute bottom-[215px] left-2 z-30 w-[170px] p-3">
+    <div className="mb-4 flex items-center gap-3"><div className="h-10 w-10 rounded bg-gradient-to-br from-purple-600 to-cyan-400"/><div><div className="text-xl text-white">HEKONE</div><div className="text-xs text-slate-400">Origin</div></div></div>
+    <div className="space-y-1">{items.map(([Icon,label,active])=><div key={label} className={`flex items-center gap-3 rounded px-3 py-[10px] text-sm ${active?"bg-white/10 text-white border-l-2 border-purple-500":"text-slate-400"}`}><Icon size={18}/>{label}</div>)}</div>
+    <button className="mt-4 flex w-full items-center justify-center gap-2 rounded border border-purple-500/70 py-3 text-sm text-purple-400"><TrendingUp size={15}/>View All Insights</button>
+  </Glass>;
 }
 
-function Stat({ title, value, sub, badge, special }) {
-  return (
-    <div className={`min-h-[86px] border-r border-white/10 px-5 py-3 ${special ? "rounded-lg border border-purple-500/70 bg-purple-900/20" : ""}`}>
-      <div className="text-sm text-slate-400">{title}</div>
-      <div className={`mt-1 text-2xl font-light ${title === "Needs Attention" ? "text-red-400" : title === "Top Performer" ? "text-emerald-400" : "text-white"}`}>{value}</div>
-      <div className="mt-1 flex items-center gap-2 text-xs text-slate-400"><span>{sub}</span>{badge && <span className="rounded bg-emerald-500/25 px-1.5 py-0.5 text-emerald-400">{badge}</span>}</div>
-    </div>
-  );
+function ActionBox() {
+  return <Glass className="absolute left-[1088px] top-[295px] z-30 flex w-[250px] items-center gap-3 p-3">
+    <Zap className="shrink-0 text-yellow-400" size={23}/>
+    <div className="min-w-0"><div className="text-xs font-bold text-yellow-400">ACTION RECOMMENDATION</div><div className="mt-1 text-sm text-white">Focus on Block B - Row 3</div><div className="text-xs text-slate-300">Potential recovery: $157 today</div></div>
+    <button className="rounded-md bg-purple-600 px-2 py-1 text-white">→</button>
+  </Glass>;
+}
+
+function Stat({ title, value, sub, badge, color, active }) {
+  return <div className={`border-r border-white/10 px-5 py-3 ${active?"rounded-md border border-purple-500 bg-purple-900/15":""}`}>
+    <div className="text-sm text-slate-400">{title}</div>
+    <div className={`mt-1 text-[23px] leading-7 ${color || "text-white"}`}>{value}</div>
+    <div className="mt-1 flex gap-2 text-xs text-slate-400"><span>{sub}</span>{badge && <span className="rounded bg-emerald-500/25 px-1 text-emerald-400">{badge}</span>}</div>
+  </div>;
+}
+
+function TopStats() {
+  return <Glass className="absolute left-[190px] right-[10px] top-[392px] z-30 grid h-[106px] grid-cols-7 p-2">
+    <Stat title="Total Bins" value="24" sub="Active: 24" color="text-white" />
+    <Stat title="Total Weight" value="5,759.84 lb" sub="Yesterday: 5,132.11 lb" badge="+12.2%" />
+    <Stat title="Estimated Value (Live)" value="$17,279.52" sub="Yesterday: $15,396.33" badge="+12.2%" active />
+    <Stat title="Average per Bin" value="239.99 lb" sub="Yesterday: 213.84 lb" badge="+12.2%" />
+    <Stat title="Top Performer" value="BIN-004 (256.21 lb)" sub="Block A - Row 7" color="text-emerald-400" />
+    <Stat title="Needs Attention" value="BIN-003 (187.42 lb)" sub="Block B - Row 3" color="text-red-500" />
+    <Stat title="Average Fill Rate" value="4.33 lb/min" sub="Yesterday: 3.71 lb/min" badge="+16.7%" />
+  </Glass>;
 }
 
 function LineChart() {
-  return (
-    <Card className="p-4">
-      <h3 className="mb-2 flex items-center gap-2 text-lg text-white">Fill Rate Comparison <span className="text-sm text-slate-400">(lb/min)</span><Info size={15} /></h3>
-      <div className="mb-2 flex gap-4 text-xs"><span className="text-emerald-400">━━ BIN-001</span><span className="text-green-400">━━ BIN-004</span><span className="text-yellow-400">━━ BIN-002</span><span className="text-orange-400">━━ BIN-017</span><span className="text-red-400">━━ BIN-003</span></div>
-      <svg viewBox="0 0 440 190" className="h-[190px] w-full">
-        {[0,1,2,3,4].map(i => <line key={i} x1="28" x2="420" y1={28+i*35} y2={28+i*35} stroke="rgba(255,255,255,.08)" />)}
-        {["M28 148 C75 95 125 72 170 82 C230 93 260 73 315 70 C365 62 382 43 420 55", "M28 128 C70 90 125 88 170 95 C235 102 265 88 315 83 C360 75 382 62 420 74", "M28 140 C80 118 132 102 190 110 C250 106 300 112 350 98 C382 90 402 100 420 94", "M28 158 C80 135 135 129 190 126 C250 119 300 128 355 121 C390 115 405 122 420 116"].map((d,i)=><path key={i} d={d} fill="none" stroke={["#00d084","#22c55e","#ffbf00","#ff2020"][i]} strokeWidth="3" />)}
-      </svg>
-      <div className="grid grid-cols-5 gap-3 text-center text-sm"><button className="rounded border border-purple-500 px-4 py-2 text-purple-400">Today</button><button className="rounded bg-white/5 px-4 py-2">7D</button><button className="rounded bg-white/5 px-4 py-2">30D</button><button className="rounded bg-white/5 px-4 py-2">90D</button><button className="rounded bg-white/5 px-4 py-2">▣</button></div>
-    </Card>
-  );
+  return <Glass className="p-4">
+    <h3 className="mb-2 flex items-center gap-2 text-lg text-white">Fill Rate Comparison <span className="text-sm text-slate-400">(lb/min)</span><Info size={15}/></h3>
+    <div className="mb-1 flex gap-4 text-[11px]"><span className="text-emerald-400">━━ BIN-001</span><span className="text-green-400">━━ BIN-004</span><span className="text-yellow-400">━━ BIN-002</span><span className="text-orange-400">━━ BIN-017</span><span className="text-red-500">━━ BIN-003</span></div>
+    <svg viewBox="0 0 390 160" className="h-[158px] w-full">
+      {[0,1,2,3,4].map(i=><line key={i} x1="28" x2="375" y1={20+i*30} y2={20+i*30} stroke="rgba(255,255,255,.08)"/>)}
+      <path d="M28 132 C70 78 115 62 150 70 C210 80 235 64 280 62 C330 55 350 38 375 48" fill="none" stroke="#00c875" strokeWidth="2.5"/>
+      <path d="M28 112 C70 80 120 82 160 88 C220 96 255 82 300 76 C340 70 358 56 375 66" fill="none" stroke="#22c55e" strokeWidth="2.5"/>
+      <path d="M28 124 C70 105 125 92 175 100 C230 95 280 105 320 90 C345 82 360 92 375 86" fill="none" stroke="#f59e0b" strokeWidth="2.5"/>
+      <path d="M28 146 C80 118 135 116 190 112 C245 108 290 117 330 109 C350 104 365 110 375 106" fill="none" stroke="#ff2020" strokeWidth="2.5"/>
+    </svg>
+    <div className="grid grid-cols-5 gap-3 text-center text-sm"><button className="rounded border border-purple-500 py-2 text-purple-400">Today</button><button className="rounded bg-white/5 py-2">7D</button><button className="rounded bg-white/5 py-2">30D</button><button className="rounded bg-white/5 py-2">90D</button><button className="rounded bg-white/5 py-2">▣</button></div>
+  </Glass>;
 }
 
 function Heatmap() {
-  const rows = ["BIN-004", "BIN-001", "BIN-002", "BIN-017", "BIN-003"];
-  const data = [[5.8,6.1,5.9,5.6,5.4,5.2],[4.9,5.5,6.3,6.0,5.6,5.4],[4.2,4.7,5.1,4.9,4.5,4.3],[3.8,4.1,4.4,4.3,4.1,3.9],[2.6,2.9,3.2,3.4,3.3,3.2]];
-  return <Card className="p-4"><h3 className="mb-3 flex items-center gap-2 text-lg text-white">Fill Rate Over Time <span className="text-sm text-slate-400">(lb/min per Bin)</span><Info size={15}/></h3><div className="mb-1 grid grid-cols-8 gap-1 text-xs text-slate-400"><span></span>{["6 AM","8 AM","10 AM","12 PM","2 PM","4 PM","Avg"].map(x=><span className="text-center" key={x}>{x}</span>)}</div>{rows.map((r,i)=><div key={r} className="mb-1 grid grid-cols-8 gap-1 text-sm"><span className="py-2 text-slate-300">{r}</span>{data[i].map(v=><span key={v} className={`rounded px-2 py-2 text-center text-white ${v>5.2?"bg-emerald-600/80":v>4.2?"bg-green-700/75":v>3.4?"bg-amber-700/75":"bg-red-800/85"}`}>{v}</span>)}<span className="py-2 text-right text-slate-300">{(data[i].reduce((a,b)=>a+b,0)/6).toFixed(2)}</span></div>)}</Card>;
+  const rows=["BIN-004","BIN-001","BIN-002","BIN-017","BIN-003"];
+  const data=[[5.8,6.1,5.9,5.6,5.4,5.2],[4.9,5.5,6.3,6.0,5.6,5.4],[4.2,4.7,5.1,4.9,4.5,4.3],[3.8,4.1,4.4,4.3,4.1,3.9],[2.6,2.9,3.2,3.4,3.3,3.2]];
+  return <Glass className="p-4"><h3 className="mb-3 flex items-center gap-2 text-lg text-white">Fill Rate Over Time <span className="text-sm text-slate-400">(lb/min per Bin)</span><Info size={15}/></h3><div className="mb-1 grid grid-cols-8 gap-1 text-[11px] text-slate-400"><span/><span>6 AM</span><span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span><span>Avg</span></div>{rows.map((r,i)=><div key={r} className="mb-1 grid grid-cols-8 gap-1 text-sm"><span className="py-2 text-slate-300">{r}</span>{data[i].map(v=><span key={v} className={`rounded px-2 py-2 text-center text-white ${v>5.2?"bg-emerald-600/80":v>4.2?"bg-green-700/75":v>3.4?"bg-amber-700/75":"bg-red-800/85"}`}>{v}</span>)}<span className="py-2 text-right text-slate-300">{(data[i].reduce((a,b)=>a+b,0)/6).toFixed(2)}</span></div>)}</Glass>;
 }
 
 function LossTable() {
-  const rows = [["BIN-003","239.99 lb","187.42 lb","-52.57 lb","-$157.71","Slow picking"],["BIN-017","239.99 lb","205.80 lb","-34.19 lb","-$102.58","Short idle time"],["BIN-002","239.99 lb","214.06 lb","-25.93 lb","-$77.80","Minor gap"],["BIN-009","239.99 lb","219.30 lb","-20.69 lb","-$62.07","Row gap"],["BIN-014","239.99 lb","223.20 lb","-16.79 lb","-$50.38","Minor gap"],["BIN-018","239.99 lb","227.10 lb","-12.89 lb","-$38.67","Low fill rate"]];
-  return <Card className="p-4"><h3 className="mb-3 flex items-center gap-2 text-lg text-white">Loss Analysis <span className="text-sm text-slate-400">(Today)</span><Info size={15}/></h3><table className="w-full text-left text-xs"><thead className="text-slate-400"><tr><th>BIN ID</th><th>Est.</th><th>Actual</th><th>Est. Loss</th><th>Gross Loss</th><th>Reason</th></tr></thead><tbody>{rows.map(r=><tr className="border-t border-white/5" key={r[0]}>{r.map((c,i)=><td className={`py-2 ${i===3||i===4?"text-red-400 font-semibold":"text-slate-300"}`} key={c}>{c}</td>)}</tr>)}</tbody></table><div className="mt-3 text-right text-purple-400">View All Loss Details →</div></Card>;
+  const rows=[["BIN-003","239.99 lb","187.42 lb","-52.57 lb","-$157.71","Slow picking"],["BIN-017","239.99 lb","205.80 lb","-34.19 lb","-$102.58","Short idle time"],["BIN-002","239.99 lb","214.06 lb","-25.93 lb","-$77.80","Minor gap"],["BIN-009","239.99 lb","219.30 lb","-20.69 lb","-$62.07","Row gap"],["BIN-014","239.99 lb","223.20 lb","-16.79 lb","-$50.38","Minor gap"],["BIN-018","239.99 lb","227.10 lb","-12.89 lb","-$38.67","Low fill rate"]];
+  return <Glass className="p-4"><h3 className="mb-2 flex items-center gap-2 text-lg text-white">Loss Analysis <span className="text-sm text-slate-400">(Today)</span><Info size={15}/></h3><table className="w-full text-left text-[11px]"><thead className="text-slate-400"><tr><th>BIN ID</th><th>Est. Weight</th><th>Actual</th><th>Est. Loss</th><th>Gross Loss</th><th>Reason</th></tr></thead><tbody>{rows.map(r=><tr key={r[0]} className="border-t border-white/5">{r.map((c,i)=><td key={c} className={`py-[6px] ${i===3||i===4?"font-semibold text-red-500":"text-slate-300"}`}>{c}</td>)}</tr>)}</tbody></table><div className="mt-2 text-right text-purple-400">View All Loss Details →</div></Glass>;
+}
+
+function MiddlePanels() {
+  return <section className="absolute left-[190px] right-[10px] top-[508px] z-30 grid h-[265px] grid-cols-3 gap-3"><LineChart/><Heatmap/><LossTable/></section>;
 }
 
 function Metric({ icon, title, value, sub, c }) {
-  const colors = { green: "text-emerald-400 border-emerald-500/50 bg-emerald-500/10", red: "text-red-400 border-red-500/50 bg-red-500/10", orange: "text-orange-400 border-orange-500/50 bg-orange-500/10", purple: "text-purple-400 border-purple-500/50 bg-purple-500/10" };
-  return <div className="flex min-w-0 items-center gap-4 border-r border-white/10 px-4 last:border-r-0"><div className={`shrink-0 rounded-full border p-4 ${colors[c]}`}>{icon}</div><div className="min-w-0"><div className="text-sm text-slate-400">{title}</div><div className={`text-2xl ${colors[c].split(" ")[0]}`}>{value}</div><div className="truncate text-xs text-slate-400">{sub}</div></div></div>;
+  const cls={green:"text-emerald-400 border-emerald-500/60 bg-emerald-500/10",red:"text-red-500 border-red-500/60 bg-red-500/10",orange:"text-orange-400 border-orange-500/60 bg-orange-500/10",purple:"text-purple-400 border-purple-500/60 bg-purple-500/10"}[c];
+  return <div className="flex items-center gap-4 border-r border-white/10 px-5 last:border-r-0"><div className={`rounded-full border p-4 ${cls}`}>{icon}</div><div><div className="text-sm text-slate-400">{title}</div><div className={`text-2xl ${cls.split(" ")[0]}`}>{value}</div><div className="text-xs text-slate-400">{sub}</div></div></div>;
+}
+
+function BottomMetrics() {
+  return <>
+    <Glass className="absolute left-[10px] right-[10px] top-[785px] z-30 grid h-[88px] grid-cols-5 p-3">
+      <Metric icon={<DollarSign size={38}/>} title="Estimated Revenue (Today)" value="$17,279.52" sub="@ $3.00 / lb" c="green"/>
+      <Metric icon={<DollarSign size={38}/>} title="Gross Loss (Today)" value="-$489.21" sub="From 6 underperforming bins" c="red"/>
+      <Metric icon={<Users size={38}/>} title="Labor Cost (Today)" value="$995.20" sub="Based on active harvest time" c="orange"/>
+      <Metric icon={<TrendingUp size={38}/>} title="Net Impact (Today)" value="$15,795.11" sub="Revenue - Loss - Labor Cost" c="green"/>
+      <Metric icon={<Clock size={38}/>} title="Total Idle Time" value="1h 47m" sub="Est. Labor Cost: $95.30" c="purple"/>
+    </Glass>
+    <Glass className="absolute left-[10px] right-[10px] top-[883px] z-30 flex h-[74px] items-center justify-between px-8">
+      <div className="flex items-center gap-5"><BarChart3 className="text-emerald-400" size={44}/><div><div className="text-2xl text-white">Recoverable Profit Opportunity</div><div className="text-sm text-slate-300">Fixing today’s inefficiencies can recover <span className="font-bold text-orange-400">$489.21</span> in lost value.</div></div></div>
+      <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed daily</div><div className="text-2xl text-emerald-400">$14,676 / month</div></div>
+      <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed for the season (120 days)</div><div className="text-2xl text-emerald-400">$176,112 / season</div></div>
+    </Glass>
+    <div className="absolute bottom-2 left-5 right-5 z-30 flex justify-center gap-16 text-xs text-slate-500"><span>ⓘ Gross Loss is calculated based on expected fill rate, actual performance, product price ($3.00 / lb) and labor cost.</span><span>Net Impact = Estimated Revenue – Gross Loss – Labor Cost.</span></div>
+  </>;
 }
 
 export default function HekoneOriginDashboard() {
-  return (
-    <div className="min-h-screen bg-[#02080d] text-slate-200">
-      <div className="relative mx-auto h-[940px] min-w-[1500px] overflow-hidden bg-[#021019]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(252,176,50,.20),transparent_34%),linear-gradient(180deg,#0b1b0d_0%,#041014_50%,#02070b_100%)]" />
-        <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(#e49b13_1.2px,transparent_1.2px)] [background-size:12px_12px]" />
-        <div className="absolute left-[4%] top-[9%] h-52 w-24 rounded-b-full border border-slate-400/20 bg-slate-900/60 rotate-[-25deg] shadow-2xl" />
-        <div className="absolute left-[31%] top-[9%] h-56 w-20 rounded-b-full border border-slate-400/20 bg-slate-900/60 rotate-[18deg] shadow-2xl" />
-        <div className="absolute left-[55%] top-[9%] h-56 w-20 rounded-b-full border border-slate-400/20 bg-slate-900/60 rotate-[-12deg] shadow-2xl" />
-        <div className="absolute right-[8%] top-[10%] h-48 w-28 rounded-b-full border border-slate-400/20 bg-slate-900/60 rotate-[20deg] shadow-2xl" />
-
-        <header className="relative z-40 flex items-center justify-between p-4">
-          <div className="flex items-center gap-3"><div className="h-9 w-9 rounded-lg bg-gradient-to-br from-purple-600 via-indigo-500 to-cyan-400" /><div><h1 className="text-2xl font-semibold text-white">HEKONE Origin</h1><p className="text-sm text-slate-300">Live Bin Performance</p></div></div>
-          <div className="flex items-center gap-3 text-sm text-slate-300"><span>May 16, 09:41:32</span><button className="rounded-lg border border-white/20 bg-slate-900/80 px-4 py-2 text-white">Today</button><Calendar size={18}/><Bell size={18}/><span className="rounded-full bg-purple-600 px-3 py-2 text-white">JD</span></div>
-        </header>
-
-        {bins.map(b => <OrchardBin key={b.id} b={b} />)}
-
-        <Card className="absolute right-[13%] top-[30%] z-30 flex items-center gap-3 p-4">
-          <Zap className="text-yellow-400" />
-          <div><div className="text-sm font-bold text-yellow-400">ACTION RECOMMENDATION</div><div className="text-sm text-white">Focus on Block B - Row 3</div><div className="text-xs text-slate-300">Potential recovery: $157 today</div></div>
-          <button className="rounded-lg bg-purple-600 p-2">→</button>
-        </Card>
-
-        <Sidebar />
-
-        <section className="absolute bottom-[455px] left-[210px] right-3 z-20">
-          <Card className="grid grid-cols-7 p-2">
-            <Stat title="Total Bins" value="24" sub="Active: 24" />
-            <Stat title="Total Weight" value="5,759.84 lb" sub="Yesterday: 5,132.11 lb" badge="+12.2%" />
-            <Stat title="Estimated Value (Live)" value="$17,279.52" sub="Yesterday: $15,396.33" badge="+12.2%" special />
-            <Stat title="Average per Bin" value="239.99 lb" sub="Yesterday: 213.84 lb" badge="+12.2%" />
-            <Stat title="Top Performer" value="BIN-004 (256.21 lb)" sub="Block A - Row 7" />
-            <Stat title="Needs Attention" value="BIN-003 (187.42 lb)" sub="Block B - Row 3" />
-            <Stat title="Average Fill Rate" value="4.33 lb/min" sub="Yesterday: 3.71 lb/min" badge="+16.7%" />
-          </Card>
-        </section>
-
-        <section className="absolute bottom-[185px] left-[210px] right-3 z-20 grid grid-cols-3 gap-3">
-          <LineChart />
-          <Heatmap />
-          <LossTable />
-        </section>
-
-        <section className="absolute bottom-[88px] left-3 right-3 z-20 grid grid-cols-5 gap-0">
-          <Card className="col-span-5 grid grid-cols-5 p-4">
-            <Metric icon={<DollarSign size={40}/>} title="Estimated Revenue (Today)" value="$17,279.52" sub="@ $3.00 / lb" c="green" />
-            <Metric icon={<DollarSign size={40}/>} title="Gross Loss (Today)" value="-$489.21" sub="From 6 underperforming bins" c="red" />
-            <Metric icon={<Users size={40}/>} title="Labor Cost (Today)" value="$995.20" sub="Based on active harvest time" c="orange" />
-            <Metric icon={<TrendingUp size={40}/>} title="Net Impact (Today)" value="$15,795.11" sub="Revenue - Loss - Labor Cost" c="green" />
-            <Metric icon={<Clock size={40}/>} title="Total Idle Time" value="1h 47m" sub="Est. Labor Cost: $95.30" c="purple" />
-          </Card>
-        </section>
-
-        <section className="absolute bottom-4 left-3 right-3 z-20">
-          <Card className="flex items-center justify-between p-5">
-            <div className="flex items-center gap-5"><BarChart3 className="text-emerald-400" size={42}/><div><div className="text-2xl text-white">Recoverable Profit Opportunity</div><div className="text-sm text-slate-300">Fixing today’s inefficiencies can recover <span className="font-semibold text-orange-400">$489.21</span> in lost value.</div></div></div>
-            <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed daily</div><div className="text-2xl text-emerald-400">$14,676 / month</div></div>
-            <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed for the season (120 days)</div><div className="text-2xl text-emerald-400">$176,112 / season</div></div>
-          </Card>
-        </section>
-      </div>
+  return <div className="min-h-screen overflow-auto bg-black p-0 text-slate-200">
+    <div className="relative mx-auto h-[990px] w-[1500px] overflow-hidden bg-[#02070b] font-sans">
+      <OrchardBackground />
+      <Header />
+      {bins.map(b=><React.Fragment key={b.id}><BinCard b={b}/><AppleBin b={b}/></React.Fragment>)}
+      <ActionBox />
+      <Sidebar />
+      <TopStats />
+      <MiddlePanels />
+      <BottomMetrics />
     </div>
-  );
+  </div>;
 }
