@@ -1,9 +1,54 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HEKONE Origin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script>
-  const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
-  const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
+  <style>
+    body {
+      background: #05070b;
+      color: white;
+      font-family: Arial;
+      padding: 40px;
+    }
 
-<script src="origin-dashboard.js"></script>
+    .card {
+      background: #0b1220;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #1f2937;
+    }
+
+    .value {
+      font-size: 32px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>HEKONE Origin</h1>
+
+  <div class="card">
+    <div>Total Weight</div>
+    <div id="totalWeight" class="value">0 lb</div>
+  </div>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
+    const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
+
+  <!-- Logic -->
+  <script src="origin-dashboard.js"></script>
+
+</body>
+</html>
