@@ -1,197 +1,461 @@
-import React from "react";
-import {
-  Home, MapPin, Users, FileText, Bell, Settings, TrendingUp, DollarSign,
-  Clock, Calendar, Wifi, Info, Zap, BarChart3
-} from "lucide-react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEKONE Origin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #000;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #d7e0e7;
+      overflow-x: auto;
+    }
+    .dashboard {
+      position: relative;
+      width: 1500px;
+      height: 990px;
+      margin: 0 auto;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top, rgba(245,158,11,.22), transparent 32%),
+        linear-gradient(180deg, #071607 0%, #06100d 40%, #02070b 72%);
+    }
+    .dashboard::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#d98c08 1.2px, transparent 1.2px);
+      background-size: 10px 10px;
+      opacity: .78;
+    }
+    .dashboard::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.45) 42%, rgba(0,0,0,.9) 100%);
+    }
+    .glass {
+      background: rgba(3, 23, 34, .92);
+      border: 1px solid rgba(103, 232, 249, .20);
+      box-shadow: 0 0 18px rgba(0,255,255,.07);
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
+    }
+    .topbar {
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 74px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+    }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7c3aed, #4f46e5, #22d3ee);
+    }
+    .brand h1 { margin: 0; color: white; font-size: 25px; line-height: 26px; }
+    .brand p { margin: 2px 0 0; color: #cbd5e1; font-size: 14px; }
+    .top-actions { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #cbd5e1; }
+    .today { border: 1px solid rgba(255,255,255,.2); background: rgba(15,23,42,.85); color: white; padding: 8px 14px; border-radius: 6px; }
+    .avatar { background: #6d28d9; color: #fff; border-radius: 50%; padding: 9px 10px; font-weight: bold; }
 
-const bins = [
-  { id: "BIN-001", weight: "248.32", status: "Above Average", pct: "+8%", tone: "green", fill: "5.21", value: "$744.96", left: 270 },
-  { id: "BIN-002", weight: "214.06", status: "Slightly Below", pct: "-8%", tone: "orange", fill: "4.18", value: "$642.17", left: 590 },
-  { id: "BIN-003", weight: "187.42", status: "Below Average", pct: "-22%", tone: "red", fill: "3.23", value: "$562.26", left: 900 },
-  { id: "BIN-004", weight: "256.21", status: "Good Performance", pct: "+12%", tone: "green", fill: "4.72", value: "$768.63", left: 1255 },
-];
+    .human {
+      position: absolute;
+      z-index: 2;
+      border: 1px solid rgba(226,232,240,.18);
+      background: rgba(15,23,42,.58);
+      box-shadow: 0 20px 40px rgba(0,0,0,.55);
+      border-radius: 50px 50px 80px 80px;
+    }
+    .h1 { left: 70px; top: 95px; width: 88px; height: 215px; transform: rotate(-28deg); }
+    .h2 { left: 455px; top: 15px; width: 82px; height: 250px; transform: rotate(18deg); }
+    .h3 { left: 760px; top: 20px; width: 74px; height: 245px; transform: rotate(-14deg); }
+    .h4 { left: 1150px; top: 50px; width: 92px; height: 235px; transform: rotate(22deg); }
+    .robot1, .robot2 {
+      position: absolute;
+      z-index: 2;
+      width: 80px;
+      height: 165px;
+      border: 1px solid rgba(226,232,240,.18);
+      background: rgba(15,23,42,.72);
+      border-radius: 18px 18px 45px 45px;
+    }
+    .robot1 { left: 40px; top: 150px; transform: rotate(28deg); }
+    .robot2 { right: 255px; top: 145px; transform: rotate(25deg); }
 
-const tone = {
-  green: { text: "text-emerald-400", bg: "bg-emerald-500", stroke: "#00c875" },
-  orange: { text: "text-orange-400", bg: "bg-orange-500", stroke: "#ff9900" },
-  red: { text: "text-red-500", bg: "bg-red-600", stroke: "#ff2020" },
-};
+    .bin-card {
+      position: absolute;
+      z-index: 5;
+      top: 64px;
+      width: 205px;
+      padding: 13px;
+    }
+    .bin-card .row { display: flex; justify-content: space-between; gap: 10px; }
+    .bin-id { color: white; font-size: 14px; }
+    .bin-weight { margin-top: 6px; color: white; font-size: 25px; line-height: 1; }
+    .bin-weight span { font-size: 14px; }
+    .status { margin-top: 6px; font-size: 14px; font-weight: 700; }
+    .badge { height: fit-content; color: black; font-size: 14px; font-weight: 800; border-radius: 4px; padding: 7px 11px; }
+    .green { color: #10b981; } .orange { color: #fb923c; } .red { color: #ef4444; }
+    .bg-green { background: #10b981; } .bg-orange { background: #f97316; } .bg-red { background: #ef4444; }
+    .fill-row { margin-top: 12px; padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.15); display: flex; align-items: end; justify-content: space-between; }
+    .small { font-size: 12px; line-height: 18px; color: #cbd5e1; }
+    .small span { color: white; }
+    .value { margin-top: 8px; font-size: 12px; color: #cbd5e1; line-height: 18px; }
+    .value strong { color: white; font-size: 20px; font-weight: 400; }
 
-function Glass({ children, className = "" }) {
-  return <div className={`rounded-md border border-cyan-300/20 bg-[#031722]/92 shadow-[0_0_18px_rgba(0,255,255,.07)] ${className}`}>{children}</div>;
-}
+    .apple-bin {
+      position: absolute;
+      z-index: 4;
+      top: 275px;
+      width: 178px;
+    }
+    .wifi { position: absolute; top: -30px; left: 72px; color: #38bdf8; font-size: 30px; text-shadow: 0 0 12px #0284c7; }
+    .crate {
+      width: 178px;
+      height: 102px;
+      overflow: hidden;
+      border: 2px solid #64748b;
+      background: linear-gradient(#b91c1c, #651405, #250805);
+      box-shadow: 0 18px 30px rgba(0,0,0,.75);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 3px;
+      padding: 12px;
+    }
+    .apple {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 7px rgba(255,40,20,.95);
+    }
+    .crate-label {
+      margin: -35px auto 0;
+      width: fit-content;
+      background: #f1f5f9;
+      color: #000;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 2px;
+      position: relative;
+      z-index: 2;
+    }
 
-function MiniLine({ t }) {
-  return (
-    <svg viewBox="0 0 90 36" className="h-9 w-20">
-      <line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)" />
-      <polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke={tone[t].stroke} strokeWidth="2" />
-    </svg>
-  );
-}
+    .action {
+      position: absolute;
+      z-index: 7;
+      left: 1088px;
+      top: 295px;
+      width: 250px;
+      padding: 13px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .action .bolt { color: #facc15; font-size: 24px; }
+    .action-title { color: #facc15; font-size: 12px; font-weight: 800; }
+    .action-main { color: white; font-size: 14px; margin-top: 5px; }
+    .arrow { background: #7c3aed; color: white; border: 0; border-radius: 6px; padding: 6px 9px; }
 
-function BinCard({ b }) {
-  return (
-    <div className="absolute top-[64px] z-20" style={{ left: b.left }}>
-      <Glass className="w-[205px] p-3">
-        <div className="flex justify-between">
-          <div>
-            <div className="text-sm text-white">{b.id}</div>
-            <div className="mt-1 text-[25px] leading-none text-white">{b.weight} <span className="text-sm">lb</span></div>
-            <div className={`mt-1 text-sm font-semibold ${tone[b.tone].text}`}>{b.status}</div>
-          </div>
-          <div className={`h-fit rounded px-3 py-1 text-sm font-bold text-black ${tone[b.tone].bg}`}>{b.pct}</div>
-        </div>
-        <div className="mt-3 flex items-end justify-between border-b border-white/15 pb-1">
-          <div className="text-xs leading-5 text-slate-300">Fill Rate<br/><span className="text-white">{b.fill} lb/min</span></div>
-          <MiniLine t={b.tone} />
-        </div>
-        <div className="mt-2 text-xs leading-5 text-slate-300">Est. Value<br/><span className="text-xl text-white">{b.value}</span><br/>@ $3.00 / lb</div>
-      </Glass>
-    </div>
-  );
-}
+    .sidebar {
+      position: absolute;
+      z-index: 8;
+      bottom: 215px;
+      left: 8px;
+      width: 170px;
+      padding: 12px;
+    }
+    .side-brand { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .side-logo { width: 40px; height: 40px; border-radius: 7px; background: linear-gradient(135deg,#7c3aed,#22d3ee); }
+    .side-title { color: white; font-size: 20px; }
+    .side-sub { color: #94a3b8; font-size: 12px; }
+    .nav-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .nav-item.active {
+      color: white;
+      background: rgba(255,255,255,.10);
+      border-left: 2px solid #a855f7;
+    }
+    .insights {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px 8px;
+      background: transparent;
+      color: #a855f7;
+      border: 1px solid rgba(168,85,247,.7);
+      border-radius: 6px;
+      font-size: 13px;
+    }
 
-function AppleBin({ b }) {
-  return (
-    <div className="absolute top-[275px] z-10" style={{ left: b.left + 18 }}>
-      <Wifi className="absolute -top-28 left-[72px] text-blue-400" size={30} />
-      <div className="h-[102px] w-[178px] overflow-hidden border-2 border-slate-500 bg-gradient-to-b from-red-700 via-[#651405] to-[#250805] shadow-2xl">
-        <div className="grid grid-cols-12 gap-[3px] p-3">
-          {Array.from({ length: 96 }).map((_, i) => <span key={i} className="h-[9px] w-[9px] rounded-full bg-red-500 shadow-[0_0_7px_rgba(255,40,20,.95)]" />)}
-        </div>
+    .top-stats {
+      position: absolute;
+      z-index: 8;
+      left: 190px;
+      right: 10px;
+      top: 392px;
+      height: 106px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+    .stat {
+      border-right: 1px solid rgba(255,255,255,.10);
+      padding: 12px 18px;
+      min-width: 0;
+    }
+    .stat.special { border: 1px solid #8b5cf6; border-radius: 6px; background: rgba(88,28,135,.15); }
+    .stat-title { color: #94a3b8; font-size: 14px; }
+    .stat-value { margin-top: 6px; color: white; font-size: 23px; white-space: nowrap; }
+    .stat-sub { margin-top: 6px; color: #94a3b8; font-size: 12px; }
+    .pill { background: rgba(16,185,129,.25); color: #10b981; padding: 2px 5px; border-radius: 3px; margin-left: 6px; }
+
+    .panels {
+      position: absolute;
+      z-index: 8;
+      left: 190px;
+      right: 10px;
+      top: 508px;
+      height: 265px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .panel { padding: 15px; overflow: hidden; }
+    .panel h3 { margin: 0 0 10px; color: white; font-size: 18px; font-weight: 500; }
+    .panel h3 span { color: #94a3b8; font-size: 14px; }
+    .legend { display: flex; gap: 14px; font-size: 11px; margin-bottom: 4px; }
+    .chart-buttons { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+    .chart-buttons button { padding: 8px; background: rgba(255,255,255,.05); color: #cbd5e1; border: 0; border-radius: 5px; }
+    .chart-buttons button:first-child { color: #a855f7; border: 1px solid #8b5cf6; background: transparent; }
+
+    .heat-header, .heat-row {
+      display: grid;
+      grid-template-columns: 65px repeat(7, 1fr);
+      gap: 4px;
+      font-size: 12px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .heat-header { color: #94a3b8; text-align: center; }
+    .heat-name { color: #cbd5e1; font-size: 13px; }
+    .heat-cell { color: white; text-align: center; padding: 7px 0; border-radius: 4px; }
+    .hi { background: rgba(5,150,105,.85); } .mid { background: rgba(21,128,61,.78); }
+    .low { background: rgba(180,83,9,.75); } .bad { background: rgba(153,27,27,.85); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th { text-align: left; color: #94a3b8; font-weight: 500; padding-bottom: 5px; }
+    td { border-top: 1px solid rgba(255,255,255,.06); color: #cbd5e1; padding: 6px 2px; }
+    .loss { color: #ef4444; font-weight: bold; }
+    .view-loss { text-align: right; margin-top: 8px; color: #a855f7; font-size: 14px; }
+
+    .metrics {
+      position: absolute;
+      z-index: 8;
+      left: 10px;
+      right: 10px;
+      top: 785px;
+      height: 88px;
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      padding: 12px;
+    }
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-right: 1px solid rgba(255,255,255,.10);
+      padding: 0 20px;
+    }
+    .metric:last-child { border-right: 0; }
+    .metric-icon {
+      width: 62px; height: 62px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid currentColor;
+      background: rgba(255,255,255,.04);
+      font-size: 40px;
+    }
+    .metric-title { color: #94a3b8; font-size: 14px; }
+    .metric-value { font-size: 24px; margin-top: 3px; white-space: nowrap; }
+    .metric-sub { color: #94a3b8; font-size: 12px; margin-top: 3px; }
+
+    .profit {
+      position: absolute;
+      z-index: 8;
+      left: 10px;
+      right: 10px;
+      top: 883px;
+      height: 74px;
+      padding: 16px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .profit-left { display: flex; align-items: center; gap: 20px; }
+    .profit-title { color: white; font-size: 24px; }
+    .profit-sub { color: #cbd5e1; font-size: 14px; margin-top: 5px; }
+    .profit-number { border-left: 1px solid rgba(255,255,255,.1); padding: 0 40px; }
+    .profit-label { color: #94a3b8; font-size: 14px; }
+    .profit-value { color: #10b981; font-size: 24px; margin-top: 4px; }
+    .footnote {
+      position: absolute;
+      z-index: 8;
+      bottom: 8px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 70px;
+      color: #64748b;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="human h1"></div><div class="human h2"></div><div class="human h3"></div><div class="human h4"></div>
+    <div class="robot1"></div><div class="robot2"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo"></div>
+        <div><h1>HEKONE Origin</h1><p>Live Bin Performance</p></div>
       </div>
-      <div className="mx-auto -mt-9 w-fit rounded-sm bg-slate-100 px-3 py-1 text-[11px] font-bold text-black">{b.weight} lb</div>
+      <div class="top-actions">
+        <span>May 16, 09:41:32</span><button class="today">Today</button><span>▣</span><span>🔔</span><span class="avatar">JD</span>
+      </div>
+    </header>
+
+    <div class="bin-card glass" style="left:270px">
+      <div class="row"><div><div class="bin-id">BIN-001</div><div class="bin-weight">248.32 <span>lb</span></div><div class="status green">Above Average</div></div><div class="badge bg-green">+8%</div></div>
+      <div class="fill-row"><div class="small">Fill Rate<br><span>5.21 lb/min</span></div><svg viewBox="0 0 90 36" width="80"><line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)"/><polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke="#00c875" stroke-width="2"/></svg></div>
+      <div class="value">Est. Value<br><strong>$744.96</strong><br>@ $3.00 / lb</div>
     </div>
-  );
-}
-
-function OrchardBackground() {
-  return (
-    <>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,36,.20),transparent_32%),linear-gradient(180deg,#081407_0%,#06110c_38%,#02070b_72%)]" />
-      <div className="absolute inset-0 opacity-80 [background-image:radial-gradient(#cf8206_1.3px,transparent_1.3px)] [background-size:10px_10px]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.5)_42%,rgba(0,0,0,.88)_100%)]" />
-      {[
-        [70,95,-28,88,215], [455,15,18,82,250], [760,20,-14,74,245], [1150,50,22,92,235]
-      ].map(([x,y,r,w,h], i) => <div key={i} className="absolute rounded-b-full border border-slate-300/20 bg-slate-900/60 shadow-2xl" style={{ left:x, top:y, width:w, height:h, transform:`rotate(${r}deg)` }} />)}
-      <div className="absolute left-[35px] top-[150px] h-[160px] w-[75px] rounded-b-3xl bg-slate-800/70 rotate-[28deg] border border-slate-400/20" />
-      <div className="absolute right-[260px] top-[145px] h-[170px] w-[82px] rounded-b-3xl bg-slate-800/70 rotate-[26deg] border border-slate-400/20" />
-    </>
-  );
-}
-
-function Header() {
-  return <header className="absolute left-0 right-0 top-0 z-40 flex items-center justify-between px-4 py-3">
-    <div className="flex items-center gap-3">
-      <div className="h-9 w-9 rounded bg-gradient-to-br from-purple-600 via-indigo-500 to-cyan-400" />
-      <div><div className="text-2xl font-semibold leading-6 text-white">HEKONE Origin</div><div className="text-sm text-slate-300">Live Bin Performance</div></div>
+    <div class="bin-card glass" style="left:590px">
+      <div class="row"><div><div class="bin-id">BIN-002</div><div class="bin-weight">214.06 <span>lb</span></div><div class="status orange">Slightly Below</div></div><div class="badge bg-orange">-8%</div></div>
+      <div class="fill-row"><div class="small">Fill Rate<br><span>4.18 lb/min</span></div><svg viewBox="0 0 90 36" width="80"><line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)"/><polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke="#ff9900" stroke-width="2"/></svg></div>
+      <div class="value">Est. Value<br><strong>$642.17</strong><br>@ $3.00 / lb</div>
     </div>
-    <div className="flex items-center gap-3 text-sm text-slate-300"><span>May 16, 09:41:32</span><button className="rounded border border-white/20 bg-slate-900/85 px-4 py-2 text-white">Today</button><Calendar size={18}/><Bell size={17}/><span className="rounded-full bg-purple-600 px-3 py-2 text-white">JD</span></div>
-  </header>;
-}
-
-function Sidebar() {
-  const items = [[Home,"Dashboard",true],[MapPin,"Locations"],[Users,"Harvest Teams"],[FileText,"Reports"],[Bell,"Alerts"],[Settings,"Settings"]];
-  return <Glass className="absolute bottom-[215px] left-2 z-30 w-[170px] p-3">
-    <div className="mb-4 flex items-center gap-3"><div className="h-10 w-10 rounded bg-gradient-to-br from-purple-600 to-cyan-400"/><div><div className="text-xl text-white">HEKONE</div><div className="text-xs text-slate-400">Origin</div></div></div>
-    <div className="space-y-1">{items.map(([Icon,label,active])=><div key={label} className={`flex items-center gap-3 rounded px-3 py-[10px] text-sm ${active?"bg-white/10 text-white border-l-2 border-purple-500":"text-slate-400"}`}><Icon size={18}/>{label}</div>)}</div>
-    <button className="mt-4 flex w-full items-center justify-center gap-2 rounded border border-purple-500/70 py-3 text-sm text-purple-400"><TrendingUp size={15}/>View All Insights</button>
-  </Glass>;
-}
-
-function ActionBox() {
-  return <Glass className="absolute left-[1088px] top-[295px] z-30 flex w-[250px] items-center gap-3 p-3">
-    <Zap className="shrink-0 text-yellow-400" size={23}/>
-    <div className="min-w-0"><div className="text-xs font-bold text-yellow-400">ACTION RECOMMENDATION</div><div className="mt-1 text-sm text-white">Focus on Block B - Row 3</div><div className="text-xs text-slate-300">Potential recovery: $157 today</div></div>
-    <button className="rounded-md bg-purple-600 px-2 py-1 text-white">→</button>
-  </Glass>;
-}
-
-function Stat({ title, value, sub, badge, color, active }) {
-  return <div className={`border-r border-white/10 px-5 py-3 ${active?"rounded-md border border-purple-500 bg-purple-900/15":""}`}>
-    <div className="text-sm text-slate-400">{title}</div>
-    <div className={`mt-1 text-[23px] leading-7 ${color || "text-white"}`}>{value}</div>
-    <div className="mt-1 flex gap-2 text-xs text-slate-400"><span>{sub}</span>{badge && <span className="rounded bg-emerald-500/25 px-1 text-emerald-400">{badge}</span>}</div>
-  </div>;
-}
-
-function TopStats() {
-  return <Glass className="absolute left-[190px] right-[10px] top-[392px] z-30 grid h-[106px] grid-cols-7 p-2">
-    <Stat title="Total Bins" value="24" sub="Active: 24" color="text-white" />
-    <Stat title="Total Weight" value="5,759.84 lb" sub="Yesterday: 5,132.11 lb" badge="+12.2%" />
-    <Stat title="Estimated Value (Live)" value="$17,279.52" sub="Yesterday: $15,396.33" badge="+12.2%" active />
-    <Stat title="Average per Bin" value="239.99 lb" sub="Yesterday: 213.84 lb" badge="+12.2%" />
-    <Stat title="Top Performer" value="BIN-004 (256.21 lb)" sub="Block A - Row 7" color="text-emerald-400" />
-    <Stat title="Needs Attention" value="BIN-003 (187.42 lb)" sub="Block B - Row 3" color="text-red-500" />
-    <Stat title="Average Fill Rate" value="4.33 lb/min" sub="Yesterday: 3.71 lb/min" badge="+16.7%" />
-  </Glass>;
-}
-
-function LineChart() {
-  return <Glass className="p-4">
-    <h3 className="mb-2 flex items-center gap-2 text-lg text-white">Fill Rate Comparison <span className="text-sm text-slate-400">(lb/min)</span><Info size={15}/></h3>
-    <div className="mb-1 flex gap-4 text-[11px]"><span className="text-emerald-400">━━ BIN-001</span><span className="text-green-400">━━ BIN-004</span><span className="text-yellow-400">━━ BIN-002</span><span className="text-orange-400">━━ BIN-017</span><span className="text-red-500">━━ BIN-003</span></div>
-    <svg viewBox="0 0 390 160" className="h-[158px] w-full">
-      {[0,1,2,3,4].map(i=><line key={i} x1="28" x2="375" y1={20+i*30} y2={20+i*30} stroke="rgba(255,255,255,.08)"/>)}
-      <path d="M28 132 C70 78 115 62 150 70 C210 80 235 64 280 62 C330 55 350 38 375 48" fill="none" stroke="#00c875" strokeWidth="2.5"/>
-      <path d="M28 112 C70 80 120 82 160 88 C220 96 255 82 300 76 C340 70 358 56 375 66" fill="none" stroke="#22c55e" strokeWidth="2.5"/>
-      <path d="M28 124 C70 105 125 92 175 100 C230 95 280 105 320 90 C345 82 360 92 375 86" fill="none" stroke="#f59e0b" strokeWidth="2.5"/>
-      <path d="M28 146 C80 118 135 116 190 112 C245 108 290 117 330 109 C350 104 365 110 375 106" fill="none" stroke="#ff2020" strokeWidth="2.5"/>
-    </svg>
-    <div className="grid grid-cols-5 gap-3 text-center text-sm"><button className="rounded border border-purple-500 py-2 text-purple-400">Today</button><button className="rounded bg-white/5 py-2">7D</button><button className="rounded bg-white/5 py-2">30D</button><button className="rounded bg-white/5 py-2">90D</button><button className="rounded bg-white/5 py-2">▣</button></div>
-  </Glass>;
-}
-
-function Heatmap() {
-  const rows=["BIN-004","BIN-001","BIN-002","BIN-017","BIN-003"];
-  const data=[[5.8,6.1,5.9,5.6,5.4,5.2],[4.9,5.5,6.3,6.0,5.6,5.4],[4.2,4.7,5.1,4.9,4.5,4.3],[3.8,4.1,4.4,4.3,4.1,3.9],[2.6,2.9,3.2,3.4,3.3,3.2]];
-  return <Glass className="p-4"><h3 className="mb-3 flex items-center gap-2 text-lg text-white">Fill Rate Over Time <span className="text-sm text-slate-400">(lb/min per Bin)</span><Info size={15}/></h3><div className="mb-1 grid grid-cols-8 gap-1 text-[11px] text-slate-400"><span/><span>6 AM</span><span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span><span>Avg</span></div>{rows.map((r,i)=><div key={r} className="mb-1 grid grid-cols-8 gap-1 text-sm"><span className="py-2 text-slate-300">{r}</span>{data[i].map(v=><span key={v} className={`rounded px-2 py-2 text-center text-white ${v>5.2?"bg-emerald-600/80":v>4.2?"bg-green-700/75":v>3.4?"bg-amber-700/75":"bg-red-800/85"}`}>{v}</span>)}<span className="py-2 text-right text-slate-300">{(data[i].reduce((a,b)=>a+b,0)/6).toFixed(2)}</span></div>)}</Glass>;
-}
-
-function LossTable() {
-  const rows=[["BIN-003","239.99 lb","187.42 lb","-52.57 lb","-$157.71","Slow picking"],["BIN-017","239.99 lb","205.80 lb","-34.19 lb","-$102.58","Short idle time"],["BIN-002","239.99 lb","214.06 lb","-25.93 lb","-$77.80","Minor gap"],["BIN-009","239.99 lb","219.30 lb","-20.69 lb","-$62.07","Row gap"],["BIN-014","239.99 lb","223.20 lb","-16.79 lb","-$50.38","Minor gap"],["BIN-018","239.99 lb","227.10 lb","-12.89 lb","-$38.67","Low fill rate"]];
-  return <Glass className="p-4"><h3 className="mb-2 flex items-center gap-2 text-lg text-white">Loss Analysis <span className="text-sm text-slate-400">(Today)</span><Info size={15}/></h3><table className="w-full text-left text-[11px]"><thead className="text-slate-400"><tr><th>BIN ID</th><th>Est. Weight</th><th>Actual</th><th>Est. Loss</th><th>Gross Loss</th><th>Reason</th></tr></thead><tbody>{rows.map(r=><tr key={r[0]} className="border-t border-white/5">{r.map((c,i)=><td key={c} className={`py-[6px] ${i===3||i===4?"font-semibold text-red-500":"text-slate-300"}`}>{c}</td>)}</tr>)}</tbody></table><div className="mt-2 text-right text-purple-400">View All Loss Details →</div></Glass>;
-}
-
-function MiddlePanels() {
-  return <section className="absolute left-[190px] right-[10px] top-[508px] z-30 grid h-[265px] grid-cols-3 gap-3"><LineChart/><Heatmap/><LossTable/></section>;
-}
-
-function Metric({ icon, title, value, sub, c }) {
-  const cls={green:"text-emerald-400 border-emerald-500/60 bg-emerald-500/10",red:"text-red-500 border-red-500/60 bg-red-500/10",orange:"text-orange-400 border-orange-500/60 bg-orange-500/10",purple:"text-purple-400 border-purple-500/60 bg-purple-500/10"}[c];
-  return <div className="flex items-center gap-4 border-r border-white/10 px-5 last:border-r-0"><div className={`rounded-full border p-4 ${cls}`}>{icon}</div><div><div className="text-sm text-slate-400">{title}</div><div className={`text-2xl ${cls.split(" ")[0]}`}>{value}</div><div className="text-xs text-slate-400">{sub}</div></div></div>;
-}
-
-function BottomMetrics() {
-  return <>
-    <Glass className="absolute left-[10px] right-[10px] top-[785px] z-30 grid h-[88px] grid-cols-5 p-3">
-      <Metric icon={<DollarSign size={38}/>} title="Estimated Revenue (Today)" value="$17,279.52" sub="@ $3.00 / lb" c="green"/>
-      <Metric icon={<DollarSign size={38}/>} title="Gross Loss (Today)" value="-$489.21" sub="From 6 underperforming bins" c="red"/>
-      <Metric icon={<Users size={38}/>} title="Labor Cost (Today)" value="$995.20" sub="Based on active harvest time" c="orange"/>
-      <Metric icon={<TrendingUp size={38}/>} title="Net Impact (Today)" value="$15,795.11" sub="Revenue - Loss - Labor Cost" c="green"/>
-      <Metric icon={<Clock size={38}/>} title="Total Idle Time" value="1h 47m" sub="Est. Labor Cost: $95.30" c="purple"/>
-    </Glass>
-    <Glass className="absolute left-[10px] right-[10px] top-[883px] z-30 flex h-[74px] items-center justify-between px-8">
-      <div className="flex items-center gap-5"><BarChart3 className="text-emerald-400" size={44}/><div><div className="text-2xl text-white">Recoverable Profit Opportunity</div><div className="text-sm text-slate-300">Fixing today’s inefficiencies can recover <span className="font-bold text-orange-400">$489.21</span> in lost value.</div></div></div>
-      <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed daily</div><div className="text-2xl text-emerald-400">$14,676 / month</div></div>
-      <div className="border-l border-white/10 px-10"><div className="text-sm text-slate-400">If fixed for the season (120 days)</div><div className="text-2xl text-emerald-400">$176,112 / season</div></div>
-    </Glass>
-    <div className="absolute bottom-2 left-5 right-5 z-30 flex justify-center gap-16 text-xs text-slate-500"><span>ⓘ Gross Loss is calculated based on expected fill rate, actual performance, product price ($3.00 / lb) and labor cost.</span><span>Net Impact = Estimated Revenue – Gross Loss – Labor Cost.</span></div>
-  </>;
-}
-
-export default function HekoneOriginDashboard() {
-  return <div className="min-h-screen overflow-auto bg-black p-0 text-slate-200">
-    <div className="relative mx-auto h-[990px] w-[1500px] overflow-hidden bg-[#02070b] font-sans">
-      <OrchardBackground />
-      <Header />
-      {bins.map(b=><React.Fragment key={b.id}><BinCard b={b}/><AppleBin b={b}/></React.Fragment>)}
-      <ActionBox />
-      <Sidebar />
-      <TopStats />
-      <MiddlePanels />
-      <BottomMetrics />
+    <div class="bin-card glass" style="left:900px">
+      <div class="row"><div><div class="bin-id">BIN-003</div><div class="bin-weight">187.42 <span>lb</span></div><div class="status red">Below Average</div></div><div class="badge bg-red">-22%</div></div>
+      <div class="fill-row"><div class="small">Fill Rate<br><span>3.23 lb/min</span></div><svg viewBox="0 0 90 36" width="80"><line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)"/><polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke="#ff2020" stroke-width="2"/></svg></div>
+      <div class="value">Est. Value<br><strong>$562.26</strong><br>@ $3.00 / lb</div>
     </div>
-  </div>;
-}
+    <div class="bin-card glass" style="left:1255px">
+      <div class="row"><div><div class="bin-id">BIN-004</div><div class="bin-weight">256.21 <span>lb</span></div><div class="status green">Good Performance</div></div><div class="badge bg-green">+12%</div></div>
+      <div class="fill-row"><div class="small">Fill Rate<br><span>4.72 lb/min</span></div><svg viewBox="0 0 90 36" width="80"><line x1="0" y1="32" x2="90" y2="32" stroke="rgba(255,255,255,.18)"/><polyline points="5,30 15,29 23,19 32,25 40,21 48,23 56,17 64,19 72,12 80,14 88,7" fill="none" stroke="#00c875" stroke-width="2"/></svg></div>
+      <div class="value">Est. Value<br><strong>$768.63</strong><br>@ $3.00 / lb</div>
+    </div>
+
+    <script>
+      const bins = [
+        {left:288, weight:'248.32'}, {left:608, weight:'214.06'}, {left:918, weight:'187.42'}, {left:1273, weight:'256.21'}
+      ];
+      document.write(bins.map(b => `
+        <div class="apple-bin" style="left:${b.left}px">
+          <div class="wifi">⌁</div>
+          <div class="crate">${Array.from({length:96}).map(()=>'<span class="apple"></span>').join('')}</div>
+          <div class="crate-label">${b.weight} lb</div>
+        </div>
+      `).join(''));
+    </script>
+
+    <div class="action glass"><div class="bolt">⚡</div><div><div class="action-title">ACTION RECOMMENDATION</div><div class="action-main">Focus on Block B - Row 3</div><div class="small">Potential recovery: $157 today</div></div><button class="arrow">➜</button></div>
+
+    <aside class="sidebar glass">
+      <div class="side-brand"><div class="side-logo"></div><div><div class="side-title">HEKONE</div><div class="side-sub">Origin</div></div></div>
+      <div class="nav-item active">⌂ &nbsp; Dashboard</div>
+      <div class="nav-item">⌖ &nbsp; Locations</div>
+      <div class="nav-item">♟ &nbsp; Harvest Teams</div>
+      <div class="nav-item">▣ &nbsp; Reports</div>
+      <div class="nav-item">♢ &nbsp; Alerts</div>
+      <div class="nav-item">⚙ &nbsp; Settings</div>
+      <button class="insights">↗ View All Insights</button>
+    </aside>
+
+    <section class="top-stats glass">
+      <div class="stat"><div class="stat-title">Total Bins</div><div class="stat-value">24</div><div class="stat-sub green">Active: 24</div></div>
+      <div class="stat"><div class="stat-title">Total Weight</div><div class="stat-value">5,759.84 lb</div><div class="stat-sub">Yesterday: 5,132.11 lb <span class="pill">+12.2%</span></div></div>
+      <div class="stat special"><div class="stat-title">Estimated Value (Live)</div><div class="stat-value">$17,279.52</div><div class="stat-sub">@ $3.00 / lb<br>Yesterday: $15,396.33 <span class="pill">+12.2%</span></div></div>
+      <div class="stat"><div class="stat-title">Average per Bin</div><div class="stat-value">239.99 lb</div><div class="stat-sub">Yesterday: 213.84 lb <span class="pill">+12.2%</span></div></div>
+      <div class="stat"><div class="stat-title">Top Performer</div><div class="stat-value green">BIN-004 (256.21 lb)</div><div class="stat-sub">Block A - Row 7</div></div>
+      <div class="stat"><div class="stat-title">Needs Attention</div><div class="stat-value red">BIN-003 (187.42 lb)</div><div class="stat-sub">Block B - Row 3</div></div>
+      <div class="stat"><div class="stat-title">Average Fill Rate</div><div class="stat-value">4.33 lb/min</div><div class="stat-sub">Yesterday: 3.71 lb/min <span class="pill">+16.7%</span></div></div>
+    </section>
+
+    <section class="panels">
+      <div class="panel glass">
+        <h3>Fill Rate Comparison <span>(lb/min)</span> ⓘ</h3>
+        <div class="legend"><span class="green">━━ BIN-001</span><span class="green">━━ BIN-004</span><span style="color:#facc15">━━ BIN-002</span><span class="orange">━━ BIN-017</span><span class="red">━━ BIN-003</span></div>
+        <svg viewBox="0 0 390 160" style="width:100%;height:158px">
+          <line x1="28" x2="375" y1="20" y2="20" stroke="rgba(255,255,255,.08)"/><line x1="28" x2="375" y1="50" y2="50" stroke="rgba(255,255,255,.08)"/><line x1="28" x2="375" y1="80" y2="80" stroke="rgba(255,255,255,.08)"/><line x1="28" x2="375" y1="110" y2="110" stroke="rgba(255,255,255,.08)"/><line x1="28" x2="375" y1="140" y2="140" stroke="rgba(255,255,255,.08)"/>
+          <path d="M28 132 C70 78 115 62 150 70 C210 80 235 64 280 62 C330 55 350 38 375 48" fill="none" stroke="#00c875" stroke-width="2.5"/>
+          <path d="M28 112 C70 80 120 82 160 88 C220 96 255 82 300 76 C340 70 358 56 375 66" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <path d="M28 124 C70 105 125 92 175 100 C230 95 280 105 320 90 C345 82 360 92 375 86" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+          <path d="M28 146 C80 118 135 116 190 112 C245 108 290 117 330 109 C350 104 365 110 375 106" fill="none" stroke="#ff2020" stroke-width="2.5"/>
+        </svg>
+        <div class="chart-buttons"><button>Today</button><button>7D</button><button>30D</button><button>90D</button><button>▣</button></div>
+      </div>
+
+      <div class="panel glass">
+        <h3>Fill Rate Over Time <span>(lb/min per Bin)</span> ⓘ</h3>
+        <div class="heat-header"><span></span><span>6 AM</span><span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span><span>Avg</span></div>
+        <div class="heat-row"><span class="heat-name">BIN-004</span><span class="heat-cell hi">5.8</span><span class="heat-cell hi">6.1</span><span class="heat-cell hi">5.9</span><span class="heat-cell hi">5.6</span><span class="heat-cell hi">5.4</span><span class="heat-cell mid">5.2</span><span>5.67</span></div>
+        <div class="heat-row"><span class="heat-name">BIN-001</span><span class="heat-cell mid">4.9</span><span class="heat-cell hi">5.5</span><span class="heat-cell hi">6.3</span><span class="heat-cell hi">6.0</span><span class="heat-cell hi">5.6</span><span class="heat-cell hi">5.4</span><span>5.62</span></div>
+        <div class="heat-row"><span class="heat-name">BIN-002</span><span class="heat-cell low">4.2</span><span class="heat-cell mid">4.7</span><span class="heat-cell mid">5.1</span><span class="heat-cell mid">4.9</span><span class="heat-cell mid">4.5</span><span class="heat-cell mid">4.3</span><span>4.62</span></div>
+        <div class="heat-row"><span class="heat-name">BIN-017</span><span class="heat-cell low">3.8</span><span class="heat-cell low">4.1</span><span class="heat-cell low">4.4</span><span class="heat-cell low">4.3</span><span class="heat-cell low">4.1</span><span class="heat-cell low">3.9</span><span>4.10</span></div>
+        <div class="heat-row"><span class="heat-name">BIN-003</span><span class="heat-cell bad">2.6</span><span class="heat-cell bad">2.9</span><span class="heat-cell bad">3.2</span><span class="heat-cell bad">3.4</span><span class="heat-cell bad">3.3</span><span class="heat-cell bad">3.2</span><span>3.10</span></div>
+      </div>
+
+      <div class="panel glass">
+        <h3>Loss Analysis <span>(Today)</span> ⓘ</h3>
+        <table>
+          <thead><tr><th>BIN ID</th><th>Est. Weight</th><th>Actual</th><th>Est. Loss</th><th>Gross Loss</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>BIN-003</td><td>239.99 lb</td><td>187.42 lb</td><td class="loss">-52.57 lb</td><td class="loss">-$157.71</td><td>Slow picking</td></tr>
+            <tr><td>BIN-017</td><td>239.99 lb</td><td>205.80 lb</td><td class="loss">-34.19 lb</td><td class="loss">-$102.58</td><td>Short idle time</td></tr>
+            <tr><td>BIN-002</td><td>239.99 lb</td><td>214.06 lb</td><td class="loss">-25.93 lb</td><td class="loss">-$77.80</td><td>Minor gap</td></tr>
+            <tr><td>BIN-009</td><td>239.99 lb</td><td>219.30 lb</td><td class="loss">-20.69 lb</td><td class="loss">-$62.07</td><td>Row gap</td></tr>
+            <tr><td>BIN-014</td><td>239.99 lb</td><td>223.20 lb</td><td class="loss">-16.79 lb</td><td class="loss">-$50.38</td><td>Minor gap</td></tr>
+            <tr><td>BIN-018</td><td>239.99 lb</td><td>227.10 lb</td><td class="loss">-12.89 lb</td><td class="loss">-$38.67</td><td>Low fill rate</td></tr>
+          </tbody>
+        </table>
+        <div class="view-loss">View All Loss Details →</div>
+      </div>
+    </section>
+
+    <section class="metrics glass">
+      <div class="metric"><div class="metric-icon green">$</div><div><div class="metric-title">Estimated Revenue (Today)</div><div class="metric-value green">$17,279.52</div><div class="metric-sub">@ $3.00 / lb</div></div></div>
+      <div class="metric"><div class="metric-icon red">$</div><div><div class="metric-title">Gross Loss (Today)</div><div class="metric-value red">-$489.21</div><div class="metric-sub">From 6 underperforming bins</div></div></div>
+      <div class="metric"><div class="metric-icon orange">♚</div><div><div class="metric-title">Labor Cost (Today)</div><div class="metric-value">$995.20</div><div class="metric-sub">Based on active harvest time</div></div></div>
+      <div class="metric"><div class="metric-icon green">↗</div><div><div class="metric-title">Net Impact (Today)</div><div class="metric-value green">$15,795.11</div><div class="metric-sub">Revenue - Loss - Labor Cost</div></div></div>
+      <div class="metric"><div class="metric-icon" style="color:#a855f7">◷</div><div><div class="metric-title">Total Idle Time</div><div class="metric-value">1h 47m</div><div class="metric-sub">Est. Labor Cost: $95.30</div></div></div>
+    </section>
+
+    <section class="profit glass">
+      <div class="profit-left"><div style="font-size:44px;color:#10b981">↗</div><div><div class="profit-title">Recoverable Profit Opportunity</div><div class="profit-sub">Fixing today’s inefficiencies can recover <b style="color:#fb923c">$489.21</b> in lost value.</div></div></div>
+      <div class="profit-number"><div class="profit-label">If fixed daily</div><div class="profit-value">$14,676 / month</div></div>
+      <div class="profit-number"><div class="profit-label">If fixed for the season (120 days)</div><div class="profit-value">$176,112 / season</div></div>
+    </section>
+
+    <div class="footnote">
+      <span>ⓘ Gross Loss is calculated based on expected fill rate, actual performance, product price ($3.00 / lb) and labor cost.</span>
+      <span>Net Impact = Estimated Revenue – Gross Loss – Labor Cost.</span>
+    </div>
+  </div>
+</body>
+</html>
