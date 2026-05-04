@@ -1,0 +1,19 @@
+.hidden {
+  display: none !important;
+}
+
+.locations-view {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.map-panel {
+  height: 450px;
+}
+
+.satellite-map {
+  width: 100%;
+  height: 380px;
+  border-radius: 12px;
+  border: none;
+}
