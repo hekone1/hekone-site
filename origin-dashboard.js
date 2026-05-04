@@ -1,9 +1,9 @@
 async function loadData() {
   const { data, error } = await supabaseClient
-    .from('origin_events')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(200);
+    .from("origin_events")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(500);
 
   if (error) {
     console.error(error);
@@ -12,9 +12,12 @@ async function loadData() {
 
   console.log("DATA:", data);
 
+  // فقط آخرین رکورد هر BIN را نگه می‌داریم
   const latestByBin = {};
 
-  data.forEach(row => {
+  data.forEach((row) => {
+    if (!row.bin_id) return;
+
     if (!latestByBin[row.bin_id]) {
       latestByBin[row.bin_id] = row;
     }
@@ -22,8 +25,8 @@ async function loadData() {
 
   const latestRows = Object.values(latestByBin);
 
-  const totalWeight = latestRows.reduce((sum, d) => {
-    return sum + Number(d.weight_lb || 0);
+  const totalWeight = latestRows.reduce((sum, row) => {
+    return sum + Number(row.weight_lb || 0);
   }, 0);
 
   document.getElementById("totalWeight").innerText =
