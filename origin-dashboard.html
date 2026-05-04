@@ -5,13 +5,12 @@
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="origin-dashboard.css?v=101" />
+  <link rel="stylesheet" href="origin-dashboard.css?v=103" />
 </head>
 
 <body>
   <div class="app-shell">
 
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand-block">
         <div class="logo-cube">H</div>
@@ -35,10 +34,8 @@
       </div>
     </aside>
 
-    <!-- Main -->
     <main class="dashboard">
 
-      <!-- Topbar -->
       <header class="topbar">
         <div>
           <div class="title-row">
@@ -55,12 +52,10 @@
         </div>
       </header>
 
-      <!-- Bin Cards -->
       <section class="hero-zone">
         <div id="binCards" class="bin-cards"></div>
       </section>
 
-      <!-- Summary -->
       <section class="summary-grid">
 
         <div class="summary-card">
@@ -107,24 +102,22 @@
 
       </section>
 
-      <!-- Charts -->
       <section class="analytics-grid">
 
-        <div class="panel chart-panel">
-          <div class="panel-title">
-            Fill Rate Comparison <span>(lb/min)</span>
+        <div class="panel chart-panel combined-chart-panel">
+          <div class="chart-tabs">
+            <button id="fillRateTab" class="chart-tab active" onclick="switchChartTab('fillRate')">
+              Fill Rate Comparison <span>(lb/min)</span>
+            </button>
+
+            <button id="weightTab" class="chart-tab" onclick="switchChartTab('weight')">
+              Weight Over Time <span>(lb per bin)</span>
+            </button>
           </div>
-          <canvas id="fillRateChart"></canvas>
+
+          <canvas id="mainChart"></canvas>
         </div>
 
-        <div class="panel chart-panel">
-          <div class="panel-title">
-            Weight Over Time <span>(lb per bin)</span>
-          </div>
-          <canvas id="weightChart"></canvas>
-        </div>
-
-        <!-- Loss Table -->
         <div class="panel loss-panel">
           <div class="panel-title">
             Loss Analysis <span>(Today)</span>
@@ -149,7 +142,6 @@
 
       </section>
 
-      <!-- Impact -->
       <section class="impact-row">
 
         <div class="impact-card revenue">
@@ -190,7 +182,6 @@
 
       </section>
 
-      <!-- Opportunity -->
       <section class="opportunity-panel">
 
         <div>
@@ -214,7 +205,6 @@
     </main>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -224,7 +214,7 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js?v=101"></script>
+  <script src="origin-dashboard.js?v=103"></script>
 
 </body>
 </html>
