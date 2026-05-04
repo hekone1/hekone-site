@@ -1,108 +1,193 @@
-async function loadData() {
-  const { data, error } = await supabaseClient
-    .from("origin_events")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HEKONE Origin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="origin-dashboard.css?v=40" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="logo-cube">H</div>
+        <div>
+          <div class="brand-name">HEKONE</div>
+          <div class="brand-sub">Origin</div>
+        </div>
+      </div>
 
-  if (error) {
-    console.error("Supabase error:", error);
-    return;
-  }
+      <nav class="nav-list">
+        <button class="nav-item active">Dashboard</button>
+        <button class="nav-item">Locations</button>
+        <button class="nav-item">Harvest Teams</button>
+        <button class="nav-item">Reports</button>
+        <button class="nav-item">Alerts</button>
+        <button class="nav-item">Settings</button>
+      </nav>
 
-  if (!data || data.length === 0) {
-    console.log("No data found");
-    return;
-  }
+      <div class="sidebar-footer">
+        <button class="insight-btn">↗ View All Insights</button>
+      </div>
+    </aside>
 
-  // Keep latest row per bin_id
-  const latestByBin = {};
+    <main class="dashboard">
+      <header class="topbar">
+        <div>
+          <div class="title-row">
+            <div class="logo-cube small">H</div>
+            <h1>HEKONE Origin</h1>
+          </div>
+          <p>Live Bin Performance</p>
+        </div>
+        <div class="top-actions">
+          <span id="lastUpdated">Loading...</span>
+          <button>Today</button>
+          <div class="avatar">JD</div>
+        </div>
+      </header>
 
-  data.forEach(row => {
-    const binId = row.bin_id || "BIN-001";
-    if (!latestByBin[binId]) {
-      latestByBin[binId] = row;
-    }
-  });
+      <section class="hero-zone">
+        <div id="binCards" class="bin-cards"></div>
+        <div id="actionRecommendation" class="action-card hidden">
+          <div class="bolt">⚡</div>
+          <div>
+            <strong>ACTION RECOMMENDATION</strong>
+            <p id="actionText">Waiting for data...</p>
+            <small id="actionRecovery">Potential recovery: $0 today</small>
+          </div>
+        </div>
+      </section>
 
-  const bins = Object.values(latestByBin);
+      <section class="summary-grid">
+        <div class="summary-card">
+          <span>Total Bins</span>
+          <strong id="totalBins">0</strong>
+          <small id="activeBins">Active: 0</small>
+        </div>
+        <div class="summary-card">
+          <span>Total Weight</span>
+          <strong id="totalWeight">0 lb</strong>
+          <small id="weightChange">Live data</small>
+        </div>
+        <div class="summary-card highlighted">
+          <span>Estimated Value (Live)</span>
+          <strong id="estimatedValue">$0.00</strong>
+          <small>@ $3.00 / lb</small>
+        </div>
+        <div class="summary-card">
+          <span>Average per Bin</span>
+          <strong id="averagePerBin">0 lb</strong>
+          <small>Actual live weight</small>
+        </div>
+        <div class="summary-card">
+          <span>Top Performer</span>
+          <strong id="topPerformer">—</strong>
+          <small id="topPerformerSub">Waiting for data</small>
+        </div>
+        <div class="summary-card danger-text">
+          <span>Needs Attention</span>
+          <strong id="needsAttention">—</strong>
+          <small id="needsAttentionSub">Waiting for data</small>
+        </div>
+        <div class="summary-card">
+          <span>Average Fill Rate</span>
+          <strong id="averageFillRate">0 lb/min</strong>
+          <small>Current harvest speed</small>
+        </div>
+      </section>
 
-  const totalBins = bins.length;
+      <section class="analytics-grid">
+        <div class="panel chart-panel">
+          <div class="panel-title">Fill Rate Comparison <span>(lb/min)</span></div>
+          <canvas id="fillRateChart"></canvas>
+        </div>
 
-  const totalWeight = bins.reduce(
-    (sum, b) => sum + Number(b.weight_lb || 0),
-    0
-  );
+        <div class="panel heatmap-panel">
+          <div class="panel-title">Fill Rate Over Time <span>(lb/min per Bin)</span></div>
+          <div id="fillRateHeatmap" class="heatmap"></div>
+        </div>
 
-  const totalValue = bins.reduce(
-    (sum, b) => sum + Number(b.estimated_value || 0),
-    0
-  );
+        <div class="panel loss-panel">
+          <div class="panel-title">Loss Analysis <span>(Today)</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>BIN ID</th>
+                  <th>Est. Weight</th>
+                  <th>Actual Weight</th>
+                  <th>Est. Loss</th>
+                  <th>Gross Loss</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="lossTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-  const avgPerBin = totalBins > 0 ? totalWeight / totalBins : 0;
+      <section class="impact-row">
+        <div class="impact-card revenue">
+          <div class="impact-icon">$</div>
+          <div>
+            <span>Estimated Revenue (Today)</span>
+            <strong id="impactRevenue">$0.00</strong>
+            <small>@ $3.00 / lb</small>
+          </div>
+        </div>
+        <div class="impact-card loss">
+          <div class="impact-icon">$</div>
+          <div>
+            <span>Gross Loss (Today)</span>
+            <strong id="impactLoss">-$0.00</strong>
+            <small>From underperforming bins</small>
+          </div>
+        </div>
+        <div class="impact-card labor">
+          <div class="impact-icon">👥</div>
+          <div>
+            <span>Estimated Labor Cost</span>
+            <strong id="laborCost">$0.00</strong>
+            <small>Based on active bins</small>
+          </div>
+        </div>
+        <div class="impact-card net">
+          <div class="impact-icon">↗</div>
+          <div>
+            <span>Net Impact (Today)</span>
+            <strong id="netImpact">$0.00</strong>
+            <small>Revenue − Loss − Labor</small>
+          </div>
+        </div>
+      </section>
 
-  const avgFillRate =
-    totalBins > 0
-      ? bins.reduce((sum, b) => sum + Number(b.fill_rate || 0), 0) / totalBins
-      : 0;
+      <section class="opportunity-panel">
+        <div>
+          <span>Recoverable Profit Opportunity</span>
+          <strong id="recoverableProfit">$0.00</strong>
+          <small>Fixing today’s inefficiencies can recover lost value.</small>
+        </div>
+        <div>
+          <span>If fixed daily</span>
+          <strong id="monthlyOpportunity">$0 / month</strong>
+        </div>
+        <div>
+          <span>If fixed for the season (120 days)</span>
+          <strong id="seasonOpportunity">$0 / season</strong>
+        </div>
+      </section>
+    </main>
+  </div>
 
-  const top = bins.reduce((best, b) => {
-    return !best || Number(b.weight_lb || 0) > Number(best.weight_lb || 0)
-      ? b
-      : best;
-  }, null);
-
-  const worst = bins.reduce((low, b) => {
-    return !low || Number(b.weight_lb || 0) < Number(low.weight_lb || 0)
-      ? b
-      : low;
-  }, null);
-
-  setText("totalBins", totalBins);
-  setText("activeBins", "Active: " + totalBins);
-
-  setText("totalWeight", totalWeight.toFixed(2) + " lb");
-  setText("estimatedValue", "$" + totalValue.toFixed(2));
-  setText("avgPerBin", avgPerBin.toFixed(2) + " lb");
-  setText("avgFillRate", avgFillRate.toFixed(2) + " lb/min");
-
-  if (top) {
-    setText(
-      "topPerformer",
-      `${top.bin_id || "BIN-001"} (${Number(top.weight_lb || 0).toFixed(2)} lb)`
-    );
-  }
-
-  if (worst) {
-    setText(
-      "needsAttention",
-      `${worst.bin_id || "BIN-001"} (${Number(worst.weight_lb || 0).toFixed(2)} lb)`
-    );
-  }
-
-  // Bottom financial cards
-  setText("estimatedRevenue", "$" + totalValue.toFixed(2));
-  setText("netImpact", "$" + totalValue.toFixed(2));
-  setText("recoverableProfit", "$0.00");
-  setText("monthlyRecovery", "$0 / month");
-  setText("seasonRecovery", "$0 / season");
-
-  document.getElementById("lastUpdated") &&
-    (document.getElementById("lastUpdated").innerText =
-      "Updated: " + new Date().toLocaleTimeString());
-
-  console.log("Raw Supabase data:", data);
-  console.log("Grouped bins:", bins);
-}
-
-function setText(id, value) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.innerText = value;
-  } else {
-    console.warn("Missing HTML id:", id);
-  }
-}
-
-setInterval(loadData, 5000);
-loadData();
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
+    const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
+  <script src="origin-dashboard.js?v=40"></script>
+</body>
+</html>
