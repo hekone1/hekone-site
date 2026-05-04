@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="origin-dashboard.css?v=1" />
+  <link rel="stylesheet" href="origin-dashboard.css?v=100" />
 </head>
+
 <body>
   <div class="app-shell">
     <aside class="sidebar">
@@ -40,6 +41,7 @@
           </div>
           <p>Live Bin Performance</p>
         </div>
+
         <div class="top-actions">
           <span id="lastUpdated">Loading...</span>
           <button>Today</button>
@@ -57,34 +59,40 @@
           <strong id="totalBins">0</strong>
           <small id="activeBins">Active: 0</small>
         </div>
+
         <div class="summary-card">
           <span>Total Weight</span>
           <strong id="totalWeight">0 lb</strong>
-          <small id="weightChange">Live data</small>
+          <small>Live data</small>
         </div>
+
         <div class="summary-card highlighted">
           <span>Estimated Value (Live)</span>
           <strong id="estimatedValue">$0.00</strong>
           <small>@ $3.00 / lb</small>
         </div>
+
         <div class="summary-card">
           <span>Average per Bin</span>
-          <strong id="averagePerBin">0 lb</strong>
+          <strong id="avgPerBin">0 lb</strong>
           <small>Actual live weight</small>
         </div>
+
         <div class="summary-card">
           <span>Top Performer</span>
           <strong id="topPerformer">—</strong>
           <small id="topPerformerSub">Waiting for data</small>
         </div>
+
         <div class="summary-card danger-text">
           <span>Needs Attention</span>
           <strong id="needsAttention">—</strong>
           <small id="needsAttentionSub">Waiting for data</small>
         </div>
+
         <div class="summary-card">
           <span>Average Fill Rate</span>
-          <strong id="averageFillRate">0 lb/min</strong>
+          <strong id="avgFillRate">0 lb/min</strong>
           <small>Current harvest speed</small>
         </div>
       </section>
@@ -97,7 +105,7 @@
 
         <div class="panel chart-panel">
           <div class="panel-title">Weight Over Time <span>(lb per bin)</span></div>
-          <canvas id="weightTrendChart"></canvas>
+          <canvas id="weightChart"></canvas>
         </div>
 
         <div class="panel loss-panel">
@@ -124,18 +132,20 @@
           <div class="impact-icon">$</div>
           <div>
             <span>Estimated Revenue (Today)</span>
-            <strong id="impactRevenue">$0.00</strong>
+            <strong id="estimatedRevenue">$0.00</strong>
             <small>@ $3.00 / lb</small>
           </div>
         </div>
+
         <div class="impact-card loss">
           <div class="impact-icon">$</div>
           <div>
             <span>Gross Loss (Today)</span>
-            <strong id="impactLoss">-$0.00</strong>
+            <strong id="grossLoss">-$0.00</strong>
             <small>From underperforming bins</small>
           </div>
         </div>
+
         <div class="impact-card labor">
           <div class="impact-icon">👥</div>
           <div>
@@ -144,6 +154,7 @@
             <small>Based on active bins</small>
           </div>
         </div>
+
         <div class="impact-card net">
           <div class="impact-icon">↗</div>
           <div>
@@ -160,13 +171,15 @@
           <strong id="recoverableProfit">$0.00</strong>
           <small>Fixing today’s inefficiencies can recover lost value.</small>
         </div>
+
         <div>
           <span>If fixed daily</span>
-          <strong id="monthlyOpportunity">$0 / month</strong>
+          <strong id="monthlyRecovery">$0 / month</strong>
         </div>
+
         <div>
           <span>If fixed for the season (120 days)</span>
-          <strong id="seasonOpportunity">$0 / season</strong>
+          <strong id="seasonRecovery">$0 / season</strong>
         </div>
       </section>
     </main>
@@ -174,11 +187,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
     const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
     const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
-  <script src="origin-dashboard.js?v=1"></script>
+
+  <script src="origin-dashboard.js?v=100"></script>
 </body>
 </html>
