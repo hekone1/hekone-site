@@ -1,5 +1,6 @@
-let fillRateChart = null;
-let weightChart = null;
+let mainChart = null;
+let currentChartTab = "fillRate";
+let latestChartData = [];
 
 const PRICE_PER_LB = 3.0;
 const LABOR_COST_PER_ACTIVE_BIN = 2.5;
@@ -216,6 +217,8 @@ function calculateGrossLoss(bins) {
 }
 
 function renderCharts(data) {
+  latestChartData = data;
+
   const byBin = {};
 
   data.forEach((row) => {
@@ -225,6 +228,8 @@ function renderCharts(data) {
   });
 
   const binIds = Object.keys(byBin).slice(0, 4);
+  if (binIds.length === 0) return;
+
   const colors = ["#00e08a", "#f59e0b", "#ef4444", "#8b5cf6"];
 
   const firstBinRows = [...byBin[binIds[0]]]
@@ -239,32 +244,18 @@ function renderCharts(data) {
     });
   });
 
-  const fillRateDatasets = binIds.map((binId, index) => {
+  const datasets = binIds.map((binId, index) => {
     const rows = [...byBin[binId]]
       .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
       .slice(-30);
 
     return {
       label: binId,
-      data: rows.map((r) => num(r.fill_rate)),
-      borderColor: colors[index % colors.length],
-      backgroundColor: "transparent",
-      borderWidth: 2,
-      tension: 0.35,
-      pointRadius: 1.5,
-      pointHoverRadius: 4,
-      fill: false
-    };
-  });
-
-  const weightDatasets = binIds.map((binId, index) => {
-    const rows = [...byBin[binId]]
-      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-      .slice(-30);
-
-    return {
-      label: binId,
-      data: rows.map((r) => num(r.weight_lb)),
+      data: rows.map((r) =>
+        currentChartTab === "fillRate"
+          ? num(r.fill_rate)
+          : num(r.weight_lb)
+      ),
       borderColor: colors[index % colors.length],
       backgroundColor: "transparent",
       borderWidth: 2,
@@ -326,32 +317,36 @@ function renderCharts(data) {
     }
   };
 
-  const fillCtx = document.getElementById("fillRateChart");
-  if (fillCtx) {
-    if (fillRateChart) fillRateChart.destroy();
+  const ctx = document.getElementById("mainChart");
+  if (!ctx) return;
 
-    fillRateChart = new Chart(fillCtx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: fillRateDatasets
-      },
-      options: chartOptions
-    });
+  if (mainChart) {
+    mainChart.destroy();
   }
 
-  const weightCtx = document.getElementById("weightChart");
-  if (weightCtx) {
-    if (weightChart) weightChart.destroy();
+  mainChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets
+    },
+    options: chartOptions
+  });
+}
 
-    weightChart = new Chart(weightCtx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: weightDatasets
-      },
-      options: chartOptions
-    });
+function switchChartTab(tabName) {
+  currentChartTab = tabName;
+
+  const fillRateTab = document.getElementById("fillRateTab");
+  const weightTab = document.getElementById("weightTab");
+
+  if (fillRateTab && weightTab) {
+    fillRateTab.classList.toggle("active", tabName === "fillRate");
+    weightTab.classList.toggle("active", tabName === "weight");
+  }
+
+  if (latestChartData && latestChartData.length > 0) {
+    renderCharts(latestChartData);
   }
 }
 
