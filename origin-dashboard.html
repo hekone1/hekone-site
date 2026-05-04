@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="origin-dashboard.css?v=100" />
+
+  <link rel="stylesheet" href="origin-dashboard.css?v=101" />
 </head>
 
 <body>
   <div class="app-shell">
+
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand-block">
         <div class="logo-cube">H</div>
@@ -32,7 +35,10 @@
       </div>
     </aside>
 
+    <!-- Main -->
     <main class="dashboard">
+
+      <!-- Topbar -->
       <header class="topbar">
         <div>
           <div class="title-row">
@@ -49,11 +55,14 @@
         </div>
       </header>
 
+      <!-- Bin Cards -->
       <section class="hero-zone">
         <div id="binCards" class="bin-cards"></div>
       </section>
 
+      <!-- Summary -->
       <section class="summary-grid">
+
         <div class="summary-card">
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
@@ -81,13 +90,13 @@
         <div class="summary-card">
           <span>Top Performer</span>
           <strong id="topPerformer">—</strong>
-          <small id="topPerformerSub">Waiting for data</small>
+          <small>Waiting for data</small>
         </div>
 
         <div class="summary-card danger-text">
           <span>Needs Attention</span>
           <strong id="needsAttention">—</strong>
-          <small id="needsAttentionSub">Waiting for data</small>
+          <small>Waiting for data</small>
         </div>
 
         <div class="summary-card">
@@ -95,21 +104,32 @@
           <strong id="avgFillRate">0 lb/min</strong>
           <small>Current harvest speed</small>
         </div>
+
       </section>
 
+      <!-- Charts -->
       <section class="analytics-grid">
+
         <div class="panel chart-panel">
-          <div class="panel-title">Fill Rate Comparison <span>(lb/min)</span></div>
+          <div class="panel-title">
+            Fill Rate Comparison <span>(lb/min)</span>
+          </div>
           <canvas id="fillRateChart"></canvas>
         </div>
 
         <div class="panel chart-panel">
-          <div class="panel-title">Weight Over Time <span>(lb per bin)</span></div>
+          <div class="panel-title">
+            Weight Over Time <span>(lb per bin)</span>
+          </div>
           <canvas id="weightChart"></canvas>
         </div>
 
+        <!-- Loss Table -->
         <div class="panel loss-panel">
-          <div class="panel-title">Loss Analysis <span>(Today)</span></div>
+          <div class="panel-title">
+            Loss Analysis <span>(Today)</span>
+          </div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -121,13 +141,17 @@
                   <th>Reason</th>
                 </tr>
               </thead>
+
               <tbody id="lossTableBody"></tbody>
             </table>
           </div>
         </div>
+
       </section>
 
+      <!-- Impact -->
       <section class="impact-row">
+
         <div class="impact-card revenue">
           <div class="impact-icon">$</div>
           <div>
@@ -163,13 +187,16 @@
             <small>Revenue − Loss − Labor</small>
           </div>
         </div>
+
       </section>
 
+      <!-- Opportunity -->
       <section class="opportunity-panel">
+
         <div>
           <span>Recoverable Profit Opportunity</span>
           <strong id="recoverableProfit">$0.00</strong>
-          <small>Fixing today’s inefficiencies can recover lost value.</small>
+          <small>Fixing inefficiencies recovers value.</small>
         </div>
 
         <div>
@@ -181,10 +208,13 @@
           <span>If fixed for the season (120 days)</span>
           <strong id="seasonRecovery">$0 / season</strong>
         </div>
+
       </section>
+
     </main>
   </div>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -194,6 +224,7 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js?v=100"></script>
+  <script src="origin-dashboard.js?v=101"></script>
+
 </body>
 </html>
