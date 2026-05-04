@@ -224,12 +224,13 @@ body {
   color: #ff3333;
 }
 
+/* Analytics / Charts */
 .analytics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1.15fr;
   gap: 10px;
   margin-top: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 44px;
   align-items: stretch;
 }
 
@@ -242,14 +243,14 @@ body {
 }
 
 .chart-panel {
-  height: 320px;
-  padding-bottom: 30px;
-  overflow: hidden;
+  height: 360px;
+  padding: 16px 16px 48px 16px;
+  overflow: visible;
 }
 
 .chart-panel canvas {
   width: 100% !important;
-  height: 245px !important;
+  height: 270px !important;
   display: block;
 }
 
@@ -266,13 +267,13 @@ body {
 }
 
 .loss-panel {
-  height: 320px;
+  height: 360px;
   overflow: hidden;
 }
 
 .table-wrap {
   overflow: auto;
-  max-height: 245px;
+  max-height: 280px;
 }
 
 table {
@@ -500,6 +501,11 @@ td {
     margin-top: 290px;
     height: calc(100vh - 310px);
   }
+
+  .chart-panel,
+  .loss-panel {
+    height: 360px;
+  }
 }
 
 @media (max-width: 800px) {
@@ -530,5 +536,14 @@ td {
 
   .analytics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .chart-panel {
+    height: 360px;
+    padding-bottom: 50px;
+  }
+
+  .chart-panel canvas {
+    height: 270px !important;
   }
 }
