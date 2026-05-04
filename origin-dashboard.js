@@ -34,12 +34,14 @@ async function loadData() {
 
   const totalBins = bins.length;
   const totalWeight = bins.reduce((sum, b) => sum + num(b.weight_lb), 0);
+
   const totalValue = bins.reduce((sum, b) => {
     const value = num(b.estimated_value);
     return sum + (value > 0 ? value : num(b.weight_lb) * PRICE_PER_LB);
   }, 0);
 
   const avgPerBin = totalBins ? totalWeight / totalBins : 0;
+
   const avgFillRate = totalBins
     ? bins.reduce((sum, b) => sum + num(b.fill_rate), 0) / totalBins
     : 0;
@@ -64,11 +66,17 @@ async function loadData() {
   setText("avgFillRate", avgFillRate.toFixed(2) + " lb/min");
 
   if (top) {
-    setText("topPerformer", `${safeBin(top)} (${num(top.weight_lb).toFixed(2)} lb)`);
+    setText(
+      "topPerformer",
+      `${safeBin(top)} (${num(top.weight_lb).toFixed(2)} lb)`
+    );
   }
 
   if (worst) {
-    setText("needsAttention", `${safeBin(worst)} (${num(worst.weight_lb).toFixed(2)} lb)`);
+    setText(
+      "needsAttention",
+      `${safeBin(worst)} (${num(worst.weight_lb).toFixed(2)} lb)`
+    );
   }
 
   setText("estimatedRevenue", "$" + totalValue.toFixed(2));
@@ -87,9 +95,6 @@ async function loadData() {
   renderBinCards(bins, avgPerBin);
   renderLossTable(bins, avgPerBin);
   renderCharts(data);
-
-  console.log("Raw Supabase data:", data);
-  console.log("Grouped bins:", bins);
 }
 
 function renderBinCards(bins, avgPerBin) {
@@ -103,7 +108,8 @@ function renderBinCards(bins, avgPerBin) {
     const fillRate = num(bin.fill_rate);
     const value = num(bin.estimated_value) || weight * PRICE_PER_LB;
 
-    const diffPercent = avgPerBin > 0 ? ((weight - avgPerBin) / avgPerBin) * 100 : 0;
+    const diffPercent =
+      avgPerBin > 0 ? ((weight - avgPerBin) / avgPerBin) * 100 : 0;
 
     let statusText = "Live";
     let statusClass = "good";
@@ -219,19 +225,19 @@ function renderCharts(data) {
   });
 
   const binIds = Object.keys(byBin).slice(0, 4);
-
-  const labels = [...data]
-    .reverse()
-    .slice(-30)
-    .map((row) => {
-      const d = new Date(row.created_at);
-      return d.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    });
-
   const colors = ["#00e08a", "#f59e0b", "#ef4444", "#8b5cf6"];
+
+  const firstBinRows = [...byBin[binIds[0]]]
+    .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+    .slice(-30);
+
+  const labels = firstBinRows.map((row) => {
+    const d = new Date(row.created_at);
+    return d.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  });
 
   const fillRateDatasets = binIds.map((binId, index) => {
     const rows = [...byBin[binId]]
@@ -246,6 +252,7 @@ function renderCharts(data) {
       borderWidth: 2,
       tension: 0.35,
       pointRadius: 1.5,
+      pointHoverRadius: 4,
       fill: false
     };
   });
@@ -263,6 +270,7 @@ function renderCharts(data) {
       borderWidth: 2,
       tension: 0.35,
       pointRadius: 1.5,
+      pointHoverRadius: 4,
       fill: false
     };
   });
@@ -271,6 +279,7 @@ function renderCharts(data) {
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
+
     plugins: {
       legend: {
         labels: {
@@ -280,22 +289,30 @@ function renderCharts(data) {
         }
       }
     },
+
     layout: {
       padding: {
-        bottom: 12
+        top: 6,
+        bottom: 28
       }
     },
+
     scales: {
       x: {
+        offset: true,
         ticks: {
           color: "#94a3b8",
-          maxTicksLimit: 6,
-          padding: 8
+          maxTicksLimit: 5,
+          padding: 14,
+          autoSkip: true,
+          maxRotation: 0,
+          minRotation: 0
         },
         grid: {
           color: "rgba(148,163,184,0.12)"
         }
       },
+
       y: {
         beginAtZero: true,
         ticks: {
