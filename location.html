@@ -5,7 +5,7 @@
   <title>HEKONE Origin Locations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="location.css?v=200" />
+  <link rel="stylesheet" href="location.css?v=300" />
 </head>
 
 <body>
@@ -86,25 +86,16 @@
       </header>
 
       <div class="filter-row">
-        <button class="filter-btn active">All Bins <span id="allBinsCount">(0)</span></button>
+        <button class="filter-btn active">
+          All Bins <span id="allBinsCount">(0)</span>
+        </button>
         <button class="filter-btn high">● High</button>
         <button class="filter-btn average">● Average</button>
         <button class="filter-btn low">● Low</button>
       </div>
 
-        <iframe
-          id="satelliteMap"
-          class="satellite-map"
-          src="https://maps.google.com/maps?q=37.3022,-120.4829&z=18&t=k&output=embed"
-          allowfullscreen>
-        </iframe>
-
-        <div id="mapMarkers" class="map-markers"></div>
-
-        <div class="zoom-control">
-          <button>+</button>
-          <button>−</button>
-        </div>
+      <div class="map-stage">
+        <div id="map" class="real-map"></div>
 
         <div class="scale-box">50 ft</div>
       </div>
@@ -121,6 +112,11 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="location.js?v=200"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&loading=async">
+  </script>
+
+  <script src="location.js?v=300"></script>
+
 </body>
 </html>
