@@ -110,6 +110,8 @@ body {
   flex: 1;
   min-width: 0;
   padding: 26px 18px 28px 0;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .topbar {
@@ -230,10 +232,10 @@ body {
 
 .analytics-grid {
   display: grid;
-  grid-template-columns: 2fr 1.15fr;
-  gap: 10px;
-  margin-top: 10px;
-  margin-bottom: 44px;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 1fr);
+  gap: 14px;
+  max-width: 1200px;
+  margin: 16px auto 44px auto;
   align-items: stretch;
 }
 
@@ -241,13 +243,14 @@ body {
   border: 1px solid rgba(34, 211, 238, 0.28);
   background: rgba(2, 18, 24, 0.88);
   backdrop-filter: blur(12px);
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 16px;
 }
 
 .combined-chart-panel {
-  height: 380px;
-  padding: 16px 16px 54px 16px;
+  height: 320px;
+  max-width: 800px;
+  padding: 14px 16px 44px 16px;
   overflow: visible;
 }
 
@@ -255,7 +258,7 @@ body {
   display: flex;
   gap: 24px;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   border-bottom: 1px solid rgba(34, 211, 238, 0.18);
 }
 
@@ -263,15 +266,15 @@ body {
   border: 0;
   background: transparent;
   color: #94a3b8;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  padding: 0 0 10px 0;
+  padding: 0 0 9px 0;
   cursor: pointer;
   border-bottom: 2px solid transparent;
 }
 
 .chart-tab span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #94a3b8;
 }
@@ -287,7 +290,7 @@ body {
 
 .combined-chart-panel canvas {
   width: 100% !important;
-  height: 280px !important;
+  height: 225px !important;
   display: block;
 }
 
@@ -304,13 +307,13 @@ body {
 }
 
 .loss-panel {
-  height: 380px;
+  height: 320px;
   overflow: hidden;
 }
 
 .table-wrap {
   overflow: auto;
-  max-height: 295px;
+  max-height: 235px;
 }
 
 table {
@@ -453,6 +456,11 @@ td {
 
   .analytics-grid {
     grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .combined-chart-panel {
+    max-width: 100%;
   }
 
   .impact-row {
@@ -479,6 +487,7 @@ td {
     height: auto;
     min-height: unset;
     margin: 10px;
+    flex: unset;
   }
 
   .dashboard {
@@ -501,6 +510,6 @@ td {
 
   .combined-chart-panel,
   .loss-panel {
-    height: 380px;
+    height: 330px;
   }
 }
