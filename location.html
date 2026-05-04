@@ -1,17 +1,124 @@
-<section id="locationsView" class="locations-view hidden">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>HEKONE Origin Locations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <div class="panel map-panel">
-    <div class="panel-title">
-      Live Field Location <span id="mapBinLabel">(Loading...)</span>
-    </div>
+  <link rel="stylesheet" href="origin-dashboard.css?v=104" />
+  <link rel="stylesheet" href="location.css?v=104" />
+</head>
 
-    <iframe
-      id="satelliteMap"
-      class="satellite-map"
-      loading="lazy"
-      allowfullscreen>
-    </iframe>
+<body>
+  <div class="app-shell">
 
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="logo-cube">H</div>
+        <div>
+          <div class="brand-name">HEKONE</div>
+          <div class="brand-sub">Origin</div>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <a href="origin-dashboard.html" class="nav-item">Dashboard</a>
+        <a href="location.html" class="nav-item active">Locations</a>
+        <button class="nav-item">Harvest Teams</button>
+        <button class="nav-item">Reports</button>
+        <button class="nav-item">Alerts</button>
+        <button class="nav-item">Settings</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="insight-btn">View All Insights</button>
+      </div>
+    </aside>
+
+    <main class="dashboard">
+
+      <header class="topbar">
+        <div>
+          <div class="title-row">
+            <div class="logo-cube small">H</div>
+            <h1>HEKONE Origin</h1>
+          </div>
+          <p>Live Field Location</p>
+        </div>
+
+        <div class="top-actions">
+          <span id="lastUpdated">Loading...</span>
+          <button>Today</button>
+          <div class="avatar">JD</div>
+        </div>
+      </header>
+
+      <section class="location-summary-grid">
+
+        <div class="summary-card">
+          <span>Tracked Bins</span>
+          <strong id="trackedBins">0</strong>
+          <small>Bins with GPS data</small>
+        </div>
+
+        <div class="summary-card highlighted">
+          <span>Selected Bin</span>
+          <strong id="selectedBin">—</strong>
+          <small id="selectedBlockRow">Waiting for location</small>
+        </div>
+
+        <div class="summary-card">
+          <span>Latitude</span>
+          <strong id="latitudeValue">—</strong>
+          <small>GPS coordinate</small>
+        </div>
+
+        <div class="summary-card">
+          <span>Longitude</span>
+          <strong id="longitudeValue">—</strong>
+          <small>GPS coordinate</small>
+        </div>
+
+      </section>
+
+      <section class="location-layout">
+
+        <div class="panel map-panel">
+          <div class="panel-title">
+            Satellite Field Map <span id="mapBinLabel">(Loading...)</span>
+          </div>
+
+          <iframe
+            id="satelliteMap"
+            class="satellite-map"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div class="panel location-list-panel">
+          <div class="panel-title">
+            Live Bin Locations <span>(Latest)</span>
+          </div>
+
+          <div id="locationList" class="location-list"></div>
+        </div>
+
+      </section>
+
+    </main>
   </div>
 
-</section>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
+    const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
+
+  <script src="location.js?v=104"></script>
+
+</body>
+</html>
