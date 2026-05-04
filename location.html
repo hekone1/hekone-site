@@ -5,109 +5,114 @@
   <title>HEKONE Origin Locations</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="origin-dashboard.css?v=104" />
-  <link rel="stylesheet" href="location.css?v=104" />
+  <link rel="stylesheet" href="location.css?v=200" />
 </head>
 
 <body>
-  <div class="app-shell">
+  <div class="location-app">
 
-    <aside class="sidebar">
-      <div class="brand-block">
-        <div class="logo-cube">H</div>
-        <div>
-          <div class="brand-name">HEKONE</div>
-          <div class="brand-sub">Origin</div>
+    <aside class="location-sidebar">
+      <div class="brand-row">
+        <div class="logo-mark">H</div>
+        <div class="brand-text">
+          <strong>HEKONE</strong>
+          <span>Origin</span>
         </div>
       </div>
 
-      <nav class="nav-list">
-        <a href="origin-dashboard.html" class="nav-item">Dashboard</a>
-        <a href="location.html" class="nav-item active">Locations</a>
-        <button class="nav-item">Harvest Teams</button>
-        <button class="nav-item">Reports</button>
-        <button class="nav-item">Alerts</button>
-        <button class="nav-item">Settings</button>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button class="insight-btn">View All Insights</button>
+      <div class="sidebar-title">
+        <div class="wifi-icon">⌁</div>
+        <h1>Live Harvest Map</h1>
+        <p>Real-time bin weights across the orchard.</p>
       </div>
+
+      <div class="stats-card">
+        <div>
+          <span>Total Bins</span>
+          <strong id="totalBins">0</strong>
+        </div>
+        <div>
+          <span>Total Weight</span>
+          <strong id="totalWeight">0.00 lb</strong>
+        </div>
+        <div>
+          <span>Farm Average</span>
+          <strong id="farmAverage">0.00 lb</strong>
+        </div>
+        <div>
+          <span>Top Performer</span>
+          <strong id="topPerformer" class="green">—</strong>
+        </div>
+        <div>
+          <span>Needs Attention</span>
+          <strong id="needsAttention" class="red">0 Bins</strong>
+        </div>
+        <div>
+          <span>Last Update</span>
+          <strong id="lastUpdateSmall" class="small-live">● Loading...</strong>
+        </div>
+      </div>
+
+      <div class="performance-head">
+        <strong>BIN PERFORMANCE</strong>
+        <select id="sortSelect">
+          <option value="high">Weight: High to Low</option>
+          <option value="low">Weight: Low to High</option>
+        </select>
+      </div>
+
+      <div id="binPerformanceList" class="bin-performance-list"></div>
+
+      <a href="origin-dashboard.html" class="dashboard-link">
+        View Full Dashboard ↗
+      </a>
     </aside>
 
-    <main class="dashboard">
+    <main class="map-area">
 
-      <header class="topbar">
-        <div>
-          <div class="title-row">
-            <div class="logo-cube small">H</div>
-            <h1>HEKONE Origin</h1>
-          </div>
-          <p>Live Field Location</p>
+      <header class="map-topbar">
+        <div class="field-selector">
+          Orchard A - Block 12
+          <span>⌄</span>
         </div>
 
-        <div class="top-actions">
-          <span id="lastUpdated">Loading...</span>
-          <button>Today</button>
-          <div class="avatar">JD</div>
-        </div>
+        <div class="live-pill">● LIVE</div>
+
+        <div class="topbar-spacer"></div>
+
+        <div id="lastUpdated" class="date-text">Loading...</div>
+        <div class="bell">♧</div>
+        <div class="avatar">JD</div>
       </header>
 
-      <section class="location-summary-grid">
+      <div class="filter-row">
+        <button class="filter-btn active">All Bins <span id="allBinsCount">(0)</span></button>
+        <button class="filter-btn high">● High</button>
+        <button class="filter-btn average">● Average</button>
+        <button class="filter-btn low">● Low</button>
+      </div>
 
-        <div class="summary-card">
-          <span>Tracked Bins</span>
-          <strong id="trackedBins">0</strong>
-          <small>Bins with GPS data</small>
+      <div class="map-stage">
+        <iframe
+          id="satelliteMap"
+          class="satellite-map"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <div id="mapMarkers" class="map-markers"></div>
+
+        <div class="zoom-control">
+          <button>+</button>
+          <button>−</button>
         </div>
 
-        <div class="summary-card highlighted">
-          <span>Selected Bin</span>
-          <strong id="selectedBin">—</strong>
-          <small id="selectedBlockRow">Waiting for location</small>
-        </div>
-
-        <div class="summary-card">
-          <span>Latitude</span>
-          <strong id="latitudeValue">—</strong>
-          <small>GPS coordinate</small>
-        </div>
-
-        <div class="summary-card">
-          <span>Longitude</span>
-          <strong id="longitudeValue">—</strong>
-          <small>GPS coordinate</small>
-        </div>
-
-      </section>
-
-      <section class="location-layout">
-
-        <div class="panel map-panel">
-          <div class="panel-title">
-            Satellite Field Map <span id="mapBinLabel">(Loading...)</span>
-          </div>
-
-          <iframe
-            id="satelliteMap"
-            class="satellite-map"
-            loading="lazy"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
-
-        <div class="panel location-list-panel">
-          <div class="panel-title">
-            Live Bin Locations <span>(Latest)</span>
-          </div>
-
-          <div id="locationList" class="location-list"></div>
-        </div>
-
-      </section>
+        <div class="scale-box">50 ft</div>
+      </div>
 
     </main>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -118,7 +123,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="location.js?v=104"></script>
-
+  <script src="location.js?v=200"></script>
 </body>
 </html>
