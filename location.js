@@ -1,19 +1,88 @@
-let map = null;
-let marker = null;
-let latestBin = null;
+// ===============================
+// HEKONE Origin - Live Location Map
+// Mapbox + Supabase
+// ===============================
 
+// 🔑 Put your Mapbox public token here.
+// It must start with "pk."
+const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
+
+// Default fallback location: Merced, CA
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
 
+let map = null;
+let marker = null;
+let popup = null;
+let latestBin = null;
+let isMapReady = false;
+
+// -------------------------------
+// Start
+// -------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+  if (!window.mapboxgl) {
+    console.error("Mapbox GL JS is not loaded.");
+    setStatus("Mapbox library not loaded.");
+    return;
+  }
+
+  if (!MAPBOX_TOKEN || MAPBOX_TOKEN.includes("PASTE_YOUR")) {
+    setStatus("Mapbox token is missing. Add your pk... token in location.js.");
+    console.error("Missing Mapbox token.");
+    renderWaitingStats();
+    return;
+  }
+
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+
+  initMap(DEFAULT_LAT, DEFAULT_LON);
+
+  const sortSelect = document.getElementById("sortSelect");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      if (latestBin) renderPerformanceList(latestBin);
+    });
+  }
+
   loadLocationData();
   setInterval(loadLocationData, 5000);
 });
 
+// -------------------------------
+// Initialize Map
+// -------------------------------
+function initMap(lat, lon) {
+  map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/satellite-streets-v12",
+    center: [lon, lat],
+    zoom: 18,
+    pitch: 0,
+    bearing: 0,
+    attributionControl: true
+  });
 
-// ===============================
-// Load Data from Supabase
-// ===============================
+  map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+
+  map.on("load", () => {
+    isMapReady = true;
+    setStatus("Waiting for live GPS data...");
+
+    if (latestBin) {
+      renderMap(latestBin);
+    }
+  });
+
+  map.on("error", (e) => {
+    console.error("Mapbox error:", e);
+    setStatus("Map error. Check your Mapbox token.");
+  });
+}
+
+// -------------------------------
+// Load Latest Location from Supabase
+// -------------------------------
 async function loadLocationData() {
   try {
     const { data, error } = await supabaseClient
@@ -26,139 +95,190 @@ async function loadLocationData() {
 
     if (error) {
       console.error("Supabase error:", error);
-      showWaitingState();
+      showWaitingState("Supabase error. Check console.");
       return;
     }
 
     if (!data || data.length === 0) {
-      showWaitingState();
+      showWaitingState("No GPS data found yet.");
       return;
     }
 
-    latestBin = data[0];
+    const bin = data[0];
 
-    const lat = Number(latestBin.latitude);
-    const lon = Number(latestBin.longitude);
+    const lat = Number(bin.latitude);
+    const lon = Number(bin.longitude);
 
-    if (!lat || !lon) {
-      showWaitingState();
+    if (!isValidCoordinate(lat, lon)) {
+      showWaitingState("Latest GPS coordinate is invalid.");
       return;
     }
 
-    // 🔥 این مهم‌ترین خطه
-    renderMap(latestBin);
+    latestBin = bin;
 
-    renderStats(latestBin);
-    renderPerformanceList(latestBin);
+    renderStats(bin);
+    renderPerformanceList(bin);
+    renderMap(bin);
     updateLastUpdated();
 
   } catch (err) {
     console.error("Location load failed:", err);
-    showWaitingState();
+    showWaitingState("Location load failed. Check console.");
   }
 }
 
-
-// ===============================
-// Render Map (REAL)
-// ===============================
+// -------------------------------
+// Render Map Marker
+// This is the main renderMap function.
+// -------------------------------
 function renderMap(bin) {
-  if (!window.google || !google.maps) {
-    console.error("Google Maps not loaded");
-    return;
-  }
+  if (!map || !isMapReady) return;
 
   const lat = Number(bin.latitude);
   const lon = Number(bin.longitude);
 
-  const position = { lat: lat, lng: lon };
-
-  // اگر اولین باره
-  if (!map) {
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: position,
-      zoom: 19,
-      mapTypeId: "satellite",
-      streetViewControl: false,
-      mapTypeControl: false,
-      fullscreenControl: true,
-      zoomControl: true
-    });
-  } else {
-    map.setCenter(position);
+  if (!isValidCoordinate(lat, lon)) {
+    showWaitingState("Invalid GPS coordinate.");
+    return;
   }
 
-  const labelText = `${safeBin(bin)} | ${num(bin.weight_lb).toFixed(2)} lb`;
+  const lngLat = [lon, lat];
+  const weight = num(bin.weight_lb);
+  const status = getStatus(bin);
+  const binId = safeBin(bin);
 
-  // اگر marker نداریم
+  map.easeTo({
+    center: lngLat,
+    zoom: 19,
+    duration: 900
+  });
+
+  const popupHtml = `
+    <div class="popup-content">
+      <strong>${binId}</strong><br>
+      Weight: ${weight.toFixed(2)} lb<br>
+      Block: ${bin.block || "—"}<br>
+      Row: ${bin.row || "—"}<br>
+      Lat: ${lat.toFixed(6)}<br>
+      Lon: ${lon.toFixed(6)}
+    </div>
+  `;
+
+  if (!popup) {
+    popup = new mapboxgl.Popup({
+      offset: 24,
+      closeButton: false,
+      closeOnClick: false
+    }).setHTML(popupHtml);
+  } else {
+    popup.setHTML(popupHtml);
+  }
+
   if (!marker) {
-    marker = new google.maps.Marker({
-      position: position,
-      map: map,
-      title: labelText,
-      label: {
-        text: labelText,
-        color: "#ffffff",
-        fontWeight: "700",
-        fontSize: "13px"
-      }
+    const el = createMarkerElement(bin, status);
+
+    marker = new mapboxgl.Marker({
+      element: el,
+      anchor: "bottom"
+    })
+      .setLngLat(lngLat)
+      .setPopup(popup)
+      .addTo(map);
+
+    marker.getElement().addEventListener("mouseenter", () => {
+      popup.addTo(map);
+      popup.setLngLat(lngLat);
     });
+
+    marker.getElement().addEventListener("mouseleave", () => {
+      popup.remove();
+    });
+
   } else {
-    // آپدیت marker
-    marker.setPosition(position);
-    marker.setTitle(labelText);
-    marker.setLabel({
-      text: labelText,
-      color: "#ffffff",
-      fontWeight: "700",
-      fontSize: "13px"
-    });
+    marker.setLngLat(lngLat);
+
+    const oldEl = marker.getElement();
+    const newEl = createMarkerElement(bin, status);
+
+    oldEl.className = newEl.className;
+    oldEl.innerHTML = newEl.innerHTML;
   }
+
+  setText("latitudeText", lat.toFixed(6));
+  setText("longitudeText", lon.toFixed(6));
+  setStatus(`Live GPS: ${binId} at ${lat.toFixed(6)}, ${lon.toFixed(6)}`);
 }
 
+// -------------------------------
+// Create Custom Marker HTML
+// -------------------------------
+function createMarkerElement(bin, status) {
+  const el = document.createElement("div");
+  el.className = `origin-marker ${status}`;
 
-// ===============================
-// Stats
-// ===============================
+  const weight = num(bin.weight_lb);
+  const binId = safeBin(bin);
+
+  el.innerHTML = `
+    <div class="origin-marker-dot"></div>
+
+    <div class="origin-marker-card">
+      <div class="origin-marker-icon">▣</div>
+
+      <div class="origin-marker-info">
+        <small>${binId}</small>
+        <strong>${weight.toFixed(2)} lb</strong>
+      </div>
+    </div>
+  `;
+
+  return el;
+}
+
+// -------------------------------
+// Sidebar Stats
+// -------------------------------
 function renderStats(bin) {
   const weight = num(bin.weight_lb);
+  const binId = safeBin(bin);
 
   setText("totalBins", "1");
   setText("allBinsCount", "(1)");
   setText("totalWeight", weight.toFixed(2) + " lb");
   setText("farmAverage", weight.toFixed(2) + " lb");
-  setText("topPerformer", `${safeBin(bin)} ${weight.toFixed(2)} lb`);
+  setText("topPerformer", `${binId} ${weight.toFixed(2)} lb`);
   setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
 }
 
-
-// ===============================
-// Sidebar List
-// ===============================
+// -------------------------------
+// Sidebar Performance List
+// -------------------------------
 function renderPerformanceList(bin) {
   const list = document.getElementById("binPerformanceList");
   if (!list) return;
 
   const weight = num(bin.weight_lb);
-  const status = weight > 0 ? "high" : "low";
+  const status = getStatus(bin);
 
   list.innerHTML = `
     <div class="bin-row active">
       <div class="status-dot dot-${status}"></div>
       <strong>${safeBin(bin)}</strong>
       <span>${bin.row || "Row —"}</span>
-      <b class="${status === "high" ? "green" : "red"}">
-        ${weight.toFixed(2)} lb
-      </b>
+      <b class="${statusColorClass(status)}">${weight.toFixed(2)} lb</b>
     </div>
   `;
 }
 
+// -------------------------------
+// Waiting / Empty State
+// -------------------------------
+function showWaitingState(message) {
+  renderWaitingStats();
+  setStatus(message);
+}
 
-// ===============================
-// Waiting State
-// ===============================
-function showWaitingState() {
+function renderWaitingStats() {
   setText("totalBins", "0");
   setText("allBinsCount", "(0)");
   setText("totalWeight", "0.00 lb");
@@ -166,24 +286,16 @@ function showWaitingState() {
   setText("topPerformer", "—");
   setText("needsAttention", "0 Bins");
   setText("lastUpdateSmall", "● Waiting for GPS");
+  setText("latitudeText", "—");
+  setText("longitudeText", "—");
 
   const list = document.getElementById("binPerformanceList");
   if (list) list.innerHTML = "";
-
-  // نقشه پیش‌فرض
-  if (!map && window.google && google.maps) {
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: DEFAULT_LAT, lng: DEFAULT_LON },
-      zoom: 18,
-      mapTypeId: "satellite"
-    });
-  }
 }
 
-
-// ===============================
+// -------------------------------
 // Last Updated
-// ===============================
+// -------------------------------
 function updateLastUpdated() {
   const now = new Date();
 
@@ -198,10 +310,9 @@ function updateLastUpdated() {
   setText("lastUpdateSmall", "● Live now");
 }
 
-
-// ===============================
+// -------------------------------
 // Helpers
-// ===============================
+// -------------------------------
 function safeBin(row) {
   return row.bin_id || "BIN-001";
 }
@@ -210,7 +321,34 @@ function num(value) {
   return Number(value || 0);
 }
 
+function isValidCoordinate(lat, lon) {
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return false;
+  if (lat === 0 && lon === 0) return false;
+  if (lat < -90 || lat > 90) return false;
+  if (lon < -180 || lon > 180) return false;
+  return true;
+}
+
+function getStatus(bin) {
+  const weight = num(bin.weight_lb);
+
+  if (weight <= 0) return "low";
+  if (weight < 1) return "average";
+  return "high";
+}
+
+function statusColorClass(status) {
+  if (status === "low") return "red";
+  if (status === "average") return "yellow";
+  return "green";
+}
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.innerText = value;
+}
+
+function setStatus(message) {
+  const el = document.getElementById("mapStatus");
+  if (el) el.innerText = message;
 }
