@@ -3,11 +3,8 @@
 // Mapbox + Supabase
 // ===============================
 
-// 🔑 Put your Mapbox public token here.
-// It must start with "pk."
 const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
 
-// Default fallback location: Merced, CA
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
 
@@ -15,59 +12,55 @@ let map = null;
 let marker = null;
 let popup = null;
 let latestBin = null;
-let isMapReady = false;
+let mapReady = false;
 
-// -------------------------------
+// ===============================
 // Start
-// -------------------------------
+// ===============================
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("location.js loaded");
+
   if (!window.mapboxgl) {
     console.error("Mapbox GL JS is not loaded.");
     setStatus("Mapbox library not loaded.");
     return;
   }
 
-  if (!MAPBOX_TOKEN || MAPBOX_TOKEN.includes("PASTE_YOUR")) {
+  if (!MAPBOX_TOKEN || !MAPBOX_TOKEN.startsWith("pk.")) {
+    console.error("Mapbox token missing or invalid.");
     setStatus("Mapbox token is missing. Add your pk... token in location.js.");
-    console.error("Missing Mapbox token.");
     renderWaitingStats();
     return;
   }
 
   mapboxgl.accessToken = MAPBOX_TOKEN;
 
+  // Always show map first, even before GPS data arrives
   initMap(DEFAULT_LAT, DEFAULT_LON);
-
-  const sortSelect = document.getElementById("sortSelect");
-  if (sortSelect) {
-    sortSelect.addEventListener("change", () => {
-      if (latestBin) renderPerformanceList(latestBin);
-    });
-  }
 
   loadLocationData();
   setInterval(loadLocationData, 5000);
 });
 
-// -------------------------------
+// ===============================
 // Initialize Map
-// -------------------------------
+// ===============================
 function initMap(lat, lon) {
   map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/satellite-streets-v12",
     center: [lon, lat],
-    zoom: 18,
+    zoom: 17,
     pitch: 0,
-    bearing: 0,
-    attributionControl: true
+    bearing: 0
   });
 
   map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
   map.on("load", () => {
-    isMapReady = true;
-    setStatus("Waiting for live GPS data...");
+    mapReady = true;
+    setStatus("Map loaded. Waiting for live GPS data...");
+    console.log("Mapbox map loaded");
 
     if (latestBin) {
       renderMap(latestBin);
@@ -76,15 +69,21 @@ function initMap(lat, lon) {
 
   map.on("error", (e) => {
     console.error("Mapbox error:", e);
-    setStatus("Map error. Check your Mapbox token.");
+    setStatus("Mapbox error. Check token or console.");
   });
 }
 
-// -------------------------------
-// Load Latest Location from Supabase
-// -------------------------------
+// ===============================
+// Load Latest GPS from Supabase
+// ===============================
 async function loadLocationData() {
   try {
+    if (typeof supabaseClient === "undefined") {
+      console.error("supabaseClient is not defined.");
+      setStatus("Supabase client is not loaded.");
+      return;
+    }
+
     const { data, error } = await supabaseClient
       .from("origin_events")
       .select("*")
@@ -110,6 +109,7 @@ async function loadLocationData() {
     const lon = Number(bin.longitude);
 
     if (!isValidCoordinate(lat, lon)) {
+      console.warn("Invalid GPS coordinate:", lat, lon);
       showWaitingState("Latest GPS coordinate is invalid.");
       return;
     }
@@ -127,12 +127,14 @@ async function loadLocationData() {
   }
 }
 
-// -------------------------------
-// Render Map Marker
-// This is the main renderMap function.
-// -------------------------------
+// ===============================
+// renderMap
+// ===============================
 function renderMap(bin) {
-  if (!map || !isMapReady) return;
+  if (!map || !mapReady) {
+    console.log("Map not ready yet.");
+    return;
+  }
 
   const lat = Number(bin.latitude);
   const lon = Number(bin.longitude);
@@ -150,7 +152,7 @@ function renderMap(bin) {
   map.easeTo({
     center: lngLat,
     zoom: 19,
-    duration: 900
+    duration: 800
   });
 
   const popupHtml = `
@@ -166,7 +168,7 @@ function renderMap(bin) {
 
   if (!popup) {
     popup = new mapboxgl.Popup({
-      offset: 24,
+      offset: 28,
       closeButton: false,
       closeOnClick: false
     }).setHTML(popupHtml);
@@ -175,10 +177,10 @@ function renderMap(bin) {
   }
 
   if (!marker) {
-    const el = createMarkerElement(bin, status);
+    const markerEl = createMarkerElement(bin, status);
 
     marker = new mapboxgl.Marker({
-      element: el,
+      element: markerEl,
       anchor: "bottom"
     })
       .setLngLat(lngLat)
@@ -186,8 +188,7 @@ function renderMap(bin) {
       .addTo(map);
 
     marker.getElement().addEventListener("mouseenter", () => {
-      popup.addTo(map);
-      popup.setLngLat(lngLat);
+      popup.setLngLat(lngLat).addTo(map);
     });
 
     marker.getElement().addEventListener("mouseleave", () => {
@@ -209,9 +210,9 @@ function renderMap(bin) {
   setStatus(`Live GPS: ${binId} at ${lat.toFixed(6)}, ${lon.toFixed(6)}`);
 }
 
-// -------------------------------
-// Create Custom Marker HTML
-// -------------------------------
+// ===============================
+// Marker HTML
+// ===============================
 function createMarkerElement(bin, status) {
   const el = document.createElement("div");
   el.className = `origin-marker ${status}`;
@@ -224,7 +225,6 @@ function createMarkerElement(bin, status) {
 
     <div class="origin-marker-card">
       <div class="origin-marker-icon">▣</div>
-
       <div class="origin-marker-info">
         <small>${binId}</small>
         <strong>${weight.toFixed(2)} lb</strong>
@@ -235,9 +235,9 @@ function createMarkerElement(bin, status) {
   return el;
 }
 
-// -------------------------------
+// ===============================
 // Sidebar Stats
-// -------------------------------
+// ===============================
 function renderStats(bin) {
   const weight = num(bin.weight_lb);
   const binId = safeBin(bin);
@@ -250,9 +250,9 @@ function renderStats(bin) {
   setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
 }
 
-// -------------------------------
-// Sidebar Performance List
-// -------------------------------
+// ===============================
+// Sidebar Performance
+// ===============================
 function renderPerformanceList(bin) {
   const list = document.getElementById("binPerformanceList");
   if (!list) return;
@@ -270,9 +270,9 @@ function renderPerformanceList(bin) {
   `;
 }
 
-// -------------------------------
-// Waiting / Empty State
-// -------------------------------
+// ===============================
+// Waiting State
+// ===============================
 function showWaitingState(message) {
   renderWaitingStats();
   setStatus(message);
@@ -293,9 +293,9 @@ function renderWaitingStats() {
   if (list) list.innerHTML = "";
 }
 
-// -------------------------------
+// ===============================
 // Last Updated
-// -------------------------------
+// ===============================
 function updateLastUpdated() {
   const now = new Date();
 
@@ -310,9 +310,9 @@ function updateLastUpdated() {
   setText("lastUpdateSmall", "● Live now");
 }
 
-// -------------------------------
+// ===============================
 // Helpers
-// -------------------------------
+// ===============================
 function safeBin(row) {
   return row.bin_id || "BIN-001";
 }
