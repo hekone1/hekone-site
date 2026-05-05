@@ -3,7 +3,7 @@
 // Mapbox + Supabase
 // ===============================
 
-const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
+const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
 
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
@@ -196,6 +196,7 @@ function renderMap(bin) {
     const oldEl = marker.getElement();
     const newEl = createMarkerElement(bin, status);
 
+    oldEl.style.cssText = newEl.style.cssText;
     oldEl.className = newEl.className;
     oldEl.innerHTML = newEl.innerHTML;
   }
@@ -206,7 +207,7 @@ function renderMap(bin) {
 }
 
 // ===============================
-// Small Square Marker
+// Small Square Marker - no stretch
 // ===============================
 function createMarkerElement(bin, status) {
   const el = document.createElement("div");
@@ -215,14 +216,64 @@ function createMarkerElement(bin, status) {
   const weight = num(bin.weight_lb);
   const binId = safeBin(bin);
 
-  el.innerHTML = `
-    <div class="origin-marker-dot"></div>
+  let color = "#00c46a";
+  if (status === "low") color = "#ff453a";
+  if (status === "average") color = "#facc15";
 
-    <div class="origin-marker-card">
-      <div class="origin-marker-info">
-        <small>${binId}</small>
-        <strong>${weight.toFixed(2)} lb</strong>
-      </div>
+  el.style.width = "86px";
+  el.style.height = "64px";
+  el.style.display = "block";
+  el.style.position = "relative";
+  el.style.pointerEvents = "auto";
+  el.style.maxWidth = "86px";
+  el.style.minWidth = "86px";
+  el.style.overflow = "visible";
+
+  el.innerHTML = `
+    <div style="
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: ${color};
+      border: 2px solid #061018;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.25);
+      margin: 0 auto 5px auto;
+    "></div>
+
+    <div style="
+      width: 86px;
+      height: 48px;
+      max-width: 86px;
+      min-width: 86px;
+      background: rgba(10, 15, 22, 0.94);
+      border: 1px solid rgba(139, 92, 246, 0.8);
+      border-radius: 8px;
+      padding: 6px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      box-sizing: border-box;
+    ">
+      <div style="
+        color: #cbd5e1;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 4px;
+        white-space: nowrap;
+      ">${binId}</div>
+
+      <div style="
+        color: ${color};
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1;
+        white-space: nowrap;
+      ">${weight.toFixed(2)} lb</div>
     </div>
   `;
 
