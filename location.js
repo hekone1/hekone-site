@@ -163,7 +163,7 @@ function renderMap(bin) {
 
   if (!popup) {
     popup = new mapboxgl.Popup({
-      offset: 28,
+      offset: 24,
       closeButton: false,
       closeOnClick: false
     }).setHTML(popupHtml);
@@ -171,35 +171,28 @@ function renderMap(bin) {
     popup.setHTML(popupHtml);
   }
 
-  if (!marker) {
-    const markerEl = createMarkerElement(bin, status);
-
-    marker = new mapboxgl.Marker({
-      element: markerEl,
-      anchor: "bottom"
-    })
-      .setLngLat(lngLat)
-      .setPopup(popup)
-      .addTo(map);
-
-    marker.getElement().addEventListener("mouseenter", () => {
-      popup.setLngLat(lngLat).addTo(map);
-    });
-
-    marker.getElement().addEventListener("mouseleave", () => {
-      popup.remove();
-    });
-
-  } else {
-    marker.setLngLat(lngLat);
-
-    const oldEl = marker.getElement();
-    const newEl = createMarkerElement(bin, status);
-
-    oldEl.style.cssText = newEl.style.cssText;
-    oldEl.className = newEl.className;
-    oldEl.innerHTML = newEl.innerHTML;
+  if (marker) {
+    marker.remove();
+    marker = null;
   }
+
+  const markerEl = createMarkerElement(bin, status);
+
+  marker = new mapboxgl.Marker({
+    element: markerEl,
+    anchor: "bottom"
+  })
+    .setLngLat(lngLat)
+    .setPopup(popup)
+    .addTo(map);
+
+  marker.getElement().addEventListener("mouseenter", () => {
+    popup.setLngLat(lngLat).addTo(map);
+  });
+
+  marker.getElement().addEventListener("mouseleave", () => {
+    popup.remove();
+  });
 
   setText("latitudeText", lat.toFixed(6));
   setText("longitudeText", lon.toFixed(6));
@@ -207,12 +200,10 @@ function renderMap(bin) {
 }
 
 // ===============================
-// Small Square Marker - no stretch
+// New Small Square Marker
+// No old CSS class used
 // ===============================
 function createMarkerElement(bin, status) {
-  const el = document.createElement("div");
-  el.className = `origin-marker ${status}`;
-
   const weight = num(bin.weight_lb);
   const binId = safeBin(bin);
 
@@ -220,59 +211,63 @@ function createMarkerElement(bin, status) {
   if (status === "low") color = "#ff453a";
   if (status === "average") color = "#facc15";
 
-  el.style.width = "86px";
-  el.style.height = "64px";
-  el.style.display = "block";
-  el.style.position = "relative";
-  el.style.pointerEvents = "auto";
-  el.style.maxWidth = "86px";
-  el.style.minWidth = "86px";
-  el.style.overflow = "visible";
+  const el = document.createElement("div");
+  el.className = "hekone-pin";
+
+  el.style.setProperty("width", "88px", "important");
+  el.style.setProperty("height", "66px", "important");
+  el.style.setProperty("display", "block", "important");
+  el.style.setProperty("position", "relative", "important");
+  el.style.setProperty("pointer-events", "auto", "important");
+  el.style.setProperty("overflow", "visible", "important");
+  el.style.setProperty("max-width", "88px", "important");
+  el.style.setProperty("min-width", "88px", "important");
 
   el.innerHTML = `
     <div style="
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: ${color};
-      border: 2px solid #061018;
-      box-shadow: 0 0 0 4px rgba(0,0,0,0.25);
-      margin: 0 auto 5px auto;
+      width: 12px !important;
+      height: 12px !important;
+      border-radius: 999px !important;
+      background: ${color} !important;
+      border: 2px solid #061018 !important;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.25) !important;
+      margin: 0 auto 5px auto !important;
+      box-sizing: border-box !important;
     "></div>
 
     <div style="
-      width: 86px;
-      height: 48px;
-      max-width: 86px;
-      min-width: 86px;
-      background: rgba(10, 15, 22, 0.94);
-      border: 1px solid rgba(139, 92, 246, 0.8);
-      border-radius: 8px;
-      padding: 6px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      box-sizing: border-box;
+      width: 88px !important;
+      height: 49px !important;
+      max-width: 88px !important;
+      min-width: 88px !important;
+      background: rgba(10, 15, 22, 0.96) !important;
+      border: 1px solid rgba(139, 92, 246, 0.85) !important;
+      border-radius: 8px !important;
+      padding: 6px !important;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
     ">
       <div style="
-        color: #cbd5e1;
-        font-size: 10px;
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 4px;
-        white-space: nowrap;
+        color: #cbd5e1 !important;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+        margin-bottom: 4px !important;
+        white-space: nowrap !important;
       ">${binId}</div>
 
       <div style="
-        color: ${color};
-        font-size: 12px;
-        font-weight: 900;
-        line-height: 1;
-        white-space: nowrap;
+        color: ${color} !important;
+        font-size: 12px !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
       ">${weight.toFixed(2)} lb</div>
     </div>
   `;
