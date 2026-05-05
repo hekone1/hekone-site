@@ -5,7 +5,7 @@
 
 // 🔑 Put your Mapbox public token here.
 // It must start with "pk."
-const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
+const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
 
 // Default fallback location: Merced, CA
 const DEFAULT_LAT = 37.3022;
