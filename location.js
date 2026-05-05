@@ -3,7 +3,7 @@
 // Mapbox + Supabase
 // ===============================
 
-const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
+const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
 
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
@@ -14,9 +14,6 @@ let popup = null;
 let latestBin = null;
 let mapReady = false;
 
-// ===============================
-// Start
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
   console.log("location.js loaded");
 
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   mapboxgl.accessToken = MAPBOX_TOKEN;
 
-  // Always show map first, even before GPS data arrives
   initMap(DEFAULT_LAT, DEFAULT_LON);
 
   loadLocationData();
@@ -60,7 +56,6 @@ function initMap(lat, lon) {
   map.on("load", () => {
     mapReady = true;
     setStatus("Map loaded. Waiting for live GPS data...");
-    console.log("Mapbox map loaded");
 
     if (latestBin) {
       renderMap(latestBin);
@@ -128,7 +123,7 @@ async function loadLocationData() {
 }
 
 // ===============================
-// renderMap
+// Render Map
 // ===============================
 function renderMap(bin) {
   if (!map || !mapReady) {
@@ -211,7 +206,7 @@ function renderMap(bin) {
 }
 
 // ===============================
-// Marker HTML
+// Small Square Marker
 // ===============================
 function createMarkerElement(bin, status) {
   const el = document.createElement("div");
@@ -224,7 +219,6 @@ function createMarkerElement(bin, status) {
     <div class="origin-marker-dot"></div>
 
     <div class="origin-marker-card">
-      <div class="origin-marker-icon">▣</div>
       <div class="origin-marker-info">
         <small>${binId}</small>
         <strong>${weight.toFixed(2)} lb</strong>
