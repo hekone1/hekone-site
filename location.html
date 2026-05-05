@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>HEKONE Origin Locations</title>
+  <title>HEKONE Origin | Live Location</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="location.css?v=300" />
+  <!-- Mapbox CSS -->
+  <link
+    href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css"
+    rel="stylesheet"
+  />
+
+  <!-- Page CSS -->
+  <link rel="stylesheet" href="location.css?v=500" />
 </head>
 
 <body>
   <div class="location-app">
 
+    <!-- Sidebar -->
     <aside class="location-sidebar">
       <div class="brand-row">
         <div class="logo-mark">H</div>
@@ -23,7 +31,7 @@
       <div class="sidebar-title">
         <div class="wifi-icon">⌁</div>
         <h1>Live Harvest Map</h1>
-        <p>Real-time bin weights across the orchard.</p>
+        <p>Real-time bin location and weight from the Origin system.</p>
       </div>
 
       <div class="stats-card">
@@ -31,22 +39,27 @@
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
         </div>
+
         <div>
           <span>Total Weight</span>
           <strong id="totalWeight">0.00 lb</strong>
         </div>
+
         <div>
           <span>Farm Average</span>
           <strong id="farmAverage">0.00 lb</strong>
         </div>
+
         <div>
           <span>Top Performer</span>
           <strong id="topPerformer" class="green">—</strong>
         </div>
+
         <div>
           <span>Needs Attention</span>
           <strong id="needsAttention" class="red">0 Bins</strong>
         </div>
+
         <div>
           <span>Last Update</span>
           <strong id="lastUpdateSmall" class="small-live">● Loading...</strong>
@@ -55,6 +68,7 @@
 
       <div class="performance-head">
         <strong>BIN PERFORMANCE</strong>
+
         <select id="sortSelect">
           <option value="high">Weight: High to Low</option>
           <option value="low">Weight: Low to High</option>
@@ -63,11 +77,23 @@
 
       <div id="binPerformanceList" class="bin-performance-list"></div>
 
+      <div class="gps-card">
+        <div>
+          <span>Latitude</span>
+          <strong id="latitudeText">—</strong>
+        </div>
+        <div>
+          <span>Longitude</span>
+          <strong id="longitudeText">—</strong>
+        </div>
+      </div>
+
       <a href="origin-dashboard.html" class="dashboard-link">
         View Full Dashboard ↗
       </a>
     </aside>
 
+    <!-- Main Map Area -->
     <main class="map-area">
 
       <header class="map-topbar">
@@ -95,7 +121,11 @@
       </div>
 
       <div class="map-stage">
-        <div id="map" class="real-map"></div>
+        <div id="map"></div>
+
+        <div id="mapStatus" class="map-status">
+          Loading live GPS location...
+        </div>
 
         <div class="scale-box">50 ft</div>
       </div>
@@ -104,6 +134,7 @@
 
   </div>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
@@ -112,11 +143,10 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&loading=async">
-  </script>
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
 
-  <script src="location.js?v=300"></script>
-
+  <!-- Page JS -->
+  <script src="location.js?v=500"></script>
 </body>
 </html>
