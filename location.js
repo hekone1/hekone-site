@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(loadLocationData, 5000);
 });
 
+
+// ===============================
+// Load Data from Supabase
+// ===============================
 async function loadLocationData() {
   try {
     const { data, error } = await supabaseClient
@@ -41,9 +45,11 @@ async function loadLocationData() {
       return;
     }
 
+    // 🔥 این مهم‌ترین خطه
+    renderMap(latestBin);
+
     renderStats(latestBin);
     renderPerformanceList(latestBin);
-    renderRealMap(latestBin);
     updateLastUpdated();
 
   } catch (err) {
@@ -52,23 +58,27 @@ async function loadLocationData() {
   }
 }
 
-function renderRealMap(bin) {
-  const lat = Number(bin.latitude);
-  const lon = Number(bin.longitude);
 
+// ===============================
+// Render Map (REAL)
+// ===============================
+function renderMap(bin) {
   if (!window.google || !google.maps) {
-    console.error("Google Maps API not loaded yet.");
+    console.error("Google Maps not loaded");
     return;
   }
 
+  const lat = Number(bin.latitude);
+  const lon = Number(bin.longitude);
+
   const position = { lat: lat, lng: lon };
 
+  // اگر اولین باره
   if (!map) {
     map = new google.maps.Map(document.getElementById("map"), {
       center: position,
       zoom: 19,
       mapTypeId: "satellite",
-      disableDefaultUI: false,
       streetViewControl: false,
       mapTypeControl: false,
       fullscreenControl: true,
@@ -80,6 +90,7 @@ function renderRealMap(bin) {
 
   const labelText = `${safeBin(bin)} | ${num(bin.weight_lb).toFixed(2)} lb`;
 
+  // اگر marker نداریم
   if (!marker) {
     marker = new google.maps.Marker({
       position: position,
@@ -93,6 +104,7 @@ function renderRealMap(bin) {
       }
     });
   } else {
+    // آپدیت marker
     marker.setPosition(position);
     marker.setTitle(labelText);
     marker.setLabel({
@@ -104,6 +116,10 @@ function renderRealMap(bin) {
   }
 }
 
+
+// ===============================
+// Stats
+// ===============================
 function renderStats(bin) {
   const weight = num(bin.weight_lb);
 
@@ -115,6 +131,10 @@ function renderStats(bin) {
   setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
 }
 
+
+// ===============================
+// Sidebar List
+// ===============================
 function renderPerformanceList(bin) {
   const list = document.getElementById("binPerformanceList");
   if (!list) return;
@@ -127,11 +147,17 @@ function renderPerformanceList(bin) {
       <div class="status-dot dot-${status}"></div>
       <strong>${safeBin(bin)}</strong>
       <span>${bin.row || "Row —"}</span>
-      <b class="${status === "high" ? "green" : "red"}">${weight.toFixed(2)} lb</b>
+      <b class="${status === "high" ? "green" : "red"}">
+        ${weight.toFixed(2)} lb
+      </b>
     </div>
   `;
 }
 
+
+// ===============================
+// Waiting State
+// ===============================
 function showWaitingState() {
   setText("totalBins", "0");
   setText("allBinsCount", "(0)");
@@ -142,21 +168,22 @@ function showWaitingState() {
   setText("lastUpdateSmall", "● Waiting for GPS");
 
   const list = document.getElementById("binPerformanceList");
-  if (list) {
-    list.innerHTML = "";
-  }
+  if (list) list.innerHTML = "";
 
+  // نقشه پیش‌فرض
   if (!map && window.google && google.maps) {
     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: DEFAULT_LAT, lng: DEFAULT_LON },
       zoom: 18,
-      mapTypeId: "satellite",
-      streetViewControl: false,
-      mapTypeControl: false
+      mapTypeId: "satellite"
     });
   }
 }
 
+
+// ===============================
+// Last Updated
+// ===============================
 function updateLastUpdated() {
   const now = new Date();
 
@@ -171,6 +198,10 @@ function updateLastUpdated() {
   setText("lastUpdateSmall", "● Live now");
 }
 
+
+// ===============================
+// Helpers
+// ===============================
 function safeBin(row) {
   return row.bin_id || "BIN-001";
 }
@@ -181,7 +212,5 @@ function num(value) {
 
 function setText(id, value) {
   const el = document.getElementById(id);
-  if (el) {
-    el.innerText = value;
-  }
+  if (el) el.innerText = value;
 }
