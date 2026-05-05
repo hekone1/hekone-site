@@ -3,7 +3,7 @@
 // Mapbox + Supabase
 // ===============================
 
-const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
+const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
 
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
