@@ -67,6 +67,11 @@
       margin: 0 auto;
     }
 
+    .nav-wrap {
+      width: calc(100% - 64px);
+      margin: 0 auto;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -77,11 +82,11 @@
     }
 
     .nav {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 11px 0;
+      gap: 24px;
+      padding: 10px 0;
       position: relative;
     }
 
@@ -107,6 +112,7 @@
 
     .nav-links {
       display: flex;
+      justify-content: center;
       gap: 8px;
       align-items: center;
       color: var(--muted);
@@ -114,7 +120,18 @@
       font-weight: 650;
     }
 
+    .nav-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
     .nav-links a,
+    .nav-actions a,
     .nav-dropdown-btn {
       position: relative;
       padding: 10px 12px;
@@ -124,7 +141,9 @@
     }
 
     .nav-links a:not(.nav-pilot):hover,
+    .nav-actions a:not(.nav-pilot):hover,
     .nav-links a.active:not(.nav-pilot),
+    .nav-actions a.active:not(.nav-pilot),
     .nav-dropdown:hover .nav-dropdown-btn,
     .nav-dropdown.open .nav-dropdown-btn,
     .nav-dropdown.active .nav-dropdown-btn {
@@ -818,8 +837,45 @@
       }
     }
 
+    @media (max-width: 1100px) {
+      .nav-wrap {
+        width: calc(100% - 36px);
+      }
+
+      .nav {
+        gap: 14px;
+      }
+
+      .nav-links,
+      .nav-actions {
+        gap: 2px;
+        font-size: 13px;
+      }
+
+      .nav-links a,
+      .nav-actions a,
+      .nav-dropdown-btn {
+        padding: 10px 9px;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .mobile-only {
+        display: none !important;
+      }
+    }
+
     @media (max-width: 900px) {
+      .nav {
+        display: flex;
+        justify-content: space-between;
+      }
+
       .menu-toggle { display: inline-flex; }
+
+      .nav-actions {
+        display: none;
+      }
 
       .nav-links {
         position: absolute;
@@ -853,6 +909,10 @@
         font-size: 15px;
         border: 1px solid rgba(15, 23, 42, 0.04);
         text-align: left;
+      }
+
+      .mobile-only {
+        display: block !important;
       }
 
       .nav-dropdown {
@@ -908,6 +968,10 @@
       .wrap,
       .container { width: min(100% - 24px, 1240px); }
 
+      .nav-wrap {
+        width: calc(100% - 22px);
+      }
+
       .metrics,
       .roi-grid,
       .impact-money-grid,
@@ -942,17 +1006,11 @@
 
 <body>
   <header>
-    <div class="wrap nav">
+    <div class="nav-wrap nav">
       <a class="brand" href="index.html">
         <span class="brand-mark"></span>
         <span>HEKONE</span>
       </a>
-
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
 
       <nav class="nav-links" id="site-menu">
         <div class="nav-dropdown active">
@@ -962,12 +1020,23 @@
             <a href="origin.html" class="active">HEKONE Origin</a>
           </div>
         </div>
-        <a href="index.html#ecosystem">HEKONE Platform</a>
+        <a href="index.html#platform">HEKONE Platform</a>
         <a href="about.html">About</a>
         <a href="https://hekone.com/contact">Contact</a>
+        <a href="login.html" class="mobile-only">Login / Dashboard</a>
+        <a href="pilot.html" class="nav-pilot mobile-only">Start a Pilot</a>
+      </nav>
+
+      <div class="nav-actions">
         <a href="login.html">Login / Dashboard</a>
         <a href="pilot.html" class="nav-pilot">Start a Pilot</a>
-      </nav>
+      </div>
+
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
@@ -1391,7 +1460,7 @@
 
           <div class="hero-actions">
             <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
-            <a class="btn btn-secondary" href="index.html#ecosystem">See Full Platform</a>
+            <a class="btn btn-secondary" href="index.html#platform">See Full Platform</a>
           </div>
         </div>
       </div>
