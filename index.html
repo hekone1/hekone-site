@@ -27,7 +27,7 @@
     --accent: #2563eb;
     --accent-2: #7c3aed;
     --shadow: 0 22px 70px rgba(15, 23, 42, 0.10);
-    --shadow-soft: 0 14px 34px rgba(15, 23, 42, 0.08);
+    --shadow-soft: 0 14px 34px rgba(15, 23, 42, 0.07);
     --max: 1240px;
   }
 
@@ -39,8 +39,8 @@
     font-family: Inter, Arial, Helvetica, sans-serif;
     color: var(--text);
     background:
-      radial-gradient(circle at 10% 0%, rgba(125, 211, 252, 0.15), transparent 28%),
-      radial-gradient(circle at 90% 8%, rgba(167, 139, 250, 0.14), transparent 26%),
+      radial-gradient(circle at 10% 0%, rgba(125, 211, 252, 0.13), transparent 28%),
+      radial-gradient(circle at 90% 8%, rgba(167, 139, 250, 0.12), transparent 26%),
       linear-gradient(180deg, #ffffff 0%, #f8fbff 44%, #f4f7fc 100%);
     line-height: 1.6;
     overflow-x: hidden;
@@ -60,7 +60,7 @@
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(16px);
-    background: rgba(255, 255, 255, 0.84);
+    background: rgba(255, 255, 255, 0.86);
     border-bottom: 1px solid var(--line);
   }
 
@@ -254,10 +254,10 @@
     z-index: 998;
   }
 
-  section { padding: 34px 0; }
+  section { padding: 26px 0; }
 
   .hero {
-    padding: 58px 0 22px;
+    padding: 56px 0 18px;
     text-align: center;
   }
 
@@ -265,27 +265,27 @@
   .section-pill {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: 8px 13px;
-    border: 1px solid var(--line);
+    gap: 8px;
+    padding: 7px 12px;
+    border: 1px solid rgba(15, 23, 42, 0.09);
     border-radius: 999px;
     color: var(--accent);
-    background: rgba(255, 255, 255, 0.78);
-    font-size: 13px;
+    background: rgba(255, 255, 255, 0.70);
+    font-size: 12.5px;
     font-weight: 800;
-    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
   }
 
   .eyebrow-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #22c55e;
     box-shadow: 0 0 10px rgba(34, 197, 94, 0.45);
   }
 
   h1 {
-    margin: 16px auto 0;
+    margin: 15px auto 0;
     max-width: 920px;
     font-size: clamp(46px, 6.2vw, 82px);
     line-height: 0.95;
@@ -293,9 +293,9 @@
   }
 
   .hero-lead {
-    margin: 20px auto 0;
+    margin: 19px auto 0;
     max-width: 680px;
-    color: rgba(82, 97, 116, 0.92);
+    color: rgba(82, 97, 116, 0.88);
     font-size: clamp(18px, 1.8vw, 22px);
     line-height: 1.42;
   }
@@ -307,24 +307,24 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 22px;
   }
 
   .hero-note {
-    margin-top: 12px;
+    margin-top: 11px;
     color: var(--accent);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
   }
 
   .visual-block {
-    padding: 18px 0 32px;
+    padding: 16px 0 28px;
   }
 
   .visual-card {
     border-radius: 32px;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(15, 23, 42, 0.095);
     box-shadow: var(--shadow);
     overflow: hidden;
   }
@@ -345,11 +345,11 @@
   .section-head {
     text-align: center;
     max-width: 820px;
-    margin: 0 auto 18px;
+    margin: 0 auto 16px;
   }
 
   .section-head.minimal {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
 
   .section-head.minimal h2,
@@ -379,23 +379,24 @@
   }
 
   .mini-card {
-    padding: 20px;
-    border-radius: 22px;
-    background: rgba(255,255,255,0.82);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow-soft);
+    padding: 24px 22px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.065);
   }
 
   .mini-card h3 {
-    margin: 0 0 5px;
-    font-size: 20px;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    margin: 0 0 7px;
+    font-size: 21px;
+    line-height: 1.08;
+    letter-spacing: -0.026em;
+    font-weight: 900;
   }
 
   .mini-card p {
     margin: 0;
-    color: rgba(82, 97, 116, 0.82);
+    color: rgba(82, 97, 116, 0.84);
     font-size: 14px;
   }
 
@@ -404,11 +405,11 @@
     grid-template-columns: 1fr auto;
     gap: 18px;
     align-items: center;
-    padding: 28px;
+    padding: 30px;
     border-radius: 30px;
     background:
       linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08)),
-      rgba(255,255,255,0.88);
+      rgba(255,255,255,0.90);
     border: 1px solid var(--line-strong);
     box-shadow: var(--shadow);
   }
@@ -422,7 +423,7 @@
 
   .cta-box p {
     margin: 0;
-    color: rgba(82, 97, 116, 0.82);
+    color: rgba(82, 97, 116, 0.84);
     font-size: 16px;
     max-width: 680px;
   }
@@ -559,7 +560,7 @@
     }
 
     .hero {
-      padding: 50px 0 22px;
+      padding: 48px 0 20px;
     }
 
     h1 {
@@ -571,11 +572,11 @@
     }
 
     section {
-      padding: 28px 0;
+      padding: 24px 0;
     }
 
     .visual-block {
-      padding: 16px 0 28px;
+      padding: 14px 0 24px;
     }
 
     .visual-card,
@@ -722,7 +723,7 @@
         <div class="cta-box">
           <div>
             <h2>Start a pilot. See what your operations are missing.</h2>
-            <p>Validate measurable visibility in real-world operations.</p>
+            <p>Measure what your operations currently miss.</p>
             <div class="cta-note">Start with one site, one workflow, or one measurable blind spot.</div>
           </div>
 
