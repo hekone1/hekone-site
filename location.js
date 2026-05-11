@@ -3,7 +3,7 @@
 // Mapbox + Supabase
 // ===============================
 
-const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
+const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
 
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
@@ -18,13 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log("location.js loaded");
 
   if (!window.mapboxgl) {
-    console.error("Mapbox GL JS is not loaded.");
     setStatus("Mapbox library not loaded.");
     return;
   }
 
   if (!MAPBOX_TOKEN || !MAPBOX_TOKEN.startsWith("pk.")) {
-    console.error("Mapbox token missing or invalid.");
     setStatus("Mapbox token is missing. Add your pk... token in location.js.");
     renderWaitingStats();
     return;
@@ -35,12 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap(DEFAULT_LAT, DEFAULT_LON);
 
   loadLocationData();
-  setInterval(loadLocationData, 5000);
+  setInterval(loadLocationData, 2000);
 });
 
-// ===============================
-// Initialize Map
-// ===============================
 function initMap(lat, lon) {
   map = new mapboxgl.Map({
     container: "map",
@@ -57,9 +52,7 @@ function initMap(lat, lon) {
     mapReady = true;
     setStatus("Map loaded. Waiting for live GPS data...");
 
-    if (latestBin) {
-      renderMap(latestBin);
-    }
+    if (latestBin) renderMap(latestBin);
   });
 
   map.on("error", (e) => {
@@ -68,13 +61,9 @@ function initMap(lat, lon) {
   });
 }
 
-// ===============================
-// Load Latest GPS from Supabase
-// ===============================
 async function loadLocationData() {
   try {
     if (typeof supabaseClient === "undefined") {
-      console.error("supabaseClient is not defined.");
       setStatus("Supabase client is not loaded.");
       return;
     }
@@ -82,32 +71,49 @@ async function loadLocationData() {
     const { data, error } = await supabaseClient
       .from("origin_events")
       .select("*")
-      .not("latitude", "is", null)
-      .not("longitude", "is", null)
       .order("created_at", { ascending: false })
-      .limit(1);
+      .limit(200);
 
     if (error) {
       console.error("Supabase error:", error);
-      showWaitingState("Supabase error. Check console.");
+      setStatus("Supabase error. Check console.");
       return;
     }
 
     if (!data || data.length === 0) {
-      showWaitingState("No GPS data found yet.");
+      setStatus("No data found.");
       return;
     }
 
-    const bin = data[0];
+    const gpsRow = data.find(row =>
+      isValidCoordinate(Number(row.latitude), Number(row.longitude))
+    );
 
-    const lat = Number(bin.latitude);
-    const lon = Number(bin.longitude);
-
-    if (!isValidCoordinate(lat, lon)) {
-      console.warn("Invalid GPS coordinate:", lat, lon);
-      showWaitingState("Latest GPS coordinate is invalid.");
+    if (!gpsRow) {
+      setStatus("No valid GPS data found.");
       return;
     }
+
+    const binId = gpsRow.bin_id || "BIN-001";
+
+    const sameBinRows = data.filter(row =>
+      (row.bin_id || "BIN-001") === binId
+    );
+
+    const latestWeightRow =
+      sameBinRows.find(row => Number(row.weight_lb || 0) > 0) ||
+      sameBinRows[0] ||
+      gpsRow;
+
+    const bin = {
+      ...gpsRow,
+      weight_lb: latestWeightRow.weight_lb,
+      fill_rate: latestWeightRow.fill_rate,
+      estimated_value: latestWeightRow.estimated_value,
+      status: latestWeightRow.status || gpsRow.status,
+      block: latestWeightRow.block || gpsRow.block,
+      row: latestWeightRow.row || gpsRow.row
+    };
 
     latestBin = bin;
 
@@ -116,26 +122,22 @@ async function loadLocationData() {
     renderMap(bin);
     updateLastUpdated();
 
+    console.log("Location page live row:", bin);
+
   } catch (err) {
     console.error("Location load failed:", err);
-    showWaitingState("Location load failed. Check console.");
+    setStatus("Location load failed. Check console.");
   }
 }
 
-// ===============================
-// Render Map
-// ===============================
 function renderMap(bin) {
-  if (!map || !mapReady) {
-    console.log("Map not ready yet.");
-    return;
-  }
+  if (!map || !mapReady) return;
 
   const lat = Number(bin.latitude);
   const lon = Number(bin.longitude);
 
   if (!isValidCoordinate(lat, lon)) {
-    showWaitingState("Invalid GPS coordinate.");
+    setStatus("Invalid GPS coordinate.");
     return;
   }
 
@@ -147,7 +149,7 @@ function renderMap(bin) {
   map.easeTo({
     center: lngLat,
     zoom: 19,
-    duration: 800
+    duration: 700
   });
 
   const popupHtml = `
@@ -196,13 +198,9 @@ function renderMap(bin) {
 
   setText("latitudeText", lat.toFixed(6));
   setText("longitudeText", lon.toFixed(6));
-  setStatus(`Live GPS: ${binId} at ${lat.toFixed(6)}, ${lon.toFixed(6)}`);
+  setStatus(`Live GPS: ${binId} | ${weight.toFixed(2)} lb`);
 }
 
-// ===============================
-// New Small Square Marker
-// No old CSS class used
-// ===============================
 function createMarkerElement(bin, status) {
   const weight = num(bin.weight_lb);
   const binId = safeBin(bin);
@@ -238,8 +236,6 @@ function createMarkerElement(bin, status) {
     <div style="
       width: 88px !important;
       height: 49px !important;
-      max-width: 88px !important;
-      min-width: 88px !important;
       background: rgba(10, 15, 22, 0.96) !important;
       border: 1px solid rgba(139, 92, 246, 0.85) !important;
       border-radius: 8px !important;
@@ -275,9 +271,6 @@ function createMarkerElement(bin, status) {
   return el;
 }
 
-// ===============================
-// Sidebar Stats
-// ===============================
 function renderStats(bin) {
   const weight = num(bin.weight_lb);
   const binId = safeBin(bin);
@@ -290,9 +283,6 @@ function renderStats(bin) {
   setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
 }
 
-// ===============================
-// Sidebar Performance
-// ===============================
 function renderPerformanceList(bin) {
   const list = document.getElementById("binPerformanceList");
   if (!list) return;
@@ -310,14 +300,6 @@ function renderPerformanceList(bin) {
   `;
 }
 
-// ===============================
-// Waiting State
-// ===============================
-function showWaitingState(message) {
-  renderWaitingStats();
-  setStatus(message);
-}
-
 function renderWaitingStats() {
   setText("totalBins", "0");
   setText("allBinsCount", "(0)");
@@ -333,9 +315,6 @@ function renderWaitingStats() {
   if (list) list.innerHTML = "";
 }
 
-// ===============================
-// Last Updated
-// ===============================
 function updateLastUpdated() {
   const now = new Date();
 
@@ -350,9 +329,6 @@ function updateLastUpdated() {
   setText("lastUpdateSmall", "● Live now");
 }
 
-// ===============================
-// Helpers
-// ===============================
 function safeBin(row) {
   return row.bin_id || "BIN-001";
 }
@@ -371,7 +347,6 @@ function isValidCoordinate(lat, lon) {
 
 function getStatus(bin) {
   const weight = num(bin.weight_lb);
-
   if (weight <= 0) return "low";
   if (weight < 1) return "average";
   return "high";
