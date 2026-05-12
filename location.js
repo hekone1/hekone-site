@@ -3,7 +3,7 @@
 // Mapbox + Supabase
 // ===============================
 
-const MAPBOX_TOKEN = "PASTE_YOUR_MAPBOX_PUBLIC_TOKEN_HERE";
+const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
 
 const DEFAULT_LAT = 37.3022;
 const DEFAULT_LON = -120.4829;
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!MAPBOX_TOKEN || !MAPBOX_TOKEN.startsWith("pk.")) {
     setStatus("Mapbox token is missing. Add your pk... token in location.js.");
+    renderWaitingStats();
     return;
   }
 
@@ -28,7 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initMap(DEFAULT_LAT, DEFAULT_LON);
   loadLocationData();
-  setInterval(loadLocationData, 5000);
+
+  setInterval(loadLocationData, 2000);
 });
 
 function initMap(lat, lon) {
@@ -48,10 +50,20 @@ function initMap(lat, lon) {
     setStatus("Map loaded. Waiting for live GPS data...");
     if (latestBin) renderMap(latestBin);
   });
+
+  map.on("error", (e) => {
+    console.error("Mapbox error:", e);
+    setStatus("Mapbox error. Check token or console.");
+  });
 }
 
 async function loadLocationData() {
   try {
+    if (typeof supabaseClient === "undefined") {
+      setStatus("Supabase client is not loaded.");
+      return;
+    }
+
     const { data, error } = await supabaseClient
       .from("origin_events")
       .select("*")
@@ -66,6 +78,7 @@ async function loadLocationData() {
 
     if (!data || data.length === 0) {
       setStatus("No data found.");
+      renderWaitingStats();
       return;
     }
 
@@ -75,20 +88,21 @@ async function loadLocationData() {
 
     if (!gpsRow) {
       setStatus("No valid GPS data found.");
+      renderWaitingStats();
       return;
     }
 
     const binId = gpsRow.bin_id || "BIN-001";
 
-    const latestSameBinRows = data.filter((row) => {
+    const sameBinRows = data.filter((row) => {
       return (row.bin_id || "BIN-001") === binId;
     });
 
-    const latestNonZeroWeightRow = latestSameBinRows.find((row) => {
+    const latestNonZeroWeightRow = sameBinRows.find((row) => {
       return Number(row.weight_lb || 0) > 0;
     });
 
-    const latestWeightRow = latestNonZeroWeightRow || latestSameBinRows[0] || gpsRow;
+    const latestWeightRow = latestNonZeroWeightRow || sameBinRows[0] || gpsRow;
 
     const bin = {
       ...gpsRow,
@@ -107,6 +121,8 @@ async function loadLocationData() {
     renderMap(bin);
     updateLastUpdated();
 
+    console.log("Location live data:", bin);
+
   } catch (err) {
     console.error("Location load failed:", err);
     setStatus("Location load failed. Check console.");
@@ -119,7 +135,10 @@ function renderMap(bin) {
   const lat = Number(bin.latitude);
   const lon = Number(bin.longitude);
 
-  if (!isValidCoordinate(lat, lon)) return;
+  if (!isValidCoordinate(lat, lon)) {
+    setStatus("Invalid GPS coordinate.");
+    return;
+  }
 
   const lngLat = [lon, lat];
   const weight = num(bin.weight_lb);
@@ -245,6 +264,21 @@ function renderPerformanceList(bin) {
       <b class="${statusColorClass(status)}">${weight.toFixed(2)} lb</b>
     </div>
   `;
+}
+
+function renderWaitingStats() {
+  setText("totalBins", "0");
+  setText("allBinsCount", "(0)");
+  setText("totalWeight", "0.00 lb");
+  setText("farmAverage", "0.00 lb");
+  setText("topPerformer", "—");
+  setText("needsAttention", "0 Bins");
+  setText("lastUpdateSmall", "● Waiting for GPS");
+  setText("latitudeText", "—");
+  setText("longitudeText", "—");
+
+  const list = document.getElementById("binPerformanceList");
+  if (list) list.innerHTML = "";
 }
 
 function updateLastUpdated() {
