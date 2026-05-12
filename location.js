@@ -10,13 +10,10 @@ const DEFAULT_LON = -120.4829;
 
 let map = null;
 let marker = null;
-let popup = null;
 let latestBin = null;
 let mapReady = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("location.js loaded");
-
   if (!window.mapboxgl) {
     setStatus("Mapbox library not loaded.");
     return;
@@ -24,16 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!MAPBOX_TOKEN || !MAPBOX_TOKEN.startsWith("pk.")) {
     setStatus("Mapbox token is missing. Add your pk... token in location.js.");
-    renderWaitingStats();
     return;
   }
 
   mapboxgl.accessToken = MAPBOX_TOKEN;
 
   initMap(DEFAULT_LAT, DEFAULT_LON);
-
   loadLocationData();
-  setInterval(loadLocationData, 2000);
+  setInterval(loadLocationData, 5000);
 });
 
 function initMap(lat, lon) {
@@ -51,23 +46,12 @@ function initMap(lat, lon) {
   map.on("load", () => {
     mapReady = true;
     setStatus("Map loaded. Waiting for live GPS data...");
-
     if (latestBin) renderMap(latestBin);
-  });
-
-  map.on("error", (e) => {
-    console.error("Mapbox error:", e);
-    setStatus("Mapbox error. Check token or console.");
   });
 }
 
 async function loadLocationData() {
   try {
-    if (typeof supabaseClient === "undefined") {
-      setStatus("Supabase client is not loaded.");
-      return;
-    }
-
     const { data, error } = await supabaseClient
       .from("origin_events")
       .select("*")
@@ -85,7 +69,7 @@ async function loadLocationData() {
       return;
     }
 
-    const gpsRow = data.find(row =>
+    const gpsRow = data.find((row) =>
       isValidCoordinate(Number(row.latitude), Number(row.longitude))
     );
 
@@ -96,14 +80,15 @@ async function loadLocationData() {
 
     const binId = gpsRow.bin_id || "BIN-001";
 
-    const sameBinRows = data.filter(row =>
-      (row.bin_id || "BIN-001") === binId
-    );
+    const latestSameBinRows = data.filter((row) => {
+      return (row.bin_id || "BIN-001") === binId;
+    });
 
-    const latestWeightRow =
-      sameBinRows.find(row => Number(row.weight_lb || 0) > 0) ||
-      sameBinRows[0] ||
-      gpsRow;
+    const latestNonZeroWeightRow = latestSameBinRows.find((row) => {
+      return Number(row.weight_lb || 0) > 0;
+    });
+
+    const latestWeightRow = latestNonZeroWeightRow || latestSameBinRows[0] || gpsRow;
 
     const bin = {
       ...gpsRow,
@@ -122,8 +107,6 @@ async function loadLocationData() {
     renderMap(bin);
     updateLastUpdated();
 
-    console.log("Location page live row:", bin);
-
   } catch (err) {
     console.error("Location load failed:", err);
     setStatus("Location load failed. Check console.");
@@ -136,10 +119,7 @@ function renderMap(bin) {
   const lat = Number(bin.latitude);
   const lon = Number(bin.longitude);
 
-  if (!isValidCoordinate(lat, lon)) {
-    setStatus("Invalid GPS coordinate.");
-    return;
-  }
+  if (!isValidCoordinate(lat, lon)) return;
 
   const lngLat = [lon, lat];
   const weight = num(bin.weight_lb);
@@ -151,27 +131,6 @@ function renderMap(bin) {
     zoom: 19,
     duration: 700
   });
-
-  const popupHtml = `
-    <div class="popup-content">
-      <strong>${binId}</strong><br>
-      Weight: ${weight.toFixed(2)} lb<br>
-      Block: ${bin.block || "—"}<br>
-      Row: ${bin.row || "—"}<br>
-      Lat: ${lat.toFixed(6)}<br>
-      Lon: ${lon.toFixed(6)}
-    </div>
-  `;
-
-  if (!popup) {
-    popup = new mapboxgl.Popup({
-      offset: 24,
-      closeButton: false,
-      closeOnClick: false
-    }).setHTML(popupHtml);
-  } else {
-    popup.setHTML(popupHtml);
-  }
 
   if (marker) {
     marker.remove();
@@ -185,16 +144,7 @@ function renderMap(bin) {
     anchor: "bottom"
   })
     .setLngLat(lngLat)
-    .setPopup(popup)
     .addTo(map);
-
-  marker.getElement().addEventListener("mouseenter", () => {
-    popup.setLngLat(lngLat).addTo(map);
-  });
-
-  marker.getElement().addEventListener("mouseleave", () => {
-    popup.remove();
-  });
 
   setText("latitudeText", lat.toFixed(6));
   setText("longitudeText", lon.toFixed(6));
@@ -210,60 +160,57 @@ function createMarkerElement(bin, status) {
   if (status === "average") color = "#facc15";
 
   const el = document.createElement("div");
-  el.className = "hekone-pin";
 
-  el.style.setProperty("width", "88px", "important");
-  el.style.setProperty("height", "66px", "important");
-  el.style.setProperty("display", "block", "important");
-  el.style.setProperty("position", "relative", "important");
-  el.style.setProperty("pointer-events", "auto", "important");
-  el.style.setProperty("overflow", "visible", "important");
-  el.style.setProperty("max-width", "88px", "important");
-  el.style.setProperty("min-width", "88px", "important");
+  el.style.width = "88px";
+  el.style.height = "66px";
+  el.style.display = "block";
+  el.style.position = "relative";
+  el.style.pointerEvents = "auto";
+  el.style.overflow = "visible";
 
   el.innerHTML = `
     <div style="
-      width: 12px !important;
-      height: 12px !important;
-      border-radius: 999px !important;
-      background: ${color} !important;
-      border: 2px solid #061018 !important;
-      box-shadow: 0 0 0 4px rgba(0,0,0,0.25) !important;
-      margin: 0 auto 5px auto !important;
-      box-sizing: border-box !important;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: ${color};
+      border: 2px solid #061018;
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.25);
+      margin: 0 auto 5px auto;
+      box-sizing: border-box;
     "></div>
 
     <div style="
-      width: 88px !important;
-      height: 49px !important;
-      background: rgba(10, 15, 22, 0.96) !important;
-      border: 1px solid rgba(139, 92, 246, 0.85) !important;
-      border-radius: 8px !important;
-      padding: 6px !important;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.35) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      align-items: center !important;
-      text-align: center !important;
-      overflow: hidden !important;
-      box-sizing: border-box !important;
+      width: 88px;
+      height: 49px;
+      background: rgba(10, 15, 22, 0.96);
+      border: 1px solid rgba(139, 92, 246, 0.85);
+      border-radius: 8px;
+      padding: 6px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      box-sizing: border-box;
     ">
       <div style="
-        color: #cbd5e1 !important;
-        font-size: 10px !important;
-        font-weight: 800 !important;
-        line-height: 1 !important;
-        margin-bottom: 4px !important;
-        white-space: nowrap !important;
+        color: #cbd5e1;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1;
+        margin-bottom: 4px;
+        white-space: nowrap;
       ">${binId}</div>
 
       <div style="
-        color: ${color} !important;
-        font-size: 12px !important;
-        font-weight: 900 !important;
-        line-height: 1 !important;
-        white-space: nowrap !important;
+        color: ${color};
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1;
+        white-space: nowrap;
       ">${weight.toFixed(2)} lb</div>
     </div>
   `;
@@ -300,21 +247,6 @@ function renderPerformanceList(bin) {
   `;
 }
 
-function renderWaitingStats() {
-  setText("totalBins", "0");
-  setText("allBinsCount", "(0)");
-  setText("totalWeight", "0.00 lb");
-  setText("farmAverage", "0.00 lb");
-  setText("topPerformer", "—");
-  setText("needsAttention", "0 Bins");
-  setText("lastUpdateSmall", "● Waiting for GPS");
-  setText("latitudeText", "—");
-  setText("longitudeText", "—");
-
-  const list = document.getElementById("binPerformanceList");
-  if (list) list.innerHTML = "";
-}
-
 function updateLastUpdated() {
   const now = new Date();
 
@@ -347,6 +279,7 @@ function isValidCoordinate(lat, lon) {
 
 function getStatus(bin) {
   const weight = num(bin.weight_lb);
+
   if (weight <= 0) return "low";
   if (weight < 1) return "average";
   return "high";
