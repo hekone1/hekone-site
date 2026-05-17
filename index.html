@@ -439,6 +439,18 @@
     font-weight: 800;
   }
 
+  .cta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .cta-box.investor {
+    background:
+      linear-gradient(135deg, rgba(124, 58, 237, 0.09), rgba(37, 99, 235, 0.07)),
+      rgba(255,255,255,0.92);
+  }
+
   footer {
     border-top: 1px solid var(--line);
     padding: 24px 0 40px;
@@ -572,6 +584,7 @@
     }
 
     .mini-grid,
+    .cta-grid,
     .cta-box {
       grid-template-columns: 1fr;
     }
@@ -762,16 +775,30 @@
 
     <section id="contact">
       <div class="wrap">
-        <div class="cta-box">
-          <div>
-            <h2>Start a pilot. See what your operations are missing.</h2>
-            <p>Measure what your operations currently miss.</p>
-            <div class="cta-note">Start with one site, one workflow, or one measurable blind spot.</div>
+        <div class="cta-grid">
+          <div class="cta-box">
+            <div>
+              <h2>Interested in working with HekOne?</h2>
+              <p>Explore a pilot, partnership, or operational visibility use case.</p>
+              <div class="cta-note">Start with one site, one workflow, or one measurable blind spot.</div>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-pilot" href="pilot.html">Start a Pilot</a>
+              <a class="btn btn-secondary" href="mailto:hekmat@hekone.com?subject=HEKONE%20Pilot%20or%20Partnership%20Inquiry">Contact</a>
+            </div>
           </div>
 
-          <div class="hero-actions">
-            <a class="btn btn-pilot" href="pilot.html">Start a Pilot</a>
-            <a class="btn btn-secondary" href="mailto:hekmat@hekone.com?subject=HEKONE%20Inquiry">Email HEKONE</a>
+          <div class="cta-box investor">
+            <div>
+              <h2>Interested in investing in HekOne?</h2>
+              <p>Connect with HEKONE to discuss the company, platform vision, and early-stage investment opportunities.</p>
+              <div class="cta-note">Built for scalable operational intelligence across physical workflows.</div>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-pilot" href="mailto:hekmat@hekone.com?subject=HEKONE%20Investment%20Inquiry">Contact</a>
+            </div>
           </div>
         </div>
       </div>
