@@ -251,6 +251,49 @@
       z-index: 998;
     }
 
+
+    .nav-wrap {
+      width: calc(100% - 64px);
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .nav-links,
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-links { justify-content: center; }
+    .nav-actions { justify-content: flex-end; }
+
+    .nav-actions a {
+      position: relative;
+      padding: 10px 12px;
+      border-radius: 12px;
+      white-space: nowrap;
+      transition: color .22s ease, background .22s ease, transform .22s ease;
+    }
+
+    .nav-actions a:not(.nav-pilot):hover {
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.05);
+    }
+
+    .mobile-only { display: none !important; }
+
     .section,
     .feature-section,
     .comparison-section {
@@ -744,14 +787,56 @@
     }
 
 
+    .origin-scale-card {
+      position: relative;
+      overflow: hidden;
+      margin-top: 30px;
+      border-radius: 30px;
+      background: #07111f;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .origin-scale-card img {
+      width: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .origin-scale-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 30px 34px;
+      background: linear-gradient(180deg, rgba(7, 17, 31, 0) 0%, rgba(7, 17, 31, 0.86) 100%);
+      color: #ffffff;
+    }
+
+    .origin-scale-overlay h3 {
+      margin: 0 0 8px;
+      color: #ffffff;
+      font-size: clamp(26px, 3.3vw, 42px);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+    }
+
+    .origin-scale-overlay p {
+      max-width: 780px;
+      color: rgba(255,255,255,0.84);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
     .investor-panel {
-      margin: 36px auto 0;
+      margin-top: 24px;
       display: grid;
       grid-template-columns: 0.92fr 1.08fr;
       gap: 26px;
       align-items: center;
       padding: 30px;
-      border-radius: 32px;
+      border-radius: 28px;
       background:
         radial-gradient(circle at 88% 24%, rgba(124, 58, 237, 0.14), transparent 36%),
         linear-gradient(135deg, rgba(37, 99, 235, 0.07), rgba(124, 58, 237, 0.08)),
@@ -761,18 +846,18 @@
       overflow: hidden;
     }
 
-    .investor-copy h2 {
+    .investor-copy h3 {
       margin: 14px 0 0;
-      font-size: clamp(30px, 3.8vw, 48px);
+      font-size: clamp(28px, 3.4vw, 44px);
       line-height: 1.05;
       letter-spacing: -0.045em;
     }
 
     .investor-copy p {
-      margin-top: 14px;
-      max-width: 620px;
-      font-size: 16px;
+      margin: 14px 0 0;
       color: var(--muted);
+      font-size: 16px;
+      max-width: 640px;
     }
 
     .investor-copy .hero-actions {
@@ -780,6 +865,7 @@
     }
 
     .investor-visual {
+      min-height: 260px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -791,7 +877,6 @@
       object-fit: cover;
       box-shadow: 0 18px 46px rgba(15, 23, 42, 0.10);
     }
-
 
     footer {
       padding: 26px 0 50px;
@@ -845,92 +930,11 @@
     }
 
 
-    .field-scale-section {
-      position: relative;
-      padding: 78px 0;
-      border-top: 1px solid var(--line-soft);
-      background:
-        radial-gradient(circle at 18% 10%, rgba(37, 99, 235, 0.12), transparent 28%),
-        radial-gradient(circle at 82% 16%, rgba(124, 58, 237, 0.12), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(248,251,255,0.88));
-    }
-
-    .field-scale-head {
-      text-align: center;
-      max-width: 940px;
-      margin: 0 auto 30px;
-    }
-
-    .field-scale-head h2 {
-      margin: 14px auto 0;
-      max-width: 980px;
-    }
-
-    .field-scale-head p {
-      max-width: 820px;
-      margin: 14px auto 0;
-      font-size: 18px;
-    }
-
-    .field-scale-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 34px;
-      border: 1px solid rgba(15, 23, 42, 0.10);
-      box-shadow: 0 30px 90px rgba(15, 23, 42, 0.18);
-      background: #07111f;
-    }
-
-    .field-scale-card img {
-      width: 100%;
-      display: block;
-      height: auto;
-    }
-
-    .field-scale-overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 30px 34px;
-      color: #ffffff;
-      background:
-        linear-gradient(180deg, rgba(7, 17, 31, 0) 0%, rgba(7, 17, 31, 0.80) 100%);
-    }
-
-    .field-scale-overlay strong {
-      display: block;
-      font-size: clamp(24px, 3vw, 38px);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 8px;
-    }
-
-    .field-scale-overlay span {
-      display: block;
-      max-width: 760px;
-      color: rgba(255,255,255,0.82);
-      font-size: 15px;
-      line-height: 1.65;
-    }
-
-    .field-scale-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .field-scale-tags span {
-      display: inline-flex;
-      padding: 8px 12px;
-      border-radius: 999px;
-      color: #ffffff;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.18);
-      font-size: 12px;
-      font-weight: 800;
-      backdrop-filter: blur(10px);
+    @media (max-width: 1100px) {
+      .nav-wrap { width: calc(100% - 36px); }
+      .nav { gap: 14px; }
+      .nav-links, .nav-actions { gap: 2px; font-size: 13px; }
+      .nav-links a, .nav-actions a, .nav-dropdown-btn { padding: 10px 9px; }
     }
 
     @media (max-width: 1024px) {
@@ -943,10 +947,6 @@
       .alert-split-panel,
       .investor-panel {
         grid-template-columns: 1fr;
-      }
-
-      .investor-visual {
-        justify-content: center;
       }
 
       .metrics,
@@ -963,6 +963,21 @@
     }
 
     @media (max-width: 900px) {
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .nav-actions {
+        display: none;
+      }
+
+      .mobile-only {
+        display: block !important;
+      }
+
+
       .menu-toggle { display: inline-flex; }
 
       .nav-links {
@@ -1064,10 +1079,8 @@
 
       .btn { width: 100%; }
 
-      .patent-panel,
-      .investor-panel {
-        padding: 20px;
-        border-radius: 24px;
+      .patent-panel {
+        padding: 18px;
       }
 
       .patent-visual img {
@@ -1079,45 +1092,45 @@
         font-size: 16px;
       }
 
-      h1 {
-        font-size: clamp(42px, 13vw, 62px);
+
+      .origin-scale-card img {
+        min-height: 320px;
       }
 
-      .field-scale-section {
-        padding: 54px 0;
-      }
-
-      .field-scale-card {
-        border-radius: 24px;
-      }
-
-      .field-scale-overlay {
-        position: static;
-        padding: 22px;
+      .origin-scale-overlay {
+        position: relative;
+        padding: 22px 18px;
         background: #07111f;
       }
 
-      .field-scale-tags span {
-        font-size: 11px;
+      .investor-panel {
+        padding: 24px 18px;
+        border-radius: 24px;
       }
 
+      .investor-visual {
+        justify-content: center;
+        min-height: 0;
+      }
+
+      .investor-visual img {
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: clamp(42px, 13vw, 62px);
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="wrap nav">
+    <div class="nav-wrap nav">
       <a class="brand" href="index.html">
         <span class="brand-mark"></span>
         <span>HEKONE</span>
       </a>
-
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
 
       <nav class="nav-links" id="site-menu">
         <div class="nav-dropdown active">
@@ -1129,10 +1142,21 @@
         </div>
         <a href="index.html#ecosystem">HEKONE Platform</a>
         <a href="about.html">About</a>
-        <a href="https://hekone.com/contact">Contact</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="mobile-only">Login / Dashboard</a>
+        <a href="pilot.html" class="nav-pilot mobile-only">Start a Pilot</a>
+      </nav>
+
+      <div class="nav-actions">
         <a href="login.html">Login / Dashboard</a>
         <a href="pilot.html" class="nav-pilot">Start a Pilot</a>
-      </nav>
+      </div>
+
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
@@ -1532,32 +1556,21 @@
       </div>
     </section>
 
-
-    <section class="field-scale-section" id="field-deployment-vision">
+    <section class="section" id="field-deployment-vision">
       <div class="container">
-        <div class="field-scale-head">
-          <div class="eyebrow">Field Deployment Vision</div>
-          <h2>Operational visibility across the entire harvest flow.</h2>
-          <p>
-            HEKONE Origin is designed to scale from individual harvest bins to field-wide operational intelligence across crews, equipment, locations, and harvest cycles.
-          </p>
-        </div>
+        <div class="eyebrow">Field Deployment Vision</div>
+        <h2>Operational visibility across the entire harvest flow.</h2>
+        <p class="lede">
+          HEKONE Origin is designed to scale from a single instrumented harvest bin to field-wide operational intelligence across crews, equipment, locations, and harvest cycles.
+        </p>
 
-        <div class="field-scale-card">
-          <img src="field.png" alt="HEKONE Origin field deployment vision with smart harvest bins, workers, and real-time tablet monitoring" />
-
-          <div class="field-scale-overlay">
-            <strong>From individual harvest bins to field-wide operational intelligence.</strong>
-            <span>
-              A conceptual deployment view showing how HEKONE Origin can support real-time monitoring across harvest bins, crews, and field activity.
-            </span>
-
-            <div class="field-scale-tags">
-              <span>Harvest Visibility</span>
-              <span>Bin-Level Data</span>
-              <span>Field Operations</span>
-              <span>Real-Time Monitoring</span>
-            </div>
+        <div class="origin-scale-card">
+          <img src="field.png" alt="HEKONE Origin field deployment vision with smart harvest bins and live field operations dashboard" />
+          <div class="origin-scale-overlay">
+            <h3>From individual harvest bins to field-wide operational intelligence.</h3>
+            <p>
+              Illustrative deployment vision showing how HEKONE Origin can connect bin-level weight, time, location, and field activity into a real-time operational view for harvest teams and growers.
+            </p>
           </div>
         </div>
       </div>
@@ -1598,7 +1611,7 @@
         <div class="investor-panel">
           <div class="investor-copy">
             <div class="eyebrow">Investor &amp; Strategic Partnership</div>
-            <h2>Interested in investing in HekOne?</h2>
+            <h3>Interested in investing in HekOne?</h3>
             <p>
               HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
             </p>
@@ -1613,7 +1626,7 @@
           </div>
 
           <div class="investor-visual">
-            <img src="invest.png" alt="HEKONE investment opportunity visual with growth chart and branded coin" />
+            <img src="invest.png" alt="HEKONE investment growth visual with rising chart, global network, and branded coin" />
           </div>
         </div>
       </div>
