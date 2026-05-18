@@ -719,6 +719,51 @@
       box-shadow: 0 18px 46px rgba(15, 23, 42, 0.10);
     }
 
+
+    .deployment-vision-card {
+      position: relative;
+      overflow: hidden;
+      margin-top: 28px;
+      padding: 0;
+      border-radius: var(--radius);
+      background: #07111f;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .deployment-vision-card img {
+      width: 100%;
+      height: auto;
+      min-height: 360px;
+      object-fit: cover;
+    }
+
+    .deployment-vision-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 28px 32px;
+      background: linear-gradient(180deg, rgba(7, 17, 31, 0) 0%, rgba(7, 17, 31, 0.82) 100%);
+      color: #ffffff;
+    }
+
+    .deployment-vision-overlay h3 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .deployment-vision-overlay p {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+
     footer {
       padding: 28px 0 44px;
       color: var(--muted);
@@ -859,6 +904,16 @@
       .cta { padding: 26px 20px; }
       .cta-actions { width: 100%; }
       .cta-actions .btn-primary, .cta-actions .btn-secondary { width: 100%; }
+
+      .deployment-vision-card img {
+        min-height: 320px;
+      }
+
+      .deployment-vision-overlay {
+        position: relative;
+        padding: 22px 18px;
+        background: #07111f;
+      }
     }
   </style>
 </head>
@@ -1290,6 +1345,25 @@
         <p class="section-intro">
           The same principle can extend across factory, distribution, store, and shelf environments, creating a unified layer of measurable, AI-enabled operational intelligence across fragmented physical workflows.
         </p>
+      </section>
+
+
+      <section class="section" id="deployment-vision">
+        <div class="section-kicker">Deployment vision</div>
+        <h2>From one smart dispenser to network-wide visibility.</h2>
+        <p class="section-intro">
+          This illustrative retail environment shows how HEKONE instrumentation can scale from a single measurable dispensing point into a broader operational intelligence layer across products, locations, and workflows.
+        </p>
+
+        <div class="deployment-vision-card">
+          <img src="./shop.png" alt="HEKONE smart dispenser deployment vision across a retail environment" />
+          <div class="deployment-vision-overlay">
+            <h3>Intelligence in every dispenser.</h3>
+            <p>
+              Conceptual deployment vision showing how measurable physical interactions can become structured operational signals across a connected retail environment.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section class="cta">
