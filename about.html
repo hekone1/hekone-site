@@ -534,6 +534,73 @@
       flex-wrap: wrap;
     }
 
+
+    .investor-cta {
+      margin-top: 24px;
+      padding: 28px;
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(124, 58, 237, 0.10), rgba(37, 99, 235, 0.08)),
+        rgba(255,255,255,0.92);
+      border: 1px solid var(--line-strong);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .investor-cta-content h2 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .investor-cta-content p {
+      margin: 0;
+      color: rgba(82, 97, 116, 0.86);
+      font-size: 17px;
+      max-width: 760px;
+    }
+
+    .investor-cta-note {
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .investor-cta-actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .investor-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 250px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.54);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.68);
+      overflow: hidden;
+    }
+
+    .investor-visual img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      object-fit: contain;
+      transform: scale(1.04);
+    }
+
+
     footer {
       border-top: 1px solid var(--line);
       padding: 28px 0 46px;
@@ -590,7 +657,8 @@
     @media (max-width: 1040px) {
       .profile,
       .grid-3,
-      .footer-cta {
+      .footer-cta,
+      .investor-cta {
         grid-template-columns: 1fr;
       }
 
@@ -741,7 +809,8 @@
 
       .profile-card,
       .card,
-      .footer-cta {
+      .footer-cta,
+      .investor-cta {
         padding: 22px;
       }
 
@@ -767,12 +836,18 @@
         font-size: 16px;
       }
 
-      .footer-cta-actions {
+      .footer-cta-actions,
+      .investor-cta-actions {
         width: 100%;
       }
 
-      .footer-cta-actions .btn {
+      .footer-cta-actions .btn,
+      .investor-cta-actions .btn {
         width: 100%;
+      }
+
+      .investor-visual {
+        min-height: 190px;
       }
     }
   </style>
@@ -954,13 +1029,35 @@
         <div>
           <h2>Interested in working with HEKONE?</h2>
           <p>
-            We are exploring pilot deployments and strategic partnerships with operators, technical teams, and investors.
+            We are exploring pilot deployments and strategic partnerships with operators and technical teams.
           </p>
         </div>
 
         <div class="footer-cta-actions">
           <a class="btn" href="/">Back to Home</a>
           <a class="btn btn-pilot" href="/contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div class="investor-cta">
+        <div class="investor-cta-content">
+          <p class="section-label">Investment Opportunity</p>
+          <h2>Interested in investing in HEKONE?</h2>
+          <p>
+            HEKONE is building a physical intelligence platform that turns real-world operational activity into measurable data, visibility, and scalable decision support.
+          </p>
+          <div class="investor-cta-note">
+            Founder-led execution, working prototypes, patent-filed systems, and a platform vision beyond a single product.
+          </div>
+
+          <div class="investor-cta-actions">
+            <a class="btn btn-pilot" href="mailto:hekmat@hekone.com?subject=HEKONE%20Investment%20Inquiry">Investor Inquiry</a>
+            <a class="btn" href="/#platform">View Platform Vision</a>
+          </div>
+        </div>
+
+        <div class="investor-visual">
+          <img src="invest.png" alt="HEKONE investment and growth visual" loading="lazy" />
         </div>
       </div>
     </div>
