@@ -698,31 +698,56 @@
 
     .investor-panel {
       margin-top: 22px;
-      padding: 30px 26px;
-      border-radius: 28px;
+      padding: 30px;
+      border-radius: 30px;
       background:
+        radial-gradient(circle at 82% 42%, rgba(124, 58, 237, 0.12), transparent 34%),
         linear-gradient(135deg, rgba(37, 99, 235, 0.07), rgba(124, 58, 237, 0.07)),
         rgba(255,255,255,0.92);
       border: 1px solid var(--line-strong);
-      box-shadow: var(--shadow-soft);
-      text-align: center;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .investor-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .investor-copy {
+      max-width: 560px;
     }
 
     .investor-panel h3 {
-      font-size: clamp(26px, 3vw, 38px);
-      letter-spacing: -0.035em;
-      margin-bottom: 10px;
+      font-size: clamp(30px, 3.6vw, 46px);
+      letter-spacing: -0.045em;
+      margin: 12px 0 12px;
     }
 
     .investor-panel p {
-      max-width: 760px;
-      margin: 0 auto;
       font-size: 16px;
+      max-width: 540px;
     }
 
     .investor-panel .hero-actions {
-      justify-content: center;
+      justify-content: flex-start;
       margin-top: 22px;
+    }
+
+    .investor-visual {
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(124, 58, 237, 0.13);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .investor-visual img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .executive-line,
@@ -850,7 +875,8 @@
       .platform-grid,
       .split-section,
       .patent-panel,
-      .alert-split-panel {
+      .alert-split-panel,
+      .investor-grid {
         grid-template-columns: 1fr;
       }
 
@@ -988,6 +1014,10 @@
         max-width: none !important;
         width: 100%;
       }
+
+      .investor-copy {
+        max-width: none;
+      }
     }
 
     @media (max-width: 680px) {
@@ -1014,7 +1044,8 @@
 
       .btn { width: 100%; }
 
-      .patent-panel {
+      .patent-panel,
+      .investor-panel {
         padding: 18px;
       }
 
@@ -1495,14 +1526,26 @@
         </div>
 
         <div class="investor-panel">
-          <div class="eyebrow">Investment Opportunity</div>
-          <h3>Interested in investing in HekOne?</h3>
-          <p>
-            HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
-            <a class="btn btn-secondary" href="index.html#platform">View Platform Vision</a>
+          <div class="investor-grid">
+            <div class="investor-copy">
+              <div class="eyebrow">Investor &amp; Strategic Partnership</div>
+              <h3>Interested in investing in HekOne?</h3>
+              <p>
+                HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
+              </p>
+              <p style="margin-top:12px;">
+                We are building from source-level sensing toward a scalable operational data layer for agriculture, supply chain, and physical operations.
+              </p>
+
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
+                <a class="btn btn-secondary" href="index.html#platform">View Platform Vision</a>
+              </div>
+            </div>
+
+            <div class="investor-visual">
+              <img src="invest.png" alt="HEKONE investment growth illustration with rising chart, global network, and branded coin" loading="lazy" />
+            </div>
           </div>
         </div>
       </div>
