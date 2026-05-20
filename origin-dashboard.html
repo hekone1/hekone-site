@@ -4,13 +4,11 @@
   <meta charset="UTF-8" />
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="origin-dashboard.css?v=103" />
+  <link rel="stylesheet" href="origin-dashboard-updated.css?v=201" />
 </head>
 
 <body>
   <div class="app-shell">
-
     <aside class="sidebar">
       <div class="brand-block">
         <div class="logo-cube">H</div>
@@ -21,108 +19,131 @@
       </div>
 
       <nav class="nav-list">
-        <button class="nav-item active">Dashboard</button>
-        <button class="nav-item">Locations</button>
-        <button class="nav-item">Harvest Teams</button>
-        <button class="nav-item">Reports</button>
-        <button class="nav-item">Alerts</button>
-        <button class="nav-item">Settings</button>
+        <button class="nav-item active"><span>▦</span> Dashboard</button>
+        <button class="nav-item"><span>⌖</span> Locations</button>
+        <button class="nav-item"><span>☷</span> Harvest Teams</button>
+        <button class="nav-item"><span>◷</span> Reports</button>
+        <button class="nav-item"><span>⚠</span> Alerts</button>
+        <button class="nav-item"><span>⚙</span> Settings</button>
       </nav>
 
       <div class="sidebar-footer">
+        <div class="live-chip"><span></span> Live telemetry</div>
         <button class="insight-btn">View All Insights</button>
       </div>
     </aside>
 
     <main class="dashboard">
-
       <header class="topbar">
         <div>
+          <div class="eyebrow">Operational Intelligence Platform</div>
           <div class="title-row">
             <div class="logo-cube small">H</div>
             <h1>HEKONE Origin</h1>
           </div>
-          <p>Live Bin Performance</p>
+          <p>Live harvest visibility, loss detection, and field-level performance intelligence.</p>
         </div>
 
         <div class="top-actions">
           <span id="lastUpdated">Loading...</span>
           <button>Today</button>
-          <div class="avatar">JD</div>
+          <div class="avatar">SH</div>
         </div>
       </header>
 
-      <section class="hero-zone">
-        <div id="binCards" class="bin-cards"></div>
+      <section class="hero-dashboard">
+        <div class="hero-kpi-card">
+          <div class="hero-kpi-top">
+            <span>Estimated Recoverable Profit</span>
+            <div class="status-pill good-pill">Live</div>
+          </div>
+          <strong id="heroRecoverableProfit">$0.00</strong>
+          <small>Potential value recovered from detected inefficiencies today.</small>
+          <div class="hero-kpi-footer">
+            <div>
+              <span>Monthly upside</span>
+              <b id="heroMonthlyRecovery">$0 / month</b>
+            </div>
+            <div>
+              <span>Season upside</span>
+              <b id="heroSeasonRecovery">$0 / season</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-map-panel">
+          <div class="panel-title compact">Live Orchard Map <span>Bin status</span></div>
+          <div id="fieldMap" class="field-map">
+            <div class="map-grid"></div>
+          </div>
+          <div class="map-legend">
+            <span><i class="good-dot"></i> Healthy</span>
+            <span><i class="warn-dot"></i> Slow</span>
+            <span><i class="bad-dot"></i> Attention</span>
+          </div>
+        </div>
+
+        <div class="insights-panel">
+          <div class="panel-title compact">Operational Insights <span>Today</span></div>
+          <div id="insightsList" class="insights-list">
+            <div class="empty-state">Waiting for live field insights...</div>
+          </div>
+        </div>
       </section>
 
       <section class="summary-grid">
-
         <div class="summary-card">
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
           <small id="activeBins">Active: 0</small>
         </div>
-
         <div class="summary-card">
-          <span>Total Weight</span>
+          <span>Total Harvested</span>
           <strong id="totalWeight">0 lb</strong>
-          <small>Live data</small>
+          <small>Live weight</small>
         </div>
-
         <div class="summary-card highlighted">
-          <span>Estimated Value (Live)</span>
+          <span>Estimated Revenue</span>
           <strong id="estimatedValue">$0.00</strong>
           <small>@ $3.00 / lb</small>
         </div>
-
         <div class="summary-card">
           <span>Average per Bin</span>
           <strong id="avgPerBin">0 lb</strong>
           <small>Actual live weight</small>
         </div>
-
         <div class="summary-card">
           <span>Top Performer</span>
           <strong id="topPerformer">—</strong>
-          <small>Waiting for data</small>
+          <small>Highest weight</small>
         </div>
-
         <div class="summary-card danger-text">
           <span>Needs Attention</span>
           <strong id="needsAttention">—</strong>
-          <small>Waiting for data</small>
+          <small>Lowest performance</small>
         </div>
-
         <div class="summary-card">
           <span>Average Fill Rate</span>
           <strong id="avgFillRate">0 lb/min</strong>
           <small>Current harvest speed</small>
         </div>
-
       </section>
 
       <section class="analytics-grid">
-
         <div class="panel chart-panel combined-chart-panel">
           <div class="chart-tabs">
             <button id="fillRateTab" class="chart-tab active" onclick="switchChartTab('fillRate')">
               Fill Rate Comparison <span>(lb/min)</span>
             </button>
-
             <button id="weightTab" class="chart-tab" onclick="switchChartTab('weight')">
               Weight Over Time <span>(lb per bin)</span>
             </button>
           </div>
-
           <canvas id="mainChart"></canvas>
         </div>
 
         <div class="panel loss-panel">
-          <div class="panel-title">
-            Loss Analysis <span>(Today)</span>
-          </div>
-
+          <div class="panel-title">Loss Analysis <span>(Today)</span></div>
           <div class="table-wrap">
             <table>
               <thead>
@@ -134,74 +155,55 @@
                   <th>Reason</th>
                 </tr>
               </thead>
-
               <tbody id="lossTableBody"></tbody>
             </table>
           </div>
         </div>
-
       </section>
 
-      <section class="impact-row">
-
-        <div class="impact-card revenue">
-          <div class="impact-icon">$</div>
-          <div>
-            <span>Estimated Revenue (Today)</span>
-            <strong id="estimatedRevenue">$0.00</strong>
-            <small>@ $3.00 / lb</small>
+      <section class="bottom-grid">
+        <div class="impact-row">
+          <div class="impact-card revenue">
+            <div class="impact-icon">$</div>
+            <div>
+              <span>Estimated Revenue</span>
+              <strong id="estimatedRevenue">$0.00</strong>
+              <small>@ $3.00 / lb</small>
+            </div>
+          </div>
+          <div class="impact-card loss">
+            <div class="impact-icon">$</div>
+            <div>
+              <span>Gross Loss</span>
+              <strong id="grossLoss">-$0.00</strong>
+              <small>From underperforming bins</small>
+            </div>
+          </div>
+          <div class="impact-card labor">
+            <div class="impact-icon">👥</div>
+            <div>
+              <span>Estimated Labor Cost</span>
+              <strong id="laborCost">$0.00</strong>
+              <small>Based on active bins</small>
+            </div>
+          </div>
+          <div class="impact-card net">
+            <div class="impact-icon">↗</div>
+            <div>
+              <span>Net Impact</span>
+              <strong id="netImpact">$0.00</strong>
+              <small>Revenue - Loss - Labor</small>
+            </div>
           </div>
         </div>
 
-        <div class="impact-card loss">
-          <div class="impact-icon">$</div>
-          <div>
-            <span>Gross Loss (Today)</span>
-            <strong id="grossLoss">-$0.00</strong>
-            <small>From underperforming bins</small>
+        <div class="activity-panel panel">
+          <div class="panel-title compact">Live Activity Feed <span>Recent events</span></div>
+          <div id="activityFeed" class="activity-feed">
+            <div class="empty-state">Waiting for live telemetry...</div>
           </div>
         </div>
-
-        <div class="impact-card labor">
-          <div class="impact-icon">👥</div>
-          <div>
-            <span>Estimated Labor Cost</span>
-            <strong id="laborCost">$0.00</strong>
-            <small>Based on active bins</small>
-          </div>
-        </div>
-
-        <div class="impact-card net">
-          <div class="impact-icon">↗</div>
-          <div>
-            <span>Net Impact (Today)</span>
-            <strong id="netImpact">$0.00</strong>
-            <small>Revenue − Loss − Labor</small>
-          </div>
-        </div>
-
       </section>
-
-      <section class="opportunity-panel">
-
-        <div>
-          <span>Recoverable Profit Opportunity</span>
-          <strong id="recoverableProfit">$0.00</strong>
-          <small>Fixing inefficiencies recovers value.</small>
-        </div>
-
-        <div>
-          <span>If fixed daily</span>
-          <strong id="monthlyRecovery">$0 / month</strong>
-        </div>
-
-        <div>
-          <span>If fixed for the season (120 days)</span>
-          <strong id="seasonRecovery">$0 / season</strong>
-        </div>
-
-      </section>
-
     </main>
   </div>
 
@@ -214,7 +216,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js?v=103"></script>
-
+  <script src="origin-dashboard-updated.js?v=201"></script>
 </body>
 </html>
