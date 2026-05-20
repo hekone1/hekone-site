@@ -1,298 +1,697 @@
-// ===============================
-// HEKONE Origin - Live Location Map
-// Mapbox + Supabase
-// ===============================
+let mainChart = null;
+let currentChartTab = "fillRate";
+let latestChartData = [];
 
-const MAPBOX_TOKEN = "pk.eyJ1Ijoic2hhaHJpeWFyMTk5MCIsImEiOiJjbW9ydzdsbWQwMDhrMnNxMHZ2ZDlpZHBsIn0.mRoamkgO6n05IpoIfw6HcQ";
+const PRICE_PER_LB = 3.0;
+const LABOR_COST_PER_ACTIVE_BIN = 2.5;
 
-const DEFAULT_LAT = 37.3022;
-const DEFAULT_LON = -120.4829;
+async function loadData() {
+  const { data, error } = await supabaseClient
+    .from("origin_events")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(500);
 
-let map = null;
-let marker = null;
-let latestBin = null;
-let mapReady = false;
-
-document.addEventListener("DOMContentLoaded", () => {
-  if (!window.mapboxgl) {
-    setStatus("Mapbox library not loaded.");
+  if (error) {
+    console.error("Supabase error:", error);
     return;
   }
 
-  if (!MAPBOX_TOKEN || !MAPBOX_TOKEN.startsWith("pk.")) {
-    setStatus("Mapbox token is missing. Add your pk... token in location.js.");
-    renderWaitingStats();
+  if (!data || data.length === 0) {
+    renderInsights([]);
+    renderActivityFeed([]);
     return;
   }
 
-  mapboxgl.accessToken = MAPBOX_TOKEN;
+  latestChartData = data;
 
-  initMap(DEFAULT_LAT, DEFAULT_LON);
-  loadLocationData();
+  const binStats = buildBinStats(data);
+  const totalBins = binStats.length;
 
-  setInterval(loadLocationData, 2000);
-});
+  const totalCumulativeWeight = binStats.reduce(
+    (sum, b) => sum + b.cumulativeWeight,
+    0
+  );
 
-function initMap(lat, lon) {
-  map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/satellite-streets-v12",
-    center: [lon, lat],
-    zoom: 17,
-    pitch: 0,
-    bearing: 0
-  });
+  const totalValue = totalCumulativeWeight * PRICE_PER_LB;
 
-  map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+  const avgPerBin = totalBins
+    ? totalCumulativeWeight / totalBins
+    : 0;
 
-  map.on("load", () => {
-    mapReady = true;
-    setStatus("Map loaded. Waiting for live GPS data...");
-    if (latestBin) renderMap(latestBin);
-  });
+  const avgFillRate = totalBins
+    ? binStats.reduce((sum, b) => sum + b.fillRateLbHour, 0) / totalBins
+    : 0;
 
-  map.on("error", (e) => {
-    console.error("Mapbox error:", e);
-    setStatus("Mapbox error. Check token or console.");
-  });
+  const top = [...binStats].sort(
+    (a, b) => b.cumulativeWeight - a.cumulativeWeight
+  )[0];
+
+  const worst = [...binStats].sort(
+    (a, b) => a.cumulativeWeight - b.cumulativeWeight
+  )[0];
+
+  const laborCost = totalBins * LABOR_COST_PER_ACTIVE_BIN;
+  const grossLoss = calculateGrossLoss(binStats);
+  const netImpact = totalValue - grossLoss - laborCost;
+
+  setText("totalBins", totalBins);
+  setText("activeBins", "Active: " + totalBins);
+  setText("totalWeight", totalCumulativeWeight.toFixed(1) + " lb");
+  setText("estimatedValue", "$" + totalValue.toFixed(2));
+  setText("heroEstimatedRevenue", "$" + totalValue.toFixed(2));
+  setText("avgPerBin", avgPerBin.toFixed(1) + " lb");
+  setText("avgFillRate", avgFillRate.toFixed(1) + " lb/h");
+
+  if (top) {
+    setText(
+      "topPerformer",
+      `${top.binId} (${top.cumulativeWeight.toFixed(1)} lb)`
+    );
+  }
+
+  if (worst) {
+    setText(
+      "needsAttention",
+      `${worst.binId} (${worst.cumulativeWeight.toFixed(1)} lb)`
+    );
+  }
+
+  setText("estimatedRevenue", "$" + totalValue.toFixed(2));
+  setText("grossLoss", "-$" + grossLoss.toFixed(2));
+  setText("laborCost", "$" + laborCost.toFixed(2));
+  setText("netImpact", "$" + netImpact.toFixed(2));
+
+  setText("barTotalWeight", totalCumulativeWeight.toFixed(1) + " lb");
+  setText("binCountIndicator", Math.min(totalBins, 6) + " / 6");
+
+  const lastUpdated = document.getElementById("lastUpdated");
+  if (lastUpdated) {
+    lastUpdated.innerText = "Updated: " + new Date().toLocaleTimeString();
+  }
+
+  renderMap(binStats);
+  renderInsights(binStats);
+  renderActivityFeed(data);
+  renderLossTable(binStats, avgPerBin);
+  renderCharts(data, binStats);
 }
 
-async function loadLocationData() {
-  try {
-    if (typeof supabaseClient === "undefined") {
-      setStatus("Supabase client is not loaded.");
-      return;
+function buildBinStats(data) {
+  const grouped = {};
+
+  data.forEach((row) => {
+    const binId = row.bin_id || "BIN-001";
+
+    if (!grouped[binId]) {
+      grouped[binId] = [];
     }
 
-    const { data, error } = await supabaseClient
-      .from("origin_events")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
+    grouped[binId].push(row);
+  });
 
-    if (error) {
-      console.error("Supabase error:", error);
-      setStatus("Supabase error. Check console.");
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      setStatus("No data found.");
-      renderWaitingStats();
-      return;
-    }
-
-    const gpsRow = data.find((row) =>
-      isValidCoordinate(Number(row.latitude), Number(row.longitude))
+  return Object.keys(grouped).map((binId) => {
+    const rows = grouped[binId].sort(
+      (a, b) => new Date(a.created_at) - new Date(b.created_at)
     );
 
-    if (!gpsRow) {
-      setStatus("No valid GPS data found.");
-      renderWaitingStats();
-      return;
+    let cumulativeWeight = 0;
+
+    if (rows.length > 0) {
+      cumulativeWeight += Math.max(0, num(rows[0].weight_lb));
     }
 
-    const binId = gpsRow.bin_id || "BIN-001";
+    for (let i = 1; i < rows.length; i++) {
+      const previous = num(rows[i - 1].weight_lb);
+      const current = num(rows[i].weight_lb);
+      const delta = current - previous;
 
-    const sameBinRows = data.filter((row) => {
-      return (row.bin_id || "BIN-001") === binId;
-    });
+      if (delta > 0) {
+        cumulativeWeight += delta;
+      }
+    }
 
-    const latestNonZeroWeightRow = sameBinRows.find((row) => {
-      return Number(row.weight_lb || 0) > 0;
-    });
+    const latest = rows[rows.length - 1];
 
-    const latestWeightRow = latestNonZeroWeightRow || sameBinRows[0] || gpsRow;
-
-    const bin = {
-      ...gpsRow,
-      weight_lb: latestWeightRow.weight_lb,
-      fill_rate: latestWeightRow.fill_rate,
-      estimated_value: latestWeightRow.estimated_value,
-      status: latestWeightRow.status || gpsRow.status,
-      block: latestWeightRow.block || gpsRow.block,
-      row: latestWeightRow.row || gpsRow.row
+    return {
+      binId,
+      rows,
+      latest,
+      currentWeight: num(latest.weight_lb),
+      cumulativeWeight,
+      fillRateLbHour: calculateRecentFillRateLbHour(rows)
     };
-
-    latestBin = bin;
-
-    renderStats(bin);
-    renderPerformanceList(bin);
-    renderMap(bin);
-    updateLastUpdated();
-
-    console.log("Location live data:", bin);
-
-  } catch (err) {
-    console.error("Location load failed:", err);
-    setStatus("Location load failed. Check console.");
-  }
+  });
 }
 
-function renderMap(bin) {
-  if (!map || !mapReady) return;
+function calculateRecentFillRateLbHour(rows) {
+  if (!rows || rows.length < 2) return 0;
 
-  const lat = Number(bin.latitude);
-  const lon = Number(bin.longitude);
+  const sorted = [...rows].sort(
+    (a, b) => new Date(a.created_at) - new Date(b.created_at)
+  );
 
-  if (!isValidCoordinate(lat, lon)) {
-    setStatus("Invalid GPS coordinate.");
+  const recent = sorted.slice(-10);
+
+  let positiveGain = 0;
+
+  for (let i = 1; i < recent.length; i++) {
+    const delta = num(recent[i].weight_lb) - num(recent[i - 1].weight_lb);
+
+    if (delta > 0) {
+      positiveGain += delta;
+    }
+  }
+
+  const firstTime = new Date(recent[0].created_at);
+  const lastTime = new Date(recent[recent.length - 1].created_at);
+  const hours = (lastTime - firstTime) / 3600000;
+
+  if (hours <= 0) return 0;
+
+  return positiveGain / hours;
+}
+
+function renderCharts(data, binStats) {
+  const barChartHeader = document.getElementById("barChartHeader");
+  const barChartFooter = document.getElementById("barChartFooter");
+
+  if (barChartHeader && barChartFooter) {
+    const showBarUI = currentChartTab === "weightByBin";
+    barChartHeader.style.display = showBarUI ? "flex" : "none";
+    barChartFooter.style.display = showBarUI ? "flex" : "none";
+  }
+
+  const ctx = document.getElementById("mainChart");
+  if (!ctx) return;
+
+  if (mainChart) {
+    mainChart.destroy();
+  }
+
+  if (currentChartTab === "weightByBin") {
+    renderWeightByBinChart(ctx, binStats);
     return;
   }
 
-  const lngLat = [lon, lat];
-  const weight = num(bin.weight_lb);
-  const status = getStatus(bin);
-  const binId = safeBin(bin);
+  const byBin = {};
 
-  map.easeTo({
-    center: lngLat,
-    zoom: 19,
-    duration: 700
+  data.forEach((row) => {
+    const binId = row.bin_id || "BIN-001";
+
+    if (!byBin[binId]) {
+      byBin[binId] = [];
+    }
+
+    byBin[binId].push(row);
   });
 
-  if (marker) {
-    marker.remove();
-    marker = null;
+  const binIds = Object.keys(byBin).slice(0, 4);
+  if (binIds.length === 0) return;
+
+  const colors = ["#00e08a", "#22d3ee", "#f5a524", "#ff3b3b"];
+
+  let labels = [];
+  let datasets = [];
+
+  if (currentChartTab === "fillRate") {
+    const firstBinData = buildHourlyFillRateSeries(byBin[binIds[0]]);
+    labels = firstBinData.map((p) => p.label);
+
+    datasets = binIds.map((binId, index) => {
+      const hourlyData = buildHourlyFillRateSeries(byBin[binId]);
+
+      return {
+        label: binId,
+        data: hourlyData.map((p) => p.value),
+        borderColor: colors[index % colors.length],
+        backgroundColor: "transparent",
+        borderWidth: 3,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        fill: false
+      };
+    });
+  } else {
+    const firstBinRows = [...byBin[binIds[0]]]
+      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+      .slice(-30);
+
+    labels = firstBinRows.map((row) =>
+      new Date(row.created_at).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    );
+
+    datasets = binIds.map((binId, index) => {
+      const rows = [...byBin[binId]]
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+        .slice(-30);
+
+      return {
+        label: binId,
+        data: rows.map((r) => num(r.weight_lb)),
+        borderColor: colors[index % colors.length],
+        backgroundColor: "transparent",
+        borderWidth: 3,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        fill: false
+      };
+    });
   }
 
-  const markerEl = createMarkerElement(bin, status);
-
-  marker = new mapboxgl.Marker({
-    element: markerEl,
-    anchor: "bottom"
-  })
-    .setLngLat(lngLat)
-    .addTo(map);
-
-  setText("latitudeText", lat.toFixed(6));
-  setText("longitudeText", lon.toFixed(6));
-  setStatus(`Live GPS: ${binId} | ${weight.toFixed(2)} lb`);
+  mainChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets
+    },
+    options: getLineChartOptions()
+  });
 }
 
-function createMarkerElement(bin, status) {
-  const weight = num(bin.weight_lb);
-  const binId = safeBin(bin);
+function renderWeightByBinChart(ctx, binStats) {
+  const sortedBins = [...binStats]
+    .sort((a, b) => b.cumulativeWeight - a.cumulativeWeight)
+    .slice(0, 6);
 
-  let color = "#00c46a";
-  if (status === "low") color = "#ff453a";
-  if (status === "average") color = "#facc15";
+  const labels = sortedBins.map((b) => b.binId);
+  const values = sortedBins.map((b) => b.cumulativeWeight);
 
-  const el = document.createElement("div");
+  const activeBinId = "BIN-001";
 
-  el.style.width = "88px";
-  el.style.height = "66px";
-  el.style.display = "block";
-  el.style.position = "relative";
-  el.style.pointerEvents = "auto";
-  el.style.overflow = "visible";
+  const backgroundColors = sortedBins.map((b, index) => {
+    if (b.binId === activeBinId || index === 0) {
+      return "#00e08a";
+    }
 
-  el.innerHTML = `
-    <div style="
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: ${color};
-      border: 2px solid #061018;
-      box-shadow: 0 0 0 4px rgba(0,0,0,0.25);
-      margin: 0 auto 5px auto;
-      box-sizing: border-box;
-    "></div>
+    return "rgba(148, 163, 184, 0.55)";
+  });
 
-    <div style="
-      width: 88px;
-      height: 49px;
-      background: rgba(10, 15, 22, 0.96);
-      border: 1px solid rgba(139, 92, 246, 0.85);
-      border-radius: 8px;
-      padding: 6px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.35);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      box-sizing: border-box;
-    ">
-      <div style="
-        color: #cbd5e1;
-        font-size: 10px;
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 4px;
-        white-space: nowrap;
-      ">${binId}</div>
+  const valueLabelPlugin = {
+    id: "valueLabelPlugin",
 
-      <div style="
-        color: ${color};
-        font-size: 12px;
-        font-weight: 900;
-        line-height: 1;
-        white-space: nowrap;
-      ">${weight.toFixed(2)} lb</div>
-    </div>
-  `;
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
 
-  return el;
+      chart.data.datasets.forEach((dataset, datasetIndex) => {
+        const meta = chart.getDatasetMeta(datasetIndex);
+
+        meta.data.forEach((bar, index) => {
+          const value = dataset.data[index];
+
+          ctx.save();
+          ctx.fillStyle = index === 0 ? "#00e08a" : "#cbd5e1";
+          ctx.font = "700 13px Arial";
+          ctx.textAlign = "center";
+          ctx.fillText(value.toFixed(1) + " lb", bar.x, bar.y - 8);
+          ctx.restore();
+        });
+      });
+    }
+  };
+
+  mainChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Cumulative Harvested Weight",
+          data: values,
+          backgroundColor: backgroundColors,
+          borderColor: backgroundColors,
+          borderWidth: 1,
+          borderRadius: 6,
+          maxBarThickness: 72
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+
+      plugins: {
+        legend: {
+          display: false
+        },
+
+        tooltip: {
+          callbacks: {
+            label(context) {
+              return (
+                context.label +
+                ": " +
+                context.parsed.y.toFixed(1) +
+                " lb cumulative"
+              );
+            }
+          }
+        }
+      },
+
+      scales: {
+        x: {
+          ticks: {
+            color: "#cbd5e1",
+            font: {
+              weight: "700"
+            }
+          },
+          grid: {
+            display: false
+          }
+        },
+
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Weight (lb)",
+            color: "#94a3b8"
+          },
+          ticks: {
+            color: "#94a3b8"
+          },
+          grid: {
+            color: "rgba(148,163,184,0.08)"
+          }
+        }
+      }
+    },
+    plugins: [valueLabelPlugin]
+  });
 }
 
-function renderStats(bin) {
-  const weight = num(bin.weight_lb);
-  const binId = safeBin(bin);
+function getLineChartOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: false,
 
-  setText("totalBins", "1");
-  setText("allBinsCount", "(1)");
-  setText("totalWeight", weight.toFixed(2) + " lb");
-  setText("farmAverage", weight.toFixed(2) + " lb");
-  setText("topPerformer", `${binId} ${weight.toFixed(2)} lb`);
-  setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
+    plugins: {
+      legend: {
+        labels: {
+          color: "#cbd5e1",
+          boxWidth: 12,
+          padding: 12
+        }
+      },
+
+      tooltip: {
+        callbacks: {
+          label(context) {
+            const unit = currentChartTab === "fillRate" ? " lb/h" : " lb";
+
+            return (
+              context.dataset.label +
+              ": " +
+              context.parsed.y.toFixed(2) +
+              unit
+            );
+          }
+        }
+      }
+    },
+
+    scales: {
+      x: {
+        ticks: {
+          color: "#94a3b8",
+          maxTicksLimit: 6
+        },
+        grid: {
+          color: "rgba(148,163,184,0.08)"
+        }
+      },
+
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: currentChartTab === "fillRate" ? "lb/h" : "lb",
+          color: "#94a3b8"
+        },
+        ticks: {
+          color: "#94a3b8"
+        },
+        grid: {
+          color: "rgba(148,163,184,0.08)"
+        }
+      }
+    }
+  };
 }
 
-function renderPerformanceList(bin) {
-  const list = document.getElementById("binPerformanceList");
+function buildHourlyFillRateSeries(rows) {
+  if (!rows || rows.length === 0) return [];
+
+  const sorted = [...rows].sort(
+    (a, b) => new Date(a.created_at) - new Date(b.created_at)
+  );
+
+  const minuteBuckets = {};
+
+  sorted.forEach((row) => {
+    const d = new Date(row.created_at);
+    d.setSeconds(0);
+    d.setMilliseconds(0);
+
+    const key = d.toISOString();
+
+    if (!minuteBuckets[key]) {
+      minuteBuckets[key] = [];
+    }
+
+    minuteBuckets[key].push(row);
+  });
+
+  return Object.keys(minuteBuckets)
+    .sort()
+    .slice(-30)
+    .map((key) => {
+      const bucket = minuteBuckets[key];
+
+      const first = bucket[0];
+      const last = bucket[bucket.length - 1];
+
+      let lbPerMinute = num(last.weight_lb) - num(first.weight_lb);
+
+      if (lbPerMinute < 0) {
+        lbPerMinute = 0;
+      }
+
+      const d = new Date(key);
+
+      return {
+        label: d.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit"
+        }),
+        value: lbPerMinute * 60
+      };
+    });
+}
+
+function renderMap(binStats) {
+  const map = document.getElementById("fieldMap");
+  if (!map) return;
+
+  map.innerHTML = `<div class="map-grid"></div>`;
+
+  const positions = [
+    { x: 18, y: 30 },
+    { x: 42, y: 42 },
+    { x: 65, y: 26 },
+    { x: 78, y: 58 },
+    { x: 28, y: 70 },
+    { x: 55, y: 76 }
+  ];
+
+  binStats.slice(0, 6).forEach((bin, index) => {
+    let status = "good";
+
+    if (bin.cumulativeWeight < 20) {
+      status = "bad";
+    } else if (bin.cumulativeWeight < 60) {
+      status = "warning";
+    }
+
+    const pos = positions[index];
+
+    const dot = document.createElement("div");
+    dot.className = `map-bin ${status}`;
+    dot.style.left = pos.x + "%";
+    dot.style.top = pos.y + "%";
+    dot.setAttribute("data-label", bin.binId);
+
+    map.appendChild(dot);
+  });
+}
+
+function renderInsights(binStats) {
+  const list = document.getElementById("insightsList");
   if (!list) return;
 
-  const weight = num(bin.weight_lb);
-  const status = getStatus(bin);
+  list.innerHTML = "";
 
-  list.innerHTML = `
-    <div class="bin-row active">
-      <div class="status-dot dot-${status}"></div>
-      <strong>${safeBin(bin)}</strong>
-      <span>${bin.row || "Row —"}</span>
-      <b class="${statusColorClass(status)}">${weight.toFixed(2)} lb</b>
-    </div>
-  `;
+  if (!binStats || binStats.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        Waiting for live field insights...
+      </div>
+    `;
+    return;
+  }
+
+  const avg =
+    binStats.reduce((sum, b) => sum + b.cumulativeWeight, 0) /
+    binStats.length;
+
+  const insights = [];
+
+  binStats.forEach((bin) => {
+    if (avg > 0 && bin.cumulativeWeight > avg * 1.15) {
+      insights.push(
+        `<b>${bin.binId}</b> harvesting above average by ${(
+          ((bin.cumulativeWeight - avg) / avg) *
+          100
+        ).toFixed(0)}%.`
+      );
+    }
+
+    if (avg > 0 && bin.cumulativeWeight < avg * 0.7) {
+      insights.push(
+        `<b>${bin.binId}</b> may need attention based on low cumulative harvest.`
+      );
+    }
+
+    if (bin.fillRateLbHour < 1) {
+      insights.push(`<b>${bin.binId}</b> may indicate idle harvesting time.`);
+    }
+  });
+
+  if (insights.length === 0) {
+    insights.push("All active bins are operating normally.");
+  }
+
+  insights.slice(0, 5).forEach((text) => {
+    const item = document.createElement("div");
+    item.className = "insight-item";
+    item.innerHTML = text;
+    list.appendChild(item);
+  });
 }
 
-function renderWaitingStats() {
-  setText("totalBins", "0");
-  setText("allBinsCount", "(0)");
-  setText("totalWeight", "0.00 lb");
-  setText("farmAverage", "0.00 lb");
-  setText("topPerformer", "—");
-  setText("needsAttention", "0 Bins");
-  setText("lastUpdateSmall", "● Waiting for GPS");
-  setText("latitudeText", "—");
-  setText("longitudeText", "—");
+function renderActivityFeed(data) {
+  const feed = document.getElementById("activityFeed");
+  if (!feed) return;
 
-  const list = document.getElementById("binPerformanceList");
-  if (list) list.innerHTML = "";
+  feed.innerHTML = "";
+
+  data.slice(0, 8).forEach((row) => {
+    const item = document.createElement("div");
+    item.className = "activity-item";
+
+    const time = new Date(row.created_at).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    item.innerHTML = `
+      <div class="activity-time">${time}</div>
+      <div class="activity-text">
+        <b>${safeBin(row)}</b> updated to ${num(row.weight_lb).toFixed(1)} lb
+      </div>
+    `;
+
+    feed.appendChild(item);
+  });
 }
 
-function updateLastUpdated() {
-  const now = new Date();
+function renderLossTable(binStats, avgPerBin) {
+  const tbody = document.getElementById("lossTableBody");
+  if (!tbody) return;
 
-  setText("lastUpdated", now.toLocaleString([], {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  }));
+  tbody.innerHTML = "";
 
-  setText("lastUpdateSmall", "● Live now");
+  const rows = binStats
+    .map((bin) => {
+      const lossLb = Math.max(0, avgPerBin - bin.cumulativeWeight);
+      const grossLoss = lossLb * PRICE_PER_LB;
+
+      let reason = "Normal";
+
+      if (lossLb > 10) {
+        reason = "Needs review";
+      } else if (lossLb > 3) {
+        reason = "Below avg";
+      }
+
+      return {
+        binId: bin.binId,
+        weight: bin.cumulativeWeight,
+        lossLb,
+        grossLoss,
+        reason
+      };
+    })
+    .sort((a, b) => b.grossLoss - a.grossLoss);
+
+  rows.slice(0, 6).forEach((row) => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${row.binId}</td>
+      <td>${row.weight.toFixed(1)} lb</td>
+      <td class="${row.lossLb > 0 ? "loss-red" : ""}">
+        ${row.lossLb.toFixed(1)} lb
+      </td>
+      <td class="${row.grossLoss > 0 ? "loss-red" : ""}">
+        $${row.grossLoss.toFixed(2)}
+      </td>
+      <td>${row.reason}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+function calculateGrossLoss(binStats) {
+  if (!binStats || binStats.length === 0) return 0;
+
+  const avg =
+    binStats.reduce((sum, b) => sum + b.cumulativeWeight, 0) /
+    binStats.length;
+
+  return binStats.reduce((sum, b) => {
+    const lossLb = Math.max(0, avg - b.cumulativeWeight);
+    return sum + lossLb * PRICE_PER_LB;
+  }, 0);
+}
+
+function switchChartTab(tabName) {
+  currentChartTab = tabName;
+
+  const fillRateTab = document.getElementById("fillRateTab");
+  const weightTab = document.getElementById("weightTab");
+  const weightByBinTab = document.getElementById("weightByBinTab");
+
+  if (fillRateTab && weightTab && weightByBinTab) {
+    fillRateTab.classList.toggle("active", tabName === "fillRate");
+    weightTab.classList.toggle("active", tabName === "weight");
+    weightByBinTab.classList.toggle("active", tabName === "weightByBin");
+  }
+
+  if (latestChartData && latestChartData.length > 0) {
+    const binStats = buildBinStats(latestChartData);
+    renderCharts(latestChartData, binStats);
+  }
 }
 
 function safeBin(row) {
@@ -303,34 +702,13 @@ function num(value) {
   return Number(value || 0);
 }
 
-function isValidCoordinate(lat, lon) {
-  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return false;
-  if (lat === 0 && lon === 0) return false;
-  if (lat < -90 || lat > 90) return false;
-  if (lon < -180 || lon > 180) return false;
-  return true;
-}
-
-function getStatus(bin) {
-  const weight = num(bin.weight_lb);
-
-  if (weight <= 0) return "low";
-  if (weight < 1) return "average";
-  return "high";
-}
-
-function statusColorClass(status) {
-  if (status === "low") return "red";
-  if (status === "average") return "yellow";
-  return "green";
-}
-
 function setText(id, value) {
   const el = document.getElementById(id);
-  if (el) el.innerText = value;
+
+  if (el) {
+    el.innerText = value;
+  }
 }
 
-function setStatus(message) {
-  const el = document.getElementById("mapStatus");
-  if (el) el.innerText = message;
-}
+setInterval(loadData, 5000);
+loadData();
