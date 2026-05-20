@@ -5,6 +5,17 @@ let latestChartData = [];
 const PRICE_PER_LB = 3.0;
 const LABOR_COST_PER_ACTIVE_BIN = 2.5;
 
+const DEMO_BIN_IDS = [
+  "BIN-001",
+  "BIN-002",
+  "BIN-003",
+  "BIN-004",
+  "BIN-005",
+  "BIN-006"
+];
+
+const EMPTY_BIN_DISPLAY_WEIGHT = 8;
+
 async function loadData() {
   const { data, error } = await supabaseClient
     .from("origin_events")
@@ -18,57 +29,68 @@ async function loadData() {
   }
 
   if (!data || data.length === 0) {
-    renderEmptyState();
+    const emptyBins = buildDisplayBins([]);
+    renderDashboard(emptyBins, []);
     return;
   }
 
   latestChartData = data;
 
   const binStats = buildBinStats(data);
-  const totalBins = binStats.length;
+  const displayBins = buildDisplayBins(binStats);
 
-  const totalCumulativeWeight = binStats.reduce(
+  renderDashboard(displayBins, data);
+}
+
+function renderDashboard(displayBins, rawData) {
+  const activeBins = displayBins.filter((bin) => bin.isActive);
+  const totalBins = displayBins.length;
+  const activeCount = activeBins.length;
+
+  const totalCumulativeWeight = activeBins.reduce(
     (sum, bin) => sum + bin.cumulativeWeight,
     0
   );
 
   const totalValue = totalCumulativeWeight * PRICE_PER_LB;
 
-  const avgPerBin = totalBins
-    ? totalCumulativeWeight / totalBins
+  const avgPerActiveBin = activeCount
+    ? totalCumulativeWeight / activeCount
     : 0;
 
-  const avgFillRate = totalBins
-    ? binStats.reduce((sum, bin) => sum + bin.fillRateLbHour, 0) / totalBins
+  const avgFillRate = activeCount
+    ? activeBins.reduce((sum, bin) => sum + bin.fillRateLbHour, 0) / activeCount
     : 0;
 
-  const top = [...binStats].sort(
+  const top = [...activeBins].sort(
     (a, b) => b.cumulativeWeight - a.cumulativeWeight
   )[0];
 
-  const worst = [...binStats].sort(
+  const worst = [...activeBins].sort(
     (a, b) => a.cumulativeWeight - b.cumulativeWeight
   )[0];
 
-  const laborCost = totalBins * LABOR_COST_PER_ACTIVE_BIN;
-  const grossLoss = calculateGrossLoss(binStats, avgPerBin);
+  const laborCost = activeCount * LABOR_COST_PER_ACTIVE_BIN;
+  const grossLoss = calculateGrossLoss(activeBins, avgPerActiveBin);
   const netImpact = totalValue - grossLoss - laborCost;
 
   setText("totalBins", totalBins);
-  setText("activeBins", "Active: " + totalBins);
+  setText("activeBins", "Active: " + activeCount);
   setText("totalWeight", totalCumulativeWeight.toFixed(1) + " lb");
   setText("estimatedValue", "$" + totalValue.toFixed(2));
   setText("heroEstimatedRevenue", "$" + totalValue.toFixed(2));
-  setText("avgPerBin", avgPerBin.toFixed(1) + " lb");
+  setText("avgPerBin", avgPerActiveBin.toFixed(1) + " lb");
   setText("avgFillRate", avgFillRate.toFixed(1) + " lb/h");
 
-  if (top) {
-    setText("topPerformer", `${top.binId} (${top.cumulativeWeight.toFixed(1)} lb)`);
-  }
+  setText(
+    "topPerformer",
+    top ? `${top.binId} (${top.cumulativeWeight.toFixed(1)} lb)` : "—"
+  );
 
-  if (worst) {
-    setText("needsAttention", `${worst.binId} (${worst.cumulativeWeight.toFixed(1)} lb)`);
-  }
+  setText(
+    "needsAttention",
+    worst ? `${worst.binId} (${worst.cumulativeWeight.toFixed(1)} lb)` : "—"
+  );
 
   setText("estimatedRevenue", "$" + totalValue.toFixed(2));
   setText("grossLoss", "-$" + grossLoss.toFixed(2));
@@ -76,42 +98,19 @@ async function loadData() {
   setText("netImpact", "$" + netImpact.toFixed(2));
 
   setText("barTotalWeight", totalCumulativeWeight.toFixed(1) + " lb");
-  setText("binCountIndicator", Math.min(totalBins, 6) + " / 6");
+  setText("binCountIndicator", activeCount + " / 6");
 
   const lastUpdated = document.getElementById("lastUpdated");
+
   if (lastUpdated) {
     lastUpdated.innerText = "Updated: " + new Date().toLocaleTimeString();
   }
 
-  renderMap(binStats);
-  renderInsights(binStats);
-  renderActivityFeed(data);
-  renderLossTable(binStats, avgPerBin);
-  renderCharts(data, binStats);
-}
-
-function renderEmptyState() {
-  setText("totalBins", 0);
-  setText("activeBins", "Active: 0");
-  setText("totalWeight", "0 lb");
-  setText("estimatedValue", "$0.00");
-  setText("heroEstimatedRevenue", "$0.00");
-  setText("avgPerBin", "0 lb");
-  setText("avgFillRate", "0 lb/h");
-  setText("topPerformer", "—");
-  setText("needsAttention", "—");
-  setText("estimatedRevenue", "$0.00");
-  setText("grossLoss", "-$0.00");
-  setText("laborCost", "$0.00");
-  setText("netImpact", "$0.00");
-  setText("barTotalWeight", "0 lb");
-  setText("binCountIndicator", "0 / 6");
-
-  renderMap([]);
-  renderInsights([]);
-  renderActivityFeed([]);
-  renderLossTable([], 0);
-  renderCharts([], []);
+  renderMap(displayBins);
+  renderInsights(displayBins);
+  renderActivityFeed(rawData);
+  renderLossTable(displayBins, avgPerActiveBin);
+  renderCharts(rawData, displayBins);
 }
 
 function buildBinStats(data) {
@@ -156,7 +155,38 @@ function buildBinStats(data) {
       latest,
       currentWeight: num(latest.weight_lb),
       cumulativeWeight,
-      fillRateLbHour: calculateRecentFillRateLbHour(rows)
+      displayWeight: cumulativeWeight,
+      fillRateLbHour: calculateRecentFillRateLbHour(rows),
+      isActive: true
+    };
+  });
+}
+
+function buildDisplayBins(realBins) {
+  const byId = {};
+
+  realBins.forEach((bin) => {
+    byId[bin.binId] = bin;
+  });
+
+  return DEMO_BIN_IDS.map((binId) => {
+    if (byId[binId]) {
+      return {
+        ...byId[binId],
+        displayWeight: byId[binId].cumulativeWeight,
+        isActive: true
+      };
+    }
+
+    return {
+      binId,
+      rows: [],
+      latest: null,
+      currentWeight: 0,
+      cumulativeWeight: 0,
+      displayWeight: EMPTY_BIN_DISPLAY_WEIGHT,
+      fillRateLbHour: 0,
+      isActive: false
     };
   });
 }
@@ -189,7 +219,7 @@ function calculateRecentFillRateLbHour(rows) {
   return positiveGain / hours;
 }
 
-function renderCharts(data, binStats) {
+function renderCharts(data, displayBins) {
   const barChartHeader = document.getElementById("barChartHeader");
   const barChartFooter = document.getElementById("barChartFooter");
 
@@ -207,7 +237,7 @@ function renderCharts(data, binStats) {
   }
 
   if (currentChartTab === "weightByBin") {
-    renderWeightByBinChart(ctx, binStats || []);
+    renderWeightByBinChart(ctx, displayBins);
     return;
   }
 
@@ -295,34 +325,31 @@ function renderCharts(data, binStats) {
   });
 }
 
-function renderWeightByBinChart(ctx, binStats) {
-  const sortedBins = [...binStats]
-    .sort((a, b) => b.cumulativeWeight - a.cumulativeWeight)
-    .slice(0, 6);
+function renderWeightByBinChart(ctx, displayBins) {
+  const sortedBins = [...displayBins].slice(0, 6);
 
   const labels = sortedBins.map((bin) => bin.binId);
-  const values = sortedBins.map((bin) => bin.cumulativeWeight);
+  const values = sortedBins.map((bin) => bin.displayWeight);
 
-  const activeBinId = "BIN-001";
-
-  const backgroundColors = sortedBins.map((bin, index) => {
-    if (bin.binId === activeBinId || index === 0) {
+  const backgroundColors = sortedBins.map((bin) => {
+    if (bin.isActive) {
       return "#00e08a";
     }
 
-    return "rgba(148, 163, 184, 0.58)";
+    return "rgba(148, 163, 184, 0.35)";
   });
 
-  const borderColors = sortedBins.map((bin, index) => {
-    if (bin.binId === activeBinId || index === 0) {
+  const borderColors = sortedBins.map((bin) => {
+    if (bin.isActive) {
       return "#00e08a";
     }
 
-    return "rgba(148, 163, 184, 0.75)";
+    return "rgba(148, 163, 184, 0.55)";
   });
 
   const valueLabelPlugin = {
     id: "valueLabelPlugin",
+
     afterDatasetsDraw(chart) {
       const { ctx } = chart;
 
@@ -330,10 +357,11 @@ function renderWeightByBinChart(ctx, binStats) {
         const meta = chart.getDatasetMeta(datasetIndex);
 
         meta.data.forEach((bar, index) => {
-          const value = dataset.data[index];
+          const bin = sortedBins[index];
+          const value = bin.isActive ? bin.cumulativeWeight : 0;
 
           ctx.save();
-          ctx.fillStyle = index === 0 ? "#00e08a" : "#cbd5e1";
+          ctx.fillStyle = bin.isActive ? "#00e08a" : "#cbd5e1";
           ctx.font = "700 13px Arial";
           ctx.textAlign = "center";
           ctx.fillText(value.toFixed(1) + " lb", bar.x, bar.y - 8);
@@ -345,6 +373,7 @@ function renderWeightByBinChart(ctx, binStats) {
 
   mainChart = new Chart(ctx, {
     type: "bar",
+
     data: {
       labels,
       datasets: [
@@ -355,10 +384,13 @@ function renderWeightByBinChart(ctx, binStats) {
           borderColor: borderColors,
           borderWidth: 1,
           borderRadius: 7,
-          maxBarThickness: 72
+          maxBarThickness: 88,
+          categoryPercentage: 0.62,
+          barPercentage: 0.88
         }
       ]
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -366,21 +398,22 @@ function renderWeightByBinChart(ctx, binStats) {
 
       plugins: {
         legend: {
-          display: sortedBins.length > 1,
-          labels: {
-            color: "#cbd5e1",
-            boxWidth: 12,
-            padding: 14
-          }
+          display: false
         },
 
         tooltip: {
           callbacks: {
             label(context) {
+              const bin = sortedBins[context.dataIndex];
+
+              if (!bin.isActive) {
+                return bin.binId + ": inactive empty bin";
+              }
+
               return (
-                context.label +
+                bin.binId +
                 ": " +
-                context.parsed.y.toFixed(1) +
+                bin.cumulativeWeight.toFixed(1) +
                 " lb cumulative"
               );
             }
@@ -396,6 +429,7 @@ function renderWeightByBinChart(ctx, binStats) {
               weight: "700"
             }
           },
+
           grid: {
             display: false
           }
@@ -403,20 +437,28 @@ function renderWeightByBinChart(ctx, binStats) {
 
         y: {
           beginAtZero: true,
+          suggestedMax: Math.max(
+            100,
+            Math.max(...values) * 1.25
+          ),
+
           title: {
             display: true,
             text: "Weight (lb)",
             color: "#94a3b8"
           },
+
           ticks: {
             color: "#94a3b8"
           },
+
           grid: {
             color: "rgba(148,163,184,0.09)"
           }
         }
       }
     },
+
     plugins: [valueLabelPlugin]
   });
 }
@@ -458,6 +500,7 @@ function getLineChartOptions() {
           color: "#94a3b8",
           maxTicksLimit: 6
         },
+
         grid: {
           color: "rgba(148,163,184,0.08)"
         }
@@ -465,14 +508,17 @@ function getLineChartOptions() {
 
       y: {
         beginAtZero: true,
+
         title: {
           display: true,
           text: currentChartTab === "fillRate" ? "lb/h" : "lb",
           color: "#94a3b8"
         },
+
         ticks: {
           color: "#94a3b8"
         },
+
         grid: {
           color: "rgba(148,163,184,0.08)"
         }
@@ -531,7 +577,7 @@ function buildHourlyFillRateSeries(rows) {
     });
 }
 
-function renderMap(binStats) {
+function renderMap(displayBins) {
   const map = document.getElementById("fieldMap");
   if (!map) return;
 
@@ -539,20 +585,18 @@ function renderMap(binStats) {
 
   const positions = [
     { x: 18, y: 30 },
-    { x: 42, y: 42 },
+    { x: 42, y: 44 },
     { x: 65, y: 26 },
     { x: 78, y: 58 },
-    { x: 28, y: 70 },
+    { x: 28, y: 72 },
     { x: 55, y: 76 }
   ];
 
-  binStats.slice(0, 6).forEach((bin, index) => {
-    let status = "good";
+  displayBins.slice(0, 6).forEach((bin, index) => {
+    let status = "warning";
 
-    if (bin.cumulativeWeight < 20) {
-      status = "bad";
-    } else if (bin.cumulativeWeight < 60) {
-      status = "warning";
+    if (bin.isActive) {
+      status = "good";
     }
 
     const pos = positions[index];
@@ -567,36 +611,29 @@ function renderMap(binStats) {
   });
 }
 
-function renderInsights(binStats) {
+function renderInsights(displayBins) {
   const list = document.getElementById("insightsList");
   if (!list) return;
 
   list.innerHTML = "";
 
-  if (!binStats || binStats.length === 0) {
+  const activeBins = displayBins.filter((bin) => bin.isActive);
+
+  if (activeBins.length === 0) {
     list.innerHTML = `<div class="empty-state">Waiting for live field insights...</div>`;
     return;
   }
 
   const avg =
-    binStats.reduce((sum, bin) => sum + bin.cumulativeWeight, 0) /
-    binStats.length;
+    activeBins.reduce((sum, bin) => sum + bin.cumulativeWeight, 0) /
+    activeBins.length;
 
   const insights = [];
 
-  binStats.forEach((bin) => {
-    if (avg > 0 && bin.cumulativeWeight > avg * 1.15) {
+  activeBins.forEach((bin) => {
+    if (avg > 0 && bin.cumulativeWeight >= avg) {
       insights.push(
-        `<b>${bin.binId}</b> harvesting above average by ${(
-          ((bin.cumulativeWeight - avg) / avg) *
-          100
-        ).toFixed(0)}%.`
-      );
-    }
-
-    if (avg > 0 && bin.cumulativeWeight < avg * 0.7) {
-      insights.push(
-        `<b>${bin.binId}</b> may need attention based on low cumulative harvest.`
+        `<b>${bin.binId}</b> is actively harvesting and tracking cumulative yield.`
       );
     }
 
@@ -605,8 +642,12 @@ function renderInsights(binStats) {
     }
   });
 
-  if (insights.length === 0) {
-    insights.push("All active bins are operating normally.");
+  const inactiveCount = displayBins.filter((bin) => !bin.isActive).length;
+
+  if (inactiveCount > 0) {
+    insights.push(
+      `<b>${inactiveCount}</b> additional bins are staged but inactive.`
+    );
   }
 
   insights.slice(0, 5).forEach((text) => {
@@ -648,36 +689,29 @@ function renderActivityFeed(data) {
   });
 }
 
-function renderLossTable(binStats, avgPerBin) {
+function renderLossTable(displayBins, avgPerActiveBin) {
   const tbody = document.getElementById("lossTableBody");
   if (!tbody) return;
 
   tbody.innerHTML = "";
 
-  if (!binStats || binStats.length === 0) return;
+  const rows = displayBins.map((bin) => {
+    const actualWeight = bin.isActive ? bin.cumulativeWeight : 0;
+    const lossLb = bin.isActive ? 0 : avgPerActiveBin;
+    const grossLoss = lossLb * PRICE_PER_LB;
 
-  const rows = binStats
-    .map((bin) => {
-      const lossLb = Math.max(0, avgPerBin - bin.cumulativeWeight);
-      const grossLoss = lossLb * PRICE_PER_LB;
+    let reason = "Inactive";
+    if (bin.isActive) reason = "Normal";
 
-      let reason = "Normal";
-
-      if (lossLb > 10) {
-        reason = "Needs review";
-      } else if (lossLb > 3) {
-        reason = "Below avg";
-      }
-
-      return {
-        binId: bin.binId,
-        weight: bin.cumulativeWeight,
-        lossLb,
-        grossLoss,
-        reason
-      };
-    })
-    .sort((a, b) => b.grossLoss - a.grossLoss);
+    return {
+      binId: bin.binId,
+      weight: actualWeight,
+      lossLb,
+      grossLoss,
+      reason,
+      isActive: bin.isActive
+    };
+  });
 
   rows.slice(0, 6).forEach((row) => {
     const tr = document.createElement("tr");
@@ -698,11 +732,11 @@ function renderLossTable(binStats, avgPerBin) {
   });
 }
 
-function calculateGrossLoss(binStats, avgPerBin) {
-  if (!binStats || binStats.length === 0) return 0;
+function calculateGrossLoss(activeBins, avgPerActiveBin) {
+  if (!activeBins || activeBins.length === 0) return 0;
 
-  return binStats.reduce((sum, bin) => {
-    const lossLb = Math.max(0, avgPerBin - bin.cumulativeWeight);
+  return activeBins.reduce((sum, bin) => {
+    const lossLb = Math.max(0, avgPerActiveBin - bin.cumulativeWeight);
     return sum + lossLb * PRICE_PER_LB;
   }, 0);
 }
@@ -722,7 +756,8 @@ function switchChartTab(tabName) {
 
   if (latestChartData && latestChartData.length > 0) {
     const binStats = buildBinStats(latestChartData);
-    renderCharts(latestChartData, binStats);
+    const displayBins = buildDisplayBins(binStats);
+    renderCharts(latestChartData, displayBins);
   }
 }
 
