@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="origin-dashboard.css?v=300" />
+
+  <link rel="stylesheet" href="origin-dashboard.css?v=500" />
 </head>
 
 <body>
@@ -39,11 +40,15 @@
       <header class="topbar">
         <div>
           <div class="eyebrow">Operational Intelligence Platform</div>
+
           <div class="title-row">
             <div class="logo-cube small">H</div>
             <h1>HEKONE Origin</h1>
           </div>
-          <p>Live harvest visibility, loss detection, and field-level performance intelligence.</p>
+
+          <p>
+            Live harvest visibility, loss detection, and field-level performance intelligence.
+          </p>
         </div>
 
         <div class="top-actions">
@@ -54,13 +59,18 @@
       </header>
 
       <section class="hero-dashboard">
+
         <div class="hero-kpi-card">
           <div class="hero-kpi-top">
             <span>Estimated Revenue (Today)</span>
             <span class="status-pill good-pill">● Live</span>
           </div>
+
           <strong id="heroEstimatedRevenue">$0.00</strong>
-          <small>Live projected value based on cumulative harvested weight today.</small>
+
+          <small>
+            Live projected value based on cumulative harvested weight today.
+          </small>
         </div>
 
         <div class="field-map-panel">
@@ -68,9 +78,11 @@
             <b>Live Orchard Map</b>
             <span>Bin status</span>
           </div>
+
           <div id="fieldMap" class="field-map">
             <div class="map-grid"></div>
           </div>
+
           <div class="map-legend">
             <span><i class="good-dot"></i> Healthy</span>
             <span><i class="warn-dot"></i> Slow</span>
@@ -83,13 +95,16 @@
             <b>Operational Insights</b>
             <span>Today</span>
           </div>
+
           <div id="insightsList" class="insights-list">
             <div class="empty-state">Waiting for live field insights...</div>
           </div>
         </div>
+
       </section>
 
       <section class="summary-grid">
+
         <div class="summary-card">
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
@@ -117,7 +132,7 @@
         <div class="summary-card">
           <span>Top Performer</span>
           <strong id="topPerformer">—</strong>
-          <small>Highest weight</small>
+          <small>Highest cumulative weight</small>
         </div>
 
         <div class="summary-card danger-text">
@@ -131,17 +146,22 @@
           <strong id="avgFillRate">0 lb/h</strong>
           <small>Current harvest speed</small>
         </div>
+
       </section>
 
       <section class="analytics-grid">
+
         <div class="panel chart-panel combined-chart-panel">
+
           <div class="chart-tabs">
             <button id="fillRateTab" class="chart-tab" onclick="switchChartTab('fillRate')">
               Fill Rate Comparison <span>(lb/h)</span>
             </button>
+
             <button id="weightTab" class="chart-tab" onclick="switchChartTab('weight')">
               Weight Over Time <span>(lb per bin)</span>
             </button>
+
             <button id="weightByBinTab" class="chart-tab active" onclick="switchChartTab('weightByBin')">
               Weight by Bin <span>(lb)</span>
             </button>
@@ -152,23 +172,32 @@
               <span>Total Weight (All Bins)</span>
               <strong id="barTotalWeight">0 lb</strong>
             </div>
+
             <div class="bar-filter">☰ Top 6 Bins</div>
           </div>
 
           <canvas id="mainChart"></canvas>
 
           <div id="barChartFooter" class="bar-chart-footer">
-            <span>ⓘ Showing top 6 bins by cumulative harvested weight today.</span>
+            <span>
+              ⓘ Showing top 6 bins by cumulative harvested weight today.
+            </span>
+
             <div>
               <button class="add-bin-btn">+ Add Bin</button>
               <span id="binCountIndicator">0 / 6</span>
             </div>
           </div>
+
         </div>
 
         <div class="right-column">
+
           <div class="panel loss-panel">
-            <div class="panel-title">Loss Analysis <span>(Today)</span></div>
+            <div class="panel-title">
+              Loss Analysis <span>(Today)</span>
+            </div>
+
             <div class="table-wrap">
               <table>
                 <thead>
@@ -180,6 +209,7 @@
                     <th>Reason</th>
                   </tr>
                 </thead>
+
                 <tbody id="lossTableBody"></tbody>
               </table>
             </div>
@@ -190,14 +220,18 @@
               <b>Live Activity Feed</b>
               <span>Recent events</span>
             </div>
+
             <div id="activityFeed" class="activity-feed">
               <div class="empty-state">Waiting for live telemetry...</div>
             </div>
           </div>
+
         </div>
+
       </section>
 
       <section class="impact-row">
+
         <div class="impact-card revenue">
           <div class="impact-icon">$</div>
           <div>
@@ -233,6 +267,7 @@
             <small>Revenue - Loss - Labor</small>
           </div>
         </div>
+
       </section>
 
     </main>
@@ -247,6 +282,7 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js?v=300"></script>
+  <script src="origin-dashboard.js?v=500"></script>
+
 </body>
 </html>
