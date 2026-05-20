@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="origin-dashboard.css" />
+  <link rel="stylesheet" href="origin-dashboard.css?v=300" />
 </head>
 
 <body>
@@ -40,15 +39,11 @@
       <header class="topbar">
         <div>
           <div class="eyebrow">Operational Intelligence Platform</div>
-
           <div class="title-row">
             <div class="logo-cube small">H</div>
             <h1>HEKONE Origin</h1>
           </div>
-
-          <p>
-            Live harvest visibility, loss detection, and field-level performance intelligence.
-          </p>
+          <p>Live harvest visibility, loss detection, and field-level performance intelligence.</p>
         </div>
 
         <div class="top-actions">
@@ -59,18 +54,13 @@
       </header>
 
       <section class="hero-dashboard">
-
         <div class="hero-kpi-card">
           <div class="hero-kpi-top">
             <span>Estimated Revenue (Today)</span>
-            <span class="status-pill good-pill">Live</span>
+            <span class="status-pill good-pill">● Live</span>
           </div>
-
           <strong id="heroEstimatedRevenue">$0.00</strong>
-
-          <small>
-            Live projected value based on cumulative harvested weight today.
-          </small>
+          <small>Live projected value based on cumulative harvested weight today.</small>
         </div>
 
         <div class="field-map-panel">
@@ -78,11 +68,9 @@
             <b>Live Orchard Map</b>
             <span>Bin status</span>
           </div>
-
           <div id="fieldMap" class="field-map">
             <div class="map-grid"></div>
           </div>
-
           <div class="map-legend">
             <span><i class="good-dot"></i> Healthy</span>
             <span><i class="warn-dot"></i> Slow</span>
@@ -95,16 +83,13 @@
             <b>Operational Insights</b>
             <span>Today</span>
           </div>
-
           <div id="insightsList" class="insights-list">
             <div class="empty-state">Waiting for live field insights...</div>
           </div>
         </div>
-
       </section>
 
       <section class="summary-grid">
-
         <div class="summary-card">
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
@@ -132,7 +117,7 @@
         <div class="summary-card">
           <span>Top Performer</span>
           <strong id="topPerformer">—</strong>
-          <small>Highest cumulative weight</small>
+          <small>Highest weight</small>
         </div>
 
         <div class="summary-card danger-text">
@@ -146,130 +131,108 @@
           <strong id="avgFillRate">0 lb/h</strong>
           <small>Current harvest speed</small>
         </div>
-
       </section>
 
       <section class="analytics-grid">
-
         <div class="panel chart-panel combined-chart-panel">
-
           <div class="chart-tabs">
-            <button id="fillRateTab" class="chart-tab active" onclick="switchChartTab('fillRate')">
+            <button id="fillRateTab" class="chart-tab" onclick="switchChartTab('fillRate')">
               Fill Rate Comparison <span>(lb/h)</span>
             </button>
-
             <button id="weightTab" class="chart-tab" onclick="switchChartTab('weight')">
               Weight Over Time <span>(lb per bin)</span>
             </button>
-
-            <button id="weightByBinTab" class="chart-tab" onclick="switchChartTab('weightByBin')">
+            <button id="weightByBinTab" class="chart-tab active" onclick="switchChartTab('weightByBin')">
               Weight by Bin <span>(lb)</span>
             </button>
           </div>
 
-          <div id="barChartHeader" class="bar-chart-header" style="display:none;">
-            <div>
+          <div id="barChartHeader" class="bar-chart-header">
+            <div class="bar-total">
               <span>Total Weight (All Bins)</span>
               <strong id="barTotalWeight">0 lb</strong>
             </div>
-
-            <div class="bar-filter">
-              Top 6 Bins
-            </div>
+            <div class="bar-filter">☰ Top 6 Bins</div>
           </div>
 
           <canvas id="mainChart"></canvas>
 
-          <div id="barChartFooter" class="bar-chart-footer" style="display:none;">
-            <span>
-              Showing top 6 bins by cumulative harvested weight today. New bins will appear automatically when added.
-            </span>
-
+          <div id="barChartFooter" class="bar-chart-footer">
+            <span>ⓘ Showing top 6 bins by cumulative harvested weight today.</span>
             <div>
               <button class="add-bin-btn">+ Add Bin</button>
-              <span id="binCountIndicator">1 / 6</span>
+              <span id="binCountIndicator">0 / 6</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="panel loss-panel">
+            <div class="panel-title">Loss Analysis <span>(Today)</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>BIN ID</th>
+                    <th>Actual Weight</th>
+                    <th>Est. Loss</th>
+                    <th>Gross Loss</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+                <tbody id="lossTableBody"></tbody>
+              </table>
             </div>
           </div>
 
-        </div>
-
-        <div class="panel loss-panel">
-          <div class="panel-title">
-            Loss Analysis <span>(Today)</span>
-          </div>
-
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>BIN ID</th>
-                  <th>Actual Weight</th>
-                  <th>Est. Loss</th>
-                  <th>Gross Loss</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-
-              <tbody id="lossTableBody"></tbody>
-            </table>
+          <div class="panel activity-panel">
+            <div class="panel-title compact">
+              <b>Live Activity Feed</b>
+              <span>Recent events</span>
+            </div>
+            <div id="activityFeed" class="activity-feed">
+              <div class="empty-state">Waiting for live telemetry...</div>
+            </div>
           </div>
         </div>
-
       </section>
 
-      <section class="bottom-grid">
-
-        <div class="impact-row">
-
-          <div class="impact-card revenue">
-            <div class="impact-icon">$</div>
-            <div>
-              <span>Estimated Revenue (Today)</span>
-              <strong id="estimatedRevenue">$0.00</strong>
-              <small>@ $3.00 / lb</small>
-            </div>
-          </div>
-
-          <div class="impact-card loss">
-            <div class="impact-icon">$</div>
-            <div>
-              <span>Gross Loss (Today)</span>
-              <strong id="grossLoss">-$0.00</strong>
-              <small>From underperforming bins</small>
-            </div>
-          </div>
-
-          <div class="impact-card labor">
-            <div class="impact-icon">👥</div>
-            <div>
-              <span>Estimated Labor Cost</span>
-              <strong id="laborCost">$0.00</strong>
-              <small>Based on active bins</small>
-            </div>
-          </div>
-
-          <div class="impact-card net">
-            <div class="impact-icon">↗</div>
-            <div>
-              <span>Net Impact</span>
-              <strong id="netImpact">$0.00</strong>
-              <small>Revenue - Loss - Labor</small>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="panel">
-          <div class="panel-title compact">
-            <b>Live Activity Feed</b>
-            <span>Recent events</span>
-          </div>
-
-          <div id="activityFeed" class="activity-feed">
-            <div class="empty-state">Waiting for live telemetry...</div>
+      <section class="impact-row">
+        <div class="impact-card revenue">
+          <div class="impact-icon">$</div>
+          <div>
+            <span>Estimated Revenue (Today)</span>
+            <strong id="estimatedRevenue">$0.00</strong>
+            <small>@ $3.00 / lb</small>
           </div>
         </div>
 
+        <div class="impact-card loss">
+          <div class="impact-icon">$</div>
+          <div>
+            <span>Gross Loss (Today)</span>
+            <strong id="grossLoss">-$0.00</strong>
+            <small>From underperforming bins</small>
+          </div>
+        </div>
+
+        <div class="impact-card labor">
+          <div class="impact-icon">👥</div>
+          <div>
+            <span>Estimated Labor Cost</span>
+            <strong id="laborCost">$0.00</strong>
+            <small>Based on active bins</small>
+          </div>
+        </div>
+
+        <div class="impact-card net">
+          <div class="impact-icon">↗</div>
+          <div>
+            <span>Net Impact</span>
+            <strong id="netImpact">$0.00</strong>
+            <small>Revenue - Loss - Labor</small>
+          </div>
+        </div>
       </section>
 
     </main>
@@ -284,7 +247,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js"></script>
-
+  <script src="origin-dashboard.js?v=300"></script>
 </body>
 </html>
