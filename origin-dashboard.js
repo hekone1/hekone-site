@@ -5,6 +5,12 @@ let latestChartData = [];
 const PRICE_PER_LB = 3.0;
 const LABOR_COST_PER_ACTIVE_BIN = 2.5;
 
+const RESET_STORAGE_KEY = "hekone_origin_cumulative_reset_time";
+
+let cumulativeResetTime = localStorage.getItem(RESET_STORAGE_KEY)
+  ? new Date(localStorage.getItem(RESET_STORAGE_KEY))
+  : null;
+
 const DISPLAY_BIN_IDS = [
   "BIN-001",
   "BIN-002",
@@ -38,10 +44,14 @@ async function loadData() {
 
   latestChartData = data || [];
 
-  const realBins = buildBinStats(latestChartData);
+  const filteredData = cumulativeResetTime
+    ? latestChartData.filter((row) => new Date(row.created_at) > cumulativeResetTime)
+    : latestChartData;
+
+  const realBins = buildBinStats(filteredData);
   const displayBins = buildDisplayBins(realBins);
 
-  renderDashboard(displayBins, latestChartData);
+  renderDashboard(displayBins, filteredData);
 }
 
 function renderDashboard(displayBins, rawData) {
@@ -52,6 +62,11 @@ function renderDashboard(displayBins, rawData) {
 
   const totalCumulativeWeight = activeBins.reduce(
     (sum, bin) => sum + bin.cumulativeWeight,
+    0
+  );
+
+  const totalLiveWeight = activeBins.reduce(
+    (sum, bin) => sum + bin.currentWeight,
     0
   );
 
@@ -84,6 +99,9 @@ function renderDashboard(displayBins, rawData) {
   setText("heroTotalHarvest", totalCumulativeWeight.toFixed(1) + " lb");
   setText("bottomTotalHarvest", totalCumulativeWeight.toFixed(1) + " lb");
 
+  setText("liveWeight", totalLiveWeight.toFixed(1) + " lb");
+  setText("bottomLiveWeight", totalLiveWeight.toFixed(1) + " lb");
+
   setText("avgPerBin", avgPerActiveBin.toFixed(1) + " lb");
   setText("avgFillRate", avgFillRate.toFixed(1) + " lb/h");
 
@@ -109,6 +127,7 @@ function renderDashboard(displayBins, rawData) {
   setText("netImpact", "$" + netImpact.toFixed(2));
 
   const lastUpdated = document.getElementById("lastUpdated");
+
   if (lastUpdated) {
     lastUpdated.innerText = "Updated: " + new Date().toLocaleTimeString();
   }
@@ -324,6 +343,7 @@ function renderCharts(data, displayBins) {
   });
 
   const binIds = Object.keys(byBin).slice(0, 4);
+
   if (binIds.length === 0) return;
 
   const colors = ["#00e08a", "#22d3ee", "#ffb020", "#ff2e2e"];
@@ -333,7 +353,6 @@ function renderCharts(data, displayBins) {
 
   if (currentChartTab === "fillRate") {
     const firstBinData = buildHourlyFillRateSeries(byBin[binIds[0]]);
-
     labels = firstBinData.map((point) => point.label);
 
     datasets = binIds.map((binId, index) => {
@@ -726,6 +745,27 @@ function calculateGrossLoss(activeBins, avgPerActiveBin) {
   }, 0);
 }
 
+function setupResetButton() {
+  const resetBtn = document.getElementById("resetCumulativeBtn");
+
+  if (!resetBtn) return;
+
+  resetBtn.addEventListener("click", () => {
+    const confirmed = confirm("Reset cumulative harvest weight from now?");
+
+    if (!confirmed) return;
+
+    cumulativeResetTime = new Date();
+
+    localStorage.setItem(
+      RESET_STORAGE_KEY,
+      cumulativeResetTime.toISOString()
+    );
+
+    loadData();
+  });
+}
+
 function switchChartTab(tabName) {
   currentChartTab = tabName;
 
@@ -739,10 +779,14 @@ function switchChartTab(tabName) {
     weightByBinTab.classList.toggle("active", tabName === "weightByBin");
   }
 
-  const realBins = buildBinStats(latestChartData || []);
+  const filteredData = cumulativeResetTime
+    ? latestChartData.filter((row) => new Date(row.created_at) > cumulativeResetTime)
+    : latestChartData;
+
+  const realBins = buildBinStats(filteredData || []);
   const displayBins = buildDisplayBins(realBins);
 
-  renderCharts(latestChartData || [], displayBins);
+  renderCharts(filteredData || [], displayBins);
 }
 
 function num(value) {
@@ -759,6 +803,8 @@ function setText(id, value) {
 
 setInterval(loadData, 5000);
 loadData();
+
+setupResetButton();
 
 setTimeout(() => {
   switchChartTab("weightByBin");
