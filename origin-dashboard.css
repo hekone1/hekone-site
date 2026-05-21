@@ -41,7 +41,7 @@ body::before {
       rgba(0,0,0,.30) 45%,
       rgba(0,0,0,.56)
     ),
-    url("origin-bg.png") center center / cover no-repeat fixed;
+    url("./origin-bg.png") center center / cover no-repeat fixed;
 
   z-index: -2;
 }
