@@ -19,7 +19,7 @@ body {
   background: #0b1017;
 }
 
-/* Sidebar */
+/* ---------- Sidebar ---------- */
 
 .location-sidebar {
   background: #111821;
@@ -64,7 +64,7 @@ body {
   font-weight: 800;
 }
 
-/* Title */
+/* ---------- Sidebar Title ---------- */
 
 .sidebar-title h1 {
   margin: 6px 0;
@@ -84,7 +84,7 @@ body {
   color: #8b5cf6;
 }
 
-/* Stats */
+/* ---------- Stats ---------- */
 
 .stats-card {
   background: #18212c;
@@ -139,7 +139,7 @@ body {
   color: #d1d5db !important;
 }
 
-/* Performance */
+/* ---------- Performance List ---------- */
 
 .performance-head {
   display: flex;
@@ -151,6 +151,7 @@ body {
 
 .performance-head strong {
   color: white;
+  line-height: 1.1;
 }
 
 .performance-head select {
@@ -172,6 +173,15 @@ body {
   padding-right: 4px;
 }
 
+.bin-performance-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bin-performance-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+
 .bin-row {
   display: grid;
   grid-template-columns: 10px 1fr 70px 90px;
@@ -180,8 +190,11 @@ body {
   padding: 11px 10px;
   background: #18212c;
   border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
+.bin-row:hover,
 .bin-row.active {
   background: #202b38;
 }
@@ -219,7 +232,7 @@ body {
   background: #ff453a;
 }
 
-/* GPS */
+/* ---------- GPS Card ---------- */
 
 .gps-card {
   background: #18212c;
@@ -234,6 +247,8 @@ body {
   color: #dbeafe;
 }
 
+/* ---------- Dashboard Link ---------- */
+
 .dashboard-link {
   margin-top: auto;
   color: #8b5cf6;
@@ -242,13 +257,19 @@ body {
   font-size: 13px;
 }
 
-/* Map Area */
+.dashboard-link:hover {
+  color: #a78bfa;
+}
+
+/* ---------- Map Area ---------- */
 
 .map-area {
   position: relative;
   background: #0b1017;
   overflow: hidden;
 }
+
+/* ---------- Topbar ---------- */
 
 .map-topbar {
   height: 64px;
@@ -269,6 +290,11 @@ body {
   color: #e5edf5;
   font-weight: 800;
   font-size: 14px;
+}
+
+.field-selector span {
+  color: #94a3b8;
+  margin-left: 6px;
 }
 
 .live-pill {
@@ -302,9 +328,10 @@ body {
   display: grid;
   place-items: center;
   font-weight: 900;
+  color: white;
 }
 
-/* Filters */
+/* ---------- Filters ---------- */
 
 .filter-row {
   position: absolute;
@@ -323,10 +350,12 @@ body {
   color: white;
   font-size: 12px;
   font-weight: 800;
+  backdrop-filter: blur(10px);
 }
 
 .filter-btn.active {
   background: #7c3aed;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .filter-btn.high {
@@ -341,7 +370,7 @@ body {
   color: #ff453a;
 }
 
-/* Map */
+/* ---------- Map ---------- */
 
 .map-stage {
   position: relative;
@@ -356,9 +385,13 @@ body {
   height: 100%;
 }
 
-/* Mapbox */
+/* ---------- Mapbox Styling ---------- */
 
 .mapboxgl-map {
+  font-family: inherit;
+}
+
+.mapboxgl-control-container {
   font-family: inherit;
 }
 
@@ -367,20 +400,86 @@ body {
   opacity: 0.85;
 }
 
-/* Marker */
-
-.hekone-pin {
-  width: 88px !important;
-  height: 66px !important;
-  display: block !important;
-  position: relative !important;
-  pointer-events: auto !important;
-  overflow: visible !important;
-  max-width: 88px !important;
-  min-width: 88px !important;
+.mapboxgl-popup-content {
+  background: rgba(17, 24, 33, 0.94);
+  color: white;
+  border-radius: 10px;
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  padding: 12px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
 }
 
-/* Status */
+.mapboxgl-popup-tip {
+  border-top-color: rgba(17, 24, 33, 0.94) !important;
+}
+
+/* ---------- Custom Marker ---------- */
+
+.origin-marker {
+  position: relative;
+  transform: translate(-50%, -50%);
+}
+
+.origin-marker-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00c46a;
+  border: 3px solid rgba(4, 9, 15, 0.95);
+  box-shadow: 0 0 0 4px rgba(0, 196, 106, 0.25);
+  margin: 0 auto 4px auto;
+}
+
+.origin-marker.low .origin-marker-dot {
+  background: #ff453a;
+  box-shadow: 0 0 0 4px rgba(255, 69, 58, 0.25);
+}
+
+.origin-marker.average .origin-marker-dot {
+  background: #facc15;
+  box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.25);
+}
+
+.origin-marker-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 132px;
+  padding: 9px 11px;
+  background: rgba(12, 17, 23, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.origin-marker-icon {
+  color: #8b5cf6;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.origin-marker-info small {
+  display: block;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.origin-marker-info strong {
+  display: block;
+  font-size: 15px;
+  color: #00c46a;
+}
+
+.origin-marker.low .origin-marker-info strong {
+  color: #ff453a;
+}
+
+.origin-marker.average .origin-marker-info strong {
+  color: #facc15;
+}
+
+/* ---------- Map Status ---------- */
 
 .map-status {
   position: absolute;
@@ -393,7 +492,10 @@ body {
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 13px;
+  backdrop-filter: blur(10px);
 }
+
+/* ---------- Scale ---------- */
 
 .scale-box {
   position: absolute;
@@ -405,13 +507,18 @@ body {
   border-bottom: 2px solid white;
   padding: 0 30px 5px 0;
   z-index: 5;
+  opacity: 0.9;
 }
 
-/* Responsive */
+/* ---------- Responsive ---------- */
 
 @media (max-width: 950px) {
   .location-app {
     grid-template-columns: 1fr;
+  }
+
+  .location-sidebar {
+    min-height: auto;
   }
 
   .map-stage {
@@ -429,6 +536,16 @@ body {
 @media (max-width: 600px) {
   .stats-card {
     grid-template-columns: 1fr;
+  }
+
+  .map-topbar {
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .field-selector {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 
   .date-text {
