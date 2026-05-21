@@ -5,7 +5,14 @@
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="origin-dashboard.css?v=905" />
+  <!-- Mapbox CSS -->
+  <link
+    href="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.css"
+    rel="stylesheet"
+  />
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="origin-dashboard.css?v=906" />
 </head>
 
 <body>
@@ -23,7 +30,9 @@
 
       <nav class="nav-list">
         <button class="nav-item active"><span>⌗</span> Dashboard</button>
-        <button class="nav-item"><span>⌖</span> Locations</button>
+        <button class="nav-item" onclick="window.location.href='location.html'">
+          <span>⌖</span> Locations
+        </button>
         <button class="nav-item"><span>☷</span> Harvest Teams</button>
         <button class="nav-item"><span>◴</span> Reports</button>
         <button class="nav-item"><span>△</span> Alerts</button>
@@ -101,8 +110,14 @@
               </span>
             </div>
 
-            <div id="fieldMap" class="field-map">
-              <div class="map-grid"></div>
+            <div
+              id="fieldMap"
+              class="field-map mini-real-map"
+              onclick="window.location.href='location.html'"
+              title="Open live location map"
+            >
+              <div id="dashboardMiniMap"></div>
+              <div class="mini-map-overlay"></div>
             </div>
 
             <div class="map-legend">
@@ -124,7 +139,7 @@
 
             <div id="inactiveBinList" class="inactive-list"></div>
 
-            <button class="panel-link">
+            <button class="panel-link" onclick="window.location.href='location.html'">
               View All Inactive Bins
               <span>→</span>
             </button>
@@ -342,8 +357,8 @@
     </main>
   </div>
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
     const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
@@ -351,6 +366,13 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="origin-dashboard.js?v=800"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+
+  <!-- Dashboard JS -->
+  <script src="origin-dashboard.js?v=902"></script>
 </body>
 </html>
