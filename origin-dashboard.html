@@ -5,13 +5,12 @@
   <title>HEKONE Origin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="origin-dashboard.css?v=700" />
+  <link rel="stylesheet" href="origin-dashboard.css?v=800" />
 </head>
 
 <body>
   <div class="app-shell">
 
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand-block">
         <div class="logo-cube">H</div>
@@ -23,35 +22,12 @@
       </div>
 
       <nav class="nav-list">
-        <button class="nav-item active">
-          <span>⌗</span>
-          Dashboard
-        </button>
-
-        <button class="nav-item">
-          <span>⌖</span>
-          Locations
-        </button>
-
-        <button class="nav-item">
-          <span>☷</span>
-          Harvest Teams
-        </button>
-
-        <button class="nav-item">
-          <span>◴</span>
-          Reports
-        </button>
-
-        <button class="nav-item">
-          <span>△</span>
-          Alerts
-        </button>
-
-        <button class="nav-item">
-          <span>⚙</span>
-          Settings
-        </button>
+        <button class="nav-item active"><span>⌗</span> Dashboard</button>
+        <button class="nav-item"><span>⌖</span> Locations</button>
+        <button class="nav-item"><span>☷</span> Harvest Teams</button>
+        <button class="nav-item"><span>◴</span> Reports</button>
+        <button class="nav-item"><span>△</span> Alerts</button>
+        <button class="nav-item"><span>⚙</span> Settings</button>
       </nav>
 
       <div class="sidebar-footer">
@@ -67,10 +43,8 @@
       </div>
     </aside>
 
-    <!-- Main Dashboard -->
     <main class="dashboard">
 
-      <!-- Header -->
       <header class="topbar">
         <div>
           <div class="eyebrow">Operational Intelligence Platform</div>
@@ -92,10 +66,8 @@
         </div>
       </header>
 
-      <!-- Top Section -->
       <section class="hero-dashboard">
 
-        <!-- Total Harvest Card -->
         <div class="hero-kpi-card">
           <div class="hero-kpi-top">
             <span>Total Harvest Today</span>
@@ -110,13 +82,15 @@
             Live cumulative weight harvested today.
           </p>
 
+          <button id="resetCumulativeBtn" class="reset-cumulative-btn">
+            Reset Cumulative Weight
+          </button>
+
           <div class="leaf-line"></div>
         </div>
 
-        <!-- Map + Inactive Bins Card -->
         <div class="map-status-card">
 
-          <!-- Connected Map -->
           <div class="connected-map-panel">
             <div class="panel-title compact">
               <b>⌖ Sunnyvale Orchard, Block A-12</b>
@@ -138,7 +112,6 @@
             </div>
           </div>
 
-          <!-- Inactive Bins -->
           <div class="inactive-panel">
             <div class="panel-title compact">
               <b>Inactive / Off-Route Bins</b>
@@ -160,7 +133,6 @@
         </div>
       </section>
 
-      <!-- KPI Summary Row -->
       <section class="summary-grid">
 
         <div class="summary-card">
@@ -173,6 +145,12 @@
           <span>Total Harvested</span>
           <strong id="totalWeight">0 lb</strong>
           <small>Live cumulative weight</small>
+        </div>
+
+        <div class="summary-card live-weight-card">
+          <span>Live Weight</span>
+          <strong id="liveWeight">0 lb</strong>
+          <small>Current real-time weight</small>
         </div>
 
         <div class="summary-card">
@@ -201,10 +179,8 @@
 
       </section>
 
-      <!-- Chart + Loss Section -->
       <section class="analytics-grid">
 
-        <!-- Main Chart Card -->
         <div class="panel chart-panel combined-chart-panel">
 
           <div class="chart-tabs">
@@ -272,7 +248,6 @@
 
         </div>
 
-        <!-- Loss Analysis Card -->
         <div class="panel loss-panel">
           <div class="panel-title compact loss-title">
             <b>
@@ -310,7 +285,6 @@
 
       </section>
 
-      <!-- Bottom Impact Row -->
       <section class="impact-row">
 
         <div class="impact-card revenue">
@@ -320,6 +294,16 @@
             <span>Total Harvest Today</span>
             <strong id="bottomTotalHarvest">0 lb</strong>
             <small>@ $3.00 / lb</small>
+          </div>
+        </div>
+
+        <div class="impact-card live">
+          <div class="impact-icon">↯</div>
+
+          <div>
+            <span>Live Weight Now</span>
+            <strong id="bottomLiveWeight">0 lb</strong>
+            <small>Current bin load</small>
           </div>
         </div>
 
@@ -358,18 +342,15 @@
     </main>
   </div>
 
-  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Supabase Config -->
   <script>
     const supabaseUrl = "https://anfhobbenrpvppzsaszr.supabase.co";
     const supabaseKey = "sb_publishable_jf6yF7FU5wLGGSAjK7emxw_i5qFEuFW";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <!-- Dashboard Logic -->
-  <script src="origin-dashboard.js?v=700"></script>
+  <script src="origin-dashboard.js?v=800"></script>
 </body>
 </html>
