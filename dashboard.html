@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HEKONE | Store Dashboard</title>
+
   <link rel="stylesheet" href="dashboard.css" />
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -12,19 +14,19 @@
 <body>
   <div class="dashboard-layout">
     <aside class="sidebar">
-      <div>
+      <div class="sidebar-top">
         <div class="logo-box">HEKONE</div>
         <p class="sidebar-subtitle">Smart Retail Intelligence</p>
-
-        <nav class="sidebar-nav">
-          <a href="#" class="active">Dashboard</a>
-          <a href="#">Devices</a>
-          <a href="#">Transactions</a>
-          <a href="#">Analytics</a>
-          <a href="#">Store Profile</a>
-          <a href="login.html">Logout</a>
-        </nav>
       </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Devices</a>
+        <a href="#">Transactions</a>
+        <a href="#">Analytics</a>
+        <a href="#">Store Profile</a>
+        <a href="login.html">Logout</a>
+      </nav>
     </aside>
 
     <main class="main-content">
@@ -36,78 +38,74 @@
           </div>
 
           <h1>Store Dashboard</h1>
-          <p>Track dispensing activity, revenue, usage, and remaining inventory.</p>
+          <p>Track dispensing activity, revenue, usage, and store performance.</p>
         </div>
       </header>
 
-      <section class="status-row">
-        <div class="status-card">
-          <div class="status-card-left">
-            <span class="status-dot"></span>
-            <div>
-              <strong id="statusTitle">Connected</strong>
-              <p id="statusText">Live data synced successfully.</p>
+      <section class="status-card">
+        <div class="status-card-left">
+          <span class="status-dot"></span>
 
-              <div class="wifi-signal-wrap" id="wifiSignalWrap">
-                <span class="wifi-bars" id="wifiBars">
-                  <span class="wifi-bar bar-1"></span>
-                  <span class="wifi-bar bar-2"></span>
-                  <span class="wifi-bar bar-3"></span>
-                  <span class="wifi-bar bar-4"></span>
-                </span>
-                <span id="wifiSignalText">WiFi Signal: -</span>
-              </div>
+          <div>
+            <strong id="statusTitle">Connected</strong>
+            <p id="statusText">Device online • WiFi: -</p>
+
+            <div class="wifi-signal-wrap">
+              <span class="wifi-bars" id="wifiBars">
+                <span class="wifi-bar bar-1"></span>
+                <span class="wifi-bar bar-2"></span>
+                <span class="wifi-bar bar-3"></span>
+                <span class="wifi-bar bar-4"></span>
+              </span>
+              <span id="wifiSignalText">WiFi Signal: -</span>
             </div>
           </div>
-
-          <div class="status-meta" id="statusMeta">Updated just now</div>
         </div>
+
+        <div class="status-meta" id="statusMeta">Updated just now</div>
       </section>
 
-      <section class="kpi-grid simplified">
-        <div class="kpi-card">
-          <span>Revenue</span>
-          <h2 id="revenueValue">$0.00</h2>
-          <small>Selected range revenue</small>
+      <section class="kpi-section">
+        <div class="range-tabs">
+          <button class="range-tab active" data-range="daily">Today</button>
+          <button class="range-tab" data-range="weekly">Last 7 days</button>
+          <button class="range-tab" data-range="monthly">Last 30 days</button>
         </div>
 
-        <div class="kpi-card">
-          <span>Transactions</span>
-          <h2 id="transactionsValue">0</h2>
-          <small>Completed dispensing events</small>
-        </div>
-
-        <div class="kpi-card">
-          <span>Dispensed Weight</span>
-          <h2 id="dispensedWeightValue">0.000 lb</h2>
-          <small id="dispensedWeightSubtext">0.00 g dispensed</small>
-        </div>
-
-        <div class="kpi-card">
-          <span>Remaining Inventory</span>
-          <h2 id="remainingInventoryValue">25.000 lb</h2>
-          <small>Projected remaining inventory</small>
-        </div>
-
-        <div class="kpi-card kpi-card-accent">
-          <span>Usage Level</span>
-          <h2 id="usageLevelValue">0.0%</h2>
-          <small>Dispensed from loaded cycle</small>
-        </div>
-      </section>
-
-      <section class="panel-card main-chart-panel">
-        <div class="panel-header panel-header-split">
-          <div>
-            <h3 id="mainChartTitle">Dispense Activity</h3>
-            <span class="panel-note" id="mainChartNote">Weight dispensed over selected range</span>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span>Revenue</span>
+            <h2 id="revenueValue">$0.00</h2>
+            <small>Selected range revenue</small>
           </div>
 
-          <div class="topbar-controls">
+          <div class="kpi-card">
+            <span>Transactions</span>
+            <h2 id="transactionsValue">0</h2>
+            <small>Completed dispensing events</small>
+          </div>
+
+          <div class="kpi-card">
+            <span>Dispensed Weight</span>
+            <h2 id="dispensedWeightValue">0.000 lb</h2>
+            <small id="dispensedWeightSubtext">0.00 g</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel-card chart-panel">
+        <div class="panel-header panel-header-split">
+          <div>
+            <h3 id="mainChartTitle">Revenue Activity - Incremental</h3>
+            <span class="panel-note" id="mainChartNote">Individual dispensing activity over time</span>
+          </div>
+
+          <div class="chart-controls">
             <select id="metricSelect">
-              <option value="weight_lb" selected>Weight</option>
-              <option value="price">Revenue</option>
+              <option value="price" selected>Revenue</option>
               <option value="weight_g">Weight (g)</option>
+              <option value="weight_lb">Weight (lb)</option>
+              <option value="calories">Calories</option>
             </select>
 
             <select id="timeRange">
@@ -133,6 +131,7 @@
             <h3>Recent Transactions</h3>
             <span class="panel-note">Latest 10 dispensing events</span>
           </div>
+
           <span class="table-summary" id="tableSummary">0 rows</span>
         </div>
 
@@ -159,6 +158,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=20"></script>
+  <script src="dashboard.js?v=30"></script>
 </body>
 </html>
