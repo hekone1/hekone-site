@@ -1,9 +1,8 @@
-console.log("dashboard.js loaded - simplified store dashboard");
+console.log("dashboard.js loaded - simplified dashboard");
 
 let mainTrendChartInstance = null;
 let allRows = [];
 
-const INITIAL_LOAD_LB = 25;
 const DEVICE_ID = "hekone_v1";
 const DEVICE_ONLINE_THRESHOLD_SEC = 30;
 
@@ -27,14 +26,6 @@ function formatWeightG(value) {
 
 function formatWeightLb(value) {
   return Number(value || 0).toFixed(3);
-}
-
-function formatPercent(value) {
-  return `${Number(value || 0).toFixed(1)}%`;
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
 }
 
 function parseSupabaseDate(value) {
@@ -73,15 +64,12 @@ function updateWifiBars(rssi, isOnline) {
   if (level === 3) label = "Good";
   if (level === 2) label = "Fair";
 
-  text.textContent = `WiFi Signal: ${label} (${rssi} dBm)`;
+  text.textContent = `WiFi Signal: ${label}`;
 }
 
 function setConnected(data, secondsAgo) {
   setText("statusTitle", "Connected");
-  setText(
-    "statusText",
-    `Device online • WiFi: ${data.wifi_ssid || "-"} • RSSI: ${data.rssi ?? "-"} dBm • IP: ${data.local_ip || "-"}`
-  );
+  setText("statusText", `Device online • WiFi: ${data.wifi_ssid || "-"}`);
   setText("statusMeta", `Updated ${secondsAgo} sec ago`);
 
   const connectionStatus = byId("connectionStatus");
@@ -138,7 +126,7 @@ async function updateDeviceStatus() {
     const nowMs = Date.now();
 
     if (!lastSeenMs || Number.isNaN(lastSeenMs)) {
-      setDisconnected("Invalid last_seen timestamp");
+      setDisconnected("Invalid device heartbeat");
       return;
     }
 
@@ -205,16 +193,10 @@ function updateKPIs(rows) {
     weightLb += Number(item.weight_lb || 0);
   });
 
-  const txnCount = rows.length;
-  const remainingLb = Math.max(INITIAL_LOAD_LB - weightLb, 0);
-  const usagePct = clamp((weightLb / INITIAL_LOAD_LB) * 100, 0, 100);
-
   setText("revenueValue", formatCurrency(revenue));
-  setText("transactionsValue", String(txnCount));
+  setText("transactionsValue", String(rows.length));
   setText("dispensedWeightValue", `${formatWeightLb(weightLb)} lb`);
-  setText("dispensedWeightSubtext", `${formatWeightG(weightG)} g total dispensed`);
-  setText("remainingInventoryValue", `${formatWeightLb(remainingLb)} lb`);
-  setText("usageValue", formatPercent(usagePct));
+  setText("dispensedWeightSubtext", `${formatWeightG(weightG)} g`);
 }
 
 function updateTransactionsTable(rows) {
@@ -266,6 +248,7 @@ function getMetricConfig(metric) {
 
 function makeCumulative(series) {
   let running = 0;
+
   return series.map((value) => {
     running += Number(value || 0);
     return Number(running.toFixed(2));
@@ -320,7 +303,7 @@ function updateMainChart(rows) {
     "mainChartNote",
     chartMode === "cumulative"
       ? `Running total of ${config.label.toLowerCase()}`
-      : `Individual dispensing activity over time`
+      : "Individual dispensing activity over time"
   );
 
   if (mainTrendChartInstance) mainTrendChartInstance.destroy();
@@ -347,19 +330,41 @@ function updateMainChart(rows) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
       plugins: {
         legend: {
-          labels: { color: "#dce6ff" }
+          display: true,
+          position: "top",
+          labels: {
+            color: "#dce6ff",
+            boxWidth: 28
+          }
         }
       },
       scales: {
         x: {
-          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
-          grid: { color: "rgba(255,255,255,0.06)" }
+          ticks: {
+            color: "#aeb8d8",
+            maxRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 8
+          },
+          grid: {
+            color: "rgba(255,255,255,0.05)"
+          }
         },
         y: {
-          ticks: { color: "#aeb8d8" },
-          grid: { color: "rgba(255,255,255,0.06)" }
+          beginAtZero: true,
+          ticks: {
+            color: "#aeb8d8",
+            maxTicksLimit: 5
+          },
+          grid: {
+            color: "rgba(255,255,255,0.05)"
+          }
         }
       }
     }
@@ -381,6 +386,25 @@ const chartMode = byId("chartMode");
 if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
 if (timeRange) timeRange.addEventListener("change", renderDashboard);
 if (chartMode) chartMode.addEventListener("change", renderDashboard);
+
+document.querySelectorAll(".range-tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".range-tab").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    const range = button.dataset.range;
+    const timeRangeSelect = byId("timeRange");
+
+    if (timeRangeSelect) {
+      timeRangeSelect.value = range;
+    }
+
+    renderDashboard();
+  });
+});
 
 loadDashboardData();
 updateDeviceStatus();
