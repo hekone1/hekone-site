@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - simplified HEKONE store dashboard");
+console.log("dashboard.js loaded - simplified store dashboard");
 
 let mainTrendChartInstance = null;
 let allRows = [];
@@ -78,21 +78,20 @@ function updateWifiBars(rssi, isOnline) {
 
 function setConnected(data, secondsAgo) {
   setText("statusTitle", "Connected");
-
   setText(
     "statusText",
     `Device online • WiFi: ${data.wifi_ssid || "-"} • RSSI: ${data.rssi ?? "-"} dBm • IP: ${data.local_ip || "-"}`
   );
-
   setText("statusMeta", `Updated ${secondsAgo} sec ago`);
 
   const connectionStatus = byId("connectionStatus");
+  const statusDot = document.querySelector(".status-dot");
+
   if (connectionStatus) {
     connectionStatus.textContent = "Live";
     connectionStatus.className = "status-pill live";
   }
 
-  const statusDot = document.querySelector(".status-dot");
   if (statusDot) {
     statusDot.style.background = "#5df2a6";
     statusDot.style.boxShadow = "0 0 12px rgba(93,242,166,0.7)";
@@ -107,12 +106,13 @@ function setDisconnected(message) {
   setText("statusMeta", "Waiting for heartbeat");
 
   const connectionStatus = byId("connectionStatus");
+  const statusDot = document.querySelector(".status-dot");
+
   if (connectionStatus) {
     connectionStatus.textContent = "Offline";
     connectionStatus.className = "status-pill error";
   }
 
-  const statusDot = document.querySelector(".status-dot");
   if (statusDot) {
     statusDot.style.background = "#ff5a5a";
     statusDot.style.boxShadow = "0 0 12px rgba(255,90,90,0.7)";
@@ -175,7 +175,8 @@ async function loadDashboardData() {
 }
 
 function filterRowsByRange(rows) {
-  const range = byId("timeRange") ? byId("timeRange").value : "daily";
+  const rangeEl = byId("timeRange");
+  const range = rangeEl ? rangeEl.value : "daily";
   const now = new Date();
 
   return rows.filter((item) => {
@@ -186,4 +187,203 @@ function filterRowsByRange(rows) {
 
     if (range === "daily") return diffDays <= 1;
     if (range === "weekly") return diffDays <= 7;
-    if (range === "monthly") return diffDays <= 
+    if (range === "monthly") return diffDays <= 30;
+    if (range === "yearly") return diffDays <= 365;
+
+    return true;
+  });
+}
+
+function updateKPIs(rows) {
+  let revenue = 0;
+  let weightG = 0;
+  let weightLb = 0;
+
+  rows.forEach((item) => {
+    revenue += Number(item.price || 0);
+    weightG += Number(item.weight_g || 0);
+    weightLb += Number(item.weight_lb || 0);
+  });
+
+  const txnCount = rows.length;
+  const remainingLb = Math.max(INITIAL_LOAD_LB - weightLb, 0);
+  const usagePct = clamp((weightLb / INITIAL_LOAD_LB) * 100, 0, 100);
+
+  setText("revenueValue", formatCurrency(revenue));
+  setText("transactionsValue", String(txnCount));
+  setText("dispensedWeightValue", `${formatWeightLb(weightLb)} lb`);
+  setText("dispensedWeightSubtext", `${formatWeightG(weightG)} g total dispensed`);
+  setText("remainingInventoryValue", `${formatWeightLb(remainingLb)} lb`);
+  setText("usageValue", formatPercent(usagePct));
+}
+
+function updateTransactionsTable(rows) {
+  const tbody = byId("transactionsTableBody");
+  const tableSummary = byId("tableSummary");
+
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  const recentRows = rows.slice(0, 10);
+  if (tableSummary) tableSummary.textContent = `${recentRows.length} rows`;
+
+  recentRows.forEach((item) => {
+    const parsedDate = parseSupabaseDate(item.created_at);
+    const displayTime = parsedDate ? parsedDate.toLocaleString() : item.created_at || "-";
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${displayTime}</td>
+      <td><span class="device-chip">${item.device_id ?? "-"}</span></td>
+      <td>
+        <strong>${formatWeightLb(item.weight_lb)} lb</strong>
+        <span class="muted-table-text">${formatWeightG(item.weight_g)} g</span>
+      </td>
+      <td class="price-cell">${formatCurrency(item.price)}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+function getMetricConfig(metric) {
+  if (metric === "weight_g") {
+    return { key: "weight_g", label: "Weight (g)", title: "Dispensed Weight" };
+  }
+
+  if (metric === "weight_lb") {
+    return { key: "weight_lb", label: "Weight (lb)", title: "Dispensed Weight" };
+  }
+
+  if (metric === "calories") {
+    return { key: "calories", label: "Calories", title: "Calories Activity" };
+  }
+
+  return { key: "price", label: "Revenue", title: "Revenue Activity" };
+}
+
+function makeCumulative(series) {
+  let running = 0;
+  return series.map((value) => {
+    running += Number(value || 0);
+    return Number(running.toFixed(2));
+  });
+}
+
+function groupMetricByRange(rows, metricKey) {
+  const labels = [];
+  const metricSeries = [];
+
+  rows.slice().reverse().forEach((item) => {
+    const d = parseSupabaseDate(item.created_at);
+
+    labels.push(
+      d
+        ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        : "-"
+    );
+
+    metricSeries.push(Number(item[metricKey] || 0));
+  });
+
+  return { labels, metricSeries };
+}
+
+function updateMainChart(rows) {
+  const metricEl = byId("metricSelect");
+  const chartModeEl = byId("chartMode");
+  const canvas = byId("mainTrendChart");
+
+  if (!metricEl || !canvas) return;
+
+  const metric = metricEl.value;
+  const chartMode = chartModeEl ? chartModeEl.value : "incremental";
+  const config = getMetricConfig(metric);
+  const grouped = groupMetricByRange(rows, config.key);
+
+  let chartSeries = grouped.metricSeries;
+
+  if (chartMode === "cumulative") {
+    chartSeries = makeCumulative(grouped.metricSeries);
+  }
+
+  setText(
+    "mainChartTitle",
+    chartMode === "cumulative"
+      ? `${config.title} - Cumulative`
+      : `${config.title} - Incremental`
+  );
+
+  setText(
+    "mainChartNote",
+    chartMode === "cumulative"
+      ? `Running total of ${config.label.toLowerCase()}`
+      : `Individual dispensing activity over time`
+  );
+
+  if (mainTrendChartInstance) mainTrendChartInstance.destroy();
+
+  mainTrendChartInstance = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: grouped.labels,
+      datasets: [
+        {
+          label: config.label,
+          data: chartSeries,
+          tension: 0.35,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          fill: true,
+          backgroundColor: "rgba(65, 156, 255, 0.12)",
+          borderColor: "rgba(65, 156, 255, 1)",
+          pointBackgroundColor: "rgba(65, 156, 255, 1)"
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: "#dce6ff" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        },
+        y: {
+          ticks: { color: "#aeb8d8" },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        }
+      }
+    }
+  });
+}
+
+function renderDashboard() {
+  const filteredRows = filterRowsByRange(allRows);
+
+  updateKPIs(filteredRows);
+  updateTransactionsTable(filteredRows);
+  updateMainChart(filteredRows);
+}
+
+const metricSelect = byId("metricSelect");
+const timeRange = byId("timeRange");
+const chartMode = byId("chartMode");
+
+if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
+if (timeRange) timeRange.addEventListener("change", renderDashboard);
+if (chartMode) chartMode.addEventListener("change", renderDashboard);
+
+loadDashboardData();
+updateDeviceStatus();
+
+setInterval(loadDashboardData, 10000);
+setInterval(updateDeviceStatus, 5000);
