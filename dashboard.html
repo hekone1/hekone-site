@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
   <div class="dashboard-layout">
     <aside class="sidebar">
@@ -42,18 +43,27 @@
       </header>
 
       <section class="status-row">
-        <div class="status-card status-unknown" id="deviceStatusCard">
+        <div class="status-card">
           <div class="status-card-left">
-            <span class="status-dot" id="deviceStatusDot"></span>
+            <span class="status-dot"></span>
+
             <div>
-              <strong id="statusTitle">Checking device...</strong>
-              <p id="statusText">Waiting for dispenser heartbeat.</p>
-              <div class="device-status-details" id="deviceStatusDetails">
-                WiFi: - · RSSI: - · IP: -
+              <strong id="statusTitle">Connected</strong>
+              <p id="statusText">Live data synced successfully.</p>
+
+              <div class="wifi-signal-wrap" id="wifiSignalWrap">
+                <span class="wifi-bars" id="wifiBars">
+                  <span class="wifi-bar bar-1"></span>
+                  <span class="wifi-bar bar-2"></span>
+                  <span class="wifi-bar bar-3"></span>
+                  <span class="wifi-bar bar-4"></span>
+                </span>
+                <span id="wifiSignalText">WiFi Signal: -</span>
               </div>
             </div>
           </div>
-          <div class="status-meta" id="statusMeta">Last seen: -</div>
+
+          <div class="status-meta" id="statusMeta">Updated just now</div>
         </div>
       </section>
 
@@ -140,7 +150,9 @@
         <div class="panel-card">
           <div class="panel-header">
             <h3 id="revenueChartTitle">Revenue by Period</h3>
-            <span class="panel-note" id="revenueChartNote">Aggregated revenue across selected range</span>
+            <span class="panel-note" id="revenueChartNote">
+              Aggregated revenue across selected range
+            </span>
           </div>
           <canvas id="transactionsChart"></canvas>
         </div>
