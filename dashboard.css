@@ -136,6 +136,19 @@ a {
   border-color: rgba(255, 90, 90, 0.24);
 }
 
+.status-pill.disconnected {
+  color: #ffd1d1;
+  background: rgba(255, 90, 90, 0.12);
+  border-color: rgba(255, 90, 90, 0.24);
+}
+
+.status-pill.warning {
+  color: #ffe6b0;
+  background: rgba(255, 184, 77, 0.12);
+  border-color: rgba(255, 184, 77, 0.24);
+}
+
+
 .topbar h1 {
   margin: 0 0 8px;
   font-size: 30px;
@@ -209,6 +222,44 @@ a {
   box-shadow: 0 0 12px rgba(93, 242, 166, 0.7);
   flex-shrink: 0;
 }
+
+.status-dot.online {
+  background: #5df2a6;
+  box-shadow: 0 0 12px rgba(93, 242, 166, 0.7);
+}
+
+.status-dot.offline {
+  background: #ff5a5a;
+  box-shadow: 0 0 12px rgba(255, 90, 90, 0.65);
+}
+
+.status-dot.unknown {
+  background: #ffb84d;
+  box-shadow: 0 0 12px rgba(255, 184, 77, 0.55);
+}
+
+.status-card.status-connected {
+  border-color: rgba(66, 186, 121, 0.30);
+  background: linear-gradient(180deg, rgba(66, 186, 121, 0.08), rgba(24, 30, 74, 0.72));
+}
+
+.status-card.status-disconnected {
+  border-color: rgba(255, 90, 90, 0.30);
+  background: linear-gradient(180deg, rgba(255, 90, 90, 0.08), rgba(24, 30, 74, 0.72));
+}
+
+.status-card.status-unknown {
+  border-color: rgba(255, 184, 77, 0.26);
+  background: linear-gradient(180deg, rgba(255, 184, 77, 0.08), rgba(24, 30, 74, 0.72));
+}
+
+.device-status-details {
+  margin-top: 7px;
+  color: #7f8cb5;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 
 .status-meta {
   color: #9ba8d0;
