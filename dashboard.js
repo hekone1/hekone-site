@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - device status version");
+console.log("dashboard.js loaded - device status + WiFi signal bars");
 
 let mainTrendChartInstance = null;
 let revenueChartInstance = null;
@@ -6,6 +6,8 @@ let allRows = [];
 
 const INITIAL_LOAD_LB = 25;
 const GAP_TOLERANCE_LB = 0.001;
+const DEVICE_ID = "hekone_v1";
+const DEVICE_ONLINE_THRESHOLD_SEC = 30;
 
 function byId(id) {
   return document.getElementById(id);
@@ -13,8 +15,9 @@ function byId(id) {
 
 function setText(id, value) {
   const el = byId(id);
-  if (!el) return;
+  if (!el) return false;
   el.textContent = value;
+  return true;
 }
 
 function formatCurrency(value) {
@@ -39,107 +42,84 @@ function clamp(value, min, max) {
 
 function parseSupabaseDate(value) {
   if (!value) return null;
-
-  let s = String(value).trim();
-  s = s.replace(" ", "T");
-
-  const d = new Date(s);
-  if (!isNaN(d.getTime())) return d;
-
-  return null;
+  const d = new Date(String(value).replace(" ", "T"));
+  return isNaN(d.getTime()) ? null : d;
 }
 
-// ======================================================
-// DEVICE STATUS (CONNECTED / DISCONNECTED)
-// ======================================================
+function getWifiLevel(rssi) {
+  const value = Number(rssi);
+  if (!Number.isFinite(value)) return 0;
+  if (value >= -55) return 4;
+  if (value >= -67) return 3;
+  if (value >= -75) return 2;
+  return 1;
+}
 
-async function updateDeviceStatus() {
+function updateWifiBars(rssi, isOnline) {
+  const bars = byId("wifiBars");
+  const text = byId("wifiSignalText");
 
-  try {
+  if (!bars || !text) return;
 
-    const { data, error } = await supabaseClient
-      .from("device_status")
-      .select("*")
-      .eq("device_id", "hekone_v1")
-      .single();
+  bars.className = "wifi-bars";
 
-    if (error || !data) {
-
-      setDisconnected("No device heartbeat detected");
-      return;
-    }
-
-    const lastSeen = parseSupabaseDate(data.last_seen);
-
-    if (!lastSeen) {
-      setDisconnected("Invalid last_seen timestamp");
-      return;
-    }
-
-    const secondsAgo =
-      (Date.now() - lastSeen.getTime()) / 1000;
-
-    const statusTitle = byId("statusTitle");
-    const statusText = byId("statusText");
-    const statusMeta = byId("statusMeta");
-    const connectionStatus = byId("connectionStatus");
-    const statusDot = document.querySelector(".status-dot");
-
-    if (secondsAgo < 30) {
-
-      if (statusTitle) statusTitle.textContent = "Connected";
-
-      if (statusText) {
-        statusText.textContent =
-          `Device online • WiFi: ${data.wifi_ssid || "-"} • RSSI: ${data.rssi || "-"} dBm`;
-      }
-
-      if (statusMeta) {
-        statusMeta.textContent =
-          `Updated ${Math.round(secondsAgo)} sec ago`;
-      }
-
-      if (connectionStatus) {
-        connectionStatus.textContent = "Live";
-        connectionStatus.className = "status-pill live";
-      }
-
-      if (statusDot) {
-        statusDot.style.background = "#5df2a6";
-        statusDot.style.boxShadow =
-          "0 0 12px rgba(93,242,166,0.7)";
-      }
-
-    } else {
-
-      setDisconnected(
-        `Last seen ${Math.round(secondsAgo)} sec ago`
-      );
-    }
-
-  } catch (err) {
-
-    console.error(err);
-    setDisconnected("Status check failed");
+  if (!isOnline || rssi === null || rssi === undefined) {
+    text.textContent = "WiFi Signal: Offline";
+    return;
   }
+
+  const level = getWifiLevel(rssi);
+  bars.classList.add(`level-${level}`);
+
+  let label = "Weak";
+  if (level === 4) label = "Excellent";
+  if (level === 3) label = "Good";
+  if (level === 2) label = "Fair";
+
+  text.textContent = `WiFi Signal: ${label} (${rssi} dBm)`;
 }
 
-function setDisconnected(message) {
-
+function setConnected(data, secondsAgo) {
   const statusTitle = byId("statusTitle");
   const statusText = byId("statusText");
   const statusMeta = byId("statusMeta");
   const connectionStatus = byId("connectionStatus");
   const statusDot = document.querySelector(".status-dot");
 
-  if (statusTitle)
-    statusTitle.textContent = "Disconnected";
+  if (statusTitle) statusTitle.textContent = "Connected";
 
-  if (statusText)
-    statusText.textContent = message;
+  if (statusText) {
+    statusText.textContent =
+      `Device online • WiFi: ${data.wifi_ssid || "-"} • RSSI: ${data.rssi ?? "-"} dBm • IP: ${data.local_ip || "-"}`;
+  }
 
-  if (statusMeta)
-    statusMeta.textContent = "Waiting for heartbeat";
+  if (statusMeta) {
+    statusMeta.textContent = `Updated ${secondsAgo} sec ago`;
+  }
+
+  if (connectionStatus) {
+    connectionStatus.textContent = "Live";
+    connectionStatus.className = "status-pill live";
+  }
+
+  if (statusDot) {
+    statusDot.style.background = "#5df2a6";
+    statusDot.style.boxShadow = "0 0 12px rgba(93,242,166,0.7)";
+  }
+
+  updateWifiBars(data.rssi, true);
+}
+
+function setDisconnected(message) {
+  const statusTitle = byId("statusTitle");
+  const statusText = byId("statusText");
+  const statusMeta = byId("statusMeta");
+  const connectionStatus = byId("connectionStatus");
+  const statusDot = document.querySelector(".status-dot");
+
+  if (statusTitle) statusTitle.textContent = "Disconnected";
+  if (statusText) statusText.textContent = message;
+  if (statusMeta) statusMeta.textContent = "Waiting for heartbeat";
 
   if (connectionStatus) {
     connectionStatus.textContent = "Offline";
@@ -148,19 +128,48 @@ function setDisconnected(message) {
 
   if (statusDot) {
     statusDot.style.background = "#ff5a5a";
-    statusDot.style.boxShadow =
-      "0 0 12px rgba(255,90,90,0.7)";
+    statusDot.style.boxShadow = "0 0 12px rgba(255,90,90,0.7)";
+  }
+
+  updateWifiBars(null, false);
+}
+
+async function updateDeviceStatus() {
+  try {
+    const { data, error } = await supabaseClient
+      .from("device_status")
+      .select("*")
+      .eq("device_id", DEVICE_ID)
+      .single();
+
+    if (error || !data) {
+      setDisconnected("No device heartbeat detected");
+      return;
+    }
+
+    const lastSeenMs = Date.parse(data.last_seen);
+    const nowMs = Date.now();
+
+    if (!lastSeenMs || Number.isNaN(lastSeenMs)) {
+      setDisconnected("Invalid last_seen timestamp");
+      return;
+    }
+
+    const secondsAgo = Math.floor((nowMs - lastSeenMs) / 1000);
+
+    if (secondsAgo <= DEVICE_ONLINE_THRESHOLD_SEC) {
+      setConnected(data, secondsAgo);
+    } else {
+      setDisconnected(`Last seen ${secondsAgo} sec ago`);
+    }
+  } catch (err) {
+    console.error(err);
+    setDisconnected("Status check failed");
   }
 }
 
-// ======================================================
-// LOAD DASHBOARD DATA
-// ======================================================
-
 async function loadDashboardData() {
-
   try {
-
     const { data, error } = await supabaseClient
       .from("traction_events")
       .select("*")
@@ -172,35 +181,23 @@ async function loadDashboardData() {
     }
 
     allRows = Array.isArray(data) ? data : [];
-
     renderDashboard();
-
   } catch (err) {
-
     console.error(err);
   }
 }
 
-// ======================================================
-// FILTERING
-// ======================================================
-
 function filterRowsByRange(rows) {
-
   const rangeEl = byId("timeRange");
   const range = rangeEl ? rangeEl.value : "daily";
-
   const now = new Date();
 
   return rows.filter((item) => {
-
     const d = parseSupabaseDate(item.created_at);
-
     if (!d) return false;
 
     const diffDays =
-      (now.getTime() - d.getTime()) /
-      (1000 * 60 * 60 * 24);
+      (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
 
     if (range === "daily") return diffDays <= 1;
     if (range === "weekly") return diffDays <= 7;
@@ -211,188 +208,280 @@ function filterRowsByRange(rows) {
   });
 }
 
-// ======================================================
-// KPI
-// ======================================================
-
 function updateKPIs(rows) {
-
   let revenue = 0;
   let weightG = 0;
   let weightLb = 0;
 
   rows.forEach((item) => {
-
     revenue += Number(item.price || 0);
     weightG += Number(item.weight_g || 0);
     weightLb += Number(item.weight_lb || 0);
   });
 
   const txnCount = rows.length;
-  const avgTicket =
-    txnCount > 0 ? revenue / txnCount : 0;
+  const avgTicket = txnCount > 0 ? revenue / txnCount : 0;
 
   setText("revenueValue", formatCurrency(revenue));
-  setText("transactionsValue", txnCount);
+  setText("transactionsValue", String(txnCount));
   setText("weightGValue", formatWeightG(weightG));
   setText("avgTicketValue", formatCurrency(avgTicket));
 
-  setText(
-    "recordedDispenseValue",
-    `${formatWeightLb(weightLb)} lb`
+  setText("revenueSubtext", "Selected range total revenue");
+  setText("transactionsSubtext", "Completed dispensing events");
+  setText("weightGSubtext", "Total dispensed weight in grams");
+  setText("avgTicketSubtext", "Average value per transaction");
+
+  const recordedDispenseLb = weightLb;
+  const projectedRemainingLb = Math.max(INITIAL_LOAD_LB - recordedDispenseLb, 0);
+  const accountedFlowPct = clamp((recordedDispenseLb / INITIAL_LOAD_LB) * 100, 0, 100);
+  const inventoryGapLb = Math.max(
+    0,
+    INITIAL_LOAD_LB - (recordedDispenseLb + projectedRemainingLb)
   );
 
-  const remaining =
-    Math.max(INITIAL_LOAD_LB - weightLb, 0);
+  setText("initialLoadValue", `${formatWeightLb(INITIAL_LOAD_LB)} lb`);
+  setText("recordedDispenseValue", `${formatWeightLb(recordedDispenseLb)} lb`);
+  setText("remainingInventoryValue", `${formatWeightLb(projectedRemainingLb)} lb`);
+  setText("accountedFlowValue", formatPercent(accountedFlowPct));
+  setText("inventoryGapValue", `${formatWeightLb(inventoryGapLb)} lb`);
+
+  setText("initialLoadSubtext", "Configured cycle starting inventory");
+  setText("recordedDispenseSubtext", "Tracked outflow captured by transactions");
+  setText("remainingInventorySubtext", "Projected inventory remaining in cycle");
+  setText("accountedFlowSubtext", "Recorded outflow versus configured load");
+
+  if (inventoryGapLb <= GAP_TOLERANCE_LB) {
+    setText("inventoryGapSubtext", "Balanced under the current projection model");
+  } else {
+    setText("inventoryGapSubtext", "Detected gap in inventory projection");
+  }
 
   setText(
-    "remainingInventoryValue",
-    `${formatWeightLb(remaining)} lb`
+    "inventoryBannerText",
+    `Projection based on a configured ${formatWeightLb(INITIAL_LOAD_LB)} lb loaded cycle.`
   );
 
-  const pct =
-    (weightLb / INITIAL_LOAD_LB) * 100;
-
-  setText(
-    "accountedFlowValue",
-    formatPercent(pct)
-  );
+  const gapCard = byId("inventoryGapCard");
+  if (gapCard) {
+    gapCard.classList.remove("gap-ok", "gap-alert");
+    gapCard.classList.add(inventoryGapLb <= GAP_TOLERANCE_LB ? "gap-ok" : "gap-alert");
+  }
 }
 
-// ======================================================
-// TABLE
-// ======================================================
-
 function updateTransactionsTable(rows) {
-
   const tbody = byId("transactionsTableBody");
+  const tableSummary = byId("tableSummary");
 
   if (!tbody) return;
 
   tbody.innerHTML = "";
 
-  rows.slice(0, 10).forEach((item) => {
+  const recentRows = rows.slice(0, 10);
+  if (tableSummary) tableSummary.textContent = `${recentRows.length} rows`;
+
+  recentRows.forEach((item) => {
+    const parsedDate = parseSupabaseDate(item.created_at);
+    const displayTime = parsedDate ? parsedDate.toLocaleString() : item.created_at || "-";
+    const mode = String(item.mode || "-").toLowerCase();
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${item.created_at || "-"}</td>
-      <td>${item.device_id || "-"}</td>
+      <td>${displayTime}</td>
+      <td><span class="device-chip">${item.device_id ?? "-"}</span></td>
       <td>${formatWeightG(item.weight_g)}</td>
       <td>${formatWeightLb(item.weight_lb)}</td>
-      <td>${item.calories || 0}</td>
-      <td>${formatCurrency(item.price)}</td>
-      <td>${item.mode || "-"}</td>
-      <td>${item.transaction_id || "-"}</td>
+      <td>${item.calories ?? 0}</td>
+      <td class="price-cell">${formatCurrency(item.price)}</td>
+      <td><span class="mode-badge ${mode}">${item.mode ?? "-"}</span></td>
+      <td class="txn-id">${item.transaction_id ?? item.id ?? "-"}</td>
     `;
 
     tbody.appendChild(tr);
   });
 }
 
-// ======================================================
-// CHARTS
-// ======================================================
+function getMetricConfig(metric) {
+  if (metric === "weight_g") {
+    return { key: "weight_g", label: "Weight (g)", title: "Weight (g) Trend" };
+  }
 
-function updateMainChart(rows) {
+  if (metric === "weight_lb") {
+    return { key: "weight_lb", label: "Weight (lb)", title: "Weight (lb) Trend" };
+  }
 
-  const canvas = byId("mainTrendChart");
+  if (metric === "calories") {
+    return { key: "calories", label: "Calories", title: "Calories Trend" };
+  }
 
-  if (!canvas) return;
+  return { key: "price", label: "Price", title: "Price Trend" };
+}
 
+function makeCumulative(series) {
+  let running = 0;
+  return series.map((value) => {
+    running += Number(value || 0);
+    return Number(running.toFixed(2));
+  });
+}
+
+function groupMetricByRange(rows, metricKey) {
   const labels = [];
-  const values = [];
+  const metricSeries = [];
+  const revenueSeries = [];
 
   rows.slice().reverse().forEach((item) => {
+    const d = parseSupabaseDate(item.created_at);
 
     labels.push(
-      new Date(item.created_at)
-      .toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })
+      d
+        ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        : "-"
     );
 
-    values.push(Number(item.price || 0));
+    metricSeries.push(Number(item[metricKey] || 0));
+    revenueSeries.push(Number(item.price || 0));
   });
 
-  if (mainTrendChartInstance)
-    mainTrendChartInstance.destroy();
+  return { labels, metricSeries, revenueSeries };
+}
+
+function updateMainChart(rows) {
+  const metricEl = byId("metricSelect");
+  const chartModeEl = byId("chartMode");
+  const canvas = byId("mainTrendChart");
+
+  if (!metricEl || !canvas) return;
+
+  const metric = metricEl.value;
+  const chartMode = chartModeEl ? chartModeEl.value : "incremental";
+  const config = getMetricConfig(metric);
+  const grouped = groupMetricByRange(rows, config.key);
+
+  let chartSeries = grouped.metricSeries;
+  if (chartMode === "cumulative") {
+    chartSeries = makeCumulative(grouped.metricSeries);
+  }
+
+  setText(
+    "mainChartTitle",
+    chartMode === "cumulative"
+      ? `${config.title} (Cumulative)`
+      : `${config.title} (Incremental)`
+  );
+
+  setText(
+    "mainChartNote",
+    chartMode === "cumulative"
+      ? `Cumulative ${config.label.toLowerCase()}`
+      : `Trend for ${config.label.toLowerCase()}`
+  );
+
+  if (mainTrendChartInstance) mainTrendChartInstance.destroy();
 
   mainTrendChartInstance = new Chart(canvas, {
-
     type: "line",
-
     data: {
-      labels,
-      datasets: [{
-        label: "Revenue",
-        data: values,
-        tension: 0.35,
-        borderWidth: 2
-      }]
+      labels: grouped.labels,
+      datasets: [
+        {
+          label: config.label,
+          data: chartSeries,
+          tension: 0.35,
+          borderWidth: 2,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          fill: false
+        }
+      ]
     },
-
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: "#dce6ff" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        },
+        y: {
+          ticks: { color: "#aeb8d8" },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        }
+      }
     }
   });
 }
 
 function updateRevenueChart(rows) {
-
+  const chartModeEl = byId("chartMode");
   const canvas = byId("transactionsChart");
 
   if (!canvas) return;
 
-  const labels = [];
-  const values = [];
+  const chartMode = chartModeEl ? chartModeEl.value : "incremental";
+  const grouped = groupMetricByRange(rows, "price");
 
-  rows.slice().reverse().forEach((item) => {
+  let revenueSeries = grouped.revenueSeries;
+  if (chartMode === "cumulative") {
+    revenueSeries = makeCumulative(grouped.revenueSeries);
+  }
 
-    labels.push(
-      new Date(item.created_at)
-      .toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })
-    );
+  setText(
+    "revenueChartTitle",
+    chartMode === "cumulative" ? "Cumulative Revenue" : "Revenue by Period"
+  );
 
-    values.push(Number(item.price || 0));
-  });
+  setText(
+    "revenueChartNote",
+    chartMode === "cumulative"
+      ? "Running total revenue across selected range"
+      : "Aggregated revenue across selected range"
+  );
 
-  if (revenueChartInstance)
-    revenueChartInstance.destroy();
+  if (revenueChartInstance) revenueChartInstance.destroy();
 
   revenueChartInstance = new Chart(canvas, {
-
     type: "bar",
-
     data: {
-      labels,
-      datasets: [{
-        label: "Revenue",
-        data: values,
-        borderWidth: 1
-      }]
+      labels: grouped.labels,
+      datasets: [
+        {
+          label: "Revenue",
+          data: revenueSeries,
+          borderWidth: 1
+        }
+      ]
     },
-
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: "#dce6ff" }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#aeb8d8", maxRotation: 0, autoSkip: true },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        },
+        y: {
+          ticks: { color: "#aeb8d8" },
+          grid: { color: "rgba(255,255,255,0.06)" }
+        }
+      }
     }
   });
 }
 
-// ======================================================
-// RENDER
-// ======================================================
-
 function renderDashboard() {
-
-  const filteredRows =
-    filterRowsByRange(allRows);
+  const filteredRows = filterRowsByRange(allRows);
 
   updateKPIs(filteredRows);
   updateTransactionsTable(filteredRows);
@@ -400,35 +489,13 @@ function renderDashboard() {
   updateRevenueChart(filteredRows);
 }
 
-// ======================================================
-// EVENTS
-// ======================================================
-
 const metricSelect = byId("metricSelect");
 const timeRange = byId("timeRange");
 const chartMode = byId("chartMode");
 
-if (metricSelect)
-  metricSelect.addEventListener(
-    "change",
-    renderDashboard
-  );
-
-if (timeRange)
-  timeRange.addEventListener(
-    "change",
-    renderDashboard
-  );
-
-if (chartMode)
-  chartMode.addEventListener(
-    "change",
-    renderDashboard
-  );
-
-// ======================================================
-// START
-// ======================================================
+if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
+if (timeRange) timeRange.addEventListener("change", renderDashboard);
+if (chartMode) chartMode.addEventListener("change", renderDashboard);
 
 loadDashboardData();
 updateDeviceStatus();
