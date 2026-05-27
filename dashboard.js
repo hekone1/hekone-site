@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - updated dashboard");
+console.log("dashboard.js loaded - HEKONE dashboard");
 
 let mainTrendChartInstance = null;
 let allRows = [];
@@ -30,16 +30,20 @@ function formatWeightLb(value) {
 
 function parseSupabaseDate(value) {
   if (!value) return null;
+
   const d = new Date(String(value).replace(" ", "T"));
+
   return isNaN(d.getTime()) ? null : d;
 }
 
 function getWifiLevel(rssi) {
   const value = Number(rssi);
+
   if (!Number.isFinite(value)) return 0;
   if (value >= -55) return 4;
   if (value >= -67) return 3;
   if (value >= -75) return 2;
+
   return 1;
 }
 
@@ -57,9 +61,11 @@ function updateWifiBars(rssi, isOnline) {
   }
 
   const level = getWifiLevel(rssi);
+
   bars.classList.add(`level-${level}`);
 
   let label = "Weak";
+
   if (level === 4) label = "Excellent";
   if (level === 3) label = "Good";
   if (level === 2) label = "Fair";
@@ -137,6 +143,7 @@ async function updateDeviceStatus() {
     } else {
       setDisconnected(`Last seen ${secondsAgo} sec ago`);
     }
+
   } catch (err) {
     console.error(err);
     setDisconnected("Status check failed");
@@ -145,6 +152,7 @@ async function updateDeviceStatus() {
 
 async function loadDashboardData() {
   try {
+
     const { data, error } = await supabaseClient
       .from("traction_events")
       .select("*")
@@ -156,22 +164,32 @@ async function loadDashboardData() {
     }
 
     allRows = Array.isArray(data) ? data : [];
+
     renderDashboard();
+
   } catch (err) {
     console.error(err);
   }
 }
 
 function filterRowsByRange(rows, rangeOverride = null) {
+
   const rangeEl = byId("timeRange");
-  const range = rangeOverride || (rangeEl ? rangeEl.value : "daily");
+
+  const range =
+    rangeOverride || (rangeEl ? rangeEl.value : "daily");
+
   const now = new Date();
 
   return rows.filter((item) => {
+
     const d = parseSupabaseDate(item.created_at);
+
     if (!d) return false;
 
-    const diffDays = (now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24);
+    const diffDays =
+      (now.getTime() - d.getTime()) /
+      (1000 * 60 * 60 * 24);
 
     if (range === "daily") return diffDays <= 1;
     if (range === "weekly") return diffDays <= 7;
@@ -183,23 +201,35 @@ function filterRowsByRange(rows, rangeOverride = null) {
 }
 
 function updateKPIs(rows) {
+
   let revenue = 0;
   let weightG = 0;
   let weightLb = 0;
 
   rows.forEach((item) => {
+
     revenue += Number(item.price || 0);
     weightG += Number(item.weight_g || 0);
     weightLb += Number(item.weight_lb || 0);
+
   });
 
   setText("revenueValue", formatCurrency(revenue));
   setText("transactionsValue", String(rows.length));
-  setText("dispensedWeightValue", `${formatWeightLb(weightLb)} lb`);
-  setText("dispensedWeightSubtext", `${formatWeightG(weightG)} g`);
+
+  setText(
+    "dispensedWeightValue",
+    `${formatWeightLb(weightLb)} lb`
+  );
+
+  setText(
+    "dispensedWeightSubtext",
+    `${formatWeightG(weightG)} g`
+  );
 }
 
 function updateTransactionsTable(rows) {
+
   const tbody = byId("transactionsTableBody");
   const tableSummary = byId("tableSummary");
 
@@ -208,22 +238,44 @@ function updateTransactionsTable(rows) {
   tbody.innerHTML = "";
 
   const recentRows = rows.slice(0, 10);
-  if (tableSummary) tableSummary.textContent = `${recentRows.length} rows`;
+
+  if (tableSummary) {
+    tableSummary.textContent = `${recentRows.length} rows`;
+  }
 
   recentRows.forEach((item) => {
+
     const parsedDate = parseSupabaseDate(item.created_at);
-    const displayTime = parsedDate ? parsedDate.toLocaleString() : item.created_at || "-";
+
+    const displayTime =
+      parsedDate
+        ? parsedDate.toLocaleString()
+        : item.created_at || "-";
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>${displayTime}</td>
-      <td><span class="device-chip">${item.device_id ?? "-"}</span></td>
+
       <td>
-        <strong>${formatWeightLb(item.weight_lb)} lb</strong>
-        <span class="muted-table-text">${formatWeightG(item.weight_g)} g</span>
+        <span class="device-chip">
+          ${item.device_id ?? "-"}
+        </span>
       </td>
-      <td class="price-cell">${formatCurrency(item.price)}</td>
+
+      <td>
+        <strong>
+          ${formatWeightLb(item.weight_lb)} lb
+        </strong>
+
+        <span class="muted-table-text">
+          ${formatWeightG(item.weight_g)} g
+        </span>
+      </td>
+
+      <td class="price-cell">
+        ${formatCurrency(item.price)}
+      </td>
     `;
 
     tbody.appendChild(tr);
@@ -231,86 +283,140 @@ function updateTransactionsTable(rows) {
 }
 
 function getMetricConfig(metric) {
+
   if (metric === "weight_g") {
-    return { key: "weight_g", label: "Weight (g)", title: "Dispensed Weight" };
+    return {
+      key: "weight_g",
+      label: "Weight (g)",
+      title: "Dispensed Weight"
+    };
   }
 
   if (metric === "weight_lb") {
-    return { key: "weight_lb", label: "Weight (lb)", title: "Dispensed Weight" };
+    return {
+      key: "weight_lb",
+      label: "Weight (lb)",
+      title: "Dispensed Weight"
+    };
   }
 
   if (metric === "calories") {
-    return { key: "calories", label: "Calories", title: "Calories Activity" };
+    return {
+      key: "calories",
+      label: "Calories",
+      title: "Calories Activity"
+    };
   }
 
-  return { key: "price", label: "Revenue", title: "Revenue Activity" };
+  return {
+    key: "price",
+    label: "Revenue",
+    title: "Revenue Activity"
+  };
 }
 
 function makeCumulative(series) {
+
   let running = 0;
 
   return series.map((value) => {
+
     running += Number(value || 0);
+
     return Number(running.toFixed(2));
+
   });
 }
 
-function getChartLabel(date, range) {
-  if (!date) return "-";
-
-  if (range === "daily") {
-    return date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  if (range === "weekly") {
-    return date.toLocaleDateString([], {
-      weekday: "short"
-    });
-  }
-
-  if (range === "monthly") {
-    return date.toLocaleDateString([], {
-      month: "short"
-    });
-  }
-
-  if (range === "yearly") {
-    return date.getFullYear().toString();
-  }
-
-  return date.toLocaleString();
-}
-
 function groupMetricByRange(rows, metricKey) {
+
   const rangeEl = byId("timeRange");
-  const range = rangeEl ? rangeEl.value : "daily";
+
+  const range =
+    rangeEl ? rangeEl.value : "daily";
 
   const groupedMap = new Map();
 
   rows.slice().reverse().forEach((item) => {
+
     const d = parseSupabaseDate(item.created_at);
+
     if (!d) return;
 
-    const label = getChartLabel(d, range);
-    const value = Number(item[metricKey] || 0);
+    let key = "";
+    let label = "";
 
-    if (!groupedMap.has(label)) {
-      groupedMap.set(label, 0);
+    // DAILY
+    if (range === "daily") {
+
+      key =
+        `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${d.getHours()}-${d.getMinutes()}`;
+
+      label = d.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
     }
 
-    groupedMap.set(label, groupedMap.get(label) + value);
+    // WEEKLY
+    else if (range === "weekly") {
+
+      key =
+        `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+
+      label = d.toLocaleDateString([], {
+        weekday: "short"
+      });
+    }
+
+    // MONTHLY
+    else if (range === "monthly") {
+
+      key =
+        `${d.getFullYear()}-${d.getMonth()}`;
+
+      label = d.toLocaleDateString([], {
+        month: "short"
+      });
+    }
+
+    // YEARLY
+    else if (range === "yearly") {
+
+      key = `${d.getFullYear()}`;
+
+      label = `${d.getFullYear()}`;
+    }
+
+    const value =
+      Number(item[metricKey] || 0);
+
+    if (!groupedMap.has(key)) {
+
+      groupedMap.set(key, {
+        label,
+        value: 0
+      });
+    }
+
+    groupedMap.get(key).value += value;
+
   });
 
+  const groupedValues =
+    Array.from(groupedMap.values());
+
   return {
-    labels: Array.from(groupedMap.keys()),
-    metricSeries: Array.from(groupedMap.values()).map((v) => Number(v.toFixed(2)))
+    labels: groupedValues.map((item) => item.label),
+
+    metricSeries: groupedValues.map((item) =>
+      Number(item.value.toFixed(2))
+    )
   };
 }
 
 function updateMainChart(rows) {
+
   const metricEl = byId("metricSelect");
   const chartModeEl = byId("chartMode");
   const canvas = byId("mainTrendChart");
@@ -318,18 +424,29 @@ function updateMainChart(rows) {
   if (!metricEl || !canvas) return;
 
   const metric = metricEl.value;
-  const chartMode = chartModeEl ? chartModeEl.value : "incremental";
-  const config = getMetricConfig(metric);
-  const grouped = groupMetricByRange(rows, config.key);
 
-  let chartSeries = grouped.metricSeries;
+  const chartMode =
+    chartModeEl
+      ? chartModeEl.value
+      : "incremental";
+
+  const config =
+    getMetricConfig(metric);
+
+  const grouped =
+    groupMetricByRange(rows, config.key);
+
+  let chartSeries =
+    grouped.metricSeries;
 
   if (chartMode === "cumulative") {
-    chartSeries = makeCumulative(grouped.metricSeries);
+    chartSeries =
+      makeCumulative(grouped.metricSeries);
   }
 
   setText(
     "mainChartTitle",
+
     chartMode === "cumulative"
       ? `${config.title} - Cumulative`
       : `${config.title} - Incremental`
@@ -337,67 +454,103 @@ function updateMainChart(rows) {
 
   setText(
     "mainChartNote",
+
     chartMode === "cumulative"
       ? `Running total of ${config.label.toLowerCase()}`
       : "Individual dispensing activity over time"
   );
 
-  if (mainTrendChartInstance) mainTrendChartInstance.destroy();
+  if (mainTrendChartInstance) {
+    mainTrendChartInstance.destroy();
+  }
 
   mainTrendChartInstance = new Chart(canvas, {
+
     type: "line",
+
     data: {
+
       labels: grouped.labels,
+
       datasets: [
         {
           label: config.label,
+
           data: chartSeries,
+
           tension: 0.35,
+
           borderWidth: 2,
+
           pointRadius: 3,
+
           pointHoverRadius: 5,
+
           fill: true,
-          backgroundColor: "rgba(65, 156, 255, 0.12)",
-          borderColor: "rgba(65, 156, 255, 1)",
-          pointBackgroundColor: "rgba(65, 156, 255, 1)"
+
+          backgroundColor:
+            "rgba(65, 156, 255, 0.12)",
+
+          borderColor:
+            "rgba(65, 156, 255, 1)",
+
+          pointBackgroundColor:
+            "rgba(65, 156, 255, 1)"
         }
       ]
     },
+
     options: {
+
       responsive: true,
+
       maintainAspectRatio: false,
+
       interaction: {
         mode: "index",
         intersect: false
       },
+
       plugins: {
+
         legend: {
+
           display: true,
+
           position: "top",
+
           labels: {
             color: "#dce6ff",
             boxWidth: 28
           }
         }
       },
+
       scales: {
+
         x: {
+
           ticks: {
             color: "#aeb8d8",
             maxRotation: 0,
             autoSkip: true,
             maxTicksLimit: 8
           },
+
           grid: {
             color: "rgba(255,255,255,0.05)"
           }
         },
+
         y: {
+
           beginAtZero: true,
+
           ticks: {
             color: "#aeb8d8",
             maxTicksLimit: 5
           },
+
           grid: {
             color: "rgba(255,255,255,0.05)"
           }
@@ -408,106 +561,266 @@ function updateMainChart(rows) {
 }
 
 function getRangeName(range) {
+
   if (range === "daily") return "Today";
   if (range === "weekly") return "Last 7 Days";
   if (range === "monthly") return "Monthly";
   if (range === "yearly") return "Yearly";
+
   return range;
 }
 
 function downloadExcel() {
-  const excelRangeEl = byId("excelRange");
-  const range = excelRangeEl ? excelRangeEl.value : "daily";
 
-  const rows = filterRowsByRange(allRows, range);
+  if (typeof XLSX === "undefined") {
 
-  let revenue = 0;
-  let weightG = 0;
-  let weightLb = 0;
-  let calories = 0;
+    alert(
+      "Excel library is not loaded."
+    );
 
-  rows.forEach((item) => {
-    revenue += Number(item.price || 0);
-    weightG += Number(item.weight_g || 0);
-    weightLb += Number(item.weight_lb || 0);
-    calories += Number(item.calories || 0);
-  });
+    return;
+  }
 
-  const summaryData = [
-    ["Range", getRangeName(range)],
-    ["Total Revenue", Number(revenue.toFixed(2))],
-    ["Transactions", rows.length],
-    ["Total Weight (g)", Number(weightG.toFixed(2))],
-    ["Total Weight (lb)", Number(weightLb.toFixed(3))],
-    ["Total Calories", Number(calories.toFixed(2))],
-    ["Generated At", new Date().toLocaleString()]
-  ];
+  const excelRangeEl =
+    byId("excelRange");
 
-  const transactionData = rows.slice().reverse().map((item) => {
-    const d = parseSupabaseDate(item.created_at);
+  const range =
+    excelRangeEl
+      ? excelRangeEl.value
+      : "daily";
 
-    return {
-      Time: d ? d.toLocaleString() : item.created_at || "-",
-      Device: item.device_id || "-",
-      "Weight (g)": Number(item.weight_g || 0),
-      "Weight (lb)": Number(item.weight_lb || 0),
-      Calories: Number(item.calories || 0),
-      Price: Number(item.price || 0)
-    };
-  });
+  const rows =
+    filterRowsByRange(allRows, range);
 
-  const workbook = XLSX.utils.book_new();
+  if (!rows.length) {
 
-  const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
-  const transactionSheet = XLSX.utils.json_to_sheet(transactionData);
+    alert("No data available.");
 
-  XLSX.utils.book_append_sheet(workbook, summarySheet, "Summary");
-  XLSX.utils.book_append_sheet(workbook, transactionSheet, "Transactions");
+    return;
+  }
 
-  const fileName = `HEKONE_${getRangeName(range).replaceAll(" ", "_")}_Report.xlsx`;
+  const transactionData =
+    rows.slice().reverse().map((item) => {
 
-  XLSX.writeFile(workbook, fileName);
+      const d =
+        parseSupabaseDate(item.created_at);
+
+      return {
+        Time:
+          d
+            ? d.toLocaleString()
+            : item.created_at || "-",
+
+        Device:
+          item.device_id || "-",
+
+        "Weight (g)":
+          Number(item.weight_g || 0),
+
+        "Weight (lb)":
+          Number(item.weight_lb || 0),
+
+        Calories:
+          Number(item.calories || 0),
+
+        Price:
+          Number(item.price || 0)
+      };
+    });
+
+  const workbook =
+    XLSX.utils.book_new();
+
+  const transactionSheet =
+    XLSX.utils.json_to_sheet(
+      transactionData
+    );
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    transactionSheet,
+    "Transactions"
+  );
+
+  const fileName =
+    `HEKONE_${getRangeName(range)}.xlsx`;
+
+  XLSX.writeFile(
+    workbook,
+    fileName
+  );
+}
+
+async function clearTransactionHistory() {
+
+  const firstConfirm = confirm(
+    "Are you sure you want to delete all transaction history?"
+  );
+
+  if (!firstConfirm) return;
+
+  const password =
+    prompt(
+      "Enter admin password:"
+    );
+
+  if (password !== "123456") {
+
+    alert("Incorrect password.");
+
+    return;
+  }
+
+  const finalConfirm = confirm(
+    "Final confirmation: delete all history?"
+  );
+
+  if (!finalConfirm) return;
+
+  try {
+
+    const { error } =
+      await supabaseClient
+        .from("traction_events")
+        .delete()
+        .not("created_at", "is", null);
+
+    if (error) {
+
+      console.error(error);
+
+      alert(
+        "Failed to clear history."
+      );
+
+      return;
+    }
+
+    allRows = [];
+
+    renderDashboard();
+
+    alert(
+      "History cleared successfully."
+    );
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert(
+      "Error clearing history."
+    );
+  }
 }
 
 function renderDashboard() {
-  const filteredRows = filterRowsByRange(allRows);
+
+  const filteredRows =
+    filterRowsByRange(allRows);
 
   updateKPIs(filteredRows);
+
   updateTransactionsTable(filteredRows);
+
   updateMainChart(filteredRows);
 }
 
-const metricSelect = byId("metricSelect");
-const timeRange = byId("timeRange");
-const chartMode = byId("chartMode");
-const downloadExcelBtn = byId("downloadExcelBtn");
+const metricSelect =
+  byId("metricSelect");
 
-if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
-if (timeRange) timeRange.addEventListener("change", renderDashboard);
-if (chartMode) chartMode.addEventListener("change", renderDashboard);
-if (downloadExcelBtn) downloadExcelBtn.addEventListener("click", downloadExcel);
+const timeRange =
+  byId("timeRange");
 
-document.querySelectorAll(".range-tab").forEach((button) => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".range-tab").forEach((btn) => {
-      btn.classList.remove("active");
+const chartMode =
+  byId("chartMode");
+
+const downloadExcelBtn =
+  byId("downloadExcelBtn");
+
+const clearHistoryBtn =
+  byId("clearHistoryBtn");
+
+if (metricSelect) {
+  metricSelect.addEventListener(
+    "change",
+    renderDashboard
+  );
+}
+
+if (timeRange) {
+  timeRange.addEventListener(
+    "change",
+    renderDashboard
+  );
+}
+
+if (chartMode) {
+  chartMode.addEventListener(
+    "change",
+    renderDashboard
+  );
+}
+
+if (downloadExcelBtn) {
+  downloadExcelBtn.addEventListener(
+    "click",
+    downloadExcel
+  );
+}
+
+if (clearHistoryBtn) {
+  clearHistoryBtn.addEventListener(
+    "click",
+    clearTransactionHistory
+  );
+}
+
+document
+  .querySelectorAll(".range-tab")
+  .forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".range-tab")
+        .forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+      button.classList.add("active");
+
+      const range =
+        button.dataset.range;
+
+      const timeRangeSelect =
+        byId("timeRange");
+
+      const excelRangeSelect =
+        byId("excelRange");
+
+      if (timeRangeSelect) {
+        timeRangeSelect.value = range;
+      }
+
+      if (excelRangeSelect) {
+        excelRangeSelect.value = range;
+      }
+
+      renderDashboard();
     });
-
-    button.classList.add("active");
-
-    const range = button.dataset.range;
-    const timeRangeSelect = byId("timeRange");
-
-    if (timeRangeSelect) {
-      timeRangeSelect.value = range;
-    }
-
-    renderDashboard();
   });
-});
 
 loadDashboardData();
+
 updateDeviceStatus();
 
-setInterval(loadDashboardData, 10000);
-setInterval(updateDeviceStatus, 5000);
+setInterval(
+  loadDashboardData,
+  10000
+);
+
+setInterval(
+  updateDeviceStatus,
+  5000
+);
