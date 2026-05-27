@@ -9,6 +9,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -69,7 +70,8 @@
         <div class="range-tabs">
           <button class="range-tab active" data-range="daily">Today</button>
           <button class="range-tab" data-range="weekly">Last 7 days</button>
-          <button class="range-tab" data-range="monthly">Last 30 days</button>
+          <button class="range-tab" data-range="monthly">Monthly</button>
+          <button class="range-tab" data-range="yearly">Yearly</button>
         </div>
 
         <div class="kpi-grid">
@@ -110,7 +112,7 @@
 
             <select id="timeRange">
               <option value="daily" selected>Daily</option>
-              <option value="weekly">Weekly</option>
+              <option value="weekly">Last 7 Days</option>
               <option value="monthly">Monthly</option>
               <option value="yearly">Yearly</option>
             </select>
@@ -119,6 +121,17 @@
               <option value="incremental" selected>Incremental</option>
               <option value="cumulative">Cumulative</option>
             </select>
+
+            <select id="excelRange">
+              <option value="daily">Today Excel</option>
+              <option value="weekly">Last 7 Days Excel</option>
+              <option value="monthly">Monthly Excel</option>
+              <option value="yearly">Yearly Excel</option>
+            </select>
+
+            <button id="downloadExcelBtn" class="download-excel-btn">
+              Download Excel
+            </button>
           </div>
         </div>
 
@@ -158,6 +171,6 @@
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 
-  <script src="dashboard.js?v=30"></script>
+  <script src="dashboard.js?v=31"></script>
 </body>
 </html>
