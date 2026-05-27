@@ -1,4 +1,4 @@
-console.log("dashboard.js loaded - simplified dashboard");
+console.log("dashboard.js loaded - updated dashboard");
 
 let mainTrendChartInstance = null;
 let allRows = [];
@@ -162,9 +162,9 @@ async function loadDashboardData() {
   }
 }
 
-function filterRowsByRange(rows) {
+function filterRowsByRange(rows, rangeOverride = null) {
   const rangeEl = byId("timeRange");
-  const range = rangeEl ? rangeEl.value : "daily";
+  const range = rangeOverride || (rangeEl ? rangeEl.value : "daily");
   const now = new Date();
 
   return rows.filter((item) => {
@@ -255,23 +255,59 @@ function makeCumulative(series) {
   });
 }
 
+function getChartLabel(date, range) {
+  if (!date) return "-";
+
+  if (range === "daily") {
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  if (range === "weekly") {
+    return date.toLocaleDateString([], {
+      weekday: "short"
+    });
+  }
+
+  if (range === "monthly") {
+    return date.toLocaleDateString([], {
+      month: "short"
+    });
+  }
+
+  if (range === "yearly") {
+    return date.getFullYear().toString();
+  }
+
+  return date.toLocaleString();
+}
+
 function groupMetricByRange(rows, metricKey) {
-  const labels = [];
-  const metricSeries = [];
+  const rangeEl = byId("timeRange");
+  const range = rangeEl ? rangeEl.value : "daily";
+
+  const groupedMap = new Map();
 
   rows.slice().reverse().forEach((item) => {
     const d = parseSupabaseDate(item.created_at);
+    if (!d) return;
 
-    labels.push(
-      d
-        ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-        : "-"
-    );
+    const label = getChartLabel(d, range);
+    const value = Number(item[metricKey] || 0);
 
-    metricSeries.push(Number(item[metricKey] || 0));
+    if (!groupedMap.has(label)) {
+      groupedMap.set(label, 0);
+    }
+
+    groupedMap.set(label, groupedMap.get(label) + value);
   });
 
-  return { labels, metricSeries };
+  return {
+    labels: Array.from(groupedMap.keys()),
+    metricSeries: Array.from(groupedMap.values()).map((v) => Number(v.toFixed(2)))
+  };
 }
 
 function updateMainChart(rows) {
@@ -371,6 +407,68 @@ function updateMainChart(rows) {
   });
 }
 
+function getRangeName(range) {
+  if (range === "daily") return "Today";
+  if (range === "weekly") return "Last 7 Days";
+  if (range === "monthly") return "Monthly";
+  if (range === "yearly") return "Yearly";
+  return range;
+}
+
+function downloadExcel() {
+  const excelRangeEl = byId("excelRange");
+  const range = excelRangeEl ? excelRangeEl.value : "daily";
+
+  const rows = filterRowsByRange(allRows, range);
+
+  let revenue = 0;
+  let weightG = 0;
+  let weightLb = 0;
+  let calories = 0;
+
+  rows.forEach((item) => {
+    revenue += Number(item.price || 0);
+    weightG += Number(item.weight_g || 0);
+    weightLb += Number(item.weight_lb || 0);
+    calories += Number(item.calories || 0);
+  });
+
+  const summaryData = [
+    ["Range", getRangeName(range)],
+    ["Total Revenue", Number(revenue.toFixed(2))],
+    ["Transactions", rows.length],
+    ["Total Weight (g)", Number(weightG.toFixed(2))],
+    ["Total Weight (lb)", Number(weightLb.toFixed(3))],
+    ["Total Calories", Number(calories.toFixed(2))],
+    ["Generated At", new Date().toLocaleString()]
+  ];
+
+  const transactionData = rows.slice().reverse().map((item) => {
+    const d = parseSupabaseDate(item.created_at);
+
+    return {
+      Time: d ? d.toLocaleString() : item.created_at || "-",
+      Device: item.device_id || "-",
+      "Weight (g)": Number(item.weight_g || 0),
+      "Weight (lb)": Number(item.weight_lb || 0),
+      Calories: Number(item.calories || 0),
+      Price: Number(item.price || 0)
+    };
+  });
+
+  const workbook = XLSX.utils.book_new();
+
+  const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
+  const transactionSheet = XLSX.utils.json_to_sheet(transactionData);
+
+  XLSX.utils.book_append_sheet(workbook, summarySheet, "Summary");
+  XLSX.utils.book_append_sheet(workbook, transactionSheet, "Transactions");
+
+  const fileName = `HEKONE_${getRangeName(range).replaceAll(" ", "_")}_Report.xlsx`;
+
+  XLSX.writeFile(workbook, fileName);
+}
+
 function renderDashboard() {
   const filteredRows = filterRowsByRange(allRows);
 
@@ -382,10 +480,12 @@ function renderDashboard() {
 const metricSelect = byId("metricSelect");
 const timeRange = byId("timeRange");
 const chartMode = byId("chartMode");
+const downloadExcelBtn = byId("downloadExcelBtn");
 
 if (metricSelect) metricSelect.addEventListener("change", renderDashboard);
 if (timeRange) timeRange.addEventListener("change", renderDashboard);
 if (chartMode) chartMode.addEventListener("change", renderDashboard);
+if (downloadExcelBtn) downloadExcelBtn.addEventListener("click", downloadExcel);
 
 document.querySelectorAll(".range-tab").forEach((button) => {
   button.addEventListener("click", () => {
