@@ -878,6 +878,60 @@
       box-shadow: 0 18px 46px rgba(15, 23, 42, 0.10);
     }
 
+
+
+    .real-world-proof-card {
+      position: relative;
+      margin-top: 32px;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #07111f;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .real-world-proof-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .real-world-proof-copy {
+      max-width: 980px;
+      margin-bottom: 24px;
+    }
+
+    .real-world-proof-copy p + p {
+      margin-top: 14px;
+    }
+
+    .proof-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .proof-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+    }
+
+    .proof-tag.accent-tag {
+      color: #ffffff;
+      border-color: transparent;
+      background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+    }
+
+
     footer {
       padding: 26px 0 50px;
       color: var(--soft);
@@ -1229,6 +1283,32 @@
             <strong>1 Season</strong>
             <p>Designed to validate measurable operational ROI within one harvest cycle or pilot period.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="feature-section" id="real-world-test">
+      <div class="container">
+        <div class="eyebrow">Real-World Orchard Test</div>
+        <div class="real-world-proof-copy">
+          <h2>HEKONE Origin tested in real-world orchard conditions.</h2>
+          <p class="lede">
+            The system was validated outside the lab with a physical harvest bin, live field dashboard, real-time weight display, and location-based operational monitoring.
+          </p>
+          <p>
+            This field test demonstrates the connection between the HEKONE Origin hardware layer and the live software dashboard, showing how growers can move toward source-level visibility during active harvest operations.
+          </p>
+          <div class="proof-tags">
+            <span class="proof-tag accent-tag">Ready for pilot deployment</span>
+            <span class="proof-tag">Live weight tracking</span>
+            <span class="proof-tag">Field-level visibility</span>
+            <span class="proof-tag">Location-based monitoring</span>
+          </div>
+        </div>
+
+        <div class="real-world-proof-card">
+          <img src="origin-test.png" alt="HEKONE Origin tested in real-world orchard conditions with live harvest dashboard and smart harvest bin" />
         </div>
       </div>
     </section>
