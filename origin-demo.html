@@ -17,10 +17,11 @@
       --green:#16a34a;
       --shadow:0 22px 70px rgba(15,23,42,.10);
       --radius:28px;
-      --container:1120px;
+      --container:860px;
     }
 
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -42,6 +43,9 @@
     }
 
     .nav{
+      max-width:1120px;
+      margin:auto;
+      width:calc(100% - 40px);
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -82,7 +86,7 @@
     }
 
     .hero{
-      padding:70px 0 34px;
+      padding:64px 0 30px;
       text-align:center;
     }
 
@@ -101,57 +105,42 @@
 
     h1{
       margin:0 auto 16px;
-      max-width:880px;
-      font-size:clamp(42px,6vw,74px);
+      max-width:850px;
+      font-size:clamp(42px,6vw,70px);
       line-height:.98;
       letter-spacing:-.055em;
     }
 
     .hero p{
-      max-width:760px;
+      max-width:720px;
       margin:0 auto;
       color:var(--muted);
       font-size:18px;
     }
 
-    .offer-bar{
+    .offer-box{
       margin:28px auto 0;
-      max-width:860px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
-
-    .offer-pill{
+      max-width:720px;
       background:white;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:16px;
-      box-shadow:0 12px 30px rgba(15,23,42,.06);
-    }
-
-    .offer-pill strong{
-      display:block;
-      font-size:15px;
+      border:1px solid rgba(37,99,235,.14);
+      border-radius:22px;
+      padding:18px 22px;
+      box-shadow:0 16px 38px rgba(15,23,42,.07);
       color:var(--text);
+      font-weight:800;
     }
 
-    .offer-pill span{
+    .offer-box span{
+      display:block;
       color:var(--muted);
-      font-size:14px;
+      font-weight:650;
+      margin-top:4px;
     }
 
-    .section{padding:26px 0 70px}
-
-    .grid{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:24px;
-      align-items:start;
-    }
+    .section{padding:24px 0 70px}
 
     .card{
-      background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.86));
+      background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.88));
       border:1px solid rgba(15,23,42,.08);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
@@ -197,7 +186,7 @@
     }
 
     textarea{
-      min-height:120px;
+      min-height:110px;
       resize:vertical;
     }
 
@@ -209,6 +198,10 @@
       border:1px solid rgba(15,23,42,.10);
       border-radius:18px;
       background:rgba(255,255,255,.58);
+    }
+
+    .compact-grid{
+      grid-template-columns:repeat(4,1fr);
     }
 
     .check{
@@ -233,10 +226,21 @@
     }
 
     .bin-card{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
       border:1px solid rgba(15,23,42,.10);
       border-radius:18px;
       padding:16px;
       background:rgba(255,255,255,.66);
+      cursor:pointer;
+    }
+
+    .bin-card input{
+      width:18px;
+      height:18px;
+      margin-top:3px;
+      accent-color:var(--accent);
     }
 
     .bin-card strong{
@@ -254,6 +258,7 @@
       font-size:13px;
       color:var(--muted);
       margin-top:4px;
+      font-weight:600;
     }
 
     .btn{
@@ -267,34 +272,7 @@
       background:linear-gradient(90deg,var(--accent),var(--accent2));
       cursor:pointer;
       box-shadow:0 16px 34px rgba(37,99,235,.22);
-    }
-
-    .side-list{
-      display:grid;
-      gap:16px;
-      margin-top:20px;
-    }
-
-    .side-item{
-      padding:16px;
-      border-radius:18px;
-      background:rgba(37,99,235,.06);
-      border:1px solid rgba(37,99,235,.10);
-    }
-
-    .side-item strong{
-      display:block;
-      margin-bottom:4px;
-    }
-
-    .side-item span{
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .highlight{
-      color:var(--green);
-      font-weight:900;
+      margin-top:4px;
     }
 
     footer{
@@ -303,21 +281,23 @@
       color:var(--muted);
       background:rgba(255,255,255,.6);
       font-size:14px;
+      text-align:center;
     }
 
-    @media(max-width:900px){
+    @media(max-width:760px){
       .nav-links{display:none}
-      .grid{grid-template-columns:1fr}
-      .offer-bar{grid-template-columns:1fr}
-      .grid-2,.bin-options,.checkbox-grid{grid-template-columns:1fr}
+      .container{width:min(calc(100% - 24px),var(--container))}
+      .nav{width:calc(100% - 24px)}
+      .grid-2,.bin-options,.checkbox-grid,.compact-grid{grid-template-columns:1fr}
       .card{padding:24px 20px}
+      .hero{padding-top:46px}
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="container nav">
+    <div class="nav">
       <a href="/" class="brand">
         <span class="brand-dot"></span>
         <span>HEKONE</span>
@@ -342,25 +322,15 @@
           field visibility, and harvest operation insights.
         </p>
 
-        <div class="offer-bar">
-          <div class="offer-pill">
-            <strong>Limited Availability</strong>
-            <span>Demo deployments available through June 6.</span>
-          </div>
-          <div class="offer-pill">
-            <strong>Early Grower Pricing</strong>
-            <span>Starting at <span class="highlight">$40 per active bin</span>.</span>
-          </div>
-          <div class="offer-pill">
-            <strong>California Only</strong>
-            <span>Initial deployments focused on California operations.</span>
-          </div>
+        <div class="offer-box">
+          Limited California demo deployments available through June 6.
+          <span>Starting at $40 per active bin during the pilot program.</span>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="container grid">
+      <div class="container">
         <div class="card">
           <h2>Request Field Demo</h2>
           <p class="section-text">
@@ -416,29 +386,22 @@
               <input id="other_crop" name="other_crop" type="text" placeholder="If other, please specify" />
             </div>
 
-            <div class="grid-2">
-              <div class="field">
-                <label for="demo_bins">Number of Demo Bins Requested *</label>
-                <select id="demo_bins" name="number_of_demo_bins_requested" required>
-                  <option value="">Select number of bins</option>
-                  <option value="1">1 bin</option>
-                  <option value="2">2 bins</option>
-                  <option value="3">3 bins</option>
-                  <option value="4">4 bins</option>
-                  <option value="5">5 bins</option>
-                  <option value="6">6 bins</option>
-                  <option value="7">7 bins</option>
-                  <option value="8">8 bins</option>
-                  <option value="9">9 bins</option>
-                  <option value="10">10 bins</option>
-                </select>
-                <div class="note">Demo deployments currently support up to 10 smart bins.</div>
-              </div>
-
-              <div class="field">
-                <label for="acreage">Approx. Acres / Harvest Area</label>
-                <input id="acreage" name="approx_acres_or_harvest_area" type="text" placeholder="Example: 20 acres, 1 block, etc." />
-              </div>
+            <div class="field">
+              <label for="demo_bins">Number of Demo Bins Requested *</label>
+              <select id="demo_bins" name="number_of_demo_bins_requested" required>
+                <option value="">Select number of bins</option>
+                <option value="1">1 bin</option>
+                <option value="2">2 bins</option>
+                <option value="3">3 bins</option>
+                <option value="4">4 bins</option>
+                <option value="5">5 bins</option>
+                <option value="6">6 bins</option>
+                <option value="7">7 bins</option>
+                <option value="8">8 bins</option>
+                <option value="9">9 bins</option>
+                <option value="10">10 bins</option>
+              </select>
+              <div class="note">Demo deployments currently support up to 10 smart bins.</div>
             </div>
 
             <div class="field">
@@ -446,106 +409,67 @@
               <div class="bin-options">
                 <label class="bin-card">
                   <input type="checkbox" name="preferred_bin_size[]" value="Small Bin - 19L x 13W x 11H" />
-                  <strong>Small Bin</strong>
-                  <span>Approx. 19"L × 13"W × 11"H</span>
+                  <div>
+                    <strong>Small Bin</strong>
+                    <span>Approx. 19"L × 13"W × 11"H</span>
+                  </div>
                 </label>
 
                 <label class="bin-card">
                   <input type="checkbox" name="preferred_bin_size[]" value="Medium Bin - 40L x 48W x 28H" />
-                  <strong>Medium Bin</strong>
-                  <span>Approx. 40"L × 48"W × 28"H</span>
+                  <div>
+                    <strong>Medium Bin</strong>
+                    <span>Approx. 40"L × 48"W × 28"H</span>
+                  </div>
                 </label>
               </div>
             </div>
 
             <div class="field">
-              <label for="custom_bin">Custom Bin Size / Dimensions</label>
-              <input id="custom_bin" name="custom_bin_size" type="text" placeholder="If custom, enter approximate dimensions" />
-            </div>
-
-            <div class="field">
               <label>Harvest Period</label>
-              <div class="checkbox-grid">
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="January" /> January</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="February" /> February</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="March" /> March</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="April" /> April</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="May" /> May</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="June" /> June</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="July" /> July</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="August" /> August</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="September" /> September</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="October" /> October</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="November" /> November</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="December" /> December</label>
+              <div class="checkbox-grid compact-grid">
+                <label class="check"><input type="checkbox" name="harvest_period[]" value="Spring" /> Spring</label>
+                <label class="check"><input type="checkbox" name="harvest_period[]" value="Summer" /> Summer</label>
+                <label class="check"><input type="checkbox" name="harvest_period[]" value="Fall" /> Fall</label>
+                <label class="check"><input type="checkbox" name="harvest_period[]" value="Winter" /> Winter</label>
               </div>
             </div>
 
             <div class="field">
               <label>Current Operational Challenges <span class="note">(optional)</span></label>
               <div class="checkbox-grid">
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Delayed harvest reporting" /> Delayed harvest reporting</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Harvest loss / shrinkage" /> Harvest loss / shrinkage</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Unknown field inefficiencies" /> Unknown field inefficiencies</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Labor coordination visibility" /> Labor coordination visibility</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Theft / missing product" /> Theft / missing product</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Manual weighing process" /> Manual weighing process</label>
                 <label class="check"><input type="checkbox" name="operational_challenges[]" value="Lack of real-time visibility" /> Lack of real-time visibility</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Slow operational response" /> Slow operational response</label>
+                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Manual weighing process" /> Manual weighing process</label>
+                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Labor coordination visibility" /> Labor coordination visibility</label>
+                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Harvest loss / shrinkage" /> Harvest loss / shrinkage</label>
               </div>
             </div>
 
             <div class="field">
-              <label for="notes">Additional Notes</label>
+              <label for="acreage">Approx. Acres / Harvest Area <span class="note">(optional)</span></label>
+              <input id="acreage" name="approx_acres_or_harvest_area" type="text" placeholder="Example: 20 acres, 1 block, etc." />
+            </div>
+
+            <div class="field">
+              <label for="custom_bin">Custom Bin Size / Dimensions <span class="note">(optional)</span></label>
+              <input id="custom_bin" name="custom_bin_size" type="text" placeholder="If custom, enter approximate dimensions" />
+            </div>
+
+            <div class="field">
+              <label for="notes">Additional Notes <span class="note">(optional)</span></label>
               <textarea id="notes" name="additional_notes" placeholder="Anything else we should know before coordinating your demo?"></textarea>
             </div>
 
             <button class="btn" type="submit">Request Field Demo</button>
           </form>
         </div>
-
-        <aside class="card">
-          <h2>What growers will see</h2>
-          <p class="section-text">
-            The demo is designed to show how HEKONE Origin can bring live operational visibility into harvest activity.
-          </p>
-
-          <div class="side-list">
-            <div class="side-item">
-              <strong>Live Bin Weight Tracking</strong>
-              <span>Monitor weight data from active bins in real time.</span>
-            </div>
-
-            <div class="side-item">
-              <strong>Field Visibility Dashboard</strong>
-              <span>See bin locations, status, and harvest activity from one dashboard.</span>
-            </div>
-
-            <div class="side-item">
-              <strong>Operational Accountability</strong>
-              <span>Improve visibility across harvest flow, labor coordination, and field movement.</span>
-            </div>
-
-            <div class="side-item">
-              <strong>Early Grower Pilot Pricing</strong>
-              <span>Starting at $40 per active bin during the pilot program, before full commercial rollout.</span>
-            </div>
-
-            <div class="side-item">
-              <strong>Limited California Availability</strong>
-              <span>Demo deployments are currently available for California growers through June 6.</span>
-            </div>
-          </div>
-        </aside>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      © 2026 HEKONE. All rights reserved. · California, USA ·
-      <a href="mailto:hekmat@hekone.com">hekmat@hekone.com</a>
-    </div>
+    © 2026 HEKONE. All rights reserved. · California, USA ·
+    <a href="mailto:hekmat@hekone.com">hekmat@hekone.com</a>
   </footer>
 </body>
 </html>
