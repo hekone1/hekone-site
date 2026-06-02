@@ -14,7 +14,6 @@
       --line:rgba(15,23,42,.10);
       --accent:#2563eb;
       --accent2:#7c3aed;
-      --green:#16a34a;
       --shadow:0 22px 70px rgba(15,23,42,.10);
       --radius:28px;
       --container:860px;
@@ -85,59 +84,19 @@
       font-weight:800;
     }
 
-    .hero{
-      padding:64px 0 30px;
-      text-align:center;
+    .hero-image{
+      width:100%;
+      background:#fff;
+      border-bottom:1px solid var(--line);
     }
 
-    .eyebrow{
-      display:inline-flex;
-      padding:8px 14px;
-      border-radius:999px;
-      background:white;
-      border:1px solid var(--line);
-      color:var(--accent);
-      font-size:13px;
-      font-weight:850;
-      margin-bottom:16px;
-      box-shadow:0 10px 28px rgba(15,23,42,.05);
-    }
-
-    h1{
-      margin:0 auto 16px;
-      max-width:850px;
-      font-size:clamp(42px,6vw,70px);
-      line-height:.98;
-      letter-spacing:-.055em;
-    }
-
-    .hero p{
-      max-width:720px;
-      margin:0 auto;
-      color:var(--muted);
-      font-size:18px;
-    }
-
-    .offer-box{
-      margin:28px auto 0;
-      max-width:720px;
-      background:white;
-      border:1px solid rgba(37,99,235,.14);
-      border-radius:22px;
-      padding:18px 22px;
-      box-shadow:0 16px 38px rgba(15,23,42,.07);
-      color:var(--text);
-      font-weight:800;
-    }
-
-    .offer-box span{
+    .hero-image img{
+      width:100%;
       display:block;
-      color:var(--muted);
-      font-weight:650;
-      margin-top:4px;
+      height:auto;
     }
 
-    .section{padding:24px 0 70px}
+    .section{padding:54px 0 70px}
 
     .card{
       background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.88));
@@ -209,7 +168,6 @@
       gap:9px;
       align-items:center;
       font-size:14px;
-      color:var(--text);
       font-weight:650;
     }
 
@@ -290,7 +248,7 @@
       .nav{width:calc(100% - 24px)}
       .grid-2,.bin-options,.checkbox-grid,.compact-grid{grid-template-columns:1fr}
       .card{padding:24px 20px}
-      .hero{padding-top:46px}
+      .section{padding-top:34px}
     }
   </style>
 </head>
@@ -312,23 +270,11 @@
     </div>
   </header>
 
+  <section class="hero-image">
+    <img src="origin-demo.png" alt="HEKONE Origin field demo for California growers" />
+  </section>
+
   <main>
-    <section class="hero">
-      <div class="container">
-        <span class="eyebrow">California Grower Pilot Program</span>
-        <h1>Request a HEKONE Origin Field Demo.</h1>
-        <p>
-          See HEKONE Origin operating in a real harvest environment with live bin weights,
-          field visibility, and harvest operation insights.
-        </p>
-
-        <div class="offer-box">
-          Limited California demo deployments available through June 6.
-          <span>Starting at $40 per active bin during the pilot program.</span>
-        </div>
-      </div>
-    </section>
-
     <section class="section">
       <div class="container">
         <div class="card">
