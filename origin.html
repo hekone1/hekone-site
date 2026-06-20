@@ -759,8 +759,8 @@
     }
 
     .patent-visual img {
-      width: 70%;
-      max-width: 560px;
+      width: 58%;
+      max-width: 460px;
       height: auto;
       display: block;
       margin: 0 auto;
@@ -975,6 +975,41 @@
       line-height: 1.6;
     }
 
+
+    .how-card.has-arrow::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -22px;
+      transform: translateY(-50%);
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.18);
+      z-index: 2;
+    }
+
+    .proof-tags.strong-proof {
+      margin-top: 20px;
+    }
+
+    .investor-compact {
+      text-align: center;
+      max-width: 880px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .investor-compact .hero-actions {
+      justify-content: center;
+    }
+
     .compact-panel,
     .compact-cta {
       margin-top: 0;
@@ -1078,6 +1113,10 @@
 
       .patent-panel {
         width: 100%;
+      }
+
+      .how-card.has-arrow::after {
+        display: none;
       }
     }
 
@@ -1292,12 +1331,11 @@
             <h1>HEKONE <span class="accent">Origin</span></h1>
 
             <p class="hero-lede">
-              Measure harvest where value is created. Detect loss before it leaves the field.
+              Know what every harvest bin is worth before it leaves the field.
             </p>
 
             <p>
-              HEKONE Origin captures weight, time, and harvest location directly where harvest happens.
-              Instead of waiting for delayed reports, operators can see field activity, hidden loss, and recoverable value in real time.
+              HEKONE Origin captures weight, time, and harvest location directly where harvest happens, giving operators real-time visibility into field activity, hidden loss, and recoverable value.
             </p>
 
             <div class="hero-actions">
@@ -1361,8 +1399,10 @@
           </p>
           <div class="proof-tags">
             <span class="proof-tag accent-tag">Ready for pilot deployment</span>
-            <span class="proof-tag">Live weight tracking</span>
-            <span class="proof-tag">Location-based monitoring</span>
+            <span class="proof-tag">California orchard demonstration</span>
+            <span class="proof-tag">Live telemetry</span>
+            <span class="proof-tag">Live dashboard</span>
+            <span class="proof-tag">Source-level measurement</span>
           </div>
         </div>
 
@@ -1375,25 +1415,25 @@
     <section class="section" id="how-it-works">
       <div class="container">
         <div class="eyebrow">How It Works</div>
-        <h2>From harvest event to operational intelligence in three steps.</h2>
+        <h2>From harvest event to live operational intelligence in three steps.</h2>
         <p class="lede">
-          HEKONE Origin keeps the workflow simple: capture data where harvest happens, sync it to the dashboard, and turn it into field decisions.
+          HEKONE Origin keeps the workflow simple: harvest normally, measure automatically, and act from a live field dashboard.
         </p>
 
         <div class="how-grid">
-          <div class="how-card">
+          <div class="how-card has-arrow">
             <span class="step-number">1</span>
             <strong>Harvest</strong>
             <p>Crews fill the instrumented bin during normal field operations.</p>
           </div>
-          <div class="how-card">
+          <div class="how-card has-arrow">
             <span class="step-number">2</span>
             <strong>Measure automatically</strong>
             <p>Weight, time, and location are captured at the source with no separate weighing station.</p>
           </div>
           <div class="how-card">
             <span class="step-number">3</span>
-            <strong>Act in real time</strong>
+            <strong>Live operational intelligence</strong>
             <p>Operators see live performance, loss signals, and field-level priorities in the dashboard.</p>
           </div>
         </div>
@@ -1466,8 +1506,8 @@
     <section class="section mid-cta">
       <div class="container">
         <div class="cta-panel compact-cta">
-          <h2>Want to validate this in your own field operation?</h2>
-          <p>Start with a focused deployment, measure the impact, and expand based on real operational data.</p>
+          <h2>Ready to see what your harvest is really telling you?</h2>
+          <p>Start with a focused field deployment, measure the operational impact, and expand based on real harvest data.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
           </div>
@@ -1481,9 +1521,9 @@
           <div>
             <div class="eyebrow">Operational Alerts</div>
             <div class="feature-copy">
-              <h2>Catch loss the moment it happens.</h2>
+              <h2>Detect problems before they become losses.</h2>
               <p class="lede">
-                When bin weight drops unexpectedly, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
+                When weight, movement, or handling patterns look abnormal, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
               </p>
               <p>
                 This moves the system beyond passive measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
@@ -1611,25 +1651,16 @@
 
     <section class="section" id="investment-opportunity">
       <div class="container">
-        <div class="investor-panel">
-          <div class="investor-copy">
-            <div class="eyebrow">Investor &amp; Strategic Partnership</div>
-            <h3>Interested in investing in HekOne?</h3>
-            <p>
-              HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
-            </p>
-            <p>
-              For investors and strategic partners, Origin creates a path from focused field pilots to repeatable deployments across agriculture, supply chain, and high-friction physical operations.
-            </p>
+        <div class="cta-panel investor-compact">
+          <div class="eyebrow">Investor &amp; Strategic Partnership</div>
+          <h2>Interested in strategic partnerships or investment?</h2>
+          <p>
+            HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
+          </p>
 
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
-              <a class="btn btn-secondary" href="index.html#ecosystem">View Platform Vision</a>
-            </div>
-          </div>
-
-          <div class="investor-visual">
-            <img src="invest.png" alt="HEKONE investment growth visual with rising chart, global network, and branded coin" />
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
+            <a class="btn btn-secondary" href="index.html#ecosystem">View Platform Vision</a>
           </div>
         </div>
       </div>
