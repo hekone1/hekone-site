@@ -1084,6 +1084,33 @@
 
 
 
+    .workflow-visual-card {
+      margin-top: 0;
+      overflow: hidden;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.90);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .workflow-visual-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 900px) {
+      .workflow-visual-card {
+        overflow-x: auto;
+      }
+
+      .workflow-visual-card img {
+        width: 1180px;
+        max-width: none;
+      }
+    }
+
+
 
     .image-hero {
       padding: 0;
@@ -1378,28 +1405,8 @@
 
     <section class="section" id="how-it-works">
       <div class="container">
-        <div class="eyebrow">How It Works</div>
-        <h2>From harvest event to live operational intelligence in three steps.</h2>
-        <p class="lede">
-          HEKONE Origin keeps the workflow simple: harvest normally, measure automatically, and act from a live field dashboard.
-        </p>
-
-        <div class="how-grid">
-          <div class="how-card has-arrow">
-            <span class="step-number">1</span>
-            <strong>Harvest</strong>
-            <p>Crews fill the instrumented bin during normal field operations.</p>
-          </div>
-          <div class="how-card has-arrow">
-            <span class="step-number">2</span>
-            <strong>Measure automatically</strong>
-            <p>Weight, time, and location are captured at the source with no separate weighing station.</p>
-          </div>
-          <div class="how-card">
-            <span class="step-number">3</span>
-            <strong>Live operational intelligence</strong>
-            <p>Operators see live performance, loss signals, and field-level priorities in the dashboard.</p>
-          </div>
+        <div class="workflow-visual-card">
+          <img src="three-steps.png" alt="HEKONE Origin workflow from harvest event to automatic measurement and live operational intelligence" loading="lazy" />
         </div>
       </div>
     </section>
