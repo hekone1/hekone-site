@@ -274,6 +274,21 @@
 
   section { padding: 34px 0; }
 
+  .hero-full {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-full-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .hero {
     padding: 58px 0 22px;
     text-align: center;
@@ -747,34 +762,14 @@
   <div class="menu-backdrop"></div>
 
   <main id="top">
-    <section class="hero">
-      <div class="wrap">
-        <div class="eyebrow">
-          <span class="eyebrow-dot"></span>
-          Physical Intelligence for Real-World Operations
-        </div>
-
-        <h1>Make the invisible measurable.</h1>
-
-        <p class="hero-lead">
-          HEKONE turns physical events into <strong>real-time operational intelligence</strong>.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn btn-pilot" href="pilot.html">Start a Pilot</a>
-          <a class="btn btn-secondary" href="#platform">See Platform Vision</a>
-        </div>
-
-        <div class="hero-note">Limited pilot availability for selected operators.</div>
-      </div>
-    </section>
-
-    <section class="visual-block" aria-label="HEKONE hero visual">
-      <div class="wrap">
-        <div class="visual-card">
-          <img src="hero.png" alt="HEKONE operational intelligence platform across agriculture, dispensers, warehouse, and supply chain" loading="eager" fetchpriority="high" />
-        </div>
-      </div>
+    <section class="hero-full" aria-label="HEKONE platform hero">
+      <img
+        src="firstpage-top.png"
+        alt="HEKONE operational intelligence platform across agriculture, retail dispensers, warehouse, logistics, and supply chain"
+        class="hero-full-image"
+        loading="eager"
+        fetchpriority="high"
+      />
     </section>
 
     <section id="problem">
