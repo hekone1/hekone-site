@@ -284,8 +284,33 @@
       z-index: 998;
     }
 
+
+
+    .top-hero-section {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f8fbff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-hero-section img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 760px) {
+      .top-hero-section img {
+        height: 360px;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
     .page {
-      padding: 62px 0 88px;
+      padding: 56px 0 88px;
     }
 
     .hero {
@@ -996,34 +1021,12 @@
 
   <div class="menu-backdrop"></div>
 
+  <section class="top-hero-section" aria-label="HEKONE Smart Dispenser overview">
+    <img src="./dispenser-top.png" alt="HEKONE Smart Dispenser product overview in a retail store with real-time dispenser visibility and glass dashboard cards" />
+  </section>
+
   <main class="page">
     <div class="wrap">
-      <section class="hero">
-        <div>
-          <div class="eyebrow">Illustrative instrumentation example</div>
-          <h1>From physical flow to measurable signal.</h1>
-          <p class="hero-copy">
-            Smart Gravity Bin is one example of how HEKONE instruments real-world activity at the shelf level, turning product movement into structured signals that help quantify variance, identify hidden operational loss, and translate usage into cost impact.
-          </p>
-          <div class="hero-note">
-            This is not the HEKONE platform itself. It is a targeted instrumentation example for one specific blind spot.
-          </div>
-          <div class="hero-chips">
-            <span class="chip">Shelf-Level Visibility</span>
-            <span class="chip">Signal Capture</span>
-            <span class="chip">Targeted Instrumentation</span>
-            <span class="chip">AI-Enabled Operations Layer</span>
-          </div>
-        </div>
-
-        <div class="image-card">
-          <img src="./smart-bin2.png" alt="HEKONE Smart Gravity Bin prototype" />
-          <div class="image-caption">
-            Early-stage prototype, part of a broader HEKONE instrumentation approach.
-          </div>
-        </div>
-      </section>
-
       <section class="impact-strip">
         <div class="card impact-card">
           <div class="section-kicker" style="margin-bottom: 12px;">Estimated impact</div>
