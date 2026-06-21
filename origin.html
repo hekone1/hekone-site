@@ -1083,6 +1083,32 @@
     }
 
 
+
+
+    .image-hero {
+      padding: 0;
+      border-top: none;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .image-hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .image-hero {
+        overflow-x: auto;
+      }
+
+      .image-hero img {
+        width: 1180px;
+        max-width: none;
+      }
+    }
+
     @media (max-width: 1100px) {
       .nav-wrap { width: calc(100% - 36px); }
       .nav { gap: 14px; }
@@ -1322,71 +1348,9 @@
   <div class="menu-backdrop"></div>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <div class="eyebrow">Early Deployment - Seeking Pilot Partners</div>
-
-            <h1>HEKONE <span class="accent">Origin</span></h1>
-
-            <p class="hero-lede">
-              Know what every harvest bin is worth before it leaves the field.
-            </p>
-
-            <p>
-              HEKONE Origin captures weight, time, and harvest location directly where harvest happens, giving operators real-time visibility into field activity, hidden loss, and recoverable value.
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
-              <a class="btn btn-secondary" href="#real-world-test">See Real Field Data</a>
-            </div>
-
-            <div class="hero-note">
-              Limited early pilot slots available for growers, harvest operators, and field operations partners.
-            </div>
-          </div>
-
-          <div class="hero-visual">
-            <div class="hero-card">
-              <img src="origin.png" alt="HEKONE Origin smart harvest bin with live weight display and dashboard" />
-            </div>
-            <div class="floating-badge">
-              <span class="small">Operator value</span>
-              <strong>Measure at source. Detect loss earlier. Improve response. Validate ROI in real field conditions.</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="metrics">
-          <div class="metric featured">
-            <span class="label">Example Loss Exposure</span>
-            <strong class="danger-text">$480-$1,200+</strong>
-            <p>Example daily loss exposure in a single active block when inefficiency and variation go unmeasured.</p>
-          </div>
-
-          <div class="metric featured">
-            <span class="label">Example Season Impact</span>
-            <strong class="danger-text">$50K+</strong>
-            <p>Example seasonal value at risk when delayed visibility hides field-level operational gaps.</p>
-          </div>
-
-          <div class="metric">
-            <span class="label">Labor Impact</span>
-            <strong>20-35%</strong>
-            <p>Target reduction in labor touches by removing separate weighing and re-handling steps.</p>
-          </div>
-
-          <div class="metric">
-            <span class="label">ROI Window</span>
-            <strong>1 Season</strong>
-            <p>Designed to validate measurable operational ROI within one harvest cycle or pilot period.</p>
-          </div>
-        </div>
-      </div>
+    <section class="image-hero" aria-label="HEKONE Origin live harvest visibility hero">
+      <img src="top.png" alt="HEKONE Origin hero showing live harvest overview, bin performance, field visibility, and real-time orchard operations" />
     </section>
-
 
     <section class="feature-section" id="real-world-test">
       <div class="container">
