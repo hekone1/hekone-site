@@ -3,252 +3,341 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEKONE Origin Field Demo</title>
-  <meta name="description" content="Request a HEKONE Origin field demo for California growers. Limited demo deployments available through June 6." />
-  <link rel="icon" type="image/" href="favicon1.?v=2" />
+
+  <title>HEKONE Origin Field Deployment</title>
+
+  <meta
+    name="description"
+    content="Request a HEKONE Origin field deployment for California growers. Initial deployment opportunities are now available."
+  />
+
+  <link rel="icon" type="image/png" href="favicon1.png?v=2" />
 
   <style>
     :root {
-      --text:#07111f;
-      --muted:#526174;
-      --line:rgba(15,23,42,.10);
-      --accent:#2563eb;
-      --accent2:#7c3aed;
-      --shadow:0 22px 70px rgba(15,23,42,.10);
-      --radius:28px;
-      --container:860px;
+      --text: #07111f;
+      --muted: #526174;
+      --line: rgba(15, 23, 42, 0.10);
+      --accent: #2563eb;
+      --accent2: #7c3aed;
+      --shadow: 0 22px 70px rgba(15, 23, 42, 0.10);
+      --radius: 28px;
+      --container: 860px;
     }
 
-    *{box-sizing:border-box}
-
-    body{
-      margin:0;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
-      background:linear-gradient(180deg,#fff 0%,#f8fbff 45%,#f4f7fc 100%);
-      line-height:1.6;
+    * {
+      box-sizing: border-box;
     }
 
-    a{text-decoration:none;color:inherit}
-    .container{width:min(calc(100% - 40px),var(--container));margin:auto}
-
-    header{
-      position:sticky;
-      top:0;
-      z-index:100;
-      background:rgba(255,255,255,.88);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--line);
+    html {
+      scroll-behavior: smooth;
     }
 
-    .nav{
-      max-width:1120px;
-      margin:auto;
-      width:calc(100% - 40px);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:12px 0;
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f8fbff 45%,
+        #f4f7fc 100%
+      );
+      line-height: 1.6;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-weight:900;
-      letter-spacing:.16em;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .brand-dot{
-      width:18px;
-      height:18px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#38bdf8,#2563eb,#7c3aed);
-      box-shadow:0 0 18px rgba(37,99,235,.35);
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: auto;
     }
 
-    .nav-links{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      color:var(--muted);
-      font-size:14px;
-      font-weight:700;
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
     }
 
-    .nav-cta{
-      padding:10px 18px;
-      border-radius:999px;
-      color:white;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      font-weight:800;
+    .nav {
+      width: calc(100% - 40px);
+      max-width: 1120px;
+      margin: auto;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .hero-image{
-      width:100%;
-      background:#fff;
-      border-bottom:1px solid var(--line);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
     }
 
-    .hero-image img{
-      width:100%;
-      display:block;
-      height:auto;
+    .brand-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(
+        135deg,
+        #38bdf8,
+        #2563eb,
+        #7c3aed
+      );
+      box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
     }
 
-    .section{padding:54px 0 70px}
-
-    .card{
-      background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.88));
-      border:1px solid rgba(15,23,42,.08);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:32px;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
     }
 
-    .card h2{
-      margin:0 0 10px;
-      font-size:clamp(28px,3vw,36px);
-      letter-spacing:-.035em;
-      line-height:1.1;
+    .nav-links a:not(.nav-cta):hover {
+      color: var(--text);
     }
 
-    .section-text{
-      margin:0 0 24px;
-      color:var(--muted);
+    .nav-cta {
+      padding: 10px 18px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent2)
+      );
+      font-weight: 800;
     }
 
-    form{display:grid;gap:16px}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .field{display:grid;gap:8px}
-
-    label{
-      font-size:14px;
-      font-weight:800;
-      color:var(--text);
+    .hero-image {
+      width: 100%;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
     }
 
-    input,select,textarea{
-      width:100%;
-      border:1px solid rgba(15,23,42,.12);
-      border-radius:14px;
-      padding:14px 16px;
-      font:inherit;
-      background:rgba(255,255,255,.86);
-      outline:none;
+    .hero-image img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
-    input:focus,select:focus,textarea:focus{
-      border-color:rgba(37,99,235,.45);
-      box-shadow:0 0 0 4px rgba(37,99,235,.08);
-      background:white;
+    .section {
+      padding: 54px 0 70px;
     }
 
-    textarea{
-      min-height:110px;
-      resize:vertical;
+    .card {
+      padding: 32px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: var(--radius);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96),
+        rgba(255, 255, 255, 0.88)
+      );
+      box-shadow: var(--shadow);
     }
 
-    .checkbox-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:10px;
-      padding:14px;
-      border:1px solid rgba(15,23,42,.10);
-      border-radius:18px;
-      background:rgba(255,255,255,.58);
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 3vw, 36px);
+      letter-spacing: -0.035em;
+      line-height: 1.1;
     }
 
-    .compact-grid{
-      grid-template-columns:repeat(4,1fr);
+    .section-text {
+      margin: 0 0 24px;
+      color: var(--muted);
     }
 
-    .check{
-      display:flex;
-      gap:9px;
-      align-items:center;
-      font-size:14px;
-      font-weight:650;
+    form {
+      display: grid;
+      gap: 16px;
     }
 
-    .check input{
-      width:18px;
-      height:18px;
-      accent-color:var(--accent);
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
-    .bin-options{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
+    .field {
+      display: grid;
+      gap: 8px;
     }
 
-    .bin-card{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      border:1px solid rgba(15,23,42,.10);
-      border-radius:18px;
-      padding:16px;
-      background:rgba(255,255,255,.66);
-      cursor:pointer;
+    label {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 800;
     }
 
-    .bin-card input{
-      width:18px;
-      height:18px;
-      margin-top:3px;
-      accent-color:var(--accent);
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 14px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.86);
+      font: inherit;
     }
 
-    .bin-card strong{
-      display:block;
-      margin-bottom:4px;
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(37, 99, 235, 0.45);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
     }
 
-    .bin-card span{
-      display:block;
-      color:var(--muted);
-      font-size:14px;
+    textarea {
+      min-height: 110px;
+      resize: vertical;
     }
 
-    .note{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:4px;
-      font-weight:600;
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.58);
     }
 
-    .btn{
-      border:0;
-      min-height:54px;
-      border-radius:999px;
-      padding:0 24px;
-      font:inherit;
-      font-weight:900;
-      color:white;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      cursor:pointer;
-      box-shadow:0 16px 34px rgba(37,99,235,.22);
-      margin-top:4px;
+    .compact-grid {
+      grid-template-columns: repeat(4, 1fr);
     }
 
-    footer{
-      border-top:1px solid var(--line);
-      padding:24px 0 34px;
-      color:var(--muted);
-      background:rgba(255,255,255,.6);
-      font-size:14px;
-      text-align:center;
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      font-weight: 650;
     }
 
-    @media(max-width:760px){
-      .nav-links{display:none}
-      .container{width:min(calc(100% - 24px),var(--container))}
-      .nav{width:calc(100% - 24px)}
-      .grid-2,.bin-options,.checkbox-grid,.compact-grid{grid-template-columns:1fr}
-      .card{padding:24px 20px}
-      .section{padding-top:34px}
+    .check input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .bin-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .bin-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.66);
+      cursor: pointer;
+    }
+
+    .bin-card input {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .bin-card strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .bin-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn {
+      min-height: 54px;
+      margin-top: 4px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      color: #ffffff;
+      background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent2)
+      );
+      box-shadow: 0 16px 34px rgba(37, 99, 235, 0.22);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 38px rgba(37, 99, 235, 0.28);
+    }
+
+    footer {
+      padding: 24px 0 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.60);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .nav-links {
+        display: none;
+      }
+
+      .container {
+        width: min(calc(100% - 24px), var(--container));
+      }
+
+      .nav {
+        width: calc(100% - 24px);
+      }
+
+      .grid-2,
+      .bin-options,
+      .checkbox-grid,
+      .compact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 24px 20px;
+      }
+
+      .section {
+        padding-top: 34px;
+      }
     }
   </style>
 </head>
@@ -256,85 +345,205 @@
 <body>
   <header>
     <div class="nav">
-      <a href="/" class="brand">
+      <a href="/" class="brand" aria-label="HEKONE Home">
         <span class="brand-dot"></span>
         <span>HEKONE</span>
       </a>
 
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Main navigation">
         <a href="/origin.html">HEKONE Origin</a>
         <a href="/about.html">About</a>
         <a href="/contact.html">Contact</a>
-        <a href="/origin-demo.html" class="nav-cta">Request Demo</a>
+
+        <a
+          href="/origin-deployment.html"
+          class="nav-cta"
+        >
+          Request Deployment
+        </a>
       </nav>
     </div>
   </header>
 
   <section class="hero-image">
-    <img src="origin-demo2.png" alt="HEKONE Origin field demo for California growers" />
+    <img
+      src="origin-demo3.png"
+      alt="HEKONE Origin field deployment for California growers"
+    />
   </section>
 
   <main>
     <section class="section">
       <div class="container">
         <div class="card">
-          <h2>Request Field Demo</h2>
+          <h2>Request Initial Deployment</h2>
+
           <p class="section-text">
-            Fill out this short form to reserve interest in a 1-day HEKONE Origin field demo.
+            Tell us about your operation and we’ll contact you to discuss
+            an initial HEKONE Origin field deployment.
           </p>
 
-          <form action="https://formspree.io/f/mgonjqbj" method="POST">
-            <input type="hidden" name="form_type" value="HEKONE Origin Field Demo Request" />
+          <form
+            action="https://formspree.io/f/mgonjqbj"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="form_type"
+              value="HEKONE Origin Field Deployment Request"
+            />
 
             <div class="grid-2">
               <div class="field">
                 <label for="name">Full Name *</label>
-                <input id="name" name="name" type="text" placeholder="Your name" required />
+
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Your name"
+                  autocomplete="name"
+                  required
+                />
               </div>
 
               <div class="field">
                 <label for="company">Farm / Company Name *</label>
-                <input id="company" name="company" type="text" placeholder="Farm or company name" required />
+
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  placeholder="Farm or company name"
+                  autocomplete="organization"
+                  required
+                />
               </div>
             </div>
 
             <div class="grid-2">
               <div class="field">
                 <label for="email">Email *</label>
-                <input id="email" name="email" type="email" placeholder="you@company.com" required />
+
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@company.com"
+                  autocomplete="email"
+                  required
+                />
               </div>
 
               <div class="field">
                 <label for="phone">Phone Number *</label>
-                <input id="phone" name="phone" type="tel" placeholder="Your phone number" required />
+
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="Your phone number"
+                  autocomplete="tel"
+                  required
+                />
               </div>
             </div>
 
             <div class="field">
               <label for="location">Harvest Location *</label>
-              <input id="location" name="harvest_location" type="text" placeholder="City / County / Field location" required />
+
+              <input
+                id="location"
+                name="harvest_location"
+                type="text"
+                placeholder="City / County / Field location"
+                required
+              />
             </div>
 
             <div class="field">
               <label>Crop / Fruit Type</label>
+
               <div class="checkbox-grid">
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Almonds" /> Almonds</label>
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Pistachios" /> Pistachios</label>
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Walnuts" /> Walnuts</label>
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Peaches" /> Peaches</label>
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Citrus" /> Citrus</label>
-                <label class="check"><input type="checkbox" name="crop_type[]" value="Grapes" /> Grapes</label>
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Almonds"
+                  />
+                  Almonds
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Pistachios"
+                  />
+                  Pistachios
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Walnuts"
+                  />
+                  Walnuts
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Peaches"
+                  />
+                  Peaches
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Citrus"
+                  />
+                  Citrus
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="crop_type[]"
+                    value="Grapes"
+                  />
+                  Grapes
+                </label>
               </div>
             </div>
 
             <div class="field">
-              <label for="other_crop">Other Crop / Fruit Type</label>
-              <input id="other_crop" name="other_crop" type="text" placeholder="If other, please specify" />
+              <label for="other_crop">
+                Other Crop / Fruit Type
+              </label>
+
+              <input
+                id="other_crop"
+                name="other_crop"
+                type="text"
+                placeholder="If other, please specify"
+              />
             </div>
 
             <div class="field">
-              <label for="demo_bins">Number of Demo Bins Requested *</label>
-              <select id="demo_bins" name="number_of_demo_bins_requested" required>
+              <label for="deployment_bins">
+                Number of Bins Requested *
+              </label>
+
+              <select
+                id="deployment_bins"
+                name="number_of_bins_requested"
+                required
+              >
                 <option value="">Select number of bins</option>
                 <option value="1">1 bin</option>
                 <option value="2">2 bins</option>
@@ -347,14 +556,23 @@
                 <option value="9">9 bins</option>
                 <option value="10">10 bins</option>
               </select>
-              <div class="note">Demo deployments currently support up to 10 smart bins.</div>
+
+              <div class="note">
+                Initial deployments currently support up to 10 smart bins.
+              </div>
             </div>
 
             <div class="field">
               <label>Preferred Bin Size</label>
+
               <div class="bin-options">
                 <label class="bin-card">
-                  <input type="checkbox" name="preferred_bin_size[]" value="Small Bin - 19L x 13W x 11H" />
+                  <input
+                    type="checkbox"
+                    name="preferred_bin_size[]"
+                    value="Small Bin - 19L x 13W x 11H"
+                  />
+
                   <div>
                     <strong>Small Bin</strong>
                     <span>Approx. 19"L × 13"W × 11"H</span>
@@ -362,7 +580,12 @@
                 </label>
 
                 <label class="bin-card">
-                  <input type="checkbox" name="preferred_bin_size[]" value="Medium Bin - 40L x 48W x 28H" />
+                  <input
+                    type="checkbox"
+                    name="preferred_bin_size[]"
+                    value="Medium Bin - 40L x 48W x 28H"
+                  />
+
                   <div>
                     <strong>Medium Bin</strong>
                     <span>Approx. 40"L × 48"W × 28"H</span>
@@ -373,40 +596,135 @@
 
             <div class="field">
               <label>Harvest Period</label>
+
               <div class="checkbox-grid compact-grid">
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="Spring" /> Spring</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="Summer" /> Summer</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="Fall" /> Fall</label>
-                <label class="check"><input type="checkbox" name="harvest_period[]" value="Winter" /> Winter</label>
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="harvest_period[]"
+                    value="Spring"
+                  />
+                  Spring
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="harvest_period[]"
+                    value="Summer"
+                  />
+                  Summer
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="harvest_period[]"
+                    value="Fall"
+                  />
+                  Fall
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="harvest_period[]"
+                    value="Winter"
+                  />
+                  Winter
+                </label>
               </div>
             </div>
 
             <div class="field">
-              <label>Current Operational Challenges <span class="note">(optional)</span></label>
+              <label>
+                Current Operational Challenges
+                <span class="note">(optional)</span>
+              </label>
+
               <div class="checkbox-grid">
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Lack of real-time visibility" /> Lack of real-time visibility</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Manual weighing process" /> Manual weighing process</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Labor coordination visibility" /> Labor coordination visibility</label>
-                <label class="check"><input type="checkbox" name="operational_challenges[]" value="Harvest loss / shrinkage" /> Harvest loss / shrinkage</label>
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="operational_challenges[]"
+                    value="Lack of real-time visibility"
+                  />
+                  Lack of real-time visibility
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="operational_challenges[]"
+                    value="Manual weighing process"
+                  />
+                  Manual weighing process
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="operational_challenges[]"
+                    value="Labor coordination visibility"
+                  />
+                  Labor coordination visibility
+                </label>
+
+                <label class="check">
+                  <input
+                    type="checkbox"
+                    name="operational_challenges[]"
+                    value="Harvest loss / shrinkage"
+                  />
+                  Harvest loss / shrinkage
+                </label>
               </div>
             </div>
 
             <div class="field">
-              <label for="acreage">Approx. Acres / Harvest Area <span class="note">(optional)</span></label>
-              <input id="acreage" name="approx_acres_or_harvest_area" type="text" placeholder="Example: 20 acres, 1 block, etc." />
+              <label for="acreage">
+                Approx. Acres / Harvest Area
+                <span class="note">(optional)</span>
+              </label>
+
+              <input
+                id="acreage"
+                name="approx_acres_or_harvest_area"
+                type="text"
+                placeholder="Example: 20 acres, 1 block, etc."
+              />
             </div>
 
             <div class="field">
-              <label for="custom_bin">Custom Bin Size / Dimensions <span class="note">(optional)</span></label>
-              <input id="custom_bin" name="custom_bin_size" type="text" placeholder="If custom, enter approximate dimensions" />
+              <label for="custom_bin">
+                Custom Bin Size / Dimensions
+                <span class="note">(optional)</span>
+              </label>
+
+              <input
+                id="custom_bin"
+                name="custom_bin_size"
+                type="text"
+                placeholder="If custom, enter approximate dimensions"
+              />
             </div>
 
             <div class="field">
-              <label for="notes">Additional Notes <span class="note">(optional)</span></label>
-              <textarea id="notes" name="additional_notes" placeholder="Anything else we should know before coordinating your demo?"></textarea>
+              <label for="notes">
+                Additional Notes
+                <span class="note">(optional)</span>
+              </label>
+
+              <textarea
+                id="notes"
+                name="additional_notes"
+                placeholder="Anything else we should know before coordinating your deployment?"
+              ></textarea>
             </div>
 
-            <button class="btn" type="submit">Request Field Demo</button>
+            <button class="btn" type="submit">
+              Request Initial Deployment
+            </button>
           </form>
         </div>
       </div>
@@ -415,7 +733,9 @@
 
   <footer>
     © 2026 HEKONE. All rights reserved. · California, USA ·
-    <a href="mailto:hekmat@hekone.com">hekmat@hekone.com</a>
+    <a href="mailto:hekmat@hekone.com">
+      hekmat@hekone.com
+    </a>
   </footer>
 </body>
 </html>
