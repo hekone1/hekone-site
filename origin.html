@@ -1099,6 +1099,74 @@
       height: auto;
     }
 
+
+    /* HEKONE Origin overview video */
+    .origin-video-section {
+      padding: 64px 0;
+      border-top: 1px solid var(--line-soft);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08), transparent 38%);
+    }
+
+    .origin-video-shell {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(255,255,255,0.88);
+      box-shadow: var(--shadow);
+    }
+
+    .origin-video-header {
+      max-width: 880px;
+      margin: 0 auto 26px;
+      text-align: center;
+    }
+
+    .origin-video-header .eyebrow {
+      margin-bottom: 16px;
+    }
+
+    .origin-video-header h2 {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .origin-video-header p {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .origin-video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 24px;
+      background: #07111f;
+      box-shadow: 0 18px 44px rgba(15, 23, 42, 0.14);
+    }
+
+    .origin-video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .origin-video-caption {
+      margin-top: 14px;
+      text-align: center;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+
     @media (max-width: 900px) {
       .workflow-visual-card {
         overflow-x: auto;
@@ -1275,6 +1343,23 @@
       .feature-section,
       .comparison-section { padding: 54px 0; }
 
+      .origin-video-section {
+        padding: 46px 0;
+      }
+
+      .origin-video-shell {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .origin-video-header {
+        margin-bottom: 18px;
+      }
+
+      .origin-video-frame {
+        border-radius: 16px;
+      }
+
       .wrap,
       .container { width: min(100% - 24px, 1240px); }
 
@@ -1385,28 +1470,32 @@
       aria-labelledby="origin-video-title"
     >
       <div class="container">
-        <div class="origin-video-header">
-          <div class="eyebrow">See How It Works</div>
+        <div class="origin-video-shell">
+          <div class="origin-video-header">
+            <div class="eyebrow">See How It Works</div>
 
-          <h2 id="origin-video-title">
-            See HEKONE Origin in action.
-          </h2>
+            <h2 id="origin-video-title">See HEKONE Origin in action.</h2>
 
-          <p class="lede">
-            Watch how HEKONE Origin connects harvest bins, field teams,
-            and operational dashboards to provide real-time visibility
-            across the field.
+            <p class="lede">
+              Watch how HEKONE Origin connects harvest bins, field teams,
+              and operational dashboards to provide real-time visibility
+              across the field.
+            </p>
+          </div>
+
+          <div class="origin-video-frame">
+            <iframe
+              src="https://www.loom.com/embed/ebae344ed8a5497885171ed843891b53?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
+              title="How HEKONE Origin works"
+              loading="lazy"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <p class="origin-video-caption">
+            Product visualization of the HEKONE Origin field workflow.
           </p>
-        </div>
-
-        <div class="origin-video-frame">
-          <iframe
-            src="https://www.loom.com/embed/ebae344ed8a5497885171ed843891b53"
-            title="How HEKONE Origin works"
-            loading="lazy"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowfullscreen
-          ></iframe>
         </div>
       </div>
     </section>
