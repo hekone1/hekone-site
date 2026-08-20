@@ -12,7 +12,7 @@
   />
 
   <!-- Page CSS -->
-  <link rel="stylesheet" href="location.css?v=501" />
+  <link rel="stylesheet" href="location.css?v=503" />
 </head>
 
 <body>
@@ -20,8 +20,10 @@
 
     <!-- Sidebar -->
     <aside class="location-sidebar">
+
       <div class="brand-row">
         <div class="logo-mark">H</div>
+
         <div class="brand-text">
           <strong>HEKONE</strong>
           <span>Origin</span>
@@ -30,11 +32,17 @@
 
       <div class="sidebar-title">
         <div class="wifi-icon">⌁</div>
+
         <h1>Live Harvest Map</h1>
-        <p>Real-time bin location and weight from the Origin system.</p>
+
+        <p>
+          Real-time bin location and weight from the Origin system.
+        </p>
       </div>
 
+      <!-- Stats -->
       <div class="stats-card">
+
         <div>
           <span>Total Bins</span>
           <strong id="totalBins">0</strong>
@@ -52,101 +60,222 @@
 
         <div>
           <span>Top Performer</span>
-          <strong id="topPerformer" class="green">—</strong>
+          <strong
+            id="topPerformer"
+            class="green"
+          >
+            —
+          </strong>
         </div>
 
         <div>
           <span>Needs Attention</span>
-          <strong id="needsAttention" class="red">0 Bins</strong>
+          <strong
+            id="needsAttention"
+            class="red"
+          >
+            0 Bins
+          </strong>
         </div>
 
         <div>
           <span>Last Update</span>
-          <strong id="lastUpdateSmall" class="small-live">● Loading...</strong>
+          <strong
+            id="lastUpdateSmall"
+            class="small-live"
+          >
+            ● Loading...
+          </strong>
         </div>
+
       </div>
 
+      <!-- Bin Performance -->
       <div class="performance-head">
-        <strong>BIN PERFORMANCE</strong>
+
+        <strong>
+          BIN PERFORMANCE
+        </strong>
 
         <select id="sortSelect">
-          <option value="high">Weight: High to Low</option>
-          <option value="low">Weight: Low to High</option>
+
+          <option value="high">
+            Weight: High to Low
+          </option>
+
+          <option value="low">
+            Weight: Low to High
+          </option>
+
         </select>
+
       </div>
 
-      <div id="binPerformanceList" class="bin-performance-list"></div>
+      <div
+        id="binPerformanceList"
+        class="bin-performance-list"
+      ></div>
 
+      <!-- GPS -->
       <div class="gps-card">
+
         <div>
           <span>Latitude</span>
-          <strong id="latitudeText">—</strong>
+          <strong id="latitudeText">
+            —
+          </strong>
         </div>
+
         <div>
           <span>Longitude</span>
-          <strong id="longitudeText">—</strong>
+          <strong id="longitudeText">
+            —
+          </strong>
         </div>
+
       </div>
 
-      <a href="origin-dashboard.html" class="dashboard-link">
+      <a
+        href="origin-dashboard.html"
+        class="dashboard-link"
+      >
         View Full Dashboard ↗
       </a>
+
     </aside>
 
     <!-- Main Map Area -->
     <main class="map-area">
 
+      <!-- Top Bar -->
       <header class="map-topbar">
+
         <div class="field-selector">
           Orchard A - Block 12
           <span>⌄</span>
         </div>
 
-        <div class="live-pill">● LIVE</div>
+        <div class="live-pill">
+          ● LIVE
+        </div>
 
         <div class="topbar-spacer"></div>
 
-        <div id="lastUpdated" class="date-text">Loading...</div>
-        <div class="bell">♧</div>
-        <div class="avatar">JD</div>
+        <div
+          id="lastUpdated"
+          class="date-text"
+        >
+          Loading...
+        </div>
+
+        <div class="bell">
+          ♧
+        </div>
+
+        <div class="avatar">
+          JD
+        </div>
+
       </header>
 
+      <!-- Filters -->
       <div class="filter-row">
+
         <button class="filter-btn active">
-          All Bins <span id="allBinsCount">(0)</span>
+          All Bins
+          <span id="allBinsCount">
+            (0)
+          </span>
         </button>
-        <button class="filter-btn high">● High</button>
-        <button class="filter-btn average">● Average</button>
-        <button class="filter-btn low">● Low</button>
+
+        <button class="filter-btn high">
+          ● High
+        </button>
+
+        <button class="filter-btn average">
+          ● Average
+        </button>
+
+        <button class="filter-btn low">
+          ● Low
+        </button>
+
       </div>
 
+      <!-- Map -->
       <div class="map-stage">
+
         <div id="map"></div>
 
-        <div id="mapStatus" class="map-status">
+        <div
+          id="mapStatus"
+          class="map-status"
+        >
           Loading live GPS location...
         </div>
 
-        <div class="scale-box">50 ft</div>
+        <div class="scale-box">
+          50 ft
+        </div>
+
       </div>
 
     </main>
 
   </div>
 
-  <!-- Supabase -->
+  <!-- ========================================= -->
+  <!-- Supabase JS -->
+  <!-- ========================================= -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    const supabaseUrl = "https://jkutihtsghzrxfbtitrl.supabase.co";
-    const supabaseKey = "sb_publishable_ny7qT12GnNrAdLQ5w3I18g_MbbpN3Uy";
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    console.log("Supabase library loaded:", typeof supabase !== "undefined");
+
+    const supabaseUrl =
+      "https://jkutihtsghzrxfbtitrl.supabase.co";
+
+    const supabaseKey =
+      "sb_publishable_ny7qT12GnNrAdLQ5w3I18g_MbbpN3Uy";
+
+    const supabaseClient =
+      supabase.createClient(
+        supabaseUrl,
+        supabaseKey
+      );
+
+    console.log(
+      "HEKONE Supabase project:",
+      supabaseUrl
+    );
+
+    console.log(
+      "Supabase client created:",
+      !!supabaseClient
+    );
   </script>
 
+  <!-- ========================================= -->
   <!-- Mapbox JS -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
+  <!-- ========================================= -->
 
-  <!-- Page JS -->
-  <script src="location.js?v=501"></script>
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"
+  ></script>
+
+  <script>
+    console.log(
+      "Mapbox library loaded:",
+      typeof mapboxgl !== "undefined"
+    );
+  </script>
+
+  <!-- ========================================= -->
+  <!-- HEKONE Location JS -->
+  <!-- ========================================= -->
+
+  <script src="location.js?v=503"></script>
+
 </body>
 </html>
