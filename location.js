@@ -200,11 +200,7 @@ async function loadLocationData() {
     latestBin = bin;
 
     renderStats(bin);
-
-    renderPerformanceList(
-      bin
-    );
-
+    renderPerformanceList(bin);
     renderMap(bin);
 
     updateLastUpdated(
@@ -472,13 +468,13 @@ function createMarkerElement(
 
   el.style.setProperty(
     "width",
-    "88px",
+    "100px",
     "important"
   );
 
   el.style.setProperty(
     "height",
-    "66px",
+    "72px",
     "important"
   );
 
@@ -508,13 +504,13 @@ function createMarkerElement(
 
   el.style.setProperty(
     "max-width",
-    "88px",
+    "100px",
     "important"
   );
 
   el.style.setProperty(
     "min-width",
-    "88px",
+    "100px",
     "important"
   );
 
@@ -522,8 +518,8 @@ function createMarkerElement(
 
     <div
       style="
-        width: 12px !important;
-        height: 12px !important;
+        width: 13px !important;
+        height: 13px !important;
         border-radius: 999px !important;
         background: ${color} !important;
         border: 2px solid #061018 !important;
@@ -543,45 +539,57 @@ function createMarkerElement(
 
     <div
       style="
-        width: 88px !important;
-        height: 49px !important;
-        max-width: 88px !important;
-        min-width: 88px !important;
+        width: 100px !important;
+        height: 54px !important;
+        max-width: 100px !important;
+        min-width: 100px !important;
+
         background:
           rgba(10,15,22,0.96)
           !important;
+
         border:
           1px solid
           rgba(139,92,246,0.85)
           !important;
+
         border-radius:
           8px
           !important;
+
         padding:
-          6px
+          7px
           !important;
+
         box-shadow:
           0 8px 22px
           rgba(0,0,0,0.35)
           !important;
+
         display:
           flex
           !important;
+
         flex-direction:
           column
           !important;
+
         justify-content:
           center
           !important;
+
         align-items:
           center
           !important;
+
         text-align:
           center
           !important;
+
         overflow:
           hidden
           !important;
+
         box-sizing:
           border-box
           !important;
@@ -593,18 +601,23 @@ function createMarkerElement(
           color:
             #cbd5e1
             !important;
+
           font-size:
-            10px
+            13px
             !important;
+
           font-weight:
             800
             !important;
+
           line-height:
             1
             !important;
+
           margin-bottom:
-            4px
+            6px
             !important;
+
           white-space:
             nowrap
             !important;
@@ -618,15 +631,19 @@ function createMarkerElement(
           color:
             ${color}
             !important;
+
           font-size:
-            12px
+            16px
             !important;
+
           font-weight:
             900
             !important;
+
           line-height:
             1
             !important;
+
           white-space:
             nowrap
             !important;
@@ -921,10 +938,6 @@ function updateLastUpdated(
 // ===============================
 // Display Name Mapping
 // ===============================
-
-// IMPORTANT:
-// Device IDs in Supabase remain unchanged.
-// Only the name shown on the website changes.
 
 function safeBin(row) {
   const deviceId =
