@@ -69,7 +69,7 @@ function initMap(lat, lon) {
 }
 
 // ===============================
-// Load Latest GPS from Supabase
+// Load Latest GPS + Weight from Supabase
 // ===============================
 async function loadLocationData() {
   try {
@@ -80,8 +80,9 @@ async function loadLocationData() {
     }
 
     const { data, error } = await supabaseClient
-      .from("origin_events")
-      .select("*")
+      .from("location_events")
+      .select("device_id, latitude, longitude, weight_lb, created_at")
+      .eq("device_id", "HB000003")
       .not("latitude", "is", null)
       .not("longitude", "is", null)
       .order("created_at", { ascending: false })
@@ -114,7 +115,7 @@ async function loadLocationData() {
     renderStats(bin);
     renderPerformanceList(bin);
     renderMap(bin);
-    updateLastUpdated();
+    updateLastUpdated(bin.created_at);
 
   } catch (err) {
     console.error("Location load failed:", err);
@@ -140,9 +141,11 @@ function renderMap(bin) {
   }
 
   const lngLat = [lon, lat];
-  const weight = num(bin.weight_lb);
+  const tilted = isTilted(bin);
+  const weight = tilted ? null : num(bin.weight_lb);
   const status = getStatus(bin);
   const binId = safeBin(bin);
+  const weightText = tilted ? "Tilted" : `${weight.toFixed(2)} lb`;
 
   map.easeTo({
     center: lngLat,
@@ -153,9 +156,7 @@ function renderMap(bin) {
   const popupHtml = `
     <div class="popup-content">
       <strong>${binId}</strong><br>
-      Weight: ${weight.toFixed(2)} lb<br>
-      Block: ${bin.block || "—"}<br>
-      Row: ${bin.row || "—"}<br>
+      Weight: <span style="color:${tilted ? "#f97316" : "#ffffff"};font-weight:800;">${weightText}</span><br>
       Lat: ${lat.toFixed(6)}<br>
       Lon: ${lon.toFixed(6)}
     </div>
@@ -196,20 +197,35 @@ function renderMap(bin) {
 
   setText("latitudeText", lat.toFixed(6));
   setText("longitudeText", lon.toFixed(6));
-  setStatus(`Live GPS: ${binId} at ${lat.toFixed(6)}, ${lon.toFixed(6)}`);
+
+  if (tilted) {
+    setStatus(`Live GPS: ${binId} — Tilted, weight unavailable`);
+  } else {
+    setStatus(`Live GPS: ${binId} at ${lat.toFixed(6)}, ${lon.toFixed(6)}`);
+  }
 }
 
 // ===============================
 // New Small Square Marker
-// No old CSS class used
 // ===============================
 function createMarkerElement(bin, status) {
-  const weight = num(bin.weight_lb);
+  const tilted = isTilted(bin);
+  const weight = tilted ? null : num(bin.weight_lb);
   const binId = safeBin(bin);
 
   let color = "#00c46a";
-  if (status === "low") color = "#ff453a";
-  if (status === "average") color = "#facc15";
+
+  if (status === "low") {
+    color = "#ff453a";
+  } else if (status === "average") {
+    color = "#facc15";
+  } else if (status === "tilted") {
+    color = "#f97316";
+  }
+
+  const displayWeight = tilted
+    ? "Tilted"
+    : `${weight.toFixed(2)} lb`;
 
   const el = document.createElement("div");
   el.className = "hekone-pin";
@@ -268,7 +284,7 @@ function createMarkerElement(bin, status) {
         font-weight: 900 !important;
         line-height: 1 !important;
         white-space: nowrap !important;
-      ">${weight.toFixed(2)} lb</div>
+      ">${displayWeight}</div>
     </div>
   `;
 
@@ -279,15 +295,32 @@ function createMarkerElement(bin, status) {
 // Sidebar Stats
 // ===============================
 function renderStats(bin) {
-  const weight = num(bin.weight_lb);
+  const tilted = isTilted(bin);
+  const weight = tilted ? null : num(bin.weight_lb);
   const binId = safeBin(bin);
 
   setText("totalBins", "1");
   setText("allBinsCount", "(1)");
-  setText("totalWeight", weight.toFixed(2) + " lb");
-  setText("farmAverage", weight.toFixed(2) + " lb");
-  setText("topPerformer", `${binId} ${weight.toFixed(2)} lb`);
-  setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
+
+  if (tilted) {
+    setText("totalWeight", "Tilted");
+    setText("farmAverage", "Tilted");
+    setText("topPerformer", `${binId} Tilted`);
+    setText("needsAttention", "1 Bin");
+
+    setClass("totalWeight", "tilted");
+    setClass("farmAverage", "tilted");
+    setClass("topPerformer", "tilted");
+  } else {
+    setText("totalWeight", weight.toFixed(2) + " lb");
+    setText("farmAverage", weight.toFixed(2) + " lb");
+    setText("topPerformer", `${binId} ${weight.toFixed(2)} lb`);
+    setText("needsAttention", weight > 0 ? "0 Bins" : "1 Bin");
+
+    setClass("totalWeight", "");
+    setClass("farmAverage", "");
+    setClass("topPerformer", "green");
+  }
 }
 
 // ===============================
@@ -295,17 +328,25 @@ function renderStats(bin) {
 // ===============================
 function renderPerformanceList(bin) {
   const list = document.getElementById("binPerformanceList");
-  if (!list) return;
 
-  const weight = num(bin.weight_lb);
+  if (!list) {
+    return;
+  }
+
+  const tilted = isTilted(bin);
+  const weight = tilted ? null : num(bin.weight_lb);
   const status = getStatus(bin);
+
+  const valueText = tilted
+    ? "Tilted"
+    : `${weight.toFixed(2)} lb`;
 
   list.innerHTML = `
     <div class="bin-row active">
       <div class="status-dot dot-${status}"></div>
       <strong>${safeBin(bin)}</strong>
-      <span>${bin.row || "Row —"}</span>
-      <b class="${statusColorClass(status)}">${weight.toFixed(2)} lb</b>
+      <span>Live</span>
+      <b class="${statusColorClass(status)}">${valueText}</b>
     </div>
   `;
 }
@@ -330,16 +371,21 @@ function renderWaitingStats() {
   setText("longitudeText", "—");
 
   const list = document.getElementById("binPerformanceList");
-  if (list) list.innerHTML = "";
+
+  if (list) {
+    list.innerHTML = "";
+  }
 }
 
 // ===============================
 // Last Updated
 // ===============================
-function updateLastUpdated() {
-  const now = new Date();
+function updateLastUpdated(createdAt) {
+  const date = createdAt
+    ? new Date(createdAt)
+    : new Date();
 
-  setText("lastUpdated", now.toLocaleString([], {
+  setText("lastUpdated", date.toLocaleString([], {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -354,7 +400,11 @@ function updateLastUpdated() {
 // Helpers
 // ===============================
 function safeBin(row) {
-  return row.bin_id || "BIN-001";
+  return row.device_id || "HB000003";
+}
+
+function isTilted(row) {
+  return row.weight_lb === null || typeof row.weight_lb === "undefined";
 }
 
 function num(value) {
@@ -362,33 +412,85 @@ function num(value) {
 }
 
 function isValidCoordinate(lat, lon) {
-  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return false;
-  if (lat === 0 && lon === 0) return false;
-  if (lat < -90 || lat > 90) return false;
-  if (lon < -180 || lon > 180) return false;
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+    return false;
+  }
+
+  if (lat === 0 && lon === 0) {
+    return false;
+  }
+
+  if (lat < -90 || lat > 90) {
+    return false;
+  }
+
+  if (lon < -180 || lon > 180) {
+    return false;
+  }
+
   return true;
 }
 
 function getStatus(bin) {
+  if (isTilted(bin)) {
+    return "tilted";
+  }
+
   const weight = num(bin.weight_lb);
 
-  if (weight <= 0) return "low";
-  if (weight < 1) return "average";
+  if (weight <= 0) {
+    return "low";
+  }
+
+  if (weight < 1) {
+    return "average";
+  }
+
   return "high";
 }
 
 function statusColorClass(status) {
-  if (status === "low") return "red";
-  if (status === "average") return "yellow";
+  if (status === "tilted") {
+    return "tilted";
+  }
+
+  if (status === "low") {
+    return "red";
+  }
+
+  if (status === "average") {
+    return "yellow";
+  }
+
   return "green";
 }
 
 function setText(id, value) {
   const el = document.getElementById(id);
-  if (el) el.innerText = value;
+
+  if (el) {
+    el.innerText = value;
+  }
+}
+
+function setClass(id, className) {
+  const el = document.getElementById(id);
+
+  if (!el) {
+    return;
+  }
+
+  el.classList.remove("green", "red", "yellow", "tilted");
+
+  if (className) {
+    el.classList.add(className);
+  }
 }
 
 function setStatus(message) {
   const el = document.getElementById("mapStatus");
-  if (el) el.innerText = message;
+
+  if (el) {
+    el.innerText = message;
+  }
 }
