@@ -134,6 +134,10 @@ body {
   color: #facc15 !important;
 }
 
+.tilted {
+  color: #f97316 !important;
+}
+
 .small-live {
   font-size: 12px !important;
   color: #d1d5db !important;
@@ -230,6 +234,10 @@ body {
 
 .dot-low {
   background: #ff453a;
+}
+
+.dot-tilted {
+  background: #f97316;
 }
 
 /* ---------- GPS Card ---------- */
@@ -440,6 +448,11 @@ body {
   box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.25);
 }
 
+.origin-marker.tilted .origin-marker-dot {
+  background: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.25);
+}
+
 .origin-marker-card {
   display: flex;
   align-items: center;
@@ -477,6 +490,10 @@ body {
 
 .origin-marker.average .origin-marker-info strong {
   color: #facc15;
+}
+
+.origin-marker.tilted .origin-marker-info strong {
+  color: #f97316;
 }
 
 /* ---------- Map Status ---------- */
