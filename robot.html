@@ -418,7 +418,36 @@
 
 
 
-    /* Autonomous mobile robotics visual: robot-4.png with copy on the right */
+    /* End-of-line automation visual: robot-4.png with copy on the right */
+    .endline-visual::after {
+      background: linear-gradient(270deg, rgba(4,10,19,.50) 0%, rgba(4,10,19,.32) 34%, rgba(4,10,19,.09) 61%, rgba(4,10,19,0) 78%);
+    }
+    .endline-visual .scroll-automation__content {
+      left: auto;
+      right: clamp(34px, 6vw, 112px);
+      width: min(610px, 40vw);
+      text-align: left;
+    }
+    .endline-visual .scroll-reveal-item { transform: translateX(44px); }
+    .endline-visual .scroll-kicker { color: #2f91ff; }
+    .endline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .endline-tags span {
+      border: 1px solid rgba(47,145,255,.38);
+      background: rgba(5,15,28,.38);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .78rem;
+      font-weight: 700;
+      color: #eef7ff;
+    }
+
+    /* Autonomous mobile robotics visual: robot-5.png with copy on the right */
     .amr-visual::after {
       background: linear-gradient(270deg, rgba(4,10,19,.52) 0%, rgba(4,10,19,.34) 34%, rgba(4,10,19,.10) 61%, rgba(4,10,19,0) 78%);
     }
@@ -842,6 +871,13 @@
         left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
       }
 
+      .endline-visual::after {
+        background: linear-gradient(180deg, rgba(4,10,19,.04) 0%, rgba(4,10,19,.16) 36%, rgba(4,10,19,.76) 72%, rgba(4,10,19,.90) 100%);
+      }
+      .endline-visual .scroll-automation__content {
+        left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
+      }
+
       .amr-visual::after {
         background: linear-gradient(180deg, rgba(4,10,19,.04) 0%, rgba(4,10,19,.16) 36%, rgba(4,10,19,.76) 72%, rgba(4,10,19,.90) 100%);
       }
@@ -1029,8 +1065,23 @@
     </section>
 
 
+    <section class="scroll-automation endline-visual" id="end-of-line-automation" aria-label="HEKONE end-of-line packaging and palletizing automation">
+      <img class="scroll-automation__image" src="robot-4.png" alt="HEKONE end-of-line palletizing and packaging automation system" loading="lazy" />
+      <div class="scroll-automation__content">
+        <div class="scroll-kicker scroll-reveal-item">End-of-Line Automation</div>
+        <h2 class="scroll-title scroll-reveal-item">Move more.<br>Handle less.</h2>
+        <div class="scroll-accent-line scroll-reveal-item" aria-hidden="true"></div>
+        <div class="scroll-reveal-item">
+          <p class="scroll-copy">Automate repetitive packaging, palletizing, and material handling tasks with systems designed around your workflow.</p>
+          <div class="endline-tags" aria-label="End-of-line automation capabilities">
+            <span>Palletizing</span><span>Packaging</span><span>Material Handling</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="scroll-automation amr-visual" id="autonomous-mobile-robotics" aria-label="HEKONE autonomous mobile robots moving materials through a modern factory">
-      <img class="scroll-automation__image" src="robot-4.png" alt="HEKONE autonomous mobile robot transporting materials through a modern factory" loading="lazy" />
+      <img class="scroll-automation__image" src="robot-5.png" alt="HEKONE autonomous mobile robot transporting materials through a modern factory" loading="lazy" />
       <div class="scroll-automation__content">
         <h2 class="amr-title scroll-reveal-item">
           AUTONOMOUS.
