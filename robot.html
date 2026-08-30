@@ -583,12 +583,16 @@
         transition: color .22s ease, background .22s ease, border-color .22s ease, transform .22s ease;
       }
 
-      .nav-dropdown-menu a:hover,
-      .nav-dropdown-menu a.active {
-        color: #fff;
-        background: rgba(37, 99, 235, .16);
-        border-color: rgba(59, 130, 246, .22);
-        transform: translateX(3px);
+      /* Dropdown hover: keep the label bright and make it slightly larger.
+         The extra specificity intentionally overrides the global nav hover rule. */
+      .nav-links .nav-dropdown-menu a:hover,
+      .nav-links .nav-dropdown-menu a.active {
+        color: rgba(255,255,255,.96);
+        background: rgba(37, 99, 235, .14);
+        border-color: rgba(59, 130, 246, .24);
+        transform: scale(1.045);
+        transform-origin: left center;
+        font-weight: 700;
       }
 
       .nav-pilot {
