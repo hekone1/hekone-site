@@ -416,6 +416,32 @@
       color:#eef7ff;
     }
 
+
+
+    /* End-of-line automation visual: robot-4.png with copy on the right */
+    .endline-automation-visual::after {
+      background: linear-gradient(270deg, rgba(4,10,19,.46) 0%, rgba(4,10,19,.28) 34%, rgba(4,10,19,.07) 62%, rgba(4,10,19,0) 78%);
+    }
+    .endline-automation-visual .scroll-automation__content {
+      left: auto;
+      right: clamp(34px, 6vw, 110px);
+      width: min(560px, 39vw);
+      text-align: left;
+    }
+    .endline-automation-visual .scroll-reveal-item { transform: translateX(42px); }
+    .endline-automation-visual .scroll-kicker { color: #2f9cff; }
+    .endline-tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    .endline-tags span {
+      border:1px solid rgba(47,156,255,.38);
+      background:rgba(5,15,28,.34);
+      backdrop-filter:blur(8px);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.78rem;
+      font-weight:700;
+      color:#eef7ff;
+    }
+
     .scroll-kicker {
       margin-bottom: 14px;
       color: #2f9cff;
@@ -768,6 +794,13 @@
       .custom-robotics-visual .scroll-automation__content {
         left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
       }
+
+      .endline-automation-visual::after {
+        background: linear-gradient(180deg, rgba(4,10,19,.04) 0%, rgba(4,10,19,.16) 36%, rgba(4,10,19,.76) 72%, rgba(4,10,19,.90) 100%);
+      }
+      .endline-automation-visual .scroll-automation__content {
+        left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
+      }
     }
   </style>
 </head>
@@ -944,6 +977,22 @@
           <article class="process-card"><div class="step">2</div><h3>Design</h3><p>We develop the mechanical concept, CAD, fixtures, robotics, controls, and safety approach.</p></article>
           <article class="process-card"><div class="step">3</div><h3>Build &amp; Test</h3><p>We fabricate and integrate the system, then test the real workflow before deployment.</p></article>
           <article class="process-card"><div class="step">4</div><h3>Deploy</h3><p>We install, refine, and optimize the solution around your actual production environment.</p></article>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="scroll-automation endline-automation-visual" id="endline-automation" aria-label="HEKONE end-of-line palletizing and material handling automation">
+      <img class="scroll-automation__image" src="robot-4.png" alt="HEKONE robotic palletizing and end-of-line automation system in a modern warehouse" loading="lazy" />
+      <div class="scroll-automation__content">
+        <div class="scroll-kicker scroll-reveal-item">End-of-Line Automation</div>
+        <h2 class="scroll-title scroll-reveal-item">Move more.<br>Handle less.</h2>
+        <div class="scroll-accent-line scroll-reveal-item" aria-hidden="true"></div>
+        <div class="scroll-reveal-item">
+          <p class="scroll-copy">Automate repetitive packaging, palletizing, and material handling tasks with systems designed around your workflow.</p>
+          <div class="endline-tags" aria-label="End-of-line automation capabilities">
+            <span>Palletizing</span><span>Packaging</span><span>Material Handling</span>
+          </div>
         </div>
       </div>
     </section>
