@@ -418,28 +418,75 @@
 
 
 
-    /* End-of-line automation visual: robot-4.png with copy on the right */
-    .endline-automation-visual::after {
-      background: linear-gradient(270deg, rgba(4,10,19,.46) 0%, rgba(4,10,19,.28) 34%, rgba(4,10,19,.07) 62%, rgba(4,10,19,0) 78%);
+    /* Autonomous mobile robotics visual: robot-4.png with copy on the right */
+    .amr-visual::after {
+      background: linear-gradient(270deg, rgba(4,10,19,.52) 0%, rgba(4,10,19,.34) 34%, rgba(4,10,19,.10) 61%, rgba(4,10,19,0) 78%);
     }
-    .endline-automation-visual .scroll-automation__content {
+    .amr-visual .scroll-automation__content {
       left: auto;
-      right: clamp(34px, 6vw, 110px);
-      width: min(560px, 39vw);
+      right: clamp(34px, 6vw, 112px);
+      width: min(650px, 42vw);
       text-align: left;
     }
-    .endline-automation-visual .scroll-reveal-item { transform: translateX(42px); }
-    .endline-automation-visual .scroll-kicker { color: #2f9cff; }
-    .endline-tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
-    .endline-tags span {
-      border:1px solid rgba(47,156,255,.38);
-      background:rgba(5,15,28,.34);
-      backdrop-filter:blur(8px);
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:.78rem;
-      font-weight:700;
-      color:#eef7ff;
+    .amr-visual .scroll-reveal-item { transform: translateX(44px); }
+    .amr-title {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(40px, 4.35vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -.045em;
+      font-weight: 900;
+    }
+    .amr-title .blue {
+      display: block;
+      margin-top: 8px;
+      color: #2f91ff;
+    }
+    .amr-copy {
+      margin: 28px 0 0;
+      max-width: 580px;
+      color: rgba(255,255,255,.90);
+      font-size: clamp(18px, 1.45vw, 25px);
+      line-height: 1.62;
+    }
+    .amr-features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 0;
+      margin-top: 38px;
+      max-width: 620px;
+    }
+    .amr-feature {
+      min-width: 0;
+      padding: 0 22px;
+      text-align: center;
+      border-left: 1px solid rgba(255,255,255,.30);
+    }
+    .amr-feature:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .amr-feature:last-child { padding-right: 0; }
+    .amr-feature svg {
+      width: 54px;
+      height: 54px;
+      display: block;
+      margin: 0 auto 14px;
+      fill: none;
+      stroke: #2f91ff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 10px rgba(47,145,255,.18));
+    }
+    .amr-feature strong {
+      display: block;
+      color: #fff;
+      font-size: clamp(11px, .78vw, 14px);
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: .01em;
+      white-space: nowrap;
     }
 
     .scroll-kicker {
@@ -795,10 +842,10 @@
         left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
       }
 
-      .endline-automation-visual::after {
+      .amr-visual::after {
         background: linear-gradient(180deg, rgba(4,10,19,.04) 0%, rgba(4,10,19,.16) 36%, rgba(4,10,19,.76) 72%, rgba(4,10,19,.90) 100%);
       }
-      .endline-automation-visual .scroll-automation__content {
+      .amr-visual .scroll-automation__content {
         left:20px; right:20px; top:auto; bottom:44px; width:auto; transform:none;
       }
     }
@@ -982,16 +1029,50 @@
     </section>
 
 
-    <section class="scroll-automation endline-automation-visual" id="endline-automation" aria-label="HEKONE end-of-line palletizing and material handling automation">
-      <img class="scroll-automation__image" src="robot-4.png" alt="HEKONE robotic palletizing and end-of-line automation system in a modern warehouse" loading="lazy" />
+    <section class="scroll-automation amr-visual" id="autonomous-mobile-robotics" aria-label="HEKONE autonomous mobile robots moving materials through a modern factory">
+      <img class="scroll-automation__image" src="robot-4.png" alt="HEKONE autonomous mobile robot transporting materials through a modern factory" loading="lazy" />
       <div class="scroll-automation__content">
-        <div class="scroll-kicker scroll-reveal-item">End-of-Line Automation</div>
-        <h2 class="scroll-title scroll-reveal-item">Move more.<br>Handle less.</h2>
+        <h2 class="amr-title scroll-reveal-item">
+          AUTONOMOUS.
+          <span class="blue">FLEXIBLE. EFFICIENT.</span>
+        </h2>
+
+        <p class="amr-copy scroll-reveal-item">
+          Autonomous mobile robots that navigate dynamically, adapt seamlessly, and keep your operations moving.
+        </p>
+
         <div class="scroll-accent-line scroll-reveal-item" aria-hidden="true"></div>
-        <div class="scroll-reveal-item">
-          <p class="scroll-copy">Automate repetitive packaging, palletizing, and material handling tasks with systems designed around your workflow.</p>
-          <div class="endline-tags" aria-label="End-of-line automation capabilities">
-            <span>Palletizing</span><span>Packaging</span><span>Material Handling</span>
+
+        <div class="amr-features scroll-reveal-item" aria-label="Autonomous mobile robotics capabilities">
+          <div class="amr-feature">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M18 12a8 8 0 1 1 16 0c0 7-8 15-8 15s-8-8-8-15Z"/>
+              <circle cx="26" cy="12" r="2.5"/>
+              <path d="M26 27v8c0 4 3 7 7 7h12"/>
+              <path d="m42 37 6 5-6 5"/>
+              <path d="M20 53h18"/>
+              <path d="M15 48c0-3 2-5 5-5h6"/>
+            </svg>
+            <strong>Smart Navigation</strong>
+          </div>
+
+          <div class="amr-feature">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M48 19A21 21 0 1 0 51 42"/>
+              <path d="m48 12 1 8-8-1"/>
+              <path d="m39 31-8 8 7 4"/>
+            </svg>
+            <strong>Flexible Integration</strong>
+          </div>
+
+          <div class="amr-feature">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M10 50V38h9v12z"/>
+              <path d="M24 50V29h9v21z"/>
+              <path d="M38 50V20h9v30z"/>
+              <path d="M52 50V11h6v39z"/>
+            </svg>
+            <strong>Operational Efficiency</strong>
           </div>
         </div>
       </div>
