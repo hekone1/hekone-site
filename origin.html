@@ -1760,6 +1760,159 @@
   }
 </style>
 
+
+<style id="hekone-floating-glass-nav">
+  /* Floating frosted-glass navigation inspired by the reference */
+  header{
+    position:fixed !important;
+    top:18px !important;
+    left:18px !important;
+    right:18px !important;
+    width:auto !important;
+    z-index:1000;
+    border:1px solid rgba(255,255,255,.34) !important;
+    border-bottom-color:rgba(255,255,255,.22) !important;
+    border-radius:999px !important;
+    background:rgba(235,239,238,.62) !important;
+    -webkit-backdrop-filter:blur(22px) saturate(135%) !important;
+    backdrop-filter:blur(22px) saturate(135%) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.55),
+      0 10px 35px rgba(7,17,31,.12) !important;
+    transition:
+      background .25s ease,
+      border-color .25s ease,
+      box-shadow .25s ease,
+      transform .25s ease !important;
+  }
+
+  header.is-scrolled{
+    background:rgba(225,230,229,.72) !important;
+    border-color:rgba(255,255,255,.42) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.58),
+      0 12px 38px rgba(7,17,31,.16) !important;
+  }
+
+  header .nav-wrap{
+    width:calc(100% - 34px) !important;
+    max-width:none !important;
+    margin:0 auto !important;
+  }
+
+  header .nav{
+    min-height:68px;
+    padding:8px 0 !important;
+  }
+
+  header .brand,
+  header .nav-links,
+  header .nav-actions,
+  header .nav-dropdown-btn{
+    color:#101820 !important;
+  }
+
+  header .brand{
+    letter-spacing:.10em;
+  }
+
+  header .brand-mark{
+    background:linear-gradient(135deg,#101820,#526174) !important;
+    box-shadow:none !important;
+  }
+
+  header .nav-links a,
+  header .nav-actions a,
+  header .nav-dropdown-btn{
+    color:rgba(16,24,32,.78) !important;
+  }
+
+  header .nav-links a:not(.nav-pilot):hover,
+  header .nav-links a.active:not(.nav-pilot),
+  header .nav-dropdown:hover .nav-dropdown-btn,
+  header .nav-dropdown.open .nav-dropdown-btn,
+  header .nav-dropdown.active .nav-dropdown-btn,
+  header .nav-actions a:not(.nav-pilot):hover{
+    color:#07111f !important;
+    background:rgba(255,255,255,.34) !important;
+  }
+
+  header .nav-pilot{
+    background:rgba(255,255,255,.88) !important;
+    color:#07111f !important;
+    border:1px solid rgba(255,255,255,.7) !important;
+    box-shadow:0 6px 18px rgba(7,17,31,.08) !important;
+  }
+
+  header .nav-dropdown-menu{
+    background:rgba(238,242,241,.86) !important;
+    -webkit-backdrop-filter:blur(24px) saturate(140%);
+    backdrop-filter:blur(24px) saturate(140%);
+    border:1px solid rgba(255,255,255,.55) !important;
+  }
+
+  /* Header now floats over hero instead of consuming layout height */
+  .ai-hero{
+    min-height:100vh;
+  }
+
+  @media(max-width:900px){
+    header{
+      top:10px !important;
+      left:10px !important;
+      right:10px !important;
+      border-radius:28px !important;
+    }
+
+    header .nav-wrap{
+      width:calc(100% - 22px) !important;
+    }
+
+    header .nav{
+      min-height:58px;
+    }
+
+    header .menu-toggle{
+      background:rgba(255,255,255,.48) !important;
+      border-color:rgba(7,17,31,.10) !important;
+    }
+
+    header .menu-toggle span{
+      background:#07111f !important;
+    }
+
+    header .nav-links{
+      top:calc(100% + 12px) !important;
+      background:rgba(235,239,238,.92) !important;
+      -webkit-backdrop-filter:blur(24px) saturate(140%);
+      backdrop-filter:blur(24px) saturate(140%);
+      border:1px solid rgba(255,255,255,.55) !important;
+      box-shadow:0 18px 45px rgba(7,17,31,.16) !important;
+    }
+
+    header .nav-links a,
+    header .nav-dropdown-btn{
+      color:#07111f !important;
+      background:rgba(255,255,255,.34) !important;
+      border-color:rgba(7,17,31,.05) !important;
+    }
+
+    header .nav-dropdown-menu{
+      background:rgba(255,255,255,.34) !important;
+    }
+  }
+
+  @media(max-width:560px){
+    header{
+      left:8px !important;
+      right:8px !important;
+    }
+    header .brand{
+      letter-spacing:.07em;
+    }
+  }
+</style>
+
 </head>
 
 <body>
