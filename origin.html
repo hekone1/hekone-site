@@ -1419,6 +1419,225 @@
       }
     }
   </style>
+
+  <style id="hekone-applied-inspired-refresh">
+    :root{
+      --hk-ink:#07111f;
+      --hk-paper:#f4f2ed;
+      --hk-white:#ffffff;
+      --hk-accent:#6d5dfc;
+      --hk-lime:#d7ff43;
+      --hk-muted:#aab2bf;
+      --hk-border:rgba(255,255,255,.14);
+    }
+
+    body{
+      background:var(--hk-paper);
+      color:var(--hk-ink);
+    }
+
+    header{
+      background:rgba(7,17,31,.92);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(18px);
+    }
+    .brand,.nav-links,.nav-actions,.nav-dropdown-btn{color:#fff}
+    .brand-mark{background:linear-gradient(135deg,#d7ff43,#6d5dfc);box-shadow:none}
+    .nav-links a:not(.nav-pilot):hover,
+    .nav-links a.active:not(.nav-pilot),
+    .nav-dropdown:hover .nav-dropdown-btn,
+    .nav-dropdown.open .nav-dropdown-btn,
+    .nav-dropdown.active .nav-dropdown-btn,
+    .nav-actions a:not(.nav-pilot):hover{
+      color:#fff;background:rgba(255,255,255,.09)
+    }
+    .nav-pilot,.btn-primary{
+      background:#fff;color:#07111f!important;box-shadow:none
+    }
+
+    .ai-hero{
+      position:relative;
+      min-height:calc(100vh - 68px);
+      display:grid;
+      align-items:end;
+      overflow:hidden;
+      background:#07111f;
+      color:#fff;
+    }
+    .ai-hero-media{
+      position:absolute;inset:0;
+    }
+    .ai-hero-media img{
+      width:100%;height:100%;object-fit:cover;object-position:center;
+      filter:saturate(.86) brightness(.58);
+    }
+    .ai-hero-media:after{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(90deg,rgba(7,17,31,.92) 0%,rgba(7,17,31,.62) 42%,rgba(7,17,31,.18) 76%),
+        linear-gradient(0deg,rgba(7,17,31,.88) 0%,transparent 55%);
+    }
+    .ai-hero-inner{
+      position:relative;z-index:2;
+      width:min(1380px,calc(100% - 80px));
+      margin:0 auto;padding:110px 0 76px;
+    }
+    .ai-kicker{
+      display:flex;align-items:center;gap:10px;
+      font-size:14px;font-weight:800;letter-spacing:.02em;
+      margin-bottom:24px;color:rgba(255,255,255,.9)
+    }
+    .ai-kicker:before{content:"■";color:var(--hk-lime);font-size:12px}
+    .ai-hero h1{
+      max-width:1100px;color:#fff;
+      font-size:clamp(58px,8vw,118px);
+      line-height:.92;letter-spacing:-.07em;margin:0 0 28px;
+    }
+    .ai-hero p{
+      max-width:760px;color:rgba(255,255,255,.82);
+      font-size:clamp(20px,2.2vw,30px);line-height:1.35;
+    }
+    .ai-hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+    .ai-hero .btn-primary{background:#fff;color:#07111f!important}
+    .ai-hero .btn-secondary{
+      color:#fff;background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.25);box-shadow:none
+    }
+
+    .ai-intro{
+      background:#07111f;color:#fff;padding:105px 0 90px;
+      border-top:1px solid rgba(255,255,255,.08)
+    }
+    .ai-intro-grid{
+      display:grid;grid-template-columns:.65fr 1.35fr;gap:80px;
+      width:min(1380px,calc(100% - 80px));margin:auto
+    }
+    .ai-intro-label{font-weight:800;color:rgba(255,255,255,.68);font-size:14px}
+    .ai-intro h2{
+      color:#fff;font-size:clamp(42px,5.5vw,76px);
+      line-height:1;letter-spacing:-.055em;max-width:980px
+    }
+    .ai-intro p{color:rgba(255,255,255,.7);max-width:820px;font-size:19px}
+
+    .story-section{
+      padding:110px 0;background:var(--hk-paper);
+      border-top:1px solid rgba(7,17,31,.12)
+    }
+    .story-section.dark{background:#07111f;color:#fff;border-color:rgba(255,255,255,.10)}
+    .story-wrap{width:min(1380px,calc(100% - 80px));margin:auto}
+    .story-head{
+      display:grid;grid-template-columns:.65fr 1.35fr;gap:80px;
+      align-items:start;margin-bottom:46px
+    }
+    .story-label{
+      font-size:14px;font-weight:850;display:flex;gap:10px;align-items:center;
+      padding-top:8px
+    }
+    .story-label:before{content:"■";font-size:11px;color:var(--hk-accent)}
+    .dark .story-label:before{color:var(--hk-lime)}
+    .story-copy h2{
+      font-size:clamp(42px,5.3vw,74px);line-height:1;
+      letter-spacing:-.055em;margin:0 0 22px;max-width:1050px
+    }
+    .story-copy p{max-width:850px;font-size:18px;line-height:1.65}
+    .dark .story-copy h2,.dark .story-copy h3{color:#fff}
+    .dark .story-copy p,.dark .story-note{color:rgba(255,255,255,.68)}
+    .story-media{
+      overflow:hidden;border-radius:2px;background:#dfe3e8;
+      box-shadow:none;border:0
+    }
+    .story-media img{width:100%;height:auto;display:block}
+    .story-note{margin-top:18px;font-size:14px;color:#667085}
+
+    .story-split{
+      display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center
+    }
+    .story-split .story-media{order:2}
+    .story-split.reverse .story-media{order:1}
+    .story-split.reverse .story-copy{order:2;padding-left:44px}
+    .story-split:not(.reverse) .story-copy{padding-right:44px}
+    .story-split .story-copy h2{font-size:clamp(38px,4.4vw,64px)}
+
+    .proof-strip{
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:25px
+    }
+    .proof-strip span{
+      border:1px solid rgba(7,17,31,.18);padding:9px 13px;
+      border-radius:999px;font-size:13px;font-weight:800
+    }
+    .proof-strip .hot{background:#07111f;color:#fff;border-color:#07111f}
+    .dark .proof-strip span{border-color:rgba(255,255,255,.22);color:#fff}
+    .dark .proof-strip .hot{background:var(--hk-lime);color:#07111f;border-color:var(--hk-lime)}
+
+    .video-editorial{
+      background:#07111f;padding:105px 0;color:#fff
+    }
+    .video-editorial .story-wrap{display:grid;grid-template-columns:.65fr 1.35fr;gap:80px}
+    .video-editorial h2{color:#fff;font-size:clamp(42px,5vw,72px);letter-spacing:-.055em}
+    .video-editorial p{color:rgba(255,255,255,.68)}
+    .video-editorial .origin-video-frame{margin-top:34px;border-radius:2px;border-color:rgba(255,255,255,.15)}
+
+    .advantages{background:#fff;padding:110px 0}
+    .advantages-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+      background:rgba(7,17,31,.14);border:1px solid rgba(7,17,31,.14);
+      margin-top:45px
+    }
+    .advantage{background:#fff;padding:38px;min-height:260px}
+    .advantage .n{font-size:13px;font-weight:900;margin-bottom:70px;color:#667085}
+    .advantage h3{font-size:27px}
+    .advantage p{font-size:15px}
+
+    .platform-statement{
+      padding:120px 0;background:#c9c3ff;
+    }
+    .platform-statement .story-wrap{text-align:center}
+    .platform-statement h2{
+      font-size:clamp(48px,7vw,96px);max-width:1200px;margin:0 auto 24px;
+      letter-spacing:-.065em
+    }
+    .platform-statement p{max-width:850px;margin:auto;color:#25223c;font-size:19px}
+
+    .final-cta{
+      background:#07111f;color:#fff;padding:110px 0
+    }
+    .final-cta-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end
+    }
+    .final-cta h2{color:#fff;font-size:clamp(46px,6vw,84px);letter-spacing:-.06em}
+    .final-cta p{color:rgba(255,255,255,.68)}
+    .final-cta .hero-actions{justify-content:flex-start}
+    .final-cta .btn-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.3);box-shadow:none}
+
+    footer.container{
+      max-width:none;width:100%;margin:0;padding:30px 40px 46px;
+      background:#07111f;color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.1)
+    }
+
+    @media(max-width:900px){
+      header{background:rgba(7,17,31,.96)}
+      .menu-toggle{background:transparent;border-color:rgba(255,255,255,.25)}
+      .menu-toggle span{background:#fff}
+      .nav-links{background:#07111f;border-color:rgba(255,255,255,.14)}
+      .nav-links a,.nav-dropdown-btn{color:#fff!important;background:rgba(255,255,255,.06)!important;border-color:rgba(255,255,255,.06)!important}
+      .nav-dropdown-menu{background:rgba(255,255,255,.06)}
+      .ai-hero-inner,.ai-intro-grid,.story-wrap{width:min(100% - 32px,1380px)}
+      .ai-intro-grid,.story-head,.video-editorial .story-wrap,
+      .story-split,.final-cta-grid{grid-template-columns:1fr;gap:28px}
+      .story-split.reverse .story-media,.story-split .story-media{order:2}
+      .story-split.reverse .story-copy,.story-split .story-copy{order:1;padding:0}
+      .advantages-grid{grid-template-columns:1fr}
+      .advantage .n{margin-bottom:30px}
+      .ai-hero h1{font-size:clamp(52px,15vw,78px)}
+    }
+    @media(max-width:600px){
+      .ai-hero-inner{padding:90px 0 48px}
+      .ai-intro,.story-section,.video-editorial,.advantages,.platform-statement,.final-cta{padding:72px 0}
+      .ai-hero p{font-size:19px}
+      .story-copy h2,.ai-intro h2{font-size:42px}
+    }
+  </style>
+
 </head>
 
 <body>
@@ -1459,30 +1678,48 @@
 
   <div class="menu-backdrop"></div>
 
+  
   <main>
-    <section class="image-hero" aria-label="HEKONE Origin live harvest visibility hero">
-      <img src="top2.png" alt="HEKONE Origin hero showing live harvest overview, bin performance, field visibility, and real-time orchard operations" />
+    <section class="ai-hero" aria-label="HEKONE Origin harvest intelligence">
+      <div class="ai-hero-media">
+        <img src="top2.png" alt="HEKONE Origin live harvest overview, bin performance, field visibility, and real-time orchard operations" />
+      </div>
+      <div class="ai-hero-inner">
+        <div class="ai-kicker">HEKONE Origin · Harvest Intelligence</div>
+        <h1>Operational intelligence for every harvest.</h1>
+        <p>
+          HEKONE Origin measures harvest activity at the source, turning field weight, time, location,
+          and movement into real-time operational visibility, loss detection, traceability, and measurable ROI.
+        </p>
+        <div class="ai-hero-actions">
+          <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
+          <a class="btn btn-secondary" href="#origin-overview-video">See How It Works</a>
+        </div>
+      </div>
     </section>
 
-    <section
-      class="origin-video-section"
-      id="origin-overview-video"
-      aria-labelledby="origin-video-title"
-    >
-      <div class="container">
-        <div class="origin-video-shell">
-          <div class="origin-video-header">
-            <div class="eyebrow">See How It Works</div>
+    <section class="ai-intro">
+      <div class="ai-intro-grid">
+        <div class="ai-intro-label">Harvest intelligence at the source</div>
+        <div>
+          <h2>Turn ordinary harvest operations into a live physical data network.</h2>
+          <p>
+            HEKONE Origin connects instrumented harvest bins, field teams, and operational dashboards so operators
+            can see what is happening across the field while the work is happening—not hours or days later.
+          </p>
+        </div>
+      </div>
+    </section>
 
-            <h2 id="origin-video-title">See HEKONE Origin in action.</h2>
-
-            <p class="lede">
-              Watch how HEKONE Origin connects harvest bins, field teams,
-              and operational dashboards to provide real-time visibility
-              across the field.
-            </p>
-          </div>
-
+    <section class="video-editorial" id="origin-overview-video" aria-labelledby="origin-video-title">
+      <div class="story-wrap">
+        <div class="story-label">See How It Works</div>
+        <div>
+          <h2 id="origin-video-title">See HEKONE Origin in action.</h2>
+          <p>
+            Watch how HEKONE Origin connects harvest bins, field teams, and operational dashboards
+            to provide real-time visibility across the field.
+          </p>
           <div class="origin-video-frame">
             <iframe
               src="https://www.loom.com/embed/ebae344ed8a5497885171ed843891b53?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
@@ -1492,254 +1729,272 @@
               allowfullscreen
             ></iframe>
           </div>
-
-          <p class="origin-video-caption">
-            Product visualization of the HEKONE Origin field workflow.
-          </p>
+          <p class="story-note">Product visualization of the HEKONE Origin field workflow.</p>
         </div>
       </div>
     </section>
 
-    
-    <section class="feature-section" id="real-world-test">
-      <div class="container">
-        <div class="eyebrow">Real-World Orchard Test</div>
-        <div class="real-world-proof-copy">
-          <h2>HEKONE Origin tested in real-world orchard conditions.</h2>
-          <p class="lede">
-            Successfully demonstrated in a live orchard using an instrumented harvest bin, real-time weight display,
-            live field dashboard, and location-based operational monitoring.
-          </p>
-          <div class="proof-tags">
-            <span class="proof-tag accent-tag">Ready for pilot deployment</span>
-            <span class="proof-tag">California orchard demonstration</span>
-            <span class="proof-tag">Live telemetry</span>
-            <span class="proof-tag">Live dashboard</span>
-            <span class="proof-tag">Source-level measurement</span>
+    <section class="story-section" id="real-world-test">
+      <div class="story-wrap">
+        <div class="story-head">
+          <div class="story-label">Real-World Orchard Test</div>
+          <div class="story-copy">
+            <h2>Tested where harvest actually happens.</h2>
+            <p>
+              HEKONE Origin was successfully demonstrated in a live California orchard using an instrumented
+              harvest bin, real-time weight display, live field dashboard, and location-based operational monitoring.
+            </p>
+            <div class="proof-strip">
+              <span class="hot">Ready for pilot deployment</span>
+              <span>California orchard demonstration</span>
+              <span>Live telemetry</span>
+              <span>Live dashboard</span>
+              <span>Source-level measurement</span>
+            </div>
           </div>
         </div>
-
-        <div class="real-world-proof-card">
+        <div class="story-media">
           <img src="origin-test.png" alt="HEKONE Origin tested in real-world orchard conditions with live harvest dashboard and smart harvest bin" />
         </div>
       </div>
     </section>
 
-    <section class="section" id="how-it-works">
-      <div class="container">
-        <div class="workflow-visual-card">
+    <section class="story-section dark" id="how-it-works">
+      <div class="story-wrap">
+        <div class="story-head">
+          <div class="story-label">How It Works</div>
+          <div class="story-copy">
+            <h2>Capture the harvest event. Measure automatically. See the operation live.</h2>
+            <p>
+              HEKONE Origin is designed around the workflow already happening in the field, creating operational
+              intelligence without adding another manual data-collection step.
+            </p>
+          </div>
+        </div>
+        <div class="story-media">
           <img src="three-steps.png" alt="HEKONE Origin workflow from harvest event to automatic measurement and live operational intelligence" loading="lazy" />
         </div>
       </div>
     </section>
 
-    <section id="comparison" class="comparison-section">
-      <div class="container">
-        <div class="eyebrow">Process Comparison</div>
-        <div class="comparison-copy">
-          <h2>Eliminate the weighing step.</h2>
-          <p class="lede">
-            Replace a slower 5-step harvest process with a 3-step real-time system that measures while harvesting.
-          </p>
-          <p>
-            Instead of moving material through an added weighing checkpoint, HEKONE Origin captures data where harvest already happens.
-            That means fewer handoffs, faster information, and less delay between collection and decision.
-          </p>
+    <section class="story-section" id="comparison">
+      <div class="story-wrap">
+        <div class="story-head">
+          <div class="story-label">Process Comparison</div>
+          <div class="story-copy">
+            <h2>Eliminate the weighing step.</h2>
+            <p>
+              Replace a slower 5-step harvest process with a 3-step real-time system that measures while harvesting.
+              Instead of moving material through an added weighing checkpoint, HEKONE Origin captures data where harvest already happens.
+              That means fewer handoffs, faster information, and less delay between collection and decision.
+            </p>
+          </div>
         </div>
-
-        <div class="comparison-image">
+        <div class="story-media">
           <img src="origin-weightingstep2.png" alt="Comparison showing traditional harvest process versus HEKONE Origin with the weighing step eliminated" />
         </div>
       </div>
     </section>
 
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Live Operations</div>
-        <div class="feature-copy">
+    <section class="story-section dark">
+      <div class="story-wrap story-split">
+        <div class="story-copy">
+          <div class="story-label">Live Operations</div>
           <h2>See harvest activity across the orchard as it happens.</h2>
-          <p class="lede">
-            Know where bins are, how fast they are filling, and which areas are outperforming or falling behind.
-          </p>
           <p>
+            Know where bins are, how fast they are filling, and which areas are outperforming or falling behind.
             Field connectivity is not always perfect, so the system is designed around practical deployment logic:
             capture locally, sync reliably, and preserve operational visibility when coverage is inconsistent.
           </p>
+          <p class="story-note">
+            This is not just real time when the network is perfect. It is intended to be useful in the field conditions operators actually deal with.
+          </p>
         </div>
-
-        <div class="feature-image">
+        <div class="story-media">
           <img src="origin-location2.png" alt="HEKONE Origin live harvest map showing orchard bin locations and weights" />
         </div>
-
-        <p class="section-note">
-          This is not just real time when the network is perfect. It is intended to be useful in the field conditions operators actually deal with.
-        </p>
       </div>
     </section>
 
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Performance Insight</div>
-        <div class="feature-copy">
-          <h2>Know what is making money, and what is losing it.</h2>
-          <p class="lede">
-            See output, picking speed, lost value, and action recommendations in real time.
-          </p>
-          <p>
-            HEKONE Origin turns harvest activity into financial insight, so teams can respond before small inefficiencies become larger operational losses.
-          </p>
-        </div>
-
-        <div class="feature-image">
+    <section class="story-section">
+      <div class="story-wrap story-split reverse">
+        <div class="story-media">
           <img src="origin-performance5.png" alt="HEKONE Origin harvest performance overview with financial impact and bin comparison" />
         </div>
-      </div>
-    </section>
-
-    <section class="section mid-cta">
-      <div class="container">
-        <div class="cta-panel compact-cta">
-          <h2>Ready to see what your harvest is really telling you?</h2>
-          <p>Start with a focused field deployment, measure the operational impact, and expand based on real harvest data.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="feature-section">
-      <div class="container">
-        <div class="alert-split-panel">
-          <div>
-            <div class="eyebrow">Operational Alerts</div>
-            <div class="feature-copy">
-              <h2>Detect problems before they become losses.</h2>
-              <p class="lede">
-                When weight, movement, or handling patterns look abnormal, HEKONE Origin can surface the event immediately and show operators what needs to be checked.
-              </p>
-              <p>
-                This moves the system beyond passive measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
-              </p>
-            </div>
-
-            <p class="alert-note">
-              Real-time alerting can help reduce unnoticed loss, improve accountability, and make field events visible before they become larger financial issues.
-            </p>
-          </div>
-
-          <div class="feature-image">
-            <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="feature-section">
-      <div class="container">
-        <div class="eyebrow">Trace Back to Source</div>
-        <div class="feature-copy">
-          <h2>Trace every problem back to its source.</h2>
-          <p class="lede">
-            Connect downstream quality issues directly to the harvest area where they started.
-          </p>
+        <div class="story-copy">
+          <div class="story-label">Performance Insight</div>
+          <h2>Know what is making money—and what is losing it.</h2>
           <p>
-            HEKONE Origin links each bin to weight, time, and location, turning delayed discovery into a faster inspection and response path.
+            See output, picking speed, lost value, and action recommendations in real time.
+            HEKONE Origin turns harvest activity into financial insight, so teams can respond before small
+            inefficiencies become larger operational losses.
           </p>
         </div>
+      </div>
+    </section>
 
-        <div class="feature-image">
+    <section class="story-section dark">
+      <div class="story-wrap story-split">
+        <div class="story-copy">
+          <div class="story-label">Operational Alerts</div>
+          <h2>Detect problems before they become losses.</h2>
+          <p>
+            When weight, movement, or handling patterns look abnormal, HEKONE Origin can surface the event
+            immediately and show operators what needs to be checked. This moves the system beyond passive
+            measurement into active operational awareness for shrinkage, handling issues, or irregular movement.
+          </p>
+          <p class="story-note">
+            Real-time alerting can help reduce unnoticed loss, improve accountability, and make field events visible
+            before they become larger financial issues.
+          </p>
+        </div>
+        <div class="story-media">
+          <img src="shrinkage.png" alt="HEKONE Origin alert interface showing unexpected bin weight loss and possible theft detection" />
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section">
+      <div class="story-wrap story-split reverse">
+        <div class="story-media">
           <img src="origin-problem2.png" alt="HEKONE Origin traceability view showing damaged fruit traced back to source block" />
         </div>
+        <div class="story-copy">
+          <div class="story-label">Trace Back to Source</div>
+          <h2>Trace every problem back to its source.</h2>
+          <p>
+            Connect downstream quality issues directly to the harvest area where they started.
+            HEKONE Origin links each bin to weight, time, and location, turning delayed discovery into a faster
+            inspection and response path.
+          </p>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="patent-architecture">
-      <div class="container">
-        <div class="eyebrow">Patent Pending Architecture</div>
-        <h2>Engineered at the physical layer.</h2>
-        <p class="lede">
-          HEKONE Origin is designed as a structural sensing system, where measurement is embedded directly into the physical architecture rather than added as an external layer.
-        </p>
-
-        <div class="patent-panel">
-          <div class="patent-copy">
-            <h3>Measurement built into the bin itself.</h3>
+    <section class="story-section dark" id="patent-architecture">
+      <div class="story-wrap">
+        <div class="story-head">
+          <div class="story-label">Patent Pending Architecture</div>
+          <div class="story-copy">
+            <h2>Engineered at the physical layer.</h2>
             <p>
-              The architecture integrates load sensing, electronics, display, power, and wireless communication into a field-ready bin system.
-              This enables source-level capture of weight, time, location, and operational events where harvest activity occurs.
+              HEKONE Origin is designed as a structural sensing system, where measurement is embedded directly into
+              the physical architecture rather than added as an external layer.
             </p>
-            <div class="ip-badge">Patent filed • Source-level physical data capture</div>
           </div>
-
-          <div class="patent-visual">
+        </div>
+        <div class="story-split reverse">
+          <div class="story-media">
             <img src="Patent2.png" alt="Patent-style technical drawing of HEKONE Origin structural sensing architecture with load cells and integrated electronics module" />
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section compact-platform">
-      <div class="container">
-        <div class="platform-panel compact-panel">
-          <div class="eyebrow">Platform Context</div>
-          <h2>Part of the HEKONE physical intelligence platform.</h2>
-          <p class="lede">
-            HEKONE Origin captures source-side harvest data. HEKONE Smart Dispenser captures output-side usage data.
-            Together, they create a continuous physical data layer from field operations to consumption.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="cta-panel">
-          <div class="eyebrow">Pilot Opportunity</div>
-          <h2>Deploy in the field. See real results.</h2>
-          <p>
-            We are working with a limited number of early operators to validate real-world impact in agriculture,
-            harvest operations, and source-side field visibility.
-          </p>
-          <p style="margin-top:14px;">
-            Pilot engagement is intended to validate deployment practicality, durability in field use, workflow fit,
-            labor reduction, loss detection, and measurable ROI in real operating conditions.
-          </p>
-
-          <div class="mini-tag-row">
-            <span class="mini-tag">Agriculture</span>
-            <span class="mini-tag">Harvest Operations</span>
-            <span class="mini-tag">Traceability</span>
-            <span class="mini-tag">Labor Reduction</span>
-            <span class="mini-tag">Field Intelligence</span>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
-            <a class="btn btn-secondary" href="index.html#ecosystem">See Full Platform</a>
+          <div class="story-copy">
+            <h3>Measurement built into the bin itself.</h3>
+            <p>
+              The architecture integrates load sensing, electronics, display, power, and wireless communication into
+              a field-ready bin system. This enables source-level capture of weight, time, location, and operational
+              events where harvest activity occurs.
+            </p>
+            <div class="proof-strip">
+              <span class="hot">Patent filed</span>
+              <span>Source-level physical data capture</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="investment-opportunity">
-      <div class="container">
-        <div class="cta-panel investor-compact">
-          <div class="eyebrow">Investor &amp; Strategic Partnership</div>
-          <h2>Interested in strategic partnerships or investment?</h2>
-          <p>
-            HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
-            <a class="btn btn-secondary" href="index.html#ecosystem">View Platform Vision</a>
+    <section class="advantages">
+      <div class="story-wrap">
+        <div class="story-head">
+          <div class="story-label">Core Advantages</div>
+          <div class="story-copy">
+            <h2>Operational intelligence built for the field.</h2>
+            <p>
+              HEKONE Origin combines source-level measurement, real-time visibility, and practical field deployment
+              into one system designed around harvest operations.
+            </p>
           </div>
+        </div>
+        <div class="advantages-grid">
+          <article class="advantage">
+            <div class="n">01</div>
+            <h3>Measure at the source</h3>
+            <p>Capture weight, time, location, movement, and operational events where harvest activity actually occurs.</p>
+          </article>
+          <article class="advantage">
+            <div class="n">02</div>
+            <h3>See the field live</h3>
+            <p>Connect bins and field activity to dashboards that make progress, performance, and abnormal events visible in real time.</p>
+          </article>
+          <article class="advantage">
+            <div class="n">03</div>
+            <h3>Turn activity into decisions</h3>
+            <p>Use harvest data for performance insight, loss detection, traceability, labor reduction, and measurable ROI.</p>
+          </article>
         </div>
       </div>
     </section>
 
+    <section class="platform-statement">
+      <div class="story-wrap">
+        <div class="story-label" style="justify-content:center;margin-bottom:24px;">Platform Context</div>
+        <h2>Part of the HEKONE physical intelligence platform.</h2>
+        <p>
+          HEKONE Origin captures source-side harvest data. HEKONE Smart Dispenser captures output-side usage data.
+          Together, they create a continuous physical data layer from field operations to consumption.
+        </p>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="story-wrap">
+        <div class="final-cta-grid">
+          <div>
+            <div class="story-label">Pilot Opportunity</div>
+            <h2>Deploy in the field. See real results.</h2>
+          </div>
+          <div>
+            <p>
+              We are working with a limited number of early operators to validate real-world impact in agriculture,
+              harvest operations, and source-side field visibility.
+            </p>
+            <p style="margin-top:14px;">
+              Pilot engagement is intended to validate deployment practicality, durability in field use, workflow fit,
+              labor reduction, loss detection, and measurable ROI in real operating conditions.
+            </p>
+            <div class="proof-strip">
+              <span>Agriculture</span><span>Harvest Operations</span><span>Traceability</span>
+              <span>Labor Reduction</span><span>Field Intelligence</span>
+            </div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
+              <a class="btn btn-secondary" href="index.html#ecosystem">See Full Platform</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:1px;background:rgba(255,255,255,.12);margin:90px 0;"></div>
+
+        <div class="final-cta-grid" id="investment-opportunity">
+          <div>
+            <div class="story-label">Investor &amp; Strategic Partnership</div>
+            <h2>Interested in strategic partnerships or investment?</h2>
+          </div>
+          <div>
+            <p>
+              HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational
+              activity into measurable data, visibility, and scalable decision support.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
+              <a class="btn btn-secondary" href="index.html#ecosystem">View Platform Vision</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
 
   <footer class="container">
     HEKONE Origin - Smart Harvest &amp; Source Capture
