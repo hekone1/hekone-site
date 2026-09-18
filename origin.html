@@ -1638,6 +1638,128 @@
     }
   </style>
 
+
+<style id="hekone-origin-v2-polish">
+  /* V2 polish: stronger pacing, cleaner product imagery, more premium interaction */
+  :root{
+    --v2-bg:#f3f1ec;
+    --v2-dark:#07111f;
+    --v2-violet:#c8c0ff;
+    --v2-lime:#d9ff49;
+  }
+  html{scroll-padding-top:72px}
+  body{background:var(--v2-bg)}
+  header{transition:background .25s ease,box-shadow .25s ease}
+  header.is-scrolled{background:rgba(7,17,31,.97);box-shadow:0 10px 30px rgba(0,0,0,.12)}
+
+  .ai-hero{min-height:92vh}
+  .ai-hero-media img{transform:scale(1.015)}
+  .ai-hero-inner{padding-bottom:88px}
+  .ai-hero h1{max-width:1180px;text-wrap:balance}
+  .ai-hero p{max-width:820px}
+  .ai-hero-scroll{
+    position:absolute;right:40px;bottom:40px;z-index:3;color:rgba(255,255,255,.7);
+    font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    writing-mode:vertical-rl;display:flex;align-items:center;gap:12px
+  }
+  .ai-hero-scroll:after{content:"";height:64px;width:1px;background:rgba(255,255,255,.4)}
+
+  .ai-intro{padding:120px 0}
+  .ai-intro h2{text-wrap:balance}
+  .story-section{padding:125px 0}
+  .story-head{margin-bottom:58px}
+  .story-copy h2{text-wrap:balance}
+  .story-media{position:relative}
+  .story-media img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+  .story-media:hover img{transform:scale(1.012)}
+
+  /* Full-bleed visual chapters */
+  .chapter-visual{margin-top:12px}
+  .chapter-visual .story-media{width:100%;background:#111827}
+  .chapter-visual .story-media img{width:100%}
+
+  /* Better split-section balance */
+  .story-split{gap:72px}
+  .story-split .story-media{min-width:0}
+  .story-split .story-copy{align-self:center}
+  .story-split .story-copy p{font-size:18px;line-height:1.7}
+  .story-split .story-copy h2{margin-top:18px}
+
+  /* Real-world proof becomes a credibility moment */
+  #real-world-test{background:#fff}
+  #real-world-test .story-media{box-shadow:0 28px 70px rgba(7,17,31,.12)}
+  #real-world-test .proof-strip{margin-top:30px}
+
+  /* How it works + process comparison visually connected */
+  #how-it-works{padding-bottom:70px}
+  #comparison{padding-top:70px}
+
+  /* Patent / moat */
+  #patent-architecture{
+    background:
+      radial-gradient(circle at 78% 20%,rgba(109,93,252,.22),transparent 28%),
+      #07111f;
+  }
+  #patent-architecture .story-media{
+    background:#fff;padding:28px
+  }
+  #patent-architecture .story-media img{max-height:620px;object-fit:contain}
+  .moat-line{
+    margin-top:30px;padding-top:22px;border-top:1px solid rgba(255,255,255,.15);
+    font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55)
+  }
+
+  /* Advantages feel like product pillars rather than generic cards */
+  .advantages{padding:130px 0}
+  .advantages-grid{gap:16px;background:transparent;border:0}
+  .advantage{
+    border:1px solid rgba(7,17,31,.12);min-height:330px;padding:38px;
+    display:flex;flex-direction:column;transition:transform .25s ease,box-shadow .25s ease
+  }
+  .advantage:hover{transform:translateY(-5px);box-shadow:0 22px 50px rgba(7,17,31,.09)}
+  .advantage .n{margin-bottom:auto}
+  .advantage h3{font-size:30px;margin-top:70px}
+  .advantage p{font-size:16px}
+
+  .platform-statement{
+    padding:145px 0;background:var(--v2-violet);position:relative;overflow:hidden
+  }
+  .platform-statement:after{
+    content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+    right:-140px;top:-160px;border:1px solid rgba(7,17,31,.18)
+  }
+
+  /* Distinguish customer CTA from investor CTA */
+  .pilot-block{
+    padding:120px 0;background:var(--v2-dark);color:#fff
+  }
+  .investor-block{
+    padding:88px 0;background:#111b2b;color:#fff;border-top:1px solid rgba(255,255,255,.1)
+  }
+  .pilot-block h2,.investor-block h2{color:#fff}
+  .pilot-block p,.investor-block p{color:rgba(255,255,255,.68)}
+  .investor-block h2{font-size:clamp(38px,4.8vw,64px)}
+  .investor-block .final-cta-grid{align-items:center}
+  .pilot-block .proof-strip span,.investor-block .proof-strip span{
+    border-color:rgba(255,255,255,.22);color:#fff
+  }
+
+  /* Subtle reveal without breaking no-JS accessibility */
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.in-view{opacity:1;transform:none}
+  }
+
+  @media(max-width:900px){
+    .ai-hero-scroll{display:none}
+    .story-section,.advantages,.platform-statement,.pilot-block{padding:82px 0}
+    .investor-block{padding:70px 0}
+    .story-split{gap:32px}
+    .advantage{min-height:240px}
+    .advantage h3{margin-top:35px}
+  }
+</style>
+
 </head>
 
 <body>
@@ -1696,9 +1818,10 @@
           <a class="btn btn-secondary" href="#origin-overview-video">See How It Works</a>
         </div>
       </div>
+      <div class="ai-hero-scroll" aria-hidden="true">Explore</div>
     </section>
 
-    <section class="ai-intro">
+    <section class="ai-intro reveal">
       <div class="ai-intro-grid">
         <div class="ai-intro-label">Harvest intelligence at the source</div>
         <div>
@@ -1711,7 +1834,7 @@
       </div>
     </section>
 
-    <section class="video-editorial" id="origin-overview-video" aria-labelledby="origin-video-title">
+    <section class="video-editorial reveal" id="origin-overview-video" aria-labelledby="origin-video-title">
       <div class="story-wrap">
         <div class="story-label">See How It Works</div>
         <div>
@@ -1734,7 +1857,7 @@
       </div>
     </section>
 
-    <section class="story-section" id="real-world-test">
+    <section class="story-section reveal" id="real-world-test">
       <div class="story-wrap">
         <div class="story-head">
           <div class="story-label">Real-World Orchard Test</div>
@@ -1759,7 +1882,7 @@
       </div>
     </section>
 
-    <section class="story-section dark" id="how-it-works">
+    <section class="story-section dark reveal" id="how-it-works">
       <div class="story-wrap">
         <div class="story-head">
           <div class="story-label">How It Works</div>
@@ -1777,7 +1900,7 @@
       </div>
     </section>
 
-    <section class="story-section" id="comparison">
+    <section class="story-section reveal" id="comparison">
       <div class="story-wrap">
         <div class="story-head">
           <div class="story-label">Process Comparison</div>
@@ -1898,12 +2021,13 @@
               <span class="hot">Patent filed</span>
               <span>Source-level physical data capture</span>
             </div>
+            <div class="moat-line">Structural sensing · Embedded electronics · Wireless field communication</div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="advantages">
+    <section class="advantages reveal">
       <div class="story-wrap">
         <div class="story-head">
           <div class="story-label">Core Advantages</div>
@@ -1935,7 +2059,7 @@
       </div>
     </section>
 
-    <section class="platform-statement">
+    <section class="platform-statement reveal">
       <div class="story-wrap">
         <div class="story-label" style="justify-content:center;margin-bottom:24px;">Platform Context</div>
         <h2>Part of the HEKONE physical intelligence platform.</h2>
@@ -1946,7 +2070,8 @@
       </div>
     </section>
 
-    <section class="final-cta">
+    
+    <section class="pilot-block reveal">
       <div class="story-wrap">
         <div class="final-cta-grid">
           <div>
@@ -1954,17 +2079,10 @@
             <h2>Deploy in the field. See real results.</h2>
           </div>
           <div>
-            <p>
-              We are working with a limited number of early operators to validate real-world impact in agriculture,
-              harvest operations, and source-side field visibility.
-            </p>
-            <p style="margin-top:14px;">
-              Pilot engagement is intended to validate deployment practicality, durability in field use, workflow fit,
-              labor reduction, loss detection, and measurable ROI in real operating conditions.
-            </p>
+            <p>We are working with a limited number of early operators to validate real-world impact in agriculture, harvest operations, and source-side field visibility.</p>
+            <p style="margin-top:14px;">Pilot engagement is intended to validate deployment practicality, durability in field use, workflow fit, labor reduction, loss detection, and measurable ROI in real operating conditions.</p>
             <div class="proof-strip">
-              <span>Agriculture</span><span>Harvest Operations</span><span>Traceability</span>
-              <span>Labor Reduction</span><span>Field Intelligence</span>
+              <span>Agriculture</span><span>Harvest Operations</span><span>Traceability</span><span>Labor Reduction</span><span>Field Intelligence</span>
             </div>
             <div class="hero-actions">
               <a class="btn btn-primary" href="pilot.html">Start a Pilot</a>
@@ -1972,19 +2090,18 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="height:1px;background:rgba(255,255,255,.12);margin:90px 0;"></div>
-
-        <div class="final-cta-grid" id="investment-opportunity">
+    <section class="investor-block reveal" id="investment-opportunity">
+      <div class="story-wrap">
+        <div class="final-cta-grid">
           <div>
             <div class="story-label">Investor &amp; Strategic Partnership</div>
             <h2>Interested in strategic partnerships or investment?</h2>
           </div>
           <div>
-            <p>
-              HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational
-              activity into measurable data, visibility, and scalable decision support.
-            </p>
+            <p>HEKONE Origin is part of a broader physical intelligence platform designed to turn real-world operational activity into measurable data, visibility, and scalable decision support.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="mailto:hekmat@hekone.com?subject=Investment%20Inquiry%20-%20HEKONE%20Origin">Contact HEKONE</a>
               <a class="btn btn-secondary" href="index.html#ecosystem">View Platform Vision</a>
@@ -2074,5 +2191,29 @@
       });
     }
   </script>
+
+<script id="hekone-v2-interactions">
+  (() => {
+    const header = document.querySelector('header');
+    const setHeader = () => header && header.classList.toggle('is-scrolled', window.scrollY > 18);
+    setHeader();
+    window.addEventListener('scroll', setHeader, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+    }
+  })();
+</script>
+
 </body>
 </html>
